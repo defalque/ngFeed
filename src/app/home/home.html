@@ -1,0 +1,32 @@
+<div
+  class="max-w-3xl mx-auto bg-white flex items-center justify-center gap-6 w-full pt-2 md:sticky md:top-0 md:z-10"
+>
+  <a
+    routerLink="/per-te"
+    routerLinkActive="active"
+    class="text-xl font-bold py-2 px-4 tracking-tighter text-gray-300 cursor-pointer focus"
+    >Per te</a
+  >
+  <a
+    routerLink="/seguiti"
+    routerLinkActive="active"
+    class="text-xl font-bold text-gray-300 py-2 px-4 tracking-tighter cursor-pointer focus"
+    >Seguiti</a
+  >
+</div>
+<div
+  class="max-w-3xl mx-auto bg-white flex flex-col divide-y divide-gray-200 w-full px-0 md:px-2 pt-4 overflow-hidden"
+>
+  <div class="flex items-center justify-between gap-2 border-b border-gray-200 p-4">
+    <div class="flex items-center gap-2">
+      <div class="w-9 h-9 bg-gray-200 rounded-full"></div>
+      <p class="text-base font-medium text-gray-400/80">Cosa c'è di nuovo Marco?</p>
+    </div>
+    <button
+      class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-lg rounded-md font-bold text-shadow-2xs focus-button"
+    >
+      Pubblica
+    </button>
+  </div>
+</div>
+<router-outlet />
