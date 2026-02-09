@@ -1,5 +1,5 @@
 <header
-  class="flex fixed top-0 left-0 h-16 z-50 items-center bg-white justify-between w-full md:hidden px-2"
+  class="flex fixed top-0 left-0 h-16 z-100 items-center bg-white justify-between w-full md:hidden px-2"
 >
   <div class="grow text-center pl-10">
     <h1 class="text-3xl font-bold tracking-tighter">ngFeed</h1>
@@ -11,7 +11,7 @@
     class="relative inline-block"
   >
     <button
-      class="hover:bg-gray-100/55 text-gray-400 rounded-full w-10 p-2 cursor-pointer focus"
+      class="hover:bg-gray-100/75 text-zinc-400/80 rounded-full w-10 p-2 cursor-pointer focus"
       aria-label="Menu"
       (click)="toggleOpen()"
       [class.active]="isOpen()"
@@ -19,43 +19,43 @@
       <lucide-icon [img]="EqualIcon" size="24" aria-hidden></lucide-icon>
     </button>
     @if (isOpen()) {
-    <div
-      class="absolute top-full right-0 mb-2 flex flex-col gap-2 w-56 rounded-lg bg-white shadow-lg border border-gray-200 p-1 font-semibold"
-    >
-      <div class="flex items-center justify-center gap-2">
-        <button
-          class="w-full px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer"
-          aria-label="Modalità chiara"
-        >
-          <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
+      <div
+        class="absolute top-full right-0 mb-2 flex flex-col gap-2 w-56 rounded-lg bg-white shadow-lg border border-gray-300 p-1 font-semibold"
+      >
+        <div class="flex items-center justify-center gap-2">
+          <button
+            class="w-full px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 rounded-md cursor-pointer"
+            aria-label="Modalità chiara"
+          >
+            <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
+          </button>
+          <button
+            class="w-full px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 rounded-md cursor-pointer"
+            aria-label="Modalità scura"
+          >
+            <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
+          </button>
+          <button
+            class="w-full px-4 py-2 flex items-center justify-center bg-gray-100/75 hover:bg-gray-100/75 rounded-md cursor-pointer"
+          >
+            Auto
+          </button>
+        </div>
+
+        <button class="w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer">
+          Impostazioni
         </button>
-        <button
-          class="w-full px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer"
-          aria-label="Modalità scura"
-        >
-          <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
+
+        <button class="w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer">
+          Segnala un problema
         </button>
+
         <button
-          class="w-full px-4 py-2 flex items-center justify-center bg-gray-100/55 hover:bg-gray-100/55 rounded-md cursor-pointer"
+          class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer"
         >
-          Auto
+          Esci
         </button>
       </div>
-
-      <button class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer">
-        Impostazioni
-      </button>
-
-      <button class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer">
-        Segnala un problema
-      </button>
-
-      <button
-        class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
-      >
-        Esci
-      </button>
-    </div>
     }
   </div>
 </header>

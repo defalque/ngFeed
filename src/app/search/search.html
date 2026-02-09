@@ -1,21 +1,25 @@
 <div class="hidden md:block max-w-3xl mx-auto text-center w-full pt-4">
   <p class="text-xl font-bold tracking-tighter">Cerca</p>
 </div>
-<div class="max-w-3xl flex flex-col gap-4 mx-auto text-center w-full pb-4">
+<div class="max-w-3xl flex flex-col gap-4 mx-auto text-center w-full pt-2 pb-4">
   <div class="md:sticky top-0 bg-white">
     <div class="flex items-center gap-4 px-2 md:px-4 py-2 relative">
       <div class="absolute top-1/2 -translate-y-1/2 translate-x-1/2 ml-2 pointer-events-none">
-        <lucide-icon [img]="SearchIcon" size="20" class="text-gray-300!"></lucide-icon>
+        <lucide-icon [img]="SearchIcon" size="20" class="text-zinc-400/80!"></lucide-icon>
       </div>
       <input
         type="text"
-        class="w-full rounded-3xl p-3 border border-gray-200 pl-12 focus"
+        class="w-full rounded-3xl p-3 border border-gray-300/50 pl-12 focus"
         placeholder="Cerca"
       />
       <button
         class="absolute top-1/2 right-0 -translate-y-1/2 -translate-x-1/2 hover:bg-gray-100/55 rounded-full p-2 cursor-pointer mr-2 focus"
       >
-        <lucide-icon [img]="SlidersHorizontalIcon" size="19" class="text-gray-400!"></lucide-icon>
+        <lucide-icon
+          [img]="SlidersHorizontalIcon"
+          size="19"
+          class="text-zinc-400/80!"
+        ></lucide-icon>
       </button>
     </div>
   </div>
@@ -25,46 +29,48 @@
       Account suggeriti da seguire
     </p>
     @for (feed of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track feed) {
-    <div
-      class="grid grid-cols-[2.8rem_1fr_auto] gap-x-2 px-2 md:px-4 py-4 border-b last:border-b-0 border-gray-200"
-    >
-      <div class="w-full h-full bg-gray-200 rounded-full col-span-1"></div>
-      <div class="flex items-center gap-2 col-span-1">
-        <div class="flex flex-col items-start">
-          <div class="flex items-center gap-2">
-            <span class="text-base font-bold">marcodefalco</span>
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="size-4 text-blue-500"
-            >
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M21.007 8.27C22.194 9.125 23 10.45 23 12c0 1.55-.806 2.876-1.993 3.73.24 1.442-.134 2.958-1.227 4.05-1.095 1.095-2.61 1.459-4.046 1.225C14.883 22.196 13.546 23 12 23c-1.55 0-2.878-.807-3.731-1.996-1.438.235-2.954-.128-4.05-1.224-1.095-1.095-1.459-2.611-1.217-4.05C1.816 14.877 1 13.551 1 12s.816-2.878 2.002-3.73c-.242-1.439.122-2.955 1.218-4.05 1.093-1.094 2.61-1.467 4.057-1.227C9.125 1.804 10.453 1 12 1c1.545 0 2.88.803 3.732 1.993 1.442-.24 2.956.135 4.048 1.227 1.093 1.092 1.468 2.608 1.227 4.05Zm-4.426-.084a1 1 0 0 1 .233 1.395l-5 7a1 1 0 0 1-1.521.126l-3-3a1 1 0 0 1 1.414-1.414l2.165 2.165 4.314-6.04a1 1 0 0 1 1.395-.232Z"
-                  fill="currentColor"
-                ></path>
-              </g>
-            </svg>
-          </div>
-          <p class="text-sm text-gray-500">@marcodefalco</p>
-        </div>
-      </div>
-      <button
-        class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-6 py-2 text-base rounded-md font-bold text-shadow-2xs focus-button"
+      <div
+        class="grid grid-cols-[2.8rem_1fr_auto] gap-x-2 px-2 md:px-4 py-4 border-b last:border-b-0 border-gray-200"
       >
-        Segui
-      </button>
+        <div class="w-full h-full bg-gray-200 rounded-full col-span-1"></div>
+        <div class="flex items-center gap-2 col-span-1">
+          <div class="flex flex-col items-start">
+            <div class="flex items-center gap-2">
+              <span class="text-base font-bold">marcodefalco</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="size-4 text-blue-500"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M21.007 8.27C22.194 9.125 23 10.45 23 12c0 1.55-.806 2.876-1.993 3.73.24 1.442-.134 2.958-1.227 4.05-1.095 1.095-2.61 1.459-4.046 1.225C14.883 22.196 13.546 23 12 23c-1.55 0-2.878-.807-3.731-1.996-1.438.235-2.954-.128-4.05-1.224-1.095-1.095-1.459-2.611-1.217-4.05C1.816 14.877 1 13.551 1 12s.816-2.878 2.002-3.73c-.242-1.439.122-2.955 1.218-4.05 1.093-1.094 2.61-1.467 4.057-1.227C9.125 1.804 10.453 1 12 1c1.545 0 2.88.803 3.732 1.993 1.442-.24 2.956.135 4.048 1.227 1.093 1.092 1.468 2.608 1.227 4.05Zm-4.426-.084a1 1 0 0 1 .233 1.395l-5 7a1 1 0 0 1-1.521.126l-3-3a1 1 0 0 1 1.414-1.414l2.165 2.165 4.314-6.04a1 1 0 0 1 1.395-.232Z"
+                    fill="currentColor"
+                  ></path>
+                </g>
+              </svg>
+            </div>
+            <p class="text-sm text-gray-500">@marcodefalco</p>
+          </div>
+        </div>
+        <button
+          class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-6 py-2 text-base rounded-md font-bold text-shadow-2xs focus-button"
+        >
+          Segui
+        </button>
 
-      <p class="text-sm text-gray-500 col-span-full col-start-2 pt-4 text-start">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-      </p>
-      <span class="text-sm text-gray-500 col-span-1 col-start-2 pt-2 text-start">Follower: 10</span>
-    </div>
+        <p class="text-sm text-black/80 col-span-full col-start-2 pt-4 text-start">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+        </p>
+        <span class="text-sm text-black/80 col-span-1 col-start-2 pt-2 text-start"
+          >Follower: 10</span
+        >
+      </div>
     }
   </div>
 </div>

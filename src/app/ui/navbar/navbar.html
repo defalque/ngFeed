@@ -9,7 +9,7 @@
       <li class="py-1">
         <a
           routerLink="/per-te"
-          class="text-zinc-300 hover:bg-gray-100/55 rounded-xl md:px-4 md:py-2 px-6 py-3 cursor-pointer block focus"
+          class="text-zinc-400/80 hover:bg-gray-100/55 rounded-xl md:px-4 md:py-2 px-6 py-3 cursor-pointer block focus"
           [class.active]="isHomeActive()"
           aria-label="Home"
         >
@@ -20,7 +20,7 @@
         <a
           routerLink="/cerca"
           routerLinkActive="active"
-          class="text-zinc-300 hover:bg-gray-100/55 rounded-xl md:px-4 md:py-2 px-6 py-3 cursor-pointer block focus"
+          class="text-zinc-400/80 hover:bg-gray-100/55 rounded-xl md:px-4 md:py-2 px-6 py-3 cursor-pointer block focus"
           aria-label="Cerca"
         >
           <lucide-icon [img]="SearchIcon" size="28" aria-hidden></lucide-icon>
@@ -30,7 +30,7 @@
         <a
           routerLink="/preferiti"
           routerLinkActive="active"
-          class="text-zinc-300 hover:bg-gray-100/55 rounded-xl md:px-4 md:py-2 px-6 py-3 cursor-pointer block focus"
+          class="text-zinc-400/80 hover:bg-gray-100/55 rounded-xl md:px-4 md:py-2 px-6 py-3 cursor-pointer block focus"
           aria-label="Preferiti"
         >
           <lucide-icon [img]="HeartIcon" size="28" aria-hidden></lucide-icon>
@@ -40,7 +40,7 @@
         <a
           routerLink="/profilo"
           routerLinkActive="active"
-          class="text-zinc-300 hover:bg-gray-100/55 rounded-xl md:px-4 md:py-2 px-6 py-3 cursor-pointer block focus"
+          class="text-zinc-400/80 hover:bg-gray-100/55 rounded-xl md:px-4 md:py-2 px-6 py-3 cursor-pointer block focus"
           aria-label="Profilo"
         >
           <lucide-icon [img]="UserIcon" size="28" aria-hidden></lucide-icon>
@@ -56,7 +56,7 @@
       class="relative inline-block"
     >
       <button
-        class="hover:bg-gray-100/55 text-zinc-300 rounded-xl px-4 py-2 cursor-pointer focus"
+        class="hover:bg-gray-100/55 text-zinc-400/80 rounded-xl px-4 py-2 cursor-pointer focus"
         (click)="toggleOpen()"
         aria-label="Menu"
         [class.active]="isOpen()"
@@ -64,43 +64,43 @@
         <lucide-icon [img]="EqualIcon" size="30" aria-hidden></lucide-icon>
       </button>
       @if (isOpen()) {
-      <div
-        class="absolute bottom-full left-0 mb-2 flex flex-col gap-2 w-56 rounded-lg bg-white shadow-lg border border-gray-200 p-1 font-semibold"
-      >
-        <div class="flex items-center justify-center gap-2">
-          <button
-            class="w-full px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer"
-            aria-label="Modalità chiara"
-          >
-            <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
+        <div
+          class="absolute bottom-full left-0 mb-2 flex flex-col gap-2 w-56 rounded-lg bg-white shadow-lg border border-gray-300/90 p-1 font-semibold"
+        >
+          <div class="flex items-center justify-center gap-2">
+            <button
+              class="w-full px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer"
+              aria-label="Modalità chiara"
+            >
+              <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
+            </button>
+            <button
+              class="w-full px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer"
+              aria-label="Modalità scura"
+            >
+              <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
+            </button>
+            <button
+              class="w-full px-4 py-2 flex items-center justify-center bg-gray-100/55 hover:bg-gray-100/55 rounded-md cursor-pointer"
+            >
+              Auto
+            </button>
+          </div>
+
+          <button class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer">
+            Impostazioni
           </button>
-          <button
-            class="w-full px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer"
-            aria-label="Modalità scura"
-          >
-            <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
+
+          <button class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer">
+            Segnala un problema
           </button>
+
           <button
-            class="w-full px-4 py-2 flex items-center justify-center bg-gray-100/55 hover:bg-gray-100/55 rounded-md cursor-pointer"
+            class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
           >
-            Auto
+            Esci
           </button>
         </div>
-
-        <button class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer">
-          Impostazioni
-        </button>
-
-        <button class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer">
-          Segnala un problema
-        </button>
-
-        <button
-          class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
-        >
-          Esci
-        </button>
-      </div>
       }
     </div>
   </div>

@@ -2,7 +2,7 @@
   <p class="text-xl font-bold tracking-tighter">Profilo</p>
 </div>
 <div class="max-w-3xl flex flex-col mx-auto text-center w-full py-4">
-  <div class="md:sticky top-0 bg-white">
+  <div class="md:sticky top-0 bg-white z-50">
     <div class="flex items-center gap-4 p-4">
       <div class="md:size-24 size-28 bg-gray-200 rounded-full flex"></div>
       <div
@@ -31,34 +31,34 @@
           </div>
           <p class="text-gray-500">@marcodefalco</p>
         </div>
-        @if(!isUpdateProfileUrlActive()) {
-        <a
-          routerLink="modifica"
-          class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-sm rounded-md font-bold text-shadow-2xs focus-button"
-        >
-          Modifica profilo
-        </a>
+        @if (!isUpdateProfileUrlActive()) {
+          <a
+            routerLink="modifica"
+            class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-sm rounded-md font-bold text-shadow-2xs focus-button"
+          >
+            Modifica profilo
+          </a>
         }
       </div>
     </div>
 
-    <div class="flex justify-between px-2 md:justify-center gap-16 py-4">
+    <div class="flex justify-between px-2 md:justify-center gap-6 sm:gap-16 py-4">
       <a
         routerLink="i-tuoi-feed"
         routerLinkActive="active"
-        class="text-lg font-bold tracking-tighter text-gray-300 px-2 focus"
+        class="text-lg _text-base font-bold tracking-tighter text-zinc-400/80 px-2 focus"
         >I tuoi feed</a
       >
       <a
         routerLink="nuovo-feed"
         routerLinkActive="active"
-        class="text-lg font-bold tracking-tighter text-gray-300 px-2 focus"
+        class="_text-base text-lg font-bold tracking-tighter text-zinc-400/80 px-2 focus"
         >Nuovo feed</a
       >
       <a
         routerLink="repost"
         routerLinkActive="active"
-        class="text-lg font-bold tracking-tighter text-gray-300 px-2 focus"
+        class="_text-base text-lg font-bold tracking-tighter text-zinc-400/80 px-2 focus"
         >Repost</a
       >
     </div>

@@ -1,5 +1,4 @@
 {
-  "$schema": "https://zardui.com/schema.json",
   "style": "css",
   "appConfigFile": "src/app/app.config.ts",
   "packageManager": "npm",
