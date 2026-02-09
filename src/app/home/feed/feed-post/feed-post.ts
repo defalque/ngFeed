@@ -12,6 +12,7 @@ import {
   PencilIcon,
 } from 'lucide-angular';
 import { ClickOutside } from '@/click-outside.directive';
+import { Post } from '@/models/post.model';
 
 @Component({
   selector: 'app-feed-post',
@@ -31,6 +32,7 @@ export class FeedPost {
   readonly PencilIcon = PencilIcon;
 
   type = input.required<'feed' | 'your-feeds'>();
+  post = input.required<Post>();
   isOptionsOpen = signal(false);
 
   closeOptions() {
