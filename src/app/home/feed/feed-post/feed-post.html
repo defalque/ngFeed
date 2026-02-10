@@ -46,26 +46,28 @@
         (click)="toggleOptionsOpen($event)"
       >
         <div
-          class="bg-gray-100/55 w-full h-full rounded-xl scale-[0.85] absolute px-5 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
+          class="bg-gray-100/55 w-full h-full rounded-full scale-[0.85] absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
         ></div>
         <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
       </button>
       <!-- @if (isOptionsOpen()) { -->
       <div
-        class="absolute z-10 top-full w-56 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-200 space-y-2 transition-transform duration-150 ease-out origin-top-right"
+        class="absolute z-30 top-full w-56 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-200 space-y-2 transition-transform duration-150 ease-out origin-top-right"
         [class.opacity-100]="isOptionsOpen()"
         [class.scale-100]="isOptionsOpen()"
         [class.opacity-0]="!isOptionsOpen()"
         [class.scale-85]="!isOptionsOpen()"
       >
         <button
-          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
+          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
           <span>Salva</span>
           <lucide-icon [img]="BookmarkIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
         </button>
         <button
-          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
+          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
           <span>Non mi interessa</span>
           <lucide-icon
@@ -76,7 +78,8 @@
           ></lucide-icon>
         </button>
         <button
-          class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
+          class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
           <span>Segnala</span>
           <lucide-icon
@@ -121,26 +124,28 @@
           (click)="toggleOptionsOpen($event)"
         >
           <div
-            class="bg-gray-100/55 w-full h-full rounded-xl scale-[0.85] absolute px-5 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
+            class="bg-gray-100/55 w-full h-full rounded-full scale-[0.85] absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
           ></div>
           <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
         </button>
         <!-- @if (isOptionsOpen()) { -->
         <div
-          class="absolute z-10 top-full w-48 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-300/90 space-y-2 transition-transform duration-150 ease-out origin-top-right"
+          class="absolute z-30 top-full w-48 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-300/90 space-y-2 transition-transform duration-150 ease-out origin-top-right"
           [class.opacity-100]="isOptionsOpen()"
           [class.scale-100]="isOptionsOpen()"
           [class.opacity-0]="!isOptionsOpen()"
           [class.scale-85]="!isOptionsOpen()"
         >
           <button
-            class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
+            class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+            [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
           >
             <span>Modifica</span>
             <lucide-icon [img]="PencilIcon" size="18" class="text-black!" aria-hidden></lucide-icon>
           </button>
           <button
-            class="w-full flex text-red-500 items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
+            class="w-full flex text-red-500 items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+            [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
           >
             <span>Elimina</span>
             <lucide-icon
@@ -207,32 +212,35 @@
       (click)="toggleOptionsOpen($event)"
     >
       <div
-        class="bg-gray-100/55 w-full h-full rounded-xl scale-[0.85] absolute px-5 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
+        class="bg-gray-100/55 w-full h-full rounded-full scale-[0.85] absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
       ></div>
       <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
     </button>
     @if (!currentUserFeeds()) {
     <div
-      class="absolute z-10 top-full w-56 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-200 space-y-2 transition-transform duration-150 ease-out origin-top-right"
+      class="absolute z-30 top-full w-56 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-200 space-y-2 transition-transform duration-150 ease-out origin-top-right"
       [class.opacity-100]="isOptionsOpen()"
       [class.scale-100]="isOptionsOpen()"
       [class.opacity-0]="!isOptionsOpen()"
       [class.scale-85]="!isOptionsOpen()"
     >
       <button
-        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
+        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
       >
         <span>Salva</span>
         <lucide-icon [img]="BookmarkIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
       </button>
       <button
-        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
+        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
       >
         <span>Non mi interessa</span>
         <lucide-icon [img]="ThumbsDownIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
       </button>
       <button
-        class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
+        class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
       >
         <span>Segnala</span>
         <lucide-icon
@@ -252,13 +260,15 @@
       [class.scale-85]="!isOptionsOpen()"
     >
       <button
-        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
+        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
       >
         <span>Modifica</span>
         <lucide-icon [img]="PencilIcon" size="18" class="text-black!" aria-hidden></lucide-icon>
       </button>
       <button
-        class="w-full flex text-red-500 items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer"
+        class="w-full flex text-red-500 items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
       >
         <span>Elimina</span>
         <lucide-icon [img]="TrashIcon" size="18" class="text-red-500!" aria-hidden></lucide-icon>
