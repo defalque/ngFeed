@@ -2,10 +2,11 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { FeedPost } from './feed-post/feed-post';
 import { PostService } from '@/post.service';
 import { UserService } from '@/user.service';
+import { FeedSkeleton } from '@/shared/skeletons/feed-skeleton/feed-skeleton';
 
 @Component({
   selector: 'app-feed',
-  imports: [FeedPost],
+  imports: [FeedPost, FeedSkeleton],
   templateUrl: './feed.html',
 })
 export class Feed {

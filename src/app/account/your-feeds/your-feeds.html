@@ -2,29 +2,7 @@
   @if (isFetching()) {
     <ul>
       @for (feed of [0, 1, 2, 3, 4]; track feed) {
-        <li class="flex flex-col gap-2 items-start px-4 py-6 w-full animate-pulse">
-          <!-- Header: Title + Options -->
-          <div class="flex justify-between items-center w-full gap-2">
-            <!-- Title loader -->
-            <div class="h-6 w-3/4 bg-gray-200 rounded"></div>
-
-            <!-- Options button loader -->
-            <div class="w-5 h-2 bg-gray-200 rounded-full"></div>
-          </div>
-
-          <!-- Content loader -->
-          <div class="flex flex-col gap-2 mt-2 w-full">
-            <div class="h-4 w-full bg-gray-200 rounded"></div>
-            <div class="h-4 w-5/6 bg-gray-200 rounded"></div>
-            <div class="h-4 w-4/6 bg-gray-200 rounded"></div>
-          </div>
-
-          <!-- Footer: Likes & Comments -->
-          <div class="flex items-center gap-2 mt-4">
-            <div class="w-12 h-7 bg-gray-200 rounded-full"></div>
-            <div class="w-12 h-7 bg-gray-200 rounded-full"></div>
-          </div>
-        </li>
+        <li userFeedSkeleton></li>
       }
     </ul>
   }

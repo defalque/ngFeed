@@ -7,10 +7,11 @@ import {
   SlidersHorizontalIcon,
 } from 'lucide-angular';
 import { RouterLink } from '@angular/router';
+import { SearchUsersSkeleton } from '@/shared/skeletons/search-users-skeleton/search-users-skeleton';
 
 @Component({
   selector: 'app-search',
-  imports: [LucideAngularModule, RouterLink],
+  imports: [LucideAngularModule, RouterLink, SearchUsersSkeleton],
   templateUrl: './search.html',
   styleUrl: './search.css',
   host: { class: 'block w-full' },
