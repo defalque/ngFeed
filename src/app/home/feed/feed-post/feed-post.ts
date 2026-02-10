@@ -50,8 +50,9 @@ export class FeedPost {
   }
 
   private onOptionsClick(event: MouseEvent) {
-    event.stopPropagation();
     event.preventDefault();
+    event.stopPropagation();
+
     const el = event.target as HTMLElement;
     el.scrollIntoView({
       behavior: 'smooth',

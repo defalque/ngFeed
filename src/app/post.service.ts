@@ -41,11 +41,10 @@ export class PostService {
               });
           }
         }
-        console.log(posts);
         return posts;
       }),
       tap((posts) => this.posts.set(posts)), // per eseguire side effects
-      delay(500), // delay artificiale per mostrare loading ui;
+      delay(500) // delay artificiale per mostrare loading ui;
     );
   }
 
@@ -66,13 +65,13 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.posts.set(posts)), // per eseguire side effects
-      delay(500), // delay artificiale per mostrare loading ui;
+      delay(500) // delay artificiale per mostrare loading ui;
     );
   }
 
   fetchUserPosts(id: string) {
     return this.fetchPosts(
-      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="userId"&equalTo="${id}"`,
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="userId"&equalTo="${id}"`
     ).pipe(
       map((res) => {
         if (!res) return [];
@@ -89,13 +88,13 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.userPosts.set(posts)), // per eseguire side effects
-      delay(500), // delay artificiale per mostrare loading ui;
+      delay(500) // delay artificiale per mostrare loading ui;
     );
   }
 
   fetchPost(postId: string) {
     return this.fetchPosts(
-      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`,
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`
     ).pipe(
       map((res) => {
         if (!res) return null;
@@ -105,7 +104,7 @@ export class PostService {
       tap((post) => {
         if (post) this.post.set(post);
       }), // per eseguire side effects
-      delay(500), // delay artificiale per mostrare loading ui;
+      delay(500) // delay artificiale per mostrare loading ui;
     );
   }
 

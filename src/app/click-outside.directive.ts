@@ -28,11 +28,11 @@ export class ClickOutside {
       }
     };
 
-    this.document.addEventListener('click', onClickDocument);
+    this.document.addEventListener('click', onClickDocument, true);
     this.document.addEventListener('keydown', onKeydown);
 
     this.destroyRef.onDestroy(() => {
-      this.document.removeEventListener('click', onClickDocument);
+      this.document.removeEventListener('click', onClickDocument, true);
       this.document.removeEventListener('keydown', onKeydown);
     });
   }
