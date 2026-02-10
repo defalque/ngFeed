@@ -1,6 +1,12 @@
-import { Component, DestroyRef, inject, OnInit, signal, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewEncapsulation } from '@angular/core';
 import { EllipsisIcon, HeartIcon, LucideAngularModule, MessageCircleIcon } from 'lucide-angular';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { UserService } from '@/user.service';
 
 @Component({
@@ -16,33 +22,47 @@ export class Account implements OnInit {
   readonly HeartIcon = HeartIcon;
   readonly MessageCircleIcon = MessageCircleIcon;
 
+  userId!: string;
+
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  userService = inject(UserService);
-  currentUser = this.userService.loadedCurrentUser;
-
-  error = signal('');
+  private userService = inject(UserService);
+  private currentUser = this.userService.loadedCurrentUser;
+  user = this.userService.user;
   isFetching = signal(false);
 
-  private destroyRef = inject(DestroyRef);
-
   ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.userId = params.get('id')!;
+
+      this.loadUser(this.userId);
+    });
+  }
+
+  loadUser(userId: string) {
+    if (this.currentUser()?.id === userId) {
+      this.user.set(this.currentUser());
+      return;
+    }
+
     this.isFetching.set(true);
-    const sub = this.userService.fetchCurrentUser().subscribe({
+    this.userService.fetchUser(userId).subscribe({
       error: (error: Error) => {
         console.log(error);
-        this.error.set(error.message);
+        // this.error.set(error.message);
       },
       complete: () => {
         this.isFetching.set(false);
       },
     });
-    this.destroyRef.onDestroy(() => {
-      sub.unsubscribe();
-    });
+  }
+
+  isCurrentUserPage() {
+    return this.userId === this.currentUser()?.id;
   }
 
   isUpdateProfileUrlActive(): boolean {
-    return this.router.url === '/profilo/modifica';
+    return this.router.url === '/' + this.currentUser()?.username + '/modifica';
   }
 }

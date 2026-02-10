@@ -13,10 +13,12 @@ import {
 } from 'lucide-angular';
 import { ClickOutside } from '@/click-outside.directive';
 import { Post } from '@/models/post.model';
+import { RouterLink } from '@angular/router';
+import { PostActions } from '@/shared/post-actions/post-actions';
 
 @Component({
   selector: 'app-feed-post',
-  imports: [LucideAngularModule, ClickOutside],
+  imports: [LucideAngularModule, ClickOutside, RouterLink, PostActions],
   templateUrl: './feed-post.html',
   styleUrl: './feed-post.css',
 })
@@ -33,6 +35,8 @@ export class FeedPost {
 
   type = input.required<'feed' | 'your-feeds'>();
   post = input.required<Post>();
+  currentUserFeeds = input.required<boolean>();
+
   isOptionsOpen = signal(false);
 
   closeOptions() {
@@ -40,6 +44,7 @@ export class FeedPost {
   }
 
   onOptionsClick(event: MouseEvent) {
+    event.preventDefault();
     const el = event.target as HTMLElement;
     el.scrollIntoView({
       behavior: 'smooth',

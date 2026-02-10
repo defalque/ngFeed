@@ -1,4 +1,5 @@
 import { ClickOutside } from '@/click-outside.directive';
+import { UserService } from '@/user.service';
 import { Component, ElementRef, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import {
@@ -29,7 +30,24 @@ export class Navbar {
   readonly SunIcon = SunIcon;
   readonly MoonIcon = MoonIcon;
 
+  private userService = inject(UserService);
+  currentUser = this.userService.loadedCurrentUser;
+
   isOpen = signal(false);
+
+  toggleOpen() {
+    console.log('toggleOpen', this.isOpen());
+    this.isOpen.set(!this.isOpen());
+  }
+
+  closeMenu() {
+    this.isOpen.set(false);
+  }
+
+  isHomeActive(): boolean {
+    return this.router.url.startsWith('/per-te') || this.router.url.startsWith('/seguiti');
+  }
+
   // elementRef = inject(ElementRef);
 
   // @HostListener('document:keydown.escape')
@@ -49,17 +67,4 @@ export class Navbar {
   //     this.isOpen.set(false);
   //   }
   // }
-
-  toggleOpen() {
-    console.log('toggleOpen', this.isOpen());
-    this.isOpen.set(!this.isOpen());
-  }
-
-  closeMenu() {
-    this.isOpen.set(false);
-  }
-
-  isHomeActive(): boolean {
-    return this.router.url.startsWith('/per-te') || this.router.url.startsWith('/seguiti');
-  }
 }

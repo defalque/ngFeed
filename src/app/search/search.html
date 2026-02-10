@@ -94,7 +94,9 @@
           <div class="flex items-center gap-2 col-span-1">
             <div class="flex flex-col items-start">
               <div class="flex items-center gap-2">
-                <span class="text-base font-bold">{{ user.firstName + ' ' + user.lastName }}</span>
+                <a [routerLink]="['/', user.id]" class="text-base font-bold hover:underline">{{
+                  user.firstName + ' ' + user.lastName
+                }}</a>
                 @if (user.isVerified) {
                   <svg
                     viewBox="0 0 24 24"

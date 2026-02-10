@@ -15,14 +15,15 @@ export class PostService {
   private currentUserPosts = signal<Post[]>([]);
   loadedCurrentUserPosts = this.currentUserPosts.asReadonly();
 
+  private userPosts = signal<Post[]>([]);
+  loadedUserPosts = this.userPosts.asReadonly();
+
   private readonly postsUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json';
   private readonly followedPostsUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="userId"&equalTo="user_002"';
-  private readonly currentUserPostsUrl =
-    'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="userId"&equalTo="user_006"';
 
-  fetchForYouPosts() {
+  fetchForYouPosts(userId: string) {
     return this.fetchPosts(this.postsUrl).pipe(
       map((res) => {
         if (!res) return [];
@@ -30,7 +31,7 @@ export class PostService {
         const posts: Post[] = [];
         for (const key in res) {
           if (Object.prototype.hasOwnProperty.call(res, key)) {
-            if (res[key].userId !== 'user_006')
+            if (res[key].userId !== userId)
               posts.push({
                 id: key, // ID preso dalla key di Firebase
                 ...res[key], // dati senza id
@@ -41,7 +42,7 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.posts.set(posts)), // per eseguire side effects
-      delay(1000) // delay artificiale per mostrare loading ui;
+      delay(1000), // delay artificiale per mostrare loading ui;
     );
   }
 
@@ -62,12 +63,14 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.posts.set(posts)), // per eseguire side effects
-      delay(1000) // delay artificiale per mostrare loading ui;
+      delay(1000), // delay artificiale per mostrare loading ui;
     );
   }
 
-  fetchCurrentUserPosts() {
-    return this.fetchPosts(this.currentUserPostsUrl).pipe(
+  fetchUserPosts(id: string) {
+    return this.fetchPosts(
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="userId"&equalTo="${id}"`,
+    ).pipe(
       map((res) => {
         if (!res) return [];
 
@@ -82,8 +85,8 @@ export class PostService {
         }
         return posts;
       }),
-      tap((posts) => this.currentUserPosts.set(posts)), // per eseguire side effects
-      delay(1000) // delay artificiale per mostrare loading ui;
+      tap((posts) => this.userPosts.set(posts)), // per eseguire side effects
+      delay(1000), // delay artificiale per mostrare loading ui;
     );
   }
 

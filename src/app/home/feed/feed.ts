@@ -1,35 +1,51 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { FeedPost } from './feed-post/feed-post';
 import { PostService } from '@/post.service';
+import { UserService } from '@/user.service';
 
 @Component({
   selector: 'app-feed',
   imports: [FeedPost],
   templateUrl: './feed.html',
 })
-export class Feed implements OnInit {
+export class Feed {
   private postService = inject(PostService);
   posts = this.postService.loadedPosts;
+
+  private userService = inject(UserService);
 
   error = signal('');
   isFetching = signal(false);
 
   private destroyRef = inject(DestroyRef);
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.isFetching.set(true);
-    const sub = this.postService.fetchForYouPosts().subscribe({
-      error: (error: Error) => {
-        console.log(error);
-        this.error.set(error.message);
-      },
-      complete: () => {
-        this.isFetching.set(false);
-      },
-    });
+    const user = this.userService.loadedCurrentUser();
 
-    this.destroyRef.onDestroy(() => {
-      sub.unsubscribe();
-    });
+    if (user) {
+      this.postService.fetchForYouPosts(user.id).subscribe({
+        error: (error: Error) => {
+          console.log(error);
+          this.error.set(error.message);
+        },
+        complete: () => {
+          this.isFetching.set(false);
+        },
+      });
+    } else {
+      this.userService.fetchCurrentUser().subscribe((user) => {
+        if (user)
+          this.postService.fetchForYouPosts(user.id).subscribe({
+            error: (error: Error) => {
+              console.log(error);
+              this.error.set(error.message);
+            },
+            complete: () => {
+              this.isFetching.set(false);
+            },
+          });
+      });
+    }
   }
 }

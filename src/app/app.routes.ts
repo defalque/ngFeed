@@ -13,5 +13,5 @@ export const routes: Routes = [
     children: homeRoutes,
   },
   { path: 'cerca', component: Search },
-  { path: 'profilo', component: Account, children: accountRoutes },
+  { path: ':id', component: Account, children: accountRoutes },
 ];

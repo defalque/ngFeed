@@ -8,10 +8,10 @@ export const accountRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'i-tuoi-feed',
+    redirectTo: 'feeds',
   },
   {
-    path: 'i-tuoi-feed',
+    path: 'feeds',
     component: YourFeeds,
   },
   {
@@ -20,6 +20,10 @@ export const accountRoutes: Routes = [
   },
   {
     path: 'modifica',
+    component: Update,
+  },
+  {
+    path: 'feed/:id',
     component: Update,
   },
 ];

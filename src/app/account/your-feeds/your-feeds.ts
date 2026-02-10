@@ -1,6 +1,8 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { FeedPost } from '@/home/feed/feed-post/feed-post';
 import { PostService } from '@/post.service';
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from '@/user.service';
 
 @Component({
   selector: 'app-your-feeds',
@@ -9,8 +11,13 @@ import { PostService } from '@/post.service';
   styleUrl: './your-feeds.css',
 })
 export class YourFeeds {
+  userId!: string;
+
+  private route = inject(ActivatedRoute);
+
   private postService = inject(PostService);
-  loadedCurrentUserPosts = this.postService.loadedCurrentUserPosts;
+  private userService = inject(UserService);
+  loadedUserPosts = this.postService.loadedUserPosts;
 
   error = signal('');
   isFetching = signal(false);
@@ -18,8 +25,15 @@ export class YourFeeds {
   private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.userId = params.get('id')!;
+      this.loadUserFeeds(this.userId);
+    });
+  }
+
+  loadUserFeeds(userId: string) {
     this.isFetching.set(true);
-    const sub = this.postService.fetchCurrentUserPosts().subscribe({
+    const sub = this.postService.fetchUserPosts(userId).subscribe({
       error: (error: Error) => {
         console.log(error);
         this.error.set(error.message);
@@ -32,5 +46,10 @@ export class YourFeeds {
     this.destroyRef.onDestroy(() => {
       sub.unsubscribe();
     });
+    // }
+  }
+
+  isCurrentUserFeeds() {
+    return this.userId === this.userService.loadedCurrentUser()?.id;
   }
 }

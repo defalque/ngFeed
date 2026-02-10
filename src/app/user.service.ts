@@ -9,15 +9,35 @@ import { delay, map, tap } from 'rxjs';
 export class UserService {
   private http = inject(HttpClient);
 
-  private users = signal<User[]>([]);
-  loadedUsers = this.users.asReadonly();
+  private allUsers = signal<User[]>([]);
+  loadedAllUsers = this.allUsers.asReadonly();
+
   private currentUser = signal<User | null>(null);
   loadedCurrentUser = this.currentUser.asReadonly();
 
+  user = signal<User | null>(null);
+
   private readonly usersUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users.json';
+  private readonly userUrl =
+    'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/';
   private readonly currentUserUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/user_006.json';
+
+  fetchUser(id: string) {
+    const url = this.userUrl + id + '.json';
+    return this.fetchUsers(url).pipe(
+      map((res) => {
+        if (!res) return null;
+
+        return { id, ...res } as User;
+      }),
+      tap((user) => {
+        if (user) this.user.set(user); // side effect
+      }),
+      delay(1000), // delay artificiale per loading ui
+    );
+  }
 
   fetchCurrentUser() {
     return this.fetchUsers(this.currentUserUrl).pipe(
@@ -30,7 +50,7 @@ export class UserService {
       tap((user) => {
         if (user) this.currentUser.set(user); // side effect
       }),
-      delay(1000), // delay artificiale per loading
+      delay(1000), // delay artificiale per loading ui
     );
   }
 
@@ -51,7 +71,7 @@ export class UserService {
         }
         return users;
       }),
-      tap((users) => this.users.set(users)), // per eseguire side effects
+      tap((users) => this.allUsers.set(users)), // per eseguire side effects
       delay(1000), // delay artificiale per mostrare loading ui;
     );
   }

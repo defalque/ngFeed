@@ -6,10 +6,11 @@ import {
   SearchIcon,
   SlidersHorizontalIcon,
 } from 'lucide-angular';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-search',
-  imports: [LucideAngularModule],
+  imports: [LucideAngularModule, RouterLink],
   templateUrl: './search.html',
   styleUrl: './search.css',
   host: { class: 'block w-full' },
@@ -20,7 +21,7 @@ export class Search implements OnInit {
   readonly SlidersHorizontalIcon = SlidersHorizontalIcon;
 
   private userService = inject(UserService);
-  users = this.userService.loadedUsers;
+  users = this.userService.loadedAllUsers;
 
   error = signal('');
   isFetching = signal(false);

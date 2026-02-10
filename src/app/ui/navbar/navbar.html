@@ -4,6 +4,7 @@
   <div class="hidden w-full md:block text-center py-4">
     <h1 class="text-3xl font-bold tracking-tighter">ngFeed</h1>
   </div>
+
   <div class="flex flex-col items-center w-full flex-1 min-h-0 overflow-y-auto bg-white">
     <ul class="flex md:flex-col items-center justify-around md:justify-center gap-6 w-full flex-1">
       <li class="py-1">
@@ -26,19 +27,19 @@
           <lucide-icon [img]="SearchIcon" size="28" aria-hidden></lucide-icon>
         </a>
       </li>
-      <li class="py-1">
+      <!-- <li class="py-1">
         <a
-          routerLink="/preferiti"
+          routerLink="/"
           routerLinkActive="active"
           class="text-zinc-400/80 hover:bg-gray-100/55 rounded-xl md:px-4 md:py-2 px-6 py-3 cursor-pointer block focus"
           aria-label="Preferiti"
         >
           <lucide-icon [img]="HeartIcon" size="28" aria-hidden></lucide-icon>
         </a>
-      </li>
+      </li> -->
       <li class="py-1">
         <a
-          routerLink="/profilo"
+          [routerLink]="currentUser()?.id"
           routerLinkActive="active"
           class="text-zinc-400/80 hover:bg-gray-100/55 rounded-xl md:px-4 md:py-2 px-6 py-3 cursor-pointer block focus"
           aria-label="Profilo"
@@ -48,6 +49,7 @@
       </li>
     </ul>
   </div>
+
   <div class="md:block hidden w-full mb-4 text-center">
     <div
       appClickOutsideDropdown
