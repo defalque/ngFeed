@@ -63,7 +63,7 @@ export class Account implements OnInit {
     return this.userId === this.currentUser()?.id;
   }
 
-  isUpdateProfileUrlActive(): boolean {
+  isUpdateProfileUrlActive() {
     return this.router.url === '/' + this.currentUser()?.username + '/modifica';
   }
 }

@@ -33,7 +33,7 @@ export class FeedPost {
   readonly TrashIcon = TrashIcon;
   readonly PencilIcon = PencilIcon;
 
-  type = input.required<'feed' | 'your-feeds'>();
+  type = input.required<'feed' | 'your-feed' | 'full-feed'>();
   post = input.required<Post>();
   currentUserFeeds = input.required<boolean>();
 
@@ -45,6 +45,7 @@ export class FeedPost {
 
   onOptionsClick(event: MouseEvent) {
     event.preventDefault();
+    event.stopPropagation();
     const el = event.target as HTMLElement;
     el.scrollIntoView({
       behavior: 'smooth',

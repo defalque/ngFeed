@@ -1,0 +1,76 @@
+<div class="hidden md:block max-w-3xl mx-auto text-center w-full py-4">
+  <p class="text-xl font-bold tracking-tighter">Feed</p>
+</div>
+<div class="max-w-3xl flex flex-col mx-auto text-center w-full py-4 divide-y divide-gray-200">
+  @if (isFetching()) {
+    <div fullFeedSkeleton></div>
+  }
+  @if (post() && !isFetching()) {
+    <app-feed-post [post]="post()!" [type]="'full-feed'" [currentUserFeeds]="isCurrentUserFeed()" />
+  }
+  @for (feed of [0, 1, 2]; track feed) {
+    <div class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible">
+      <div class="w-9 h-9 bg-gray-200 rounded-full col-span-1"></div>
+      <div class="flex items-center gap-2 col-span-1">
+        <span class="text-base font-bold">marcodefalco</span>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="size-4 text-blue-500"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M21.007 8.27C22.194 9.125 23 10.45 23 12c0 1.55-.806 2.876-1.993 3.73.24 1.442-.134 2.958-1.227 4.05-1.095 1.095-2.61 1.459-4.046 1.225C14.883 22.196 13.546 23 12 23c-1.55 0-2.878-.807-3.731-1.996-1.438.235-2.954-.128-4.05-1.224-1.095-1.095-1.459-2.611-1.217-4.05C1.816 14.877 1 13.551 1 12s.816-2.878 2.002-3.73c-.242-1.439.122-2.955 1.218-4.05 1.093-1.094 2.61-1.467 4.057-1.227C9.125 1.804 10.453 1 12 1c1.545 0 2.88.803 3.732 1.993 1.442-.24 2.956.135 4.048 1.227 1.093 1.092 1.468 2.608 1.227 4.05Zm-4.426-.084a1 1 0 0 1 .233 1.395l-5 7a1 1 0 0 1-1.521.126l-3-3a1 1 0 0 1 1.414-1.414l2.165 2.165 4.314-6.04a1 1 0 0 1 1.395-.232Z"
+              fill="currentColor"
+            ></path>
+          </g>
+        </svg>
+      </div>
+      <div class="relative inline-block col-span-1">
+        <button
+          class="hover:bg-gray-100/55 text-zinc-400/80 rounded-full p-2 cursor-pointer col-span-1 focus"
+          aria-label="Opzioni post"
+        >
+          <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
+        </button>
+      </div>
+
+      <p class="text-base text-left tracking-tight text-black/80 col-start-2 col-span-full">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis doloremque illum
+        voluptates facilis aspernatur dolorum facere inventore aperiam blanditiis!
+      </p>
+      <div class="flex items-center gap-2 col-start-2 pt-2 col-span-1 -ml-2">
+        <button
+          class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+          aria-label="Mi piace del post"
+        >
+          <lucide-icon [img]="HeartIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
+          <span class="text-sm text-black">10</span>
+        </button>
+        <button
+          class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+          aria-label="Commenti del post"
+        >
+          <lucide-icon
+            [img]="MessageCircleIcon"
+            size="18"
+            class="text-black!"
+            aria-hidden
+          ></lucide-icon>
+          <span class="text-sm text-black">10</span>
+        </button>
+        <button
+          class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer focus"
+          aria-label="Reposta il post"
+        >
+          <lucide-icon [img]="RefreshCcw" size="18" class="text-black!" aria-hidden></lucide-icon>
+        </button>
+      </div>
+    </div>
+  }
+</div>

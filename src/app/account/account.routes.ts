@@ -3,6 +3,7 @@ import { Account } from './account';
 import { YourFeeds } from './your-feeds/your-feeds';
 import { NewFeed } from './new-feed/new-feed';
 import { Update } from './update/update';
+import { FullFeed } from './full-feed/full-feed';
 
 export const accountRoutes: Routes = [
   {
@@ -20,10 +21,6 @@ export const accountRoutes: Routes = [
   },
   {
     path: 'modifica',
-    component: Update,
-  },
-  {
-    path: 'feed/:id',
     component: Update,
   },
 ];

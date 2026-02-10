@@ -27,16 +27,16 @@
           <lucide-icon [img]="SearchIcon" size="28" aria-hidden></lucide-icon>
         </a>
       </li>
-      <!-- <li class="py-1">
+      <li class="py-1">
         <a
-          routerLink="/"
+          routerLink="/preferiti"
           routerLinkActive="active"
           class="text-zinc-400/80 hover:bg-gray-100/55 rounded-xl md:px-4 md:py-2 px-6 py-3 cursor-pointer block focus"
           aria-label="Preferiti"
         >
           <lucide-icon [img]="HeartIcon" size="28" aria-hidden></lucide-icon>
         </a>
-      </li> -->
+      </li>
       <li class="py-1">
         <a
           [routerLink]="currentUser()?.id"

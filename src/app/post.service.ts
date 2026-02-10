@@ -18,6 +18,9 @@ export class PostService {
   private userPosts = signal<Post[]>([]);
   loadedUserPosts = this.userPosts.asReadonly();
 
+  private post = signal<Post | null>(null);
+  loadedPost = this.post.asReadonly();
+
   private readonly postsUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json';
   private readonly followedPostsUrl =
@@ -86,6 +89,22 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.userPosts.set(posts)), // per eseguire side effects
+      delay(1000), // delay artificiale per mostrare loading ui;
+    );
+  }
+
+  fetchPost(postId: string) {
+    return this.fetchPosts(
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`,
+    ).pipe(
+      map((res) => {
+        if (!res) return null;
+
+        return { id: postId, ...res } as Post;
+      }),
+      tap((post) => {
+        if (post) this.post.set(post);
+      }), // per eseguire side effects
       delay(1000), // delay artificiale per mostrare loading ui;
     );
   }
