@@ -7,7 +7,7 @@ import {
   SlidersHorizontalIcon,
 } from 'lucide-angular';
 import { RouterLink } from '@angular/router';
-import { SearchUsersSkeleton } from '@/shared/skeletons/search-users-skeleton/search-users-skeleton';
+import { SearchUsersSkeleton } from '@/ui/skeletons/search-users-skeleton/search-users-skeleton';
 
 @Component({
   selector: 'app-search',

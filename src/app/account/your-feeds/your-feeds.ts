@@ -3,7 +3,7 @@ import { FeedPost } from '@/home/feed/feed-post/feed-post';
 import { PostService } from '@/post.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '@/user.service';
-import { UserFeedSkeleton } from '@/shared/skeletons/user-feed-skeleton/user-feed-skeleton';
+import { UserFeedSkeleton } from '@/ui/skeletons/user-feed-skeleton/user-feed-skeleton';
 
 @Component({
   selector: 'app-your-feeds',

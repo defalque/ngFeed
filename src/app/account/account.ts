@@ -8,10 +8,11 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { UserService } from '@/user.service';
+import { AccountSkeleton } from '@/ui/skeletons/account-skeleton/account-skeleton';
 
 @Component({
   selector: 'app-account',
-  imports: [LucideAngularModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [LucideAngularModule, RouterOutlet, RouterLink, RouterLinkActive, AccountSkeleton],
   templateUrl: './account.html',
   styleUrl: './account.css',
   encapsulation: ViewEncapsulation.None,

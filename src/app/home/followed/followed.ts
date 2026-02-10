@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { FeedPost } from '../feed/feed-post/feed-post';
 import { PostService } from '@/post.service';
-import { FeedSkeleton } from '@/shared/skeletons/feed-skeleton/feed-skeleton';
+import { FeedSkeleton } from '@/ui/skeletons/feed-skeleton/feed-skeleton';
 
 @Component({
   selector: 'app-followed',
