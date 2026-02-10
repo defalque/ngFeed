@@ -45,7 +45,7 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.posts.set(posts)), // per eseguire side effects
-      delay(1000), // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
     );
   }
 
@@ -66,7 +66,7 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.posts.set(posts)), // per eseguire side effects
-      delay(1000), // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
     );
   }
 
@@ -89,7 +89,7 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.userPosts.set(posts)), // per eseguire side effects
-      delay(1000), // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
     );
   }
 
@@ -105,7 +105,7 @@ export class PostService {
       tap((post) => {
         if (post) this.post.set(post);
       }), // per eseguire side effects
-      delay(1000), // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
     );
   }
 
