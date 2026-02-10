@@ -37,7 +37,14 @@
   } @else {
     @for (feed of loadedUserPosts(); track feed.id) {
       <ul>
-        <app-feed-post type="your-feed" [post]="feed" [currentUserFeeds]="isCurrentUserFeeds()" />
+        <app-feed-post
+          type="your-feed"
+          [post]="feed"
+          [currentUserFeeds]="isCurrentUserFeeds()"
+          [optionsOpen]="currentOptionsOpen() === feed.id"
+          (openOptions)="setCurrentOptionsOpen(feed.id)"
+          (closeOptions)="setCurrentOptionsOpen(null)"
+        />
       </ul>
     }
   }

@@ -49,4 +49,10 @@ export class Feed {
       });
     }
   }
+
+  currentOptionsOpen = signal<string | null>(null);
+
+  setCurrentOptionsOpen(postId: string | null) {
+    this.currentOptionsOpen.set(postId);
+  }
 }

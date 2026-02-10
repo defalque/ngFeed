@@ -6,7 +6,14 @@
     <div fullFeedSkeleton></div>
   }
   @if (post() && !isFetching()) {
-    <app-feed-post [post]="post()!" [type]="'full-feed'" [currentUserFeeds]="isCurrentUserFeed()" />
+    <app-feed-post
+      [post]="post()!"
+      [type]="'full-feed'"
+      [currentUserFeeds]="isCurrentUserFeed()"
+      [optionsOpen]="currentOptionsOpen() === post()!.id"
+      (openOptions)="setCurrentOptionsOpen(post()!.id)"
+      (closeOptions)="setCurrentOptionsOpen(null)"
+    />
   }
   @for (feed of [0, 1, 2]; track feed) {
     <div class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible">

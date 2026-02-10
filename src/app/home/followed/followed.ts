@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, output, signal } from '@angular/core';
 import { FeedPost } from '../feed/feed-post/feed-post';
 import { PostService } from '@/post.service';
 import { FeedSkeleton } from '@/ui/skeletons/feed-skeleton/feed-skeleton';
@@ -32,5 +32,11 @@ export class Followed {
     this.destroyRef.onDestroy(() => {
       sub.unsubscribe();
     });
+  }
+
+  currentOptionsOpen = signal<string | null>(null);
+
+  setCurrentOptionsOpen(postId: string | null) {
+    this.currentOptionsOpen.set(postId);
   }
 }

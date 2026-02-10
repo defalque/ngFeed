@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 import {
   EllipsisIcon,
@@ -37,15 +37,21 @@ export class FeedPost {
   post = input.required<Post>();
   currentUserFeeds = input.required<boolean>();
 
-  isOptionsOpen = signal(false);
+  optionsOpen = input.required<boolean>();
+  openOptions = output<void>();
+  closeOptions = output<void>();
 
-  closeOptions() {
-    this.isOptionsOpen.set(false);
+  isOptionsOpen() {
+    return this.optionsOpen();
   }
 
-  onOptionsClick(event: MouseEvent) {
-    event.preventDefault();
+  onCloseOptions() {
+    this.closeOptions.emit();
+  }
+
+  private onOptionsClick(event: MouseEvent) {
     event.stopPropagation();
+    event.preventDefault();
     const el = event.target as HTMLElement;
     el.scrollIntoView({
       behavior: 'smooth',
@@ -54,9 +60,12 @@ export class FeedPost {
   }
 
   toggleOptionsOpen(event: MouseEvent) {
-    this.isOptionsOpen.set(!this.isOptionsOpen());
-    if (this.isOptionsOpen()) {
-      this.onOptionsClick(event);
+    this.onOptionsClick(event);
+
+    if (this.optionsOpen()) {
+      this.closeOptions.emit();
+    } else {
+      this.openOptions.emit();
     }
   }
 }

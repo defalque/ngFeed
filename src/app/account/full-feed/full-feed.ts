@@ -74,4 +74,10 @@ export class FullFeed implements OnInit {
   isCurrentUserFeed() {
     return this.userId === this.currentUser()?.id;
   }
+
+  currentOptionsOpen = signal<string | null>(null);
+
+  setCurrentOptionsOpen(postId: string | null) {
+    this.currentOptionsOpen.set(postId);
+  }
 }

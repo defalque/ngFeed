@@ -36,7 +36,7 @@
       <div
         appClickOutsideDropdown
         [clickOutsideEnabled]="isOptionsOpen()"
-        (onClickOutside)="closeOptions()"
+        (onClickOutside)="this.closeOptions.emit()"
         class="relative inline-block col-span-1"
       >
         <button
@@ -110,7 +110,7 @@
           <div
             appClickOutsideDropdown
             [clickOutsideEnabled]="isOptionsOpen()"
-            (onClickOutside)="closeOptions()"
+            (onClickOutside)="this.closeOptions.emit()"
             class="relative inline-block"
           >
             <button
@@ -195,7 +195,7 @@
     <div
       appClickOutsideDropdown
       [clickOutsideEnabled]="isOptionsOpen()"
-      (onClickOutside)="closeOptions()"
+      (onClickOutside)="this.closeOptions.emit()"
       class="relative inline-block col-span-1"
     >
       <button

@@ -53,4 +53,10 @@ export class YourFeeds {
   isCurrentUserFeeds() {
     return this.userId === this.userService.loadedCurrentUser()?.id;
   }
+
+  currentOptionsOpen = signal<string | null>(null);
+
+  setCurrentOptionsOpen(postId: string | null) {
+    this.currentOptionsOpen.set(postId);
+  }
 }
