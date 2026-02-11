@@ -13,9 +13,9 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,
-      withComponentInputBinding(),
+      withComponentInputBinding(), // posso accedere a dynamic params della rotta automaticamente tramite input binding
       withRouterConfig({
-        paramsInheritanceStrategy: 'always',
+        paramsInheritanceStrategy: 'always', // posso accedere ai dynamic params della parent route automaticamente tramite input binding (your-feeds.ts; line 16)
       }),
     ),
     providePrimeNG({

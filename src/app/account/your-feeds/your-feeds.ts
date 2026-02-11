@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { FeedPost } from '@/home/feed/feed-post/feed-post';
 import { PostService } from '@/post.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,8 @@ import { UserFeedSkeleton } from '@/ui/skeletons/user-feed-skeleton/user-feed-sk
   styleUrl: './your-feeds.css',
 })
 export class YourFeeds {
-  userId!: string;
+  // userId!: string;
+  id = input.required<string>();
 
   private route = inject(ActivatedRoute);
 
@@ -27,8 +28,8 @@ export class YourFeeds {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.userId = params.get('id')!;
-      this.loadUserFeeds(this.userId);
+      // this.userId = params.get('id')!;
+      this.loadUserFeeds(this.id());
     });
   }
 
@@ -51,7 +52,7 @@ export class YourFeeds {
   }
 
   isCurrentUserFeeds() {
-    return this.userId === this.userService.loadedCurrentUser()?.id;
+    return this.id() === this.userService.loadedCurrentUser()?.id;
   }
 
   currentOptionsOpen = signal<string | null>(null);

@@ -50,7 +50,7 @@
       </li>
       <li class="py-1">
         <a
-          [routerLink]="currentUser()?.id"
+          [routerLink]="'utente/' + currentUser()?.id"
           routerLinkActive="active"
           class="text-zinc-400/80 rounded-xl md:px-5 md:py-3 px-8 py-3 cursor-pointer block focus transition-transform active:scale-[0.92] relative z-10 group"
           aria-label="Profilo"

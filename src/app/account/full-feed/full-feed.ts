@@ -1,6 +1,6 @@
 import { PostService } from '@/post.service';
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+// import { ActivatedRoute } from '@angular/router';
 import { FeedPost } from '@/home/feed/feed-post/feed-post';
 import { FullFeedSkeleton } from '@/ui/skeletons/full-feed-skeleton/full-feed-skeleton';
 import {
@@ -37,9 +37,11 @@ export class FullFeed implements OnInit {
   readonly TrashIcon = TrashIcon;
   readonly PencilIcon = PencilIcon;
 
-  userId!: string;
-  postId!: string;
-  private route = inject(ActivatedRoute);
+  id = input.required<string>();
+  postId = input.required<string>();
+  // con observables
+  // postId!: string;
+  // private route = inject(ActivatedRoute);
 
   postService = inject(PostService);
   post = this.postService.loadedPost;
@@ -52,11 +54,12 @@ export class FullFeed implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      this.postId = params.get('postId')!;
-      this.userId = params.get('id')!;
-      this.loadPost(this.postId);
-    });
+    // con observables
+    // this.route.paramMap.subscribe((params) => {
+    //   this.postId = params.get('postId')!;
+    //   this.loadPost(this.postId);
+    // });
+    this.loadPost(this.postId());
   }
 
   loadPost(postId: string) {
@@ -72,7 +75,7 @@ export class FullFeed implements OnInit {
   }
 
   isCurrentUserFeed() {
-    return this.userId === this.currentUser()?.id;
+    return this.id() === this.currentUser()?.id;
   }
 
   currentOptionsOpen = signal<string | null>(null);

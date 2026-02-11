@@ -44,7 +44,8 @@ export class Navbar {
   }
 
   isHomeActive(): boolean {
-    return this.router.url.startsWith('/per-te') || this.router.url.startsWith('/seguiti');
+    const url = this.router.url;
+    return url === '/per-te' || url === '/seguiti';
   }
 
   // elementRef = inject(ElementRef);

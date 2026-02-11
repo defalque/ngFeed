@@ -1,7 +1,7 @@
 @if (type() === 'feed') {
   <li>
     <a
-      [routerLink]="'/' + post().userId + '/feed/' + post().id"
+      [routerLink]="'/utente/' + post().userId + '/feed/' + post().id"
       class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
     >
       <img
@@ -115,7 +115,7 @@
 @if (type() === 'your-feed') {
   <li>
     <a
-      [routerLink]="'/' + post().userId + '/feed/' + post().id"
+      [routerLink]="'/utente/' + post().userId + '/feed/' + post().id"
       class="flex flex-col gap-2 items-start px-4 py-6 w-full focus"
     >
       <div class="flex justify-between items-start w-full _items-center gap-2">
