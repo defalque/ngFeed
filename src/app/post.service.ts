@@ -12,14 +12,15 @@ export class PostService {
   private posts = signal<Post[]>([]);
   loadedPosts = this.posts.asReadonly();
 
-  private currentUserPosts = signal<Post[]>([]);
-  loadedCurrentUserPosts = this.currentUserPosts.asReadonly();
-
   private userPosts = signal<Post[]>([]);
   loadedUserPosts = this.userPosts.asReadonly();
 
   private post = signal<Post | null>(null);
   loadedPost = this.post.asReadonly();
+
+  setLoadedPost(post: Post | null) {
+    this.post.set(post);
+  }
 
   private readonly postsUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json';
@@ -44,7 +45,7 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.posts.set(posts)), // per eseguire side effects
-      delay(500) // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
     );
   }
 
@@ -65,13 +66,13 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.posts.set(posts)), // per eseguire side effects
-      delay(500) // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
     );
   }
 
   fetchUserPosts(id: string) {
     return this.fetchPosts(
-      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="userId"&equalTo="${id}"`
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="userId"&equalTo="${id}"`,
     ).pipe(
       map((res) => {
         if (!res) return [];
@@ -88,13 +89,13 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.userPosts.set(posts)), // per eseguire side effects
-      delay(500) // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
     );
   }
 
   fetchPost(postId: string) {
     return this.fetchPosts(
-      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`,
     ).pipe(
       map((res) => {
         if (!res) return null;
@@ -104,7 +105,7 @@ export class PostService {
       tap((post) => {
         if (post) this.post.set(post);
       }), // per eseguire side effects
-      delay(500) // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
     );
   }
 

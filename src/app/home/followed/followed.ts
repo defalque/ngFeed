@@ -2,6 +2,8 @@ import { Component, DestroyRef, inject, input, output, signal } from '@angular/c
 import { FeedPost } from '../feed/feed-post/feed-post';
 import { PostService } from '@/post.service';
 import { FeedSkeleton } from '@/ui/skeletons/feed-skeleton/feed-skeleton';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-followed',
@@ -19,19 +21,18 @@ export class Followed {
 
   ngOnInit(): void {
     this.isFetching.set(true);
-    const sub = this.postService.fetchFollowedPosts().subscribe({
-      error: (error: Error) => {
-        console.log(error);
-        this.error.set(error.message);
-      },
-      complete: () => {
-        this.isFetching.set(false);
-      },
-    });
-
-    this.destroyRef.onDestroy(() => {
-      sub.unsubscribe();
-    });
+    this.postService
+      .fetchFollowedPosts()
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isFetching.set(false)),
+      )
+      .subscribe({
+        error: (error: Error) => {
+          console.log(error);
+          this.error.set(error.message);
+        },
+      });
   }
 
   currentOptionsOpen = signal<string | null>(null);

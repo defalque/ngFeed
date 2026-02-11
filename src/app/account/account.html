@@ -1,5 +1,5 @@
 <div class="hidden md:block max-w-3xl mx-auto text-center w-full py-4">
-  <p class="text-xl font-bold tracking-tighter">Profilo</p>
+  <p class="text-xl font-bold tracking-tight">Profilo</p>
 </div>
 <div class="max-w-3xl flex flex-col mx-auto text-center w-full py-4">
   <div class="md:sticky top-0 bg-white z-50">
@@ -19,7 +19,7 @@
         >
           <div class="flex flex-col items-start">
             <div class="flex items-center gap-2">
-              <p class="text-2xl font-bold tracking-tighter">
+              <p class="text-2xl font-bold tracking-tight">
                 {{ user()?.firstName + ' ' + user()?.lastName }}
               </p>
               @if (user()?.isVerified) {
@@ -64,27 +64,21 @@
       <a
         routerLink="feeds"
         routerLinkActive="active"
-        class="text-lg font-bold tracking-tighter text-zinc-400/80 px-2 focus"
-        [class.pointer-events-none]="isFetching()"
-        [class.opacity-50]="isFetching()"
-        >{{ isCurrentUserPage() ? 'I tuoi feeds' : user()?.firstName + ' feeds' }}</a
+        class="text-lg font-bold tracking-tight text-zinc-400/80 px-2 focus"
+        >{{ isCurrentUserPage() ? 'I tuoi post' : 'I post di ' + user()?.firstName }}</a
       >
       @if (isCurrentUserPage()) {
         <a
           routerLink="nuovo-feed"
           routerLinkActive="active"
-          class="text-lg font-bold tracking-tighter text-zinc-400/80 px-2 focus"
-          [class.pointer-events-none]="isFetching()"
-          [class.opacity-50]="isFetching()"
-          >Nuovo feed</a
+          class="text-lg font-bold tracking-tight text-zinc-400/80 px-2 focus"
+          >Nuovo post</a
         >
       }
       <a
         routerLink="repost"
         routerLinkActive="active"
-        class="text-lg font-bold tracking-tighter text-zinc-400/80 px-2 focus"
-        [class.pointer-events-none]="isFetching()"
-        [class.opacity-50]="isFetching()"
+        class="text-lg font-bold tracking-tight text-zinc-400/80 px-2 focus"
         >Repost</a
       >
     </div>

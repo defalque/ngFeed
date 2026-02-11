@@ -8,6 +8,8 @@ import {
 } from 'lucide-angular';
 import { RouterLink } from '@angular/router';
 import { SearchUsersSkeleton } from '@/ui/skeletons/search-users-skeleton/search-users-skeleton';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -31,18 +33,18 @@ export class Search implements OnInit {
 
   ngOnInit(): void {
     this.isFetching.set(true);
-    const sub = this.userService.fetchAllUsers().subscribe({
-      error: (error: Error) => {
-        console.log(error);
-        this.error.set(error.message);
-      },
-      complete: () => {
-        this.isFetching.set(false);
-      },
-    });
-
-    this.destroyRef.onDestroy(() => {
-      sub.unsubscribe();
-    });
+    this.userService
+      .fetchAllUsers()
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        // finalize viene eseguito SEMPRE, sia in caso di successo che errore
+        finalize(() => this.isFetching.set(false)),
+      )
+      .subscribe({
+        error: (error: Error) => {
+          console.log(error);
+          this.error.set(error.message);
+        },
+      });
   }
 }

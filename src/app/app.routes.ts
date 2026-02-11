@@ -15,9 +15,16 @@ export const routes: Routes = [
     component: Home,
     children: homeRoutes,
   },
-  { path: 'cerca', component: Search },
-  { path: 'preferiti', component: Favorites },
-  { path: 'utente/:id/feed/:postId', component: FullFeed },
-  { path: 'utente/:id', component: Account, children: accountRoutes },
-  { path: '**', component: NotFound },
+  { path: 'cerca', component: Search, title: 'ngFeed - Cerca' },
+  { path: 'preferiti', component: Favorites, title: 'ngFeed - Preferiti' },
+  {
+    path: 'utente/:id',
+    component: Account,
+    children: accountRoutes,
+  },
+  {
+    path: 'utente/:id/feed/:postId',
+    component: FullFeed,
+  },
+  { path: '**', component: NotFound, title: 'Pagina non trovata' },
 ];

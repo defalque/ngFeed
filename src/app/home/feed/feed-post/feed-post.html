@@ -10,9 +10,11 @@
         class="rounded-full w-9 h-9 col-span-1"
       />
       <div class="flex items-center gap-2 col-span-1">
-        <a [routerLink]="'/' + post().userId" class="text-base font-bold hover:underline focus">{{
-          post().userUsername
-        }}</a>
+        <a
+          [routerLink]="'/utente/' + post().userId"
+          class="text-base font-bold hover:underline focus"
+          >{{ post().userUsername }}</a
+        >
         @if (post().userIsVerified) {
           <svg
             viewBox="0 0 24 24"
@@ -50,7 +52,7 @@
           ></div>
           <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
         </button>
-        <!-- @if (isOptionsOpen()) { -->
+
         <div
           class="absolute top-full w-56 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-200 space-y-2 transition-transform duration-150 ease-out origin-top-right"
           [class.opacity-100]="isOptionsOpen()"
@@ -99,10 +101,9 @@
             ></lucide-icon>
           </button>
         </div>
-        <!-- } -->
       </div>
 
-      <h2 class="text-lg font-bold tracking-tighter col-start-2 col-span-full _font-mulish">
+      <h2 class="text-lg font-bold tracking-tight col-start-2 col-span-full _font-mulish">
         {{ post().title }}
       </h2>
       <p class="text-base tracking-tight text-black/80 col-start-2 col-span-full">
@@ -119,7 +120,7 @@
       class="flex flex-col gap-2 items-start px-4 py-6 w-full focus"
     >
       <div class="flex justify-between items-start w-full _items-center gap-2">
-        <h2 class="text-lg font-bold tracking-tighter">{{ post().title }}</h2>
+        <h2 class="text-lg font-bold tracking-tight">{{ post().title }}</h2>
         @if (currentUserFeeds()) {
           <div
             appClickOutsideDropdown
@@ -196,9 +197,11 @@
       class="rounded-full w-9 h-9 col-span-1"
     />
     <div class="flex items-center gap-2 col-span-1">
-      <a [routerLink]="'/' + post().userId" class="text-base font-bold hover:underline focus">{{
-        post().userUsername
-      }}</a>
+      <a
+        [routerLink]="'/utente/' + post().userId"
+        class="text-base font-bold hover:underline focus"
+        >{{ post().userUsername }}</a
+      >
       @if (post().userIsVerified) {
         <svg
           viewBox="0 0 24 24"
@@ -321,7 +324,7 @@
       }
     </div>
 
-    <h2 class="text-xl text-left font-bold tracking-tighter col-start-2 col-span-full">
+    <h2 class="text-xl text-left font-bold tracking-tight col-start-2 col-span-full">
       {{ post().title }}
     </h2>
     <h3

@@ -3,6 +3,8 @@ import { FeedPost } from './feed-post/feed-post';
 import { PostService } from '@/post.service';
 import { UserService } from '@/user.service';
 import { FeedSkeleton } from '@/ui/skeletons/feed-skeleton/feed-skeleton';
+import { finalize } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-feed',
@@ -25,28 +27,37 @@ export class Feed {
     const user = this.userService.loadedCurrentUser();
 
     if (user) {
-      this.postService.fetchForYouPosts(user.id).subscribe({
-        error: (error: Error) => {
-          console.log(error);
-          this.error.set(error.message);
-        },
-        complete: () => {
-          this.isFetching.set(false);
-        },
-      });
+      this.postService
+        .fetchForYouPosts(user.id)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => this.isFetching.set(false)),
+        )
+        .subscribe({
+          error: (error: Error) => {
+            console.log(error);
+            this.error.set(error.message);
+          },
+        });
     } else {
-      this.userService.fetchCurrentUser().subscribe((user) => {
-        if (user)
-          this.postService.fetchForYouPosts(user.id).subscribe({
-            error: (error: Error) => {
-              console.log(error);
-              this.error.set(error.message);
-            },
-            complete: () => {
-              this.isFetching.set(false);
-            },
-          });
-      });
+      this.userService
+        .fetchCurrentUser()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((user) => {
+          if (user)
+            this.postService
+              .fetchForYouPosts(user.id)
+              .pipe(
+                takeUntilDestroyed(this.destroyRef),
+                finalize(() => this.isFetching.set(false)),
+              )
+              .subscribe({
+                error: (error: Error) => {
+                  console.log(error);
+                  this.error.set(error.message);
+                },
+              });
+        });
     }
   }
 

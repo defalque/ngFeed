@@ -1,7 +1,8 @@
-import { Component, inject, OnInit, signal, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal, ViewEncapsulation } from '@angular/core';
 import { EllipsisIcon, HeartIcon, LucideAngularModule, MessageCircleIcon } from 'lucide-angular';
 import {
   ActivatedRoute,
+  ResolveFn,
   Router,
   RouterLink,
   RouterLinkActive,
@@ -9,6 +10,9 @@ import {
 } from '@angular/router';
 import { UserService } from '@/user.service';
 import { AccountSkeleton } from '@/ui/skeletons/account-skeleton/account-skeleton';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-account',
@@ -18,14 +22,16 @@ import { AccountSkeleton } from '@/ui/skeletons/account-skeleton/account-skeleto
   encapsulation: ViewEncapsulation.None,
   host: { class: 'block w-full' },
 })
-export class Account implements OnInit {
+// export class Account implements OnInit {
+export class Account {
+  private titleService = inject(Title);
   readonly EllipsisIcon = EllipsisIcon;
   readonly HeartIcon = HeartIcon;
   readonly MessageCircleIcon = MessageCircleIcon;
 
-  userId!: string;
-
   private router = inject(Router);
+
+  userId = signal('');
   private route = inject(ActivatedRoute);
 
   private userService = inject(UserService);
@@ -33,34 +39,53 @@ export class Account implements OnInit {
   user = this.userService.user;
   isFetching = signal(false);
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      this.userId = params.get('id')!;
+  private destroyRef = inject(DestroyRef);
 
-      this.loadUser(this.userId);
+  constructor() {
+    effect(() => {
+      const userData = this.user();
+      if (userData) {
+        const fullTitle = `ngFeed - ${userData.firstName} ${userData.lastName || ''}`.trim();
+        this.titleService.setTitle(fullTitle);
+      } else {
+        this.titleService.setTitle('Caricamento...');
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    const sub = this.route.params.subscribe((params) => {
+      this.userId.set(params['id']);
+      if (this.currentUser()?.id === this.userId()) {
+        this.user.set(this.currentUser());
+        return;
+      }
+
+      this.loadUser(this.userId());
+    });
+
+    this.destroyRef.onDestroy(() => {
+      sub.unsubscribe();
     });
   }
 
   loadUser(userId: string) {
-    if (this.currentUser()?.id === userId) {
-      this.user.set(this.currentUser());
-      return;
-    }
-
     this.isFetching.set(true);
-    this.userService.fetchUser(userId).subscribe({
-      error: (error: Error) => {
-        console.log(error);
-        // this.error.set(error.message);
-      },
-      complete: () => {
-        this.isFetching.set(false);
-      },
-    });
+    this.userService
+      .fetchUser(userId)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isFetching.set(false)),
+      )
+      .subscribe({
+        error: (error: Error) => {
+          console.log(error);
+        },
+      });
   }
 
   isCurrentUserPage() {
-    return this.userId === this.currentUser()?.id;
+    return this.userId() === this.currentUser()?.id;
   }
 
   isUpdateProfileUrlActive() {

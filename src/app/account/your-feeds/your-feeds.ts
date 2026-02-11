@@ -1,9 +1,10 @@
 import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { FeedPost } from '@/home/feed/feed-post/feed-post';
 import { PostService } from '@/post.service';
-import { ActivatedRoute } from '@angular/router';
 import { UserService } from '@/user.service';
 import { UserFeedSkeleton } from '@/ui/skeletons/user-feed-skeleton/user-feed-skeleton';
+import { finalize } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-your-feeds',
@@ -12,10 +13,7 @@ import { UserFeedSkeleton } from '@/ui/skeletons/user-feed-skeleton/user-feed-sk
   styleUrl: './your-feeds.css',
 })
 export class YourFeeds {
-  // userId!: string;
   id = input.required<string>();
-
-  private route = inject(ActivatedRoute);
 
   private postService = inject(PostService);
   private userService = inject(UserService);
@@ -27,28 +25,33 @@ export class YourFeeds {
   private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      // this.userId = params.get('id')!;
-      this.loadUserFeeds(this.id());
-    });
+    // richiede subscription e cleanup
+    // this.route.paramMap.subscribe((params) => {
+    //   // this.userId = params.get('id')!;
+    //   // this.loadUserFeeds(this.userI));
+    // });
+    if (this.isCurrentUserFeeds() && this.loadedUserPosts().length) {
+      console.log(this.loadedUserPosts());
+      return;
+    }
+
+    this.loadUserFeeds(this.id());
   }
 
-  loadUserFeeds(userId: string) {
+  private loadUserFeeds(userId: string) {
     this.isFetching.set(true);
-    const sub = this.postService.fetchUserPosts(userId).subscribe({
-      error: (error: Error) => {
-        console.log(error);
-        this.error.set(error.message);
-      },
-      complete: () => {
-        this.isFetching.set(false);
-      },
-    });
-
-    this.destroyRef.onDestroy(() => {
-      sub.unsubscribe();
-    });
-    // }
+    this.postService
+      .fetchUserPosts(userId)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isFetching.set(false)),
+      )
+      .subscribe({
+        error: (error: Error) => {
+          console.log(error);
+          this.error.set(error.message);
+        },
+      });
   }
 
   isCurrentUserFeeds() {

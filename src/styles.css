@@ -2,7 +2,13 @@
 
 @theme {
   --font-inconsolata: 'Inconsolata', sans-serif;
+  /* --font-inconsolata: 'Outfit', sans-serif; */
   --font-mulish: 'Mulish', sans-serif;
+}
+
+::selection {
+  background-color: #000; /* colore sfondo */
+  color: #fff; /* colore testo */
 }
 
 .active {
