@@ -111,7 +111,7 @@ export class FullFeed implements OnInit {
       .fetchPost(postId)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isFetching.set(false)),
+        finalize(() => this.isFetching.set(false))
       )
       .subscribe({
         error: (error: Error) => console.log(console.log(error.message)),

@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-inconsolata: 'Inconsolata', sans-serif;
+  --font-geist: 'Geist', sans-serif;
   /* --font-inconsolata: 'Outfit', sans-serif; */
   --font-mulish: 'Mulish', sans-serif;
 }

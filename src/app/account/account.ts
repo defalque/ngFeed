@@ -56,6 +56,7 @@ export class Account {
   ngOnInit(): void {
     const sub = this.route.params.subscribe((params) => {
       this.userId.set(params['id']);
+      console.log(this.userId());
       if (this.currentUser()?.id === this.userId()) {
         this.user.set(this.currentUser());
         return;
@@ -75,7 +76,7 @@ export class Account {
       .fetchUser(userId)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isFetching.set(false)),
+        finalize(() => this.isFetching.set(false))
       )
       .subscribe({
         error: (error: Error) => {

@@ -1,7 +1,28 @@
 <div class="h-screen">
+  @if (isFetching()) {
+  <div
+    class="absolute inset-0 z-50 bg-white flex items-center justify-center flex-col gap-2 animate-pulse duration-500"
+  >
+    <img src="logo.png" alt="ngFeed" />
+    <span class="text-5xl font-bold">ngFeed</span>
+  </div>
+  }@else {
   <app-header />
   <app-navbar />
   <main class="w-full flex flex-1 flex-col items-center pt-16 md:pt-0 pl-2 md:pl-30 pr-2 lg:pr-30">
     <router-outlet />
   </main>
+  <!-- <footer class="w-full flex items-center justify-center p-4 max-w-3xl mx-auto mt-auto">
+    <p class="text-gray-500 text-sm">
+      © 2026 <strong class="text-black">ngFeed</strong> by
+      <a
+        href="https://marcodefalco.dev"
+        class="text-orange-500 hover:underline underline-offset-1 font-semibold"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Marco De Falco</a
+      >. Tutti i diritti riservati.
+    </p>
+  </footer> -->
+  }
 </div>

@@ -5,6 +5,8 @@ import { UserService } from '@/user.service';
 import { UserFeedSkeleton } from '@/ui/skeletons/user-feed-skeleton/user-feed-skeleton';
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import { Post } from '@/models/post.model';
 
 @Component({
   selector: 'app-your-feeds',
@@ -15,9 +17,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class YourFeeds {
   id = input.required<string>();
 
+  private route = inject(ActivatedRoute);
+
   private postService = inject(PostService);
   private userService = inject(UserService);
   loadedUserPosts = this.postService.loadedUserPosts;
+  loadedCurrentUserPosts = this.postService.loadedCurrentUserPosts;
 
   error = signal('');
   isFetching = signal(false);
@@ -25,17 +30,17 @@ export class YourFeeds {
   private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    // richiede subscription e cleanup
-    // this.route.paramMap.subscribe((params) => {
-    //   // this.userId = params.get('id')!;
-    //   // this.loadUserFeeds(this.userI));
-    // });
-    if (this.isCurrentUserFeeds() && this.loadedUserPosts().length) {
-      console.log(this.loadedUserPosts());
-      return;
-    }
-
-    this.loadUserFeeds(this.id());
+    console.log(this.loadedCurrentUserPosts());
+    this.route.paramMap.subscribe((params) => {
+      if (
+        params.get('id') === this.userService.loadedCurrentUser()?.id &&
+        this.loadedCurrentUserPosts().length
+      ) {
+        this.postService.setUserPosts(this.loadedCurrentUserPosts());
+        return;
+      }
+      this.loadUserFeeds(params.get('id')!);
+    });
   }
 
   private loadUserFeeds(userId: string) {
@@ -44,7 +49,7 @@ export class YourFeeds {
       .fetchUserPosts(userId)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isFetching.set(false)),
+        finalize(() => this.isFetching.set(false))
       )
       .subscribe({
         error: (error: Error) => {
@@ -54,7 +59,7 @@ export class YourFeeds {
       });
   }
 
-  isCurrentUserFeeds() {
+  isCurrentUserPosts() {
     return this.id() === this.userService.loadedCurrentUser()?.id;
   }
 
