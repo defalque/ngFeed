@@ -1,9 +1,12 @@
 <header
   class="flex fixed top-0 left-0 h-16 z-100 items-center bg-white justify-between w-full md:hidden px-2"
 >
+  <!-- Logo -->
   <div class="grow text-center pl-10">
     <h1 class="text-3xl font-bold tracking-tighter">ngFeed</h1>
   </div>
+
+  <!-- Menu button -->
   <div
     appClickOutsideDropdown
     [clickOutsideEnabled]="isOpen()"
@@ -21,13 +24,18 @@
       ></div>
       <lucide-icon [img]="EqualIcon" size="24" aria-hidden></lucide-icon>
     </button>
-    <!-- @if (isOpen()) { -->
+
+    <!-- Dropdown -->
     <div
-      class="absolute top-full mt-1 right-0 mb-2 z-20 flex flex-col gap-2 w-56 rounded-lg bg-white shadow-lg border border-gray-300 p-1 font-semibold transition-transform duration-150 ease-out origin-top-right"
+      class="absolute top-full mt-1 right-0 mb-2 flex flex-col gap-2 w-56 rounded-lg bg-white shadow-lg border border-gray-300 p-1 font-semibold transition-transform duration-150 ease-out origin-top-right"
       [class.opacity-100]="isOpen()"
       [class.scale-100]="isOpen()"
       [class.opacity-0]="!isOpen()"
       [class.scale-85]="!isOpen()"
+      [class.-z-10]="!isOpen()"
+      [class.z-20]="isOpen()"
+      [inert]="!isOpen()"
+      [attr.aria-hidden]="!isOpen()"
     >
       <div class="flex items-center justify-center gap-2">
         <button
@@ -73,6 +81,5 @@
         Esci
       </button>
     </div>
-    <!-- } -->
   </div>
 </header>

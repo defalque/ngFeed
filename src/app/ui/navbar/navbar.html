@@ -1,10 +1,12 @@
 <aside
   class="fixed z-50 w-full md:top-0 left-0 bottom-0 md:w-30 flex flex-col items-center md:h-svh"
 >
+  <!-- Logo -->
   <div class="hidden w-full md:block text-center py-4">
     <h1 class="text-3xl font-bold tracking-tighter">ngFeed</h1>
   </div>
 
+  <!-- Navvigazione principale -->
   <div class="flex flex-col items-center w-full flex-1 min-h-0 overflow-y-auto bg-white">
     <ul class="flex md:flex-col items-center justify-around md:justify-center gap-2 w-full flex-1">
       <li class="py-1">
@@ -62,6 +64,7 @@
     </ul>
   </div>
 
+  <!-- Menu button -->
   <div class="md:block hidden w-full mb-4 text-center">
     <div
       appClickOutsideDropdown
@@ -80,13 +83,18 @@
         ></div>
         <lucide-icon [img]="EqualIcon" size="30" aria-hidden></lucide-icon>
       </button>
-      <!-- @if (isOpen()) { -->
+
+      <!-- Dropdown -->
       <div
-        class="absolute bottom-full z-20 left-0 mb-1 flex flex-col gap-2 w-56 rounded-lg bg-white shadow-lg border border-gray-300/90 p-1 font-semibold transition-transform duration-150 ease-out origin-bottom-left"
+        class="absolute bottom-full left-0 mb-1 flex flex-col gap-2 w-56 rounded-lg bg-white shadow-lg border border-gray-300/90 p-1 font-semibold transition-transform duration-150 ease-out origin-bottom-left"
         [class.opacity-100]="isOpen()"
         [class.scale-100]="isOpen()"
         [class.opacity-0]="!isOpen()"
         [class.scale-85]="!isOpen()"
+        [class.-z-10]="!isOpen()"
+        [class.z-20]="isOpen()"
+        [inert]="!isOpen()"
+        [attr.aria-hidden]="!isOpen()"
       >
         <div class="flex items-center justify-center gap-2">
           <button
@@ -132,7 +140,6 @@
           Esci
         </button>
       </div>
-      <!-- } -->
     </div>
   </div>
 </aside>
