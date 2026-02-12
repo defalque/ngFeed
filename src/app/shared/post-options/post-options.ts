@@ -1,5 +1,5 @@
 import { ClickOutside } from '@/click-outside.directive';
-import { Component, input, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import {
   BookmarkIcon,
   EllipsisIcon,
@@ -9,6 +9,7 @@ import {
   ThumbsDownIcon,
   TrashIcon,
 } from 'lucide-angular';
+import { ModalService } from '../modal/modal.service';
 
 @Component({
   selector: 'app-post-options',
@@ -17,6 +18,9 @@ import {
   styleUrl: './post-options.css',
 })
 export class PostOptions {
+  private modal = inject(ModalService);
+
+  id = input.required<string>();
   isCurrentUserPost = input.required<boolean>();
 
   isOptionsOpen = input.required<boolean>();
@@ -34,14 +38,21 @@ export class PostOptions {
     });
   }
 
-  toggleOptionsOpen(event: MouseEvent) {
-    this.onOptionsClick(event);
+  toggleOptionsOpen(event?: MouseEvent) {
+    if (event) this.onOptionsClick(event);
 
     if (this.isOptionsOpen()) {
       this.closeOptions.emit();
     } else {
       this.openOptions.emit();
     }
+  }
+
+  openPost(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.toggleOptionsOpen();
+    this.modal.openCreateNewPost('update', this.id());
   }
 
   readonly EllipsisIcon = EllipsisIcon;

@@ -5,7 +5,7 @@
   class="relative inline-block col-span-1"
 >
   <button
-    class="text-zinc-400/80 rounded-full p-2 active:scale-[0.94] cursor-pointer col-span-1 focus relative z-10 group"
+    class="text-zinc-400/80 rounded-full p-2 active:scale-[0.92] cursor-pointer col-span-1 focus relative z-10 group"
     [class.active]="isOptionsOpen()"
     aria-label="Opzioni post"
     (click)="toggleOptionsOpen($event)"
@@ -16,18 +16,20 @@
     <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
   </button>
 
-  @if (!isCurrentUserPost()) {
-    <div
-      class="absolute top-full w-56 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-200 space-y-2 transition-transform duration-150 ease-out origin-top-right"
-      [class.opacity-100]="isOptionsOpen()"
-      [class.scale-100]="isOptionsOpen()"
-      [class.opacity-0]="!isOptionsOpen()"
-      [class.scale-85]="!isOptionsOpen()"
-      [class.-z-10]="!isOptionsOpen()"
-      [class.z-30]="isOptionsOpen()"
-      [inert]="!isOptionsOpen()"
-      [attr.aria-hidden]="!isOptionsOpen()"
-    >
+  <div
+    class="absolute top-full {{
+      isCurrentUserPost() ? 'w-46' : 'w-56'
+    }} font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-200 space-y-2 transition-transform duration-150 ease-out origin-top-right"
+    [class.opacity-100]="isOptionsOpen()"
+    [class.scale-100]="isOptionsOpen()"
+    [class.opacity-0]="!isOptionsOpen()"
+    [class.scale-85]="!isOptionsOpen()"
+    [class.-z-10]="!isOptionsOpen()"
+    [class.z-30]="isOptionsOpen()"
+    [inert]="!isOptionsOpen()"
+    [attr.aria-hidden]="!isOptionsOpen()"
+  >
+    @if (!isCurrentUserPost()) {
       <button
         class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
         [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
@@ -54,20 +56,9 @@
           aria-hidden
         ></lucide-icon>
       </button>
-    </div>
-  } @else {
-    <div
-      class="absolute top-full w-46 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-200 space-y-2 transition-transform duration-150 ease-out origin-top-right"
-      [class.opacity-100]="isOptionsOpen()"
-      [class.scale-100]="isOptionsOpen()"
-      [class.opacity-0]="!isOptionsOpen()"
-      [class.scale-85]="!isOptionsOpen()"
-      [class.-z-10]="!isOptionsOpen()"
-      [class.z-30]="isOptionsOpen()"
-      [inert]="!isOptionsOpen()"
-      [attr.aria-hidden]="!isOptionsOpen()"
-    >
+    } @else {
       <button
+        (click)="openPost($event)"
         class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
         [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
       >
@@ -81,6 +72,6 @@
         <span>Elimina</span>
         <lucide-icon [img]="TrashIcon" size="20" class="text-red-500!" aria-hidden></lucide-icon>
       </button>
-    </div>
-  }
+    }
+  </div>
 </div>

@@ -1,15 +1,46 @@
-<form appFocusField class="flex flex-col gap-4 py-6 px-4">
+<form
+  #form="ngForm"
+  (ngSubmit)="onSubmit(form)"
+  appFocusField
+  class="flex flex-col gap-4 py-6 px-4"
+>
+  @if (mode() === 'create') {
+    <h2 class="font-semibold text-center">Nuovo post</h2>
+  } @else {
+    <h2 class="font-semibold text-center">Modifica post</h2>
+  }
+
   <div class="flex flex-col items-start gap-2">
     <label for="title">Titolo</label>
-    <input type="text" id="title" class="w-full rounded-xl p-2 border border-gray-300/80 focus" />
+    <input
+      type="text"
+      id="title"
+      name="title"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus-input"
+      [class.border-red-400]="title.invalid && title.touched && title.dirty"
+      [class.ring-1]="title.invalid && title.touched && title.dirty"
+      [class.ring-red-400!]="title.invalid && title.touched && title.dirty"
+      [class.bg-red-50]="title.invalid && title.touched && title.dirty"
+      ngModel
+      required
+      #title="ngModel"
+    />
   </div>
 
   <div class="flex flex-col items-start gap-2">
     <label for="description">Descrizione</label>
     <textarea
       id="description"
+      name="description"
       rows="2"
       class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      [class.border-red-400]="description.invalid && description.touched && description.dirty"
+      [class.ring-1]="description.invalid && description.touched && description.dirty"
+      [class.ring-red-400!]="description.invalid && description.touched && description.dirty"
+      [class.bg-red-50]="description.invalid && description.touched && description.dirty"
+      ngModel
+      required
+      #description="ngModel"
     ></textarea>
   </div>
 
@@ -17,14 +48,36 @@
     <label for="content">Contenuto</label>
     <textarea
       id="content"
+      name="content"
       rows="4"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      class="w-full rounded-xl p-2 border border-gray-300/80 caret-black focus:outline-none"
+      [class.border-red-400]="content.invalid && content.touched && content.dirty"
+      [class.ring-1]="content.invalid && content.touched && content.dirty"
+      [class.ring-red-400]="content.invalid && content.touched && content.dirty"
+      [class.focus:ring-2]="!(content.invalid && content.touched && content.dirty)"
+      [class.focus:ring-black]="!(content.invalid && content.touched && content.dirty)"
+      ngModel
+      minlength="20"
+      required
+      #content="ngModel"
     ></textarea>
+    @if (content.invalid && content.touched && content.dirty) {
+      <p class="text-red-600 bg-red-500/10 rounded-xl text-left px-3 py-1 w-full">
+        Deve contenere almeno 20 caratteri
+      </p>
+    }
   </div>
 
   <div class="flex flex-col items-start gap-2">
     <label for="image">Immagine del post</label>
-    <input type="file" id="image" class="w-full rounded-xl p-2 border border-gray-300/80 focus" />
+    <input
+      type="file"
+      id="image"
+      name="image"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      ngModel
+      #image="ngModel"
+    />
   </div>
 
   <button
@@ -33,4 +86,10 @@
   >
     Crea post
   </button>
+
+  @if (title.touched && description.touched && content.touched && form.form.invalid) {
+    <p class="text-red-600 bg-red-500/10 rounded-xl text-center p-1">
+      Uno o più valori del form non sono validi
+    </p>
+  }
 </form>

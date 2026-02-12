@@ -14,7 +14,6 @@ export class Header {
   isOpen = signal(false);
 
   toggleOpen() {
-    console.log('toggleOpen', this.isOpen());
     this.isOpen.set(!this.isOpen());
   }
 

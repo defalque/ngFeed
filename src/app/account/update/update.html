@@ -1,7 +1,33 @@
-<form appFocusField class="flex flex-col gap-4 py-6 px-4">
-  <div class="flex flex-col items-start gap-2">
-    <label for="name">Nome</label>
-    <input type="text" id="name" class="w-full rounded-xl p-2 border border-gray-300/80 focus" />
+<!-- TEMPLATE DRIVEN -->
+<form
+  #form="ngForm"
+  (ngSubmit)="onSubmit(form)"
+  appFocusField
+  class="flex flex-col gap-4 py-6 px-4"
+>
+  <h2 class="font-semibold text-center">Modifica il tuo profilo</h2>
+
+  <div class="flex justify-baseline items-center gap-4">
+    <div class="flex flex-col items-start gap-2 w-full">
+      <label for="firstName">Nome</label>
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+        [(ngModel)]="user.firstName"
+      />
+    </div>
+    <div class="flex flex-col items-start gap-2 w-full">
+      <label for="lastName">Cognome</label>
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+        [(ngModel)]="user.lastName"
+      />
+    </div>
   </div>
 
   <div class="flex flex-col items-start gap-2">
@@ -9,7 +35,9 @@
     <input
       type="text"
       id="username"
+      name="username"
       class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      [(ngModel)]="user.username"
     />
   </div>
 
@@ -17,14 +45,22 @@
     <label for="bio">Bio</label>
     <textarea
       id="bio"
+      name="bio"
       rows="3"
       class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      [(ngModel)]="user.bio"
     ></textarea>
   </div>
 
   <div class="flex flex-col items-start gap-2">
     <label for="website">Sito web</label>
-    <input type="url" id="website" class="w-full rounded-xl p-2 border border-gray-300/80 focus" />
+    <input
+      type="url"
+      id="website"
+      name="website"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      [(ngModel)]="user.websiteUrl"
+    />
   </div>
 
   <div class="flex flex-col items-start gap-2">
@@ -32,7 +68,9 @@
     <input
       type="text"
       id="location"
+      name="location"
       class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      [(ngModel)]="user.location"
     />
   </div>
 

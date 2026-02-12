@@ -7,21 +7,31 @@
       <span class="text-5xl font-bold">ngFeed</span>
     </div>
   } @else {
-    <app-header />
-    <app-navbar />
+    <div [inert]="isUpdateProfileFormOpen() || isCreateNewPostFormOpen().active">
+      <app-header />
+      <app-navbar />
 
-    <main
-      class="w-full flex flex-1 flex-col items-center pt-16 md:pt-0 pl-2 md:pl-30 pr-2 lg:pr-30"
+      <main
+        class="w-full flex flex-1 flex-col items-center pt-16 md:pt-0 pl-2 md:pl-30 pr-2 lg:pr-30"
+      >
+        <router-outlet />
+      </main>
+    </div>
+
+    <app-modal
+      [title]="isCreateNewPostFormOpen().mode === 'create' ? 'Nuovo post' : 'Modifica post'"
+      [isOpen]="isCreateNewPostFormOpen().active"
+      (toggleFn)="toggleCreateNewPostForm()"
     >
-      <router-outlet />
-    </main>
-
-    <app-modal [isOpen]="isUpdateProfileFormOpen()" (toggleFn)="toggleUpdateProfileForm()">
-      <app-update />
+      <app-new-feed />
     </app-modal>
 
-    <app-modal [isOpen]="isCreateNewPostFormOpen()" (toggleFn)="toggleCreateNewPostForm()">
-      <app-new-feed />
+    <app-modal
+      [title]="'Modifica Profilo'"
+      [isOpen]="isUpdateProfileFormOpen()"
+      (toggleFn)="toggleUpdateProfileForm()"
+    >
+      <app-update />
     </app-modal>
 
     <!-- <footer class="w-full flex items-center justify-center p-4 max-w-3xl mx-auto mt-auto">

@@ -23,6 +23,7 @@
       </div>
 
       <app-post-options
+        [id]="post().id"
         [isCurrentUserPost]="false"
         [isOptionsOpen]="currentOptionsOpen() === post().id"
         (openOptions)="setCurrentOptionsOpen(post().id)"
@@ -52,6 +53,7 @@
           {{ post().title }}
         </h2>
         <app-post-options
+          [id]="post().id"
           [isCurrentUserPost]="currentUserFeeds()"
           [isOptionsOpen]="currentOptionsOpen() === post().id"
           (openOptions)="setCurrentOptionsOpen(post().id)"
@@ -88,6 +90,7 @@
     </div>
 
     <app-post-options
+      [id]="post().id"
       [isCurrentUserPost]="currentUserFeeds()"
       [isOptionsOpen]="currentOptionsOpen() === post().id"
       (openOptions)="setCurrentOptionsOpen(post().id)"

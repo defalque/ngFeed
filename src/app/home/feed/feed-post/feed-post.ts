@@ -16,10 +16,6 @@ export class FeedPost {
   post = input.required<Post>();
   currentUserFeeds = input.required<boolean>();
 
-  ngOnInit() {
-    console.log(this.currentUserFeeds());
-  }
-
   currentOptionsOpen = signal<string | null>(null);
 
   setCurrentOptionsOpen = (postId: string | null) => {
