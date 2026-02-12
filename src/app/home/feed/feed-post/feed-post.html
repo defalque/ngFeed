@@ -1,319 +1,113 @@
 @if (type() === 'feed') {
-<li>
-  <a
-    [routerLink]="'/utente/' + post().userId + '/feed/' + post().id"
-    class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
-  >
+  <li>
+    <a
+      [routerLink]="'/utente/' + post().userId + '/feed/' + post().id"
+      class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
+    >
+      <img
+        [src]="post().userAvatar || '/assets/images/avatar.png'"
+        [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
+        class="rounded-full w-9 h-9 col-span-1"
+      />
+
+      <div class="flex items-center gap-2 col-span-1">
+        <a
+          [routerLink]="'/utente/' + post().userId"
+          class="text-base font-bold hover:underline focus"
+          >{{ post().userUsername }}</a
+        >
+
+        @if (post().userIsVerified) {
+          <app-verified-icon size="size-4" />
+        }
+      </div>
+
+      <app-post-options
+        [isCurrentUserPost]="false"
+        [isOptionsOpen]="currentOptionsOpen() === post().id"
+        (openOptions)="setCurrentOptionsOpen(post().id)"
+        (closeOptions)="setCurrentOptionsOpen(null)"
+      />
+
+      <h2
+        class="text-lg font-semibold tracking-normal col-start-2 col-span-full mb-1 text-shadow-2xs shadow-zinc-800/5"
+      >
+        {{ post().title }}
+      </h2>
+      <p class="text-base tracking-normal text-black/80 col-start-2 col-span-full">
+        {{ post().description }}
+      </p>
+      <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
+    </a>
+  </li>
+}
+@if (type() === 'your-feed') {
+  <li>
+    <a
+      [routerLink]="'/utente/' + post().userId + '/feed/' + post().id"
+      class="flex flex-col gap-2 items-start px-4 py-6 w-full focus"
+    >
+      <div class="flex justify-between items-start w-full _items-center gap-2">
+        <h2 class="text-lg font-semibold tracking-normal text-shadow-2xs shadow-zinc-800/5">
+          {{ post().title }}
+        </h2>
+        <app-post-options
+          [isCurrentUserPost]="currentUserFeeds()"
+          [isOptionsOpen]="currentOptionsOpen() === post().id"
+          (openOptions)="setCurrentOptionsOpen(post().id)"
+          (closeOptions)="setCurrentOptionsOpen(null)"
+        />
+      </div>
+      <p class="text-base tracking-normal text-start text-black/80">
+        {{ post().content }}
+      </p>
+      <div class="flex items-center gap-2">
+        <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
+      </div>
+    </a>
+  </li>
+}
+@if (type() === 'full-feed') {
+  <div class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible">
     <img
       [src]="post().userAvatar || '/assets/images/avatar.png'"
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
       class="rounded-full w-9 h-9 col-span-1"
     />
+
     <div class="flex items-center gap-2 col-span-1">
       <a
         [routerLink]="'/utente/' + post().userId"
         class="text-base font-bold hover:underline focus"
         >{{ post().userUsername }}</a
       >
+
       @if (post().userIsVerified) {
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="size-4 text-blue-500"
-      >
-        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-        <g id="SVGRepo_iconCarrier">
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M21.007 8.27C22.194 9.125 23 10.45 23 12c0 1.55-.806 2.876-1.993 3.73.24 1.442-.134 2.958-1.227 4.05-1.095 1.095-2.61 1.459-4.046 1.225C14.883 22.196 13.546 23 12 23c-1.55 0-2.878-.807-3.731-1.996-1.438.235-2.954-.128-4.05-1.224-1.095-1.095-1.459-2.611-1.217-4.05C1.816 14.877 1 13.551 1 12s.816-2.878 2.002-3.73c-.242-1.439.122-2.955 1.218-4.05 1.093-1.094 2.61-1.467 4.057-1.227C9.125 1.804 10.453 1 12 1c1.545 0 2.88.803 3.732 1.993 1.442-.24 2.956.135 4.048 1.227 1.093 1.092 1.468 2.608 1.227 4.05Zm-4.426-.084a1 1 0 0 1 .233 1.395l-5 7a1 1 0 0 1-1.521.126l-3-3a1 1 0 0 1 1.414-1.414l2.165 2.165 4.314-6.04a1 1 0 0 1 1.395-.232Z"
-            fill="currentColor"
-          ></path>
-        </g>
-      </svg>
+        <app-verified-icon size="size-4" />
       }
     </div>
-    <div
-      appClickOutsideDropdown
-      [clickOutsideEnabled]="isOptionsOpen()"
-      (onClickOutside)="this.closeOptions.emit()"
-      class="relative inline-block col-span-1"
-    >
-      <button
-        class="text-zinc-400/80 rounded-full p-2 active:scale-[0.94] cursor-pointer col-span-1 focus relative z-10 group"
-        [class.active]="isOptionsOpen()"
-        aria-label="Opzioni post"
-        (click)="toggleOptionsOpen($event)"
-      >
-        <div
-          class="bg-gray-100/55 w-full h-full rounded-full scale-[0.85] absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
-        ></div>
-        <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
-      </button>
 
-      <div
-        class="absolute top-full w-56 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-200 space-y-2 transition-transform duration-150 ease-out origin-top-right"
-        [class.opacity-100]="isOptionsOpen()"
-        [class.scale-100]="isOptionsOpen()"
-        [class.opacity-0]="!isOptionsOpen()"
-        [class.scale-85]="!isOptionsOpen()"
-        [class.-z-10]="!isOptionsOpen()"
-        [class.z-30]="isOptionsOpen()"
-        [inert]="!isOptionsOpen()"
-        [attr.aria-hidden]="!isOptionsOpen()"
-      >
-        <button
-          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-          [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-        >
-          <span>Salva</span>
-          <lucide-icon [img]="BookmarkIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
-        </button>
-        <button
-          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-          [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-        >
-          <span>Non mi interessa</span>
-          <lucide-icon
-            [img]="ThumbsDownIcon"
-            size="20"
-            class="text-black!"
-            aria-hidden
-          ></lucide-icon>
-        </button>
-        <button
-          class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-          [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-        >
-          <span>Segnala</span>
-          <lucide-icon
-            [img]="MessageSquareWarningIcon"
-            size="20"
-            class="text-red-500!"
-            aria-hidden
-          ></lucide-icon>
-        </button>
-      </div>
-    </div>
+    <app-post-options
+      [isCurrentUserPost]="currentUserFeeds()"
+      [isOptionsOpen]="currentOptionsOpen() === post().id"
+      (openOptions)="setCurrentOptionsOpen(post().id)"
+      (closeOptions)="setCurrentOptionsOpen(null)"
+    />
 
     <h2
-      class="text-lg font-bold tracking-normal col-start-2 col-span-full mb-1 text-shadow-2xs shadow-zinc-800/5"
+      class="text-xl text-left font-semibold tracking-normal col-start-2 col-span-full text-shadow-2xs shadow-zinc-800/5"
     >
       {{ post().title }}
     </h2>
-    <p class="text-base tracking-normal text-black/80 col-start-2 col-span-full">
+    <h3
+      class="text-lg text-left font-semibold tracking-normal text-black/80 col-start-2 col-span-full"
+    >
       {{ post().description }}
-    </p>
-    <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
-  </a>
-</li>
-} @if (type() === 'your-feed') {
-<li>
-  <a
-    [routerLink]="'/utente/' + post().userId + '/feed/' + post().id"
-    class="flex flex-col gap-2 items-start px-4 py-6 w-full focus"
-  >
-    <div class="flex justify-between items-start w-full _items-center gap-2">
-      <h2 class="text-lg font-bold tracking-normal text-shadow-2xs shadow-zinc-800/5">
-        {{ post().title }}
-      </h2>
-      @if (currentUserFeeds()) {
-      <div
-        appClickOutsideDropdown
-        [clickOutsideEnabled]="isOptionsOpen()"
-        (onClickOutside)="this.closeOptions.emit()"
-        class="relative inline-block"
-      >
-        <button
-          class="text-gray-400 rounded-full active:scale-[0.94] p-2 cursor-pointer col-span-1 focus relative z-10 group"
-          [class.active]="isOptionsOpen()"
-          aria-label="Opzioni post"
-          (click)="toggleOptionsOpen($event)"
-        >
-          <div
-            class="bg-gray-100/55 w-full h-full rounded-full scale-[0.85] absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
-          ></div>
-          <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
-        </button>
-        <!-- @if (isOptionsOpen()) { -->
-        <div
-          class="absolute top-full w-48 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-300/90 space-y-2 transition-transform duration-150 ease-out origin-top-right"
-          [class.opacity-100]="isOptionsOpen()"
-          [class.scale-100]="isOptionsOpen()"
-          [class.opacity-0]="!isOptionsOpen()"
-          [class.scale-85]="!isOptionsOpen()"
-          [class.-z-10]="!isOptionsOpen()"
-          [class.z-30]="isOptionsOpen()"
-          [inert]="!isOptionsOpen()"
-          [attr.aria-hidden]="!isOptionsOpen()"
-        >
-          <button
-            class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-            [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-          >
-            <span>Modifica</span>
-            <lucide-icon [img]="PencilIcon" size="18" class="text-black!" aria-hidden></lucide-icon>
-          </button>
-          <button
-            class="w-full flex text-red-500 items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-            [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-          >
-            <span>Elimina</span>
-            <lucide-icon
-              [img]="TrashIcon"
-              size="18"
-              class="text-red-500!"
-              aria-hidden
-            ></lucide-icon>
-          </button>
-        </div>
-        <!-- } -->
-      </div>
-      }
-    </div>
-    <p class="text-base tracking-normal text-start text-black/80">
+    </h3>
+    <p class="text-base text-left tracking-normal text-black/80 col-start-2 col-span-full">
       {{ post().content }}
     </p>
-    <div class="flex items-center gap-2">
-      <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
-    </div>
-  </a>
-</li>
-} @if (type() === 'full-feed') {
-<div class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible">
-  <img
-    [src]="post().userAvatar || '/assets/images/avatar.png'"
-    [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
-    class="rounded-full w-9 h-9 col-span-1"
-  />
-  <div class="flex items-center gap-2 col-span-1">
-    <a
-      [routerLink]="'/utente/' + post().userId"
-      class="text-base font-bold hover:underline focus"
-      >{{ post().userUsername }}</a
-    >
-    @if (post().userIsVerified) {
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      class="size-4 text-blue-500"
-    >
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-      <g id="SVGRepo_iconCarrier">
-        <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          d="M21.007 8.27C22.194 9.125 23 10.45 23 12c0 1.55-.806 2.876-1.993 3.73.24 1.442-.134 2.958-1.227 4.05-1.095 1.095-2.61 1.459-4.046 1.225C14.883 22.196 13.546 23 12 23c-1.55 0-2.878-.807-3.731-1.996-1.438.235-2.954-.128-4.05-1.224-1.095-1.095-1.459-2.611-1.217-4.05C1.816 14.877 1 13.551 1 12s.816-2.878 2.002-3.73c-.242-1.439.122-2.955 1.218-4.05 1.093-1.094 2.61-1.467 4.057-1.227C9.125 1.804 10.453 1 12 1c1.545 0 2.88.803 3.732 1.993 1.442-.24 2.956.135 4.048 1.227 1.093 1.092 1.468 2.608 1.227 4.05Zm-4.426-.084a1 1 0 0 1 .233 1.395l-5 7a1 1 0 0 1-1.521.126l-3-3a1 1 0 0 1 1.414-1.414l2.165 2.165 4.314-6.04a1 1 0 0 1 1.395-.232Z"
-          fill="currentColor"
-        ></path>
-      </g>
-    </svg>
-    }
-  </div>
-  <div
-    appClickOutsideDropdown
-    [clickOutsideEnabled]="isOptionsOpen()"
-    (onClickOutside)="this.closeOptions.emit()"
-    class="relative inline-block col-span-1"
-  >
-    <button
-      class="text-zinc-400/80 rounded-full active:scale-[0.94] p-2 cursor-pointer col-span-1 focus relative z-10 group"
-      [class.active]="isOptionsOpen()"
-      aria-label="Opzioni post"
-      (click)="toggleOptionsOpen($event)"
-    >
-      <div
-        class="bg-gray-100/55 w-full h-full rounded-full scale-[0.85] absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
-      ></div>
-      <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
-    </button>
-    @if (!currentUserFeeds()) {
-    <div
-      class="absolute top-full w-56 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-200 space-y-2 transition-transform duration-150 ease-out origin-top-right"
-      [class.opacity-100]="isOptionsOpen()"
-      [class.scale-100]="isOptionsOpen()"
-      [class.opacity-0]="!isOptionsOpen()"
-      [class.scale-85]="!isOptionsOpen()"
-      [class.-z-10]="!isOptionsOpen()"
-      [class.z-30]="isOptionsOpen()"
-      [inert]="!isOptionsOpen()"
-      [attr.aria-hidden]="!isOptionsOpen()"
-    >
-      <button
-        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-      >
-        <span>Salva</span>
-        <lucide-icon [img]="BookmarkIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
-      </button>
-      <button
-        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-      >
-        <span>Non mi interessa</span>
-        <lucide-icon [img]="ThumbsDownIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
-      </button>
-      <button
-        class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-      >
-        <span>Segnala</span>
-        <lucide-icon
-          [img]="MessageSquareWarningIcon"
-          size="20"
-          class="text-red-500!"
-          aria-hidden
-        ></lucide-icon>
-      </button>
-    </div>
-    } @if (currentUserFeeds()) {
-    <div
-      class="absolute top-full w-48 font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-300/90 space-y-2 transition-transform duration-150 ease-out origin-top-right"
-      [class.opacity-100]="isOptionsOpen()"
-      [class.scale-100]="isOptionsOpen()"
-      [class.opacity-0]="!isOptionsOpen()"
-      [class.scale-85]="!isOptionsOpen()"
-      [class.-z-10]="!isOptionsOpen()"
-      [class.z-30]="isOptionsOpen()"
-      [inert]="!isOptionsOpen()"
-      [attr.aria-hidden]="!isOptionsOpen()"
-    >
-      <button
-        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-      >
-        <span>Modifica</span>
-        <lucide-icon [img]="PencilIcon" size="18" class="text-black!" aria-hidden></lucide-icon>
-      </button>
-      <button
-        class="w-full flex text-red-500 items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-      >
-        <span>Elimina</span>
-        <lucide-icon [img]="TrashIcon" size="18" class="text-red-500!" aria-hidden></lucide-icon>
-      </button>
-    </div>
-    }
-  </div>
 
-  <h2
-    class="text-xl text-left font-bold tracking-normal col-start-2 col-span-full text-shadow-2xs shadow-zinc-800/5"
-  >
-    {{ post().title }}
-  </h2>
-  <h3
-    class="text-lg text-left font-semibold tracking-normal text-black/80 col-start-2 col-span-full"
-  >
-    {{ post().description }}
-  </h3>
-  <p class="text-base text-left tracking-normal text-black/80 col-start-2 col-span-full">
-    {{ post().content }}
-  </p>
-
-  <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
-</div>
+    <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
+  </div>
 }

@@ -35,7 +35,7 @@ export class UserService {
       tap((user) => {
         if (user) this.user.set(user); // side effect
       }),
-      delay(500) // delay artificiale per loading ui
+      delay(500), // delay artificiale per loading ui
     );
   }
 
@@ -50,7 +50,7 @@ export class UserService {
       tap((user) => {
         if (user) this.currentUser.set(user); // side effect
       }),
-      delay(1500) // delay artificiale per loading ui
+      delay(500), // delay artificiale per loading ui
     );
   }
 
@@ -72,7 +72,7 @@ export class UserService {
         return users;
       }),
       tap((users) => this.allUsers.set(users)), // per eseguire side effects
-      delay(500) // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
     );
   }
 

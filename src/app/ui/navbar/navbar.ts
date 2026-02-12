@@ -1,6 +1,7 @@
 import { ClickOutside } from '@/click-outside.directive';
+import { ModalService } from '@/shared/modal/modal.service';
 import { UserService } from '@/user.service';
-import { Component, ElementRef, HostListener, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import {
   LucideAngularModule,
@@ -11,6 +12,7 @@ import {
   EqualIcon,
   SunIcon,
   MoonIcon,
+  PlusIcon,
 } from 'lucide-angular';
 
 @Component({
@@ -29,9 +31,13 @@ export class Navbar {
   readonly EqualIcon = EqualIcon;
   readonly SunIcon = SunIcon;
   readonly MoonIcon = MoonIcon;
+  readonly PlusIcon = PlusIcon;
 
   private userService = inject(UserService);
   currentUser = this.userService.loadedCurrentUser;
+
+  private modal = inject(ModalService);
+  openCreateNewPostForm = this.modal.openCreateNewPost;
 
   isOpen = signal(false);
 

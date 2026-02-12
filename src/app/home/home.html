@@ -17,8 +17,15 @@
 <div
   class="max-w-3xl mx-auto bg-white flex flex-col divide-y divide-gray-200 w-full px-0 md:px-2 pt-4 overflow-hidden"
 >
-  <div class="flex items-center justify-between gap-2 border-b border-gray-300/50 p-4">
-    <div class="flex items-center gap-2">
+  <div class="flex items-center _justify-between gap-2 border-b border-gray-300/50 p-4">
+    <div
+      class="flex items-center gap-2 flex-1"
+      role="button"
+      tabindex="0"
+      (click)="openCreateNewPostForm()"
+      (keydown.enter)="openCreateNewPostForm()"
+      (keydown.space)="openCreateNewPostForm()"
+    >
       <img
         [src]="'/assets/images/avatar.png'"
         [alt]="'Avatar di Marco De Falco'"

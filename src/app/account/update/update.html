@@ -1,39 +1,44 @@
-<form (focusin)="onFieldFocus($event)" class="flex flex-col gap-4 pb-20 md:pb-6 pt-6 px-4">
+<form appFocusField class="flex flex-col gap-4 py-6 px-4">
   <div class="flex flex-col items-start gap-2">
     <label for="name">Nome</label>
-    <input type="text" id="name" class="w-full rounded-md p-2 border border-gray-300/80 focus" />
+    <input type="text" id="name" class="w-full rounded-xl p-2 border border-gray-300/80 focus" />
   </div>
+
   <div class="flex flex-col items-start gap-2">
     <label for="username">Username</label>
     <input
       type="text"
       id="username"
-      class="w-full rounded-md p-2 border border-gray-300/80 focus"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
     />
   </div>
+
   <div class="flex flex-col items-start gap-2">
     <label for="bio">Bio</label>
     <textarea
       id="bio"
       rows="3"
-      class="w-full rounded-md p-2 border border-gray-300/80 focus"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
     ></textarea>
   </div>
+
   <div class="flex flex-col items-start gap-2">
     <label for="website">Sito web</label>
-    <input type="url" id="website" class="w-full rounded-md p-2 border border-gray-300/80 focus" />
+    <input type="url" id="website" class="w-full rounded-xl p-2 border border-gray-300/80 focus" />
   </div>
+
   <div class="flex flex-col items-start gap-2">
     <label for="location">Luogo</label>
     <input
       type="text"
       id="location"
-      class="w-full rounded-md p-2 border border-gray-300/80 focus"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
     />
   </div>
+
   <button
     type="submit"
-    class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-lg rounded-md font-bold text-shadow-2xs focus-button"
+    class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-lg rounded-xl font-bold text-shadow-2xs focus-button"
   >
     Aggiorna profilo
   </button>

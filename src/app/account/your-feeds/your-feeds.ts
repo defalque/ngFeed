@@ -6,7 +6,6 @@ import { UserFeedSkeleton } from '@/ui/skeletons/user-feed-skeleton/user-feed-sk
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { Post } from '@/models/post.model';
 
 @Component({
   selector: 'app-your-feeds',
@@ -15,22 +14,20 @@ import { Post } from '@/models/post.model';
   styleUrl: './your-feeds.css',
 })
 export class YourFeeds {
-  id = input.required<string>();
-
   private route = inject(ActivatedRoute);
-
   private postService = inject(PostService);
   private userService = inject(UserService);
-  loadedUserPosts = this.postService.loadedUserPosts;
-  loadedCurrentUserPosts = this.postService.loadedCurrentUserPosts;
+  private destroyRef = inject(DestroyRef);
+
+  id = input.required<string>();
 
   error = signal('');
   isFetching = signal(false);
 
-  private destroyRef = inject(DestroyRef);
+  loadedUserPosts = this.postService.loadedUserPosts;
+  loadedCurrentUserPosts = this.postService.loadedCurrentUserPosts;
 
   ngOnInit(): void {
-    console.log(this.loadedCurrentUserPosts());
     this.route.paramMap.subscribe((params) => {
       if (
         params.get('id') === this.userService.loadedCurrentUser()?.id &&
@@ -49,7 +46,7 @@ export class YourFeeds {
       .fetchUserPosts(userId)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isFetching.set(false))
+        finalize(() => this.isFetching.set(false)),
       )
       .subscribe({
         error: (error: Error) => {
@@ -61,11 +58,5 @@ export class YourFeeds {
 
   isCurrentUserPosts() {
     return this.id() === this.userService.loadedCurrentUser()?.id;
-  }
-
-  currentOptionsOpen = signal<string | null>(null);
-
-  setCurrentOptionsOpen(postId: string | null) {
-    this.currentOptionsOpen.set(postId);
   }
 }

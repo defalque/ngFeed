@@ -8,7 +8,7 @@
 
   <!-- Navvigazione principale -->
   <div class="flex flex-col items-center w-full flex-1 min-h-0 overflow-y-auto bg-white">
-    <ul class="flex md:flex-col items-center justify-around md:justify-center gap-2 w-full flex-1">
+    <ul class="flex md:flex-col items-center justify-around md:justify-center gap-1 w-full flex-1">
       <li class="py-1">
         <a
           routerLink="/per-te"
@@ -34,6 +34,15 @@
           ></div>
           <lucide-icon [img]="SearchIcon" size="28" aria-hidden></lucide-icon>
         </a>
+      </li>
+      <li class="py-1">
+        <button
+          (click)="openCreateNewPostForm()"
+          class="text-zinc-400/80 bg-gray-100/55 hover:text-black rounded-xl md:px-5 md:py-3 px-8 py-3 cursor-pointer block focus transition-transform active:scale-[0.92] relative z-10 group"
+          aria-label="Apri crea nuovo post form"
+        >
+          <lucide-icon [img]="PlusIcon" size="28" aria-hidden></lucide-icon>
+        </button>
       </li>
       <li class="py-1">
         <a

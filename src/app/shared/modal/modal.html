@@ -1,0 +1,33 @@
+<div
+  class="fixed inset-0 bg-black/5 flex items-center justify-center transition-transform duration-150 ease-out"
+  [class.opacity-100]="isOpen()"
+  [class.opacity-0]="!isOpen()"
+  [class.-z-10]="!isOpen()"
+  [class.z-1000]="isOpen()"
+  [inert]="!isOpen()"
+  [attr.aria-hidden]="!isOpen()"
+>
+  <div
+    class="md:w-full w-md max-w-xl transition-transform duration-150 ease-out max-h-[92vh] overflow-y-auto border border-gray-300 p-3 rounded-2xl bg-white origin-bottom"
+    appClickOutsideDropdown
+    [clickOutsideEnabled]="isOpen()"
+    (onClickOutside)="toggleFn.emit()"
+    [class.opacity-100]="isOpen()"
+    [class.scale-100]="isOpen()"
+    [class.opacity-0]="!isOpen()"
+    [class.scale-85]="!isOpen()"
+    [class.-z-10]="!isOpen()"
+    [class.z-1000]="isOpen()"
+    [inert]="!isOpen()"
+    [attr.aria-hidden]="!isOpen()"
+  >
+    <button
+      (click)="toggleFn.emit()"
+      class="absolute top-2.5 right-2.5 p-2 rounded-full hover:bg-gray-100/55 active:scale-[0.88] cursor-pointer transition-transform"
+    >
+      <lucide-icon [img]="XIcon" size="18" aria-hidden></lucide-icon>
+    </button>
+
+    <ng-content></ng-content>
+  </div>
+</div>

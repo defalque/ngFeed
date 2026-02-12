@@ -13,14 +13,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class Feed {
   private postService = inject(PostService);
-  posts = this.postService.loadedPosts;
-
   private userService = inject(UserService);
+  private destroyRef = inject(DestroyRef);
 
   error = signal('');
   isFetching = signal(false);
 
-  private destroyRef = inject(DestroyRef);
+  posts = this.postService.loadedPosts;
 
   ngOnInit() {
     this.isFetching.set(true);
@@ -59,11 +58,5 @@ export class Feed {
               });
         });
     }
-  }
-
-  currentOptionsOpen = signal<string | null>(null);
-
-  setCurrentOptionsOpen(postId: string | null) {
-    this.currentOptionsOpen.set(postId);
   }
 }

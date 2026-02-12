@@ -8,23 +8,17 @@ import {
   HeartIcon,
   MessageCircleIcon,
   RefreshCcw,
-  BookmarkIcon,
-  ThumbsDownIcon,
-  MessageSquareWarningIcon,
-  TrashIcon,
-  PencilIcon,
   LucideAngularModule,
 } from 'lucide-angular';
 import { UserService } from '@/user.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-// import { ResolveFn } from '@angular/router';
-// import { Post } from '@/models/post.model';
+import { VerifiedIcon } from '@/icons/verified-icon/verified-icon';
 
 @Component({
   selector: 'app-full-feed',
-  imports: [FeedPost, FullFeedSkeleton, LucideAngularModule],
+  imports: [FeedPost, FullFeedSkeleton, LucideAngularModule, VerifiedIcon],
   templateUrl: './full-feed.html',
   styleUrl: './full-feed.css',
   host: {
@@ -33,31 +27,18 @@ import { Title } from '@angular/platform-browser';
 })
 export class FullFeed implements OnInit {
   private titleService = inject(Title);
-
-  readonly HeartIcon = HeartIcon;
-  readonly MessageCircleIcon = MessageCircleIcon;
-  readonly RefreshCcw = RefreshCcw;
-  readonly EllipsisIcon = EllipsisIcon;
-  readonly BookmarkIcon = BookmarkIcon;
-  readonly ThumbsDownIcon = ThumbsDownIcon;
-  readonly MessageSquareWarningIcon = MessageSquareWarningIcon;
-  readonly TrashIcon = TrashIcon;
-  readonly PencilIcon = PencilIcon;
+  private route = inject(ActivatedRoute);
+  private postService = inject(PostService);
+  private userService = inject(UserService);
+  private destroyRef = inject(DestroyRef);
 
   id = input.required<string>();
   postId = input.required<string>();
 
-  private route = inject(ActivatedRoute);
-
-  private postService = inject(PostService);
-  post = this.postService.loadedPost;
-
-  private userService = inject(UserService);
-  currentUser = this.userService.loadedCurrentUser;
-
   isFetching = signal(false);
 
-  private destroyRef = inject(DestroyRef);
+  post = this.postService.loadedPost;
+  currentUser = this.userService.loadedCurrentUser;
 
   constructor() {
     effect(() => {
@@ -111,7 +92,7 @@ export class FullFeed implements OnInit {
       .fetchPost(postId)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isFetching.set(false))
+        finalize(() => this.isFetching.set(false)),
       )
       .subscribe({
         error: (error: Error) => console.log(console.log(error.message)),
@@ -122,23 +103,8 @@ export class FullFeed implements OnInit {
     return this.id() === this.currentUser()?.id;
   }
 
-  currentOptionsOpen = signal<string | null>(null);
-
-  setCurrentOptionsOpen(postId: string | null) {
-    this.currentOptionsOpen.set(postId);
-  }
+  readonly HeartIcon = HeartIcon;
+  readonly MessageCircleIcon = MessageCircleIcon;
+  readonly RefreshCcw = RefreshCcw;
+  readonly EllipsisIcon = EllipsisIcon;
 }
-
-// export const postResolver: ResolveFn<Post | undefined> = (route) => {
-//   const postService = inject(PostService);
-//   const userService = inject(UserService);
-
-//   const userId = route.params['id'];
-//   const postId = route.params['postId'];
-
-//   if (userId === userService.loadedCurrentUser()?.id) {
-//     return postService.loadedUserPosts().find((post) => post.id === postId);
-//   }
-
-//   return postService.loadedPosts().find((post) => post.id === postId);
-// };

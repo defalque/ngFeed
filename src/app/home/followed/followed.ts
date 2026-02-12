@@ -12,12 +12,12 @@ import { finalize } from 'rxjs';
 })
 export class Followed {
   postService = inject(PostService);
-  posts = this.postService.loadedPosts;
+  private destroyRef = inject(DestroyRef);
 
   error = signal('');
   isFetching = signal(false);
 
-  private destroyRef = inject(DestroyRef);
+  posts = this.postService.loadedPosts;
 
   ngOnInit(): void {
     this.isFetching.set(true);
@@ -33,11 +33,5 @@ export class Followed {
           this.error.set(error.message);
         },
       });
-  }
-
-  currentOptionsOpen = signal<string | null>(null);
-
-  setCurrentOptionsOpen(postId: string | null) {
-    this.currentOptionsOpen.set(postId);
   }
 }

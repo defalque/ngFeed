@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ModalService } from '@/shared/modal/modal.service';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
@@ -7,4 +8,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   templateUrl: './home.html',
   host: { class: 'block w-full' },
 })
-export class Home {}
+export class Home {
+  private modal = inject(ModalService);
+  openCreateNewPostForm = this.modal.openCreateNewPost;
+}

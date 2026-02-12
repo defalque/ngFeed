@@ -1,21 +1,10 @@
-import { Component, ElementRef, viewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { FocusField } from '@/diretcives/focus-field.directive';
 
 @Component({
   selector: 'app-new-feed',
-  imports: [],
+  imports: [FocusField],
   templateUrl: './new-feed.html',
   styleUrl: './new-feed.css',
 })
-export class NewFeed {
-  onFieldFocus(event: FocusEvent) {
-    const el = event.target as HTMLElement;
-
-    if (['INPUT', 'TEXTAREA'].includes(el.tagName)) {
-      el.focus({ preventScroll: true });
-      el.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
-    }
-  }
-}
+export class NewFeed {}
