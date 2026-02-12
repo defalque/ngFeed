@@ -21,7 +21,7 @@
       [class.ring-1]="title.invalid && title.touched && title.dirty"
       [class.ring-red-400!]="title.invalid && title.touched && title.dirty"
       [class.bg-red-50]="title.invalid && title.touched && title.dirty"
-      ngModel
+      [(ngModel)]="post()!.title"
       required
       #title="ngModel"
     />
@@ -38,7 +38,7 @@
       [class.ring-1]="description.invalid && description.touched && description.dirty"
       [class.ring-red-400!]="description.invalid && description.touched && description.dirty"
       [class.bg-red-50]="description.invalid && description.touched && description.dirty"
-      ngModel
+      [(ngModel)]="post()!.description"
       required
       #description="ngModel"
     ></textarea>
@@ -56,7 +56,7 @@
       [class.ring-red-400]="content.invalid && content.touched && content.dirty"
       [class.focus:ring-2]="!(content.invalid && content.touched && content.dirty)"
       [class.focus:ring-black]="!(content.invalid && content.touched && content.dirty)"
-      ngModel
+      [(ngModel)]="post()!.content"
       minlength="20"
       required
       #content="ngModel"

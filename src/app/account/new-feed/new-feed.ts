@@ -14,11 +14,21 @@ export class NewFeed {
   private modalService = inject(ModalService);
   private postService = inject(PostService);
 
-  post = {
-    ...this.postService
-      .loadedCurrentUserPosts()
-      .find((post) => post.id === this.modalService.isCreateNewPostFormOpen().postId),
-  };
+  post = computed(() => {
+    const { mode, postId } = this.modalService.isCreateNewPostFormOpen();
+
+    if (mode === 'update') {
+      return (
+        this.postService.loadedCurrentUserPosts().find((p) => p.id === postId) || {
+          title: '',
+          description: '',
+          content: '',
+        }
+      );
+    }
+
+    return { title: '', description: '', content: '' };
+  });
 
   mode = computed(() => this.modalService.isCreateNewPostFormOpen().mode);
 

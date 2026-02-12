@@ -1,7 +1,17 @@
-import { Injectable, signal } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ModalService {
+  constructor() {
+    effect(() => {
+      if (this.isCreateNewPostFormOpen().active || this.isUpdateProfileOpen()) {
+        document.body.classList.add('modal-open');
+      } else {
+        document.body.classList.remove('modal-open');
+      }
+    });
+  }
+
   isUpdateProfileOpen = signal(false);
   isCreateNewPostFormOpen = signal<{
     active: boolean;
@@ -25,7 +35,7 @@ export class ModalService {
     this.isUpdateProfileOpen.update((v) => !v);
   };
 
-  openCreateNewPost = (mode: 'create' | 'update', postId: string) => {
+  openCreateNewPost = (mode: 'create' | 'update', postId: string | null) => {
     this.isCreateNewPostFormOpen.set({ active: true, mode, postId });
   };
 

@@ -8,13 +8,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { EllipsisIcon, HeartIcon, LucideAngularModule, MessageCircleIcon } from 'lucide-angular';
-import {
-  ActivatedRoute,
-  Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterOutlet,
-} from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { UserService } from '@/user.service';
 import { AccountSkeleton } from '@/ui/skeletons/account-skeleton/account-skeleton';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -40,7 +34,6 @@ import { VerifiedIcon } from '@/icons/verified-icon/verified-icon';
 })
 export class Account implements OnInit {
   private titleService = inject(Title);
-  private router = inject(Router);
   private route = inject(ActivatedRoute);
   private userService = inject(UserService);
   private modal = inject(ModalService);
@@ -71,10 +64,9 @@ export class Account implements OnInit {
         this.user.set(this.currentUser());
         return;
       }
-
+      console.log('loading user', this.userId());
       this.loadUser(this.userId());
     });
-
     this.destroyRef.onDestroy(() => {
       sub.unsubscribe();
     });

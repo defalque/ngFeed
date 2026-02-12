@@ -1,5 +1,5 @@
 import { ClickOutside } from '@/click-outside.directive';
-import { Component, input, output } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import { LucideAngularModule, XIcon } from 'lucide-angular';
 import { A11yModule } from '@angular/cdk/a11y';
 
