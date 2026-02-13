@@ -3,9 +3,9 @@
   #form="ngForm"
   (ngSubmit)="onSubmit(form)"
   appFocusField
-  class="flex flex-col gap-4 py-2 px-4"
+  class="flex flex-col gap-4 pb-4 sm:px-6 px-4 overflow-y-auto"
 >
-  <h2 class="font-semibold text-center">Modifica il tuo profilo</h2>
+  <!-- <h2 class="font-semibold text-center">Modifica il tuo profilo</h2> -->
 
   <div class="flex justify-baseline items-center gap-4">
     <div class="flex flex-col items-start gap-2 w-full">
@@ -76,7 +76,7 @@
 
   <button
     type="submit"
-    class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-lg rounded-xl font-bold text-shadow-2xs focus-button"
+    class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button"
   >
     Aggiorna profilo
   </button>

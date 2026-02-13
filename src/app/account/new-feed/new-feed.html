@@ -2,13 +2,13 @@
   #form="ngForm"
   (ngSubmit)="onSubmit(form)"
   appFocusField
-  class="flex flex-col gap-4 py-2 px-4"
+  class="flex flex-col gap-4 pb-4 px-4 sm:px-6"
 >
-  @if (mode() === 'create') {
+  <!-- @if (mode() === 'create') {
     <h2 class="font-semibold text-center">Nuovo post</h2>
   } @else {
     <h2 class="font-semibold text-center">Modifica post</h2>
-  }
+  } -->
 
   <div class="flex flex-col items-start gap-2">
     <label for="title">Titolo</label>
@@ -52,8 +52,7 @@
     <textarea
       id="content"
       name="content"
-      rows="4"
-      class="w-full rounded-xl p-2 border border-gray-300/80 caret-black focus:outline-none disabled:cursor-not-allowed"
+      class="w-full rounded-xl p-2 border border-gray-300/80 caret-black focus:outline-none disabled:cursor-not-allowed h-58 sm:h-36"
       [class.border-red-400]="content.invalid && content.touched && content.dirty"
       [class.ring-1]="content.invalid && content.touched && content.dirty"
       [class.ring-red-400]="content.invalid && content.touched && content.dirty"
@@ -87,7 +86,7 @@
 
   <button
     type="submit"
-    class="bg-black hover:bg-black/80 disabled:hover:bg-black disabled:animate-pulse cursor-pointer disabled:cursor-not-allowed transition-colors duration-300 text-white px-4 py-2 text-lg rounded-xl font-bold text-shadow-2xs focus-button"
+    class="bg-black hover:bg-black/80 disabled:hover:bg-black disabled:animate-pulse cursor-pointer disabled:cursor-not-allowed transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button"
     [disabled]="isWorking()"
   >
     @if (isWorking()) {

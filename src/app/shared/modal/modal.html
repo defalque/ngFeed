@@ -1,5 +1,8 @@
 <div
-  class="fixed inset-0 bg-black/15 flex items-center justify-center transition-transform duration-150 ease-out"
+  class="fixed inset-0 bg-black/15 flex sm:items-center justify-center transition-transform duration-150 ease-out"
+  [class]="{
+    'items-end': !isAlert(),
+  }"
   [class.opacity-100]="isOpen()"
   [class.opacity-0]="!isOpen()"
   [class.-z-10]="!isOpen()"
@@ -13,10 +16,22 @@
     [aria-label]="title()"
     [cdkTrapFocus]="isOpen()"
     [cdkTrapFocusAutoCapture]="isOpen()"
-    class="md:w-full w-md max-w-xl transition-transform duration-150 ease-out max-h-screen overflow-y-auto border border-gray-300 p-3 rounded-2xl bg-white origin-bottom"
     appClickOutsideDropdown
     [clickOutsideEnabled]="isOpen()"
     (onClickOutside)="toggleFn.emit()"
+    class="w-full sm:w-xl max-h-[95vh] overflow-y-auto border border-gray-300 _p-3 bg-white transition-transform ease-out origin-bottom sm:rounded-2xl animate-slideUp sm:animate-none duration-300 sm:duration-150"
+    [class]="{
+      'md:scale-90 md:opacity-0': !isOpen(),
+      'md:scale-100 md:opacity-100': isOpen(),
+    }"
+    [class.translate-y-full]="!isOpen() && !isAlert()"
+    [class.sm:translate-y-0]="!isOpen() && !isAlert()"
+    [class.md:scale-90]="!isOpen()"
+    [class.md:opacity-0]="!isOpen()"
+    [class.pointer-events-none]="!isOpen()"
+    [class.rounded-t-2xl]="!isAlert()"
+    [class.rounded-2xl]="isAlert()"
+    [class.self-center]="isAlert()"
     [class.opacity-100]="isOpen()"
     [class.scale-100]="isOpen()"
     [class.opacity-0]="!isOpen()"
@@ -25,15 +40,19 @@
     [class.z-1000]="isOpen()"
     [inert]="!isOpen()"
   >
-    <button
-      aria-label="Chiudi modale"
-      cdkFocusRegionStart
-      cdkFocusInitial
-      (click)="toggleFn.emit()"
-      class="absolute top-2.5 right-2.5 p-2 rounded-full hover:bg-gray-100/55 active:scale-[0.88] cursor-pointer transition-transform"
-    >
-      <lucide-icon [img]="XIcon" size="18" aria-hidden></lucide-icon>
-    </button>
+    <div class="_bg-amber-200 bg-white sticky top-0 p-3">
+      <button
+        aria-label="Chiudi modale"
+        cdkFocusRegionStart
+        cdkFocusInitial
+        (click)="toggleFn.emit()"
+        class="absolute top-1/2 -translate-y-1/2 right-2.5 p-2 rounded-full hover:bg-gray-100/55 active:scale-[0.88] cursor-pointer transition-transform"
+      >
+        <lucide-icon [img]="XIcon" size="18" aria-hidden></lucide-icon>
+      </button>
+
+      <h2 class="font-semibold text-center">{{ title() }}</h2>
+    </div>
 
     <ng-content></ng-content>
   </div>
