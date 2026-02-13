@@ -12,6 +12,10 @@ export class ModalService {
     });
   }
 
+  isDeletePostDialogOpen = signal<{ active: boolean; postId: string | null }>({
+    active: false,
+    postId: '',
+  });
   isUpdateProfileOpen = signal(false);
   isCreateNewPostFormOpen = signal<{
     active: boolean;
@@ -22,6 +26,22 @@ export class ModalService {
     mode: 'create',
     postId: null,
   });
+
+  openDeletePostDialog = (postId: string | null) => {
+    console.log(postId);
+    this.isDeletePostDialogOpen.set({ active: true, postId });
+  };
+
+  closeDeletePostDialog = () => {
+    this.isDeletePostDialogOpen.set({ active: false, postId: null });
+  };
+
+  togglDeletePostDialog = () => {
+    this.isDeletePostDialogOpen.update((v) => ({
+      ...v,
+      active: !v.active,
+    }));
+  };
 
   openUpdateProfile = () => {
     this.isUpdateProfileOpen.set(true);

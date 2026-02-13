@@ -33,7 +33,6 @@ export class NewFeed {
   mode = computed(() => this.modalService.isCreateNewPostFormOpen().mode);
 
   onSubmit(formData: NgForm) {
-    console.log(this.post);
     console.log(formData.form);
     if (formData.form.invalid) return;
 

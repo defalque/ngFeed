@@ -13,7 +13,7 @@
       <div class="flex items-center gap-2 col-span-1">
         <a
           [routerLink]="'/utente/' + post().userId"
-          class="text-base font-bold hover:underline focus"
+          class="text-base font-semibold hover:underline focus"
           >{{ post().userUsername }}</a
         >
 
@@ -31,11 +31,11 @@
       />
 
       <h2
-        class="text-lg font-semibold tracking-normal col-start-2 col-span-full mb-1 text-shadow-2xs shadow-zinc-800/5"
+        class="text-base sm:text-lg font-semibold tracking-normal col-start-2 col-span-full mb-1 text-shadow-2xs shadow-zinc-800/5"
       >
         {{ post().title }}
       </h2>
-      <p class="text-base tracking-normal text-black/80 col-start-2 col-span-full">
+      <p class="text-sm sm:text-base tracking-normal text-black/80 col-start-2 col-span-full">
         {{ post().description }}
       </p>
       <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
@@ -46,10 +46,12 @@
   <li>
     <a
       [routerLink]="'/utente/' + post().userId + '/feed/' + post().id"
-      class="flex flex-col gap-2 items-start px-4 py-6 w-full focus"
+      class="flex flex-col gap-2 items-start px-4 py-4 sm:py-6 w-full focus"
     >
       <div class="flex justify-between items-start w-full _items-center gap-2">
-        <h2 class="text-lg font-semibold tracking-normal text-shadow-2xs shadow-zinc-800/5">
+        <h2
+          class="text-base sm:text-lg font-semibold tracking-normal text-shadow-2xs shadow-zinc-800/5"
+        >
           {{ post().title }}
         </h2>
         <app-post-options
@@ -60,7 +62,7 @@
           (closeOptions)="setCurrentOptionsOpen(null)"
         />
       </div>
-      <p class="text-base tracking-normal text-start text-black/80">
+      <p class="text-sm sm:text-base tracking-normal text-start text-black/80">
         {{ post().content }}
       </p>
       <div class="flex items-center gap-2">
@@ -80,7 +82,7 @@
     <div class="flex items-center gap-2 col-span-1">
       <a
         [routerLink]="'/utente/' + post().userId"
-        class="text-base font-bold hover:underline focus"
+        class="text-base font-semibold hover:underline focus"
         >{{ post().userUsername }}</a
       >
 
@@ -98,16 +100,18 @@
     />
 
     <h2
-      class="text-xl text-left font-semibold tracking-normal col-start-2 col-span-full text-shadow-2xs shadow-zinc-800/5"
+      class="text-lg sm:text-xl text-left font-semibold tracking-normal col-start-2 col-span-full text-shadow-2xs shadow-zinc-800/5"
     >
       {{ post().title }}
     </h2>
     <h3
-      class="text-lg text-left font-semibold tracking-normal text-black/80 col-start-2 col-span-full"
+      class="text-base sm:text-lg text-left font-semibold tracking-normal text-black/80 col-start-2 col-span-full"
     >
       {{ post().description }}
     </h3>
-    <p class="text-base text-left tracking-normal text-black/80 col-start-2 col-span-full">
+    <p
+      class="text-sm sm:text-base text-left tracking-normal text-black/80 col-start-2 col-span-full"
+    >
       {{ post().content }}
     </p>
 

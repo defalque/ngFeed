@@ -11,6 +11,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 })
 export class Modal {
   title = input<string>('Modale');
+  isAlert = input<boolean>(false);
   isOpen = input.required<boolean>();
   toggleFn = output<void>();
 

@@ -9,11 +9,16 @@
     @if (user() && !isFetching()) {
       <div class="flex items-start gap-4 p-4">
         <div class="flex flex-col items-center gap-2 flex-none">
-          <img
-            [src]="user()?.avatar || '/assets/images/avatar.png'"
-            [alt]="'Avatar di ' + user()?.firstName + ' ' + user()?.lastName"
-            class="md:size-24 size-28 bg-gray-200 rounded-full col-span-1"
-          />
+          <div class="relative rounded-full">
+            @if (user()?.isVerified) {
+              <app-verified-icon size="size-4.5" mode="absolute" />
+            }
+            <img
+              [src]="user()?.avatar || '/assets/images/avatar.png'"
+              [alt]="'Avatar di ' + user()?.firstName + ' ' + user()?.lastName"
+              class="md:size-24 size-24 sm:size-28 bg-gray-200 rounded-full col-span-1"
+            />
+          </div>
           <div class="flex items-center gap-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -41,39 +46,22 @@
                 d="M 6 4 C 4.895 4 4 4.895 4 6 L 4 24 C 4 25.105 4.895 26 6 26 L 24 26 C 25.105 26 26 25.105 26 24 L 26 6 C 26 4.895 25.105 4 24 4 L 6 4 z M 8.6484375 9 L 13.259766 9 L 15.951172 12.847656 L 19.28125 9 L 20.732422 9 L 16.603516 13.78125 L 21.654297 21 L 17.042969 21 L 14.056641 16.730469 L 10.369141 21 L 8.8945312 21 L 13.400391 15.794922 L 8.6484375 9 z M 10.878906 10.183594 L 17.632812 19.810547 L 19.421875 19.810547 L 12.666016 10.183594 L 10.878906 10.183594 z"
               ></path>
             </svg>
-            <!-- <svg
-              xmlns="http://www.w3.org/2000/svg"
-              x="0px"
-              y="0px"
-              width="100"
-              height="100"
-              viewBox="0 0 30 30"
-              class="size-8 md:size-6 fill-gray-400 hover:fill-black transition-colors duration-300 cursor-pointer"
-            >
-              <path
-                d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"
-              ></path>
-            </svg> -->
           </div>
         </div>
 
         <div
           class="flex md:flex-row flex-col md:justify-between items-start md:items-center grow md:gap-4 gap-4"
         >
-          <div class="flex flex-col items-start flex-1">
+          <div class="flex flex-col items-start flex-1 text-sm sm:text-base">
             <div class="flex items-center gap-2">
-              <p class="text-2xl font-bold tracking-normal">
+              <p class="text-xl text-left sm:text-2xl font-bold tracking-normal">
                 {{ user()?.firstName + ' ' + user()?.lastName }}
               </p>
-              @if (user()?.isVerified) {
-                <app-verified-icon size="size-4.5" />
-              }
             </div>
             <p class="text-gray-500 mb-2">@{{ user()?.username }}</p>
             <p class="text-gray-500 text-left mb-4">{{ user()?.bio }}</p>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center flex-wrap gap-4 gap-y-1">
               <p class="text-gray-500">{{ 'Follower: ' + user()?.followersCount }}</p>
-              <span class="text-gray-500">•</span>
               <a
                 href="{{ user()?.websiteUrl }}"
                 class="text-gray-500 hover:underline underline-offset-1"

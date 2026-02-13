@@ -7,7 +7,13 @@
       <span class="text-5xl font-bold">ngFeed</span>
     </div>
   } @else {
-    <div [inert]="isUpdateProfileFormOpen() || isCreateNewPostFormOpen().active">
+    <div
+      [inert]="
+        isUpdateProfileFormOpen() ||
+        isCreateNewPostFormOpen().active ||
+        isDeletePostDialogOpen().active
+      "
+    >
       <app-header />
       <app-navbar />
 
@@ -32,6 +38,15 @@
       (toggleFn)="toggleUpdateProfileForm()"
     >
       <app-update />
+    </app-modal>
+
+    <app-modal
+      [title]="'Elimina post'"
+      [isAlert]="true"
+      [isOpen]="isDeletePostDialogOpen().active"
+      (toggleFn)="toggleDeletePostDialog()"
+    >
+      <app-delete-post />
     </app-modal>
 
     <!-- <footer class="w-full flex items-center justify-center p-4 max-w-3xl mx-auto mt-auto">

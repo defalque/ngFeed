@@ -7,5 +7,6 @@ import { Component, input } from '@angular/core';
   styleUrl: './verified-icon.css',
 })
 export class VerifiedIcon {
-  size = input.required<'size-4' | 'size-4.5'>();
+  size = input.required<'size-4' | 'size-4.5' | 'size-5'>();
+  mode = input<'absolute' | 'inline'>('inline');
 }

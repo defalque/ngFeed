@@ -8,13 +8,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { Modal } from './shared/modal/modal';
 import { ModalService } from './shared/modal/modal.service';
-import { ClickOutside } from './click-outside.directive';
 import { Update } from './account/update/update';
 import { NewFeed } from './account/new-feed/new-feed';
+import { DeletePost } from './account/delete-post/delete-post';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LucideAngularModule, Navbar, Header, Modal, Update, NewFeed],
+  imports: [RouterOutlet, LucideAngularModule, Navbar, Header, Modal, Update, NewFeed, DeletePost],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -33,6 +33,8 @@ export class App implements OnInit {
   toggleUpdateProfileForm = this.modal.closeUpdateProfile;
   isCreateNewPostFormOpen = this.modal.isCreateNewPostFormOpen;
   toggleCreateNewPostForm = this.modal.closeCreateNewPost;
+  isDeletePostDialogOpen = this.modal.isDeletePostDialogOpen;
+  toggleDeletePostDialog = this.modal.closeDeletePostDialog;
 
   ngOnInit(): void {
     this.isFetching.set(true);

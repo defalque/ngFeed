@@ -55,6 +55,14 @@ export class PostOptions {
     this.modal.openCreateNewPost('update', this.id());
   }
 
+  openDeletePostDialog(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.toggleOptionsOpen();
+    console.log(this.id());
+    this.modal.openDeletePostDialog(this.id());
+  }
+
   readonly EllipsisIcon = EllipsisIcon;
   readonly BookmarkIcon = BookmarkIcon;
   readonly ThumbsDownIcon = ThumbsDownIcon;
