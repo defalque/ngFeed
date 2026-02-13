@@ -16,7 +16,6 @@ export class DeletePost {
 
   postTitle = computed(() => {
     const { postId } = this.modalService.isDeletePostDialogOpen();
-    console.log(postId);
     return (
       this.postService.loadedCurrentUserPosts().find((post) => post.id === postId)?.title || ''
     );

@@ -1,8 +1,21 @@
-import { afterNextRender, Component, computed, inject, input, viewChild } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { FocusField } from '@/diretcives/focus-field.directive';
 import { ModalService } from '@/shared/modal/modal.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { PostService } from '@/post.service';
+import { FirebasePost, Post } from '@/models/post.model';
+import { UserService } from '@/user.service';
+import { finalize } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-new-feed',
@@ -13,6 +26,9 @@ import { PostService } from '@/post.service';
 export class NewFeed {
   private modalService = inject(ModalService);
   private postService = inject(PostService);
+  private userService = inject(UserService);
+
+  private destroyRef = inject(DestroyRef);
 
   post = computed(() => {
     const { mode, postId } = this.modalService.isCreateNewPostFormOpen();
@@ -32,10 +48,52 @@ export class NewFeed {
 
   mode = computed(() => this.modalService.isCreateNewPostFormOpen().mode);
 
+  private addPost(post: FirebasePost) {
+    this.isWorking.set(true);
+    this.postService
+      .createPost(post)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isWorking.set(false)),
+      )
+      .subscribe();
+  }
+
+  private editPost(editedPost: FirebasePost) {
+    this.isWorking.set(true);
+    this.postService
+      .updatePost(this.modalService.isCreateNewPostFormOpen().postId!, editedPost)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isWorking.set(false)),
+      )
+      .subscribe();
+  }
+
+  isWorking = signal(false);
+
   onSubmit(formData: NgForm) {
-    console.log(formData.form);
     if (formData.form.invalid) return;
 
+    const newPost: FirebasePost = {
+      created_at: new Date().toISOString(),
+      title: formData.form.value.title,
+      description: formData.form.value.description,
+      content: formData.form.value.content,
+      likesCount: 0,
+      commentsCount: 0,
+      userId: this.userService.loadedCurrentUser()!.id,
+      userUsername: this.userService.loadedCurrentUser()!.username,
+      userFirstName: this.userService.loadedCurrentUser()!.firstName,
+      userLastName: this.userService.loadedCurrentUser()!.lastName,
+      userIsVerified: this.userService.loadedCurrentUser()!.isVerified,
+      userAvatar: this.userService.loadedCurrentUser()!.avatar,
+    };
+
+    if (this.mode() === 'create') this.addPost(newPost);
+    else this.editPost(newPost);
+
     formData.form.reset();
+    this.modalService.closeCreateNewPost();
   }
 }

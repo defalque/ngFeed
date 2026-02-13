@@ -40,7 +40,7 @@
   } @else {
     @for (feed of loadedUserPosts(); track feed.id) {
       <ul class="py-1">
-        <app-feed-post type="your-feed" [post]="feed" [currentUserFeeds]="isCurrentUserPosts()" />
+        <app-feed-post type="your-feed" [post]="feed" [currentUserPost]="isCurrentUserPosts()" />
       </ul>
     }
   }

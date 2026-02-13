@@ -61,12 +61,15 @@ export class FullFeed implements OnInit {
       // Determina quale array controllare
       const postsArray =
         userId === currentUserId
-          ? this.postService.loadedUserPosts()
+          ? this.postService.loadedCurrentUserPosts()
           : this.postService.loadedPosts();
 
       // Se l’array è vuoto → fetch
       if (!postsArray?.length) {
         console.log('post not cached, fetching...');
+        // if (currentUserId === userId) {
+        //   this.loadPosts(currentUserId!);
+        // }
         this.loadPost(postId);
         return;
       }
@@ -87,6 +90,7 @@ export class FullFeed implements OnInit {
   }
 
   private loadPost(postId: string) {
+    console.log('fetching');
     this.isFetching.set(true);
     this.postService
       .fetchPost(postId)
@@ -99,7 +103,22 @@ export class FullFeed implements OnInit {
       });
   }
 
-  isCurrentUserFeed() {
+  private loadPosts(userId: string) {
+    console.log('fetching');
+
+    this.isFetching.set(true);
+    this.postService
+      .fetchUserPosts(userId)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isFetching.set(false)),
+      )
+      .subscribe({
+        error: (error: Error) => console.log(console.log(error.message)),
+      });
+  }
+
+  isCurrentUserPost() {
     return this.id() === this.currentUser()?.id;
   }
 

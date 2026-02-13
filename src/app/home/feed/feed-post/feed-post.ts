@@ -14,7 +14,7 @@ import { VerifiedIcon } from '@/icons/verified-icon/verified-icon';
 export class FeedPost {
   type = input.required<'feed' | 'your-feed' | 'full-feed'>();
   post = input.required<Post>();
-  currentUserFeeds = input.required<boolean>();
+  currentUserPost = input.required<boolean>();
 
   currentOptionsOpen = signal<string | null>(null);
 

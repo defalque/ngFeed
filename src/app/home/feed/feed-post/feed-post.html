@@ -56,13 +56,13 @@
         </h2>
         <app-post-options
           [id]="post().id"
-          [isCurrentUserPost]="currentUserFeeds()"
+          [isCurrentUserPost]="currentUserPost()"
           [isOptionsOpen]="currentOptionsOpen() === post().id"
           (openOptions)="setCurrentOptionsOpen(post().id)"
           (closeOptions)="setCurrentOptionsOpen(null)"
         />
       </div>
-      <p class="text-sm sm:text-base tracking-normal text-start text-black/80">
+      <p class="text-sm sm:text-base tracking-normal text-start br text-black/80 wrap-anywhere">
         {{ post().content }}
       </p>
       <div class="flex items-center gap-2">
@@ -93,7 +93,7 @@
 
     <app-post-options
       [id]="post().id"
-      [isCurrentUserPost]="currentUserFeeds()"
+      [isCurrentUserPost]="currentUserPost()"
       [isOptionsOpen]="currentOptionsOpen() === post().id"
       (openOptions)="setCurrentOptionsOpen(post().id)"
       (closeOptions)="setCurrentOptionsOpen(null)"
@@ -110,7 +110,7 @@
       {{ post().description }}
     </h3>
     <p
-      class="text-sm sm:text-base text-left tracking-normal text-black/80 col-start-2 col-span-full"
+      class="text-sm sm:text-base text-left tracking-normal text-black/80 col-start-2 col-span-full wrap-anywhere"
     >
       {{ post().content }}
     </p>

@@ -16,14 +16,15 @@
       type="text"
       id="title"
       name="title"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus-input"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus-input disabled:cursor-not-allowed"
       [class.border-red-400]="title.invalid && title.touched && title.dirty"
       [class.ring-1]="title.invalid && title.touched && title.dirty"
       [class.ring-red-400!]="title.invalid && title.touched && title.dirty"
       [class.bg-red-50]="title.invalid && title.touched && title.dirty"
-      [(ngModel)]="post()!.title"
+      [ngModel]="post()!.title"
       required
       #title="ngModel"
+      [disabled]="isWorking()"
     />
   </div>
 
@@ -33,14 +34,15 @@
       id="description"
       name="description"
       rows="2"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus disabled:cursor-not-allowed"
       [class.border-red-400]="description.invalid && description.touched && description.dirty"
       [class.ring-1]="description.invalid && description.touched && description.dirty"
       [class.ring-red-400!]="description.invalid && description.touched && description.dirty"
       [class.bg-red-50]="description.invalid && description.touched && description.dirty"
-      [(ngModel)]="post()!.description"
+      [ngModel]="post()!.description"
       required
       #description="ngModel"
+      [disabled]="isWorking()"
     ></textarea>
   </div>
 
@@ -50,16 +52,17 @@
       id="content"
       name="content"
       rows="4"
-      class="w-full rounded-xl p-2 border border-gray-300/80 caret-black focus:outline-none"
+      class="w-full rounded-xl p-2 border border-gray-300/80 caret-black focus:outline-none disabled:cursor-not-allowed"
       [class.border-red-400]="content.invalid && content.touched && content.dirty"
       [class.ring-1]="content.invalid && content.touched && content.dirty"
       [class.ring-red-400]="content.invalid && content.touched && content.dirty"
       [class.focus:ring-2]="!(content.invalid && content.touched && content.dirty)"
       [class.focus:ring-black]="!(content.invalid && content.touched && content.dirty)"
-      [(ngModel)]="post()!.content"
+      [ngModel]="post()!.content"
       minlength="20"
       required
       #content="ngModel"
+      [disabled]="isWorking()"
     ></textarea>
     @if (content.invalid && content.touched && content.dirty) {
       <p class="text-red-600 bg-red-500/10 rounded-xl text-left px-3 py-1 w-full">
@@ -74,17 +77,23 @@
       type="file"
       id="image"
       name="image"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus disabled:cursor-not-allowed"
       ngModel
       #image="ngModel"
+      [disabled]="isWorking()"
     />
   </div>
 
   <button
     type="submit"
-    class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-lg rounded-xl font-bold text-shadow-2xs focus-button"
+    class="bg-black hover:bg-black/80 disabled:hover:bg-black disabled:animate-pulse cursor-pointer disabled:cursor-not-allowed transition-colors duration-300 text-white px-4 py-2 text-lg rounded-xl font-bold text-shadow-2xs focus-button"
+    [disabled]="(form.form.invalid && form.form.touched && form.form.dirty) || isWorking()"
   >
-    Crea post
+    @if (isWorking()) {
+      {{ mode() === 'create' ? 'Creazione in corso...' : 'Salvataggio modifiche...' }}
+    } @else {
+      {{ mode() === 'create' ? 'Crea post' : 'Salva modifiche' }}
+    }
   </button>
 
   @if (title.touched && description.touched && content.touched && form.form.invalid) {

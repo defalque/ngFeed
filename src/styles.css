@@ -2,13 +2,12 @@
 
 @theme {
   --font-geist: 'Geist', sans-serif;
-  /* --font-inconsolata: 'Outfit', sans-serif; */
   --font-mulish: 'Mulish', sans-serif;
 }
 
 ::selection {
-  background-color: #000; /* colore sfondo */
-  color: #fff; /* colore testo */
+  background-color: #000;
+  color: #fff;
 }
 
 html {

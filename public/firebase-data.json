@@ -72,8 +72,10 @@
       "websiteUrl": "https://marcodefalco.dev"
     }
   },
+
   "posts": {
     "post_001": {
+      "created_at": "2026-01-03T10:00:00.000Z",
       "title": "Getting Started with Firebase",
       "description": "A comprehensive guide to setting up Firebase for your web application.",
       "content": "Firebase is a powerful platform developed by Google that provides a variety of tools and services to help you develop high-quality apps. In this post, we'll explore how to set up Firebase for your web application, including authentication, real-time database, and hosting.",
@@ -87,6 +89,7 @@
       "userAvatar": "https://randomuser.me/api/portraits/men/32.jpg"
     },
     "post_002": {
+      "created_at": "2026-01-03T11:00:00.000Z",
       "title": "Top 10 UX Design Principles",
       "description": "Essential design principles every UX designer should know.",
       "content": "User experience design is all about creating products that provide meaningful and relevant experiences to users. Here are the top 10 UX design principles that will help you create better digital products and improve user satisfaction.",
@@ -100,6 +103,7 @@
       "userAvatar": "https://randomuser.me/api/portraits/women/44.jpg"
     },
     "post_003": {
+      "created_at": "2026-01-03T12:00:00.000Z",
       "title": "The Future of AI in 2026",
       "description": "Exploring the latest trends and predictions in artificial intelligence.",
       "content": "Artificial intelligence continues to evolve at a rapid pace. From large language models to autonomous systems, AI is transforming every industry. Let's explore what the future holds for AI technology and how it will impact our daily lives.",
@@ -113,6 +117,7 @@
       "userAvatar": "https://randomuser.me/api/portraits/men/75.jpg"
     },
     "post_004": {
+      "created_at": "2026-01-03T13:00:00.000Z",
       "title": "Building Scalable APIs with Node.js",
       "description": "Best practices for creating robust and scalable REST APIs.",
       "content": "Building scalable APIs is crucial for modern web applications. In this guide, we'll cover best practices for structuring your Node.js applications, handling authentication, implementing caching, and ensuring your API can handle high traffic loads.",
@@ -126,6 +131,7 @@
       "userAvatar": "https://randomuser.me/api/portraits/women/68.jpg"
     },
     "post_005": {
+      "created_at": "2026-01-03T14:00:00.000Z",
       "title": "Product Management Tips for Startups",
       "description": "Key strategies for effective product management in early-stage companies.",
       "content": "Product management in startups is a unique challenge. With limited resources and rapidly changing requirements, you need to be agile and strategic. Here are my top tips for managing products effectively in a startup environment.",
@@ -139,6 +145,7 @@
       "userAvatar": "https://randomuser.me/api/portraits/men/52.jpg"
     },
     "post_006": {
+      "created_at": "2026-01-03T16:00:00.000Z",
       "title": "React vs Angular: A Comparison",
       "description": "An in-depth comparison of two popular frontend frameworks.",
       "content": "Choosing the right frontend framework can be challenging. Both React and Angular have their strengths and weaknesses. This post provides a detailed comparison to help you make an informed decision for your next project.",
@@ -152,6 +159,7 @@
       "userAvatar": "https://randomuser.me/api/portraits/men/32.jpg"
     },
     "post_007": {
+      "created_at": "2026-01-03T17:00:00.000Z",
       "title": "Designing for Accessibility",
       "description": "How to create inclusive designs that work for everyone.",
       "content": "Accessibility should be a priority in every design project. By following WCAG guidelines and implementing accessible design patterns, we can create products that are usable by people of all abilities. Here's how to get started.",
@@ -165,6 +173,7 @@
       "userAvatar": "https://randomuser.me/api/portraits/women/44.jpg"
     },
     "post_008": {
+      "created_at": "2026-01-03T18:00:00.000Z",
       "title": "Introduction to Machine Learning",
       "description": "A beginner-friendly guide to understanding machine learning concepts.",
       "content": "Machine learning is a subset of artificial intelligence that enables computers to learn from data. This introductory guide covers the basic concepts, types of machine learning, and how to get started with your first ML project.",
@@ -178,6 +187,7 @@
       "userAvatar": "https://randomuser.me/api/portraits/men/75.jpg"
     },
     "post_009": {
+      "created_at": "2026-01-03T19:00:00.000Z",
       "title": "Mastering Angular Signals",
       "description": "A deep dive into Angular's new reactive primitive for state management.",
       "content": "Angular Signals represent a paradigm shift in how we handle reactivity in Angular applications. In this comprehensive guide, we'll explore computed signals, effects, and how to migrate from RxJS-based patterns to signals for simpler, more performant code.",
@@ -190,6 +200,7 @@
       "userIsVerified": true
     },
     "post_010": {
+      "created_at": "2026-01-03T20:00:00.000Z",
       "title": "TypeScript Advanced Patterns",
       "description": "Exploring advanced TypeScript features for better code quality.",
       "content": "TypeScript offers powerful features beyond basic typing. Learn about conditional types, mapped types, template literal types, and how to leverage these patterns to create type-safe, maintainable codebases that catch errors at compile time.",
@@ -202,6 +213,7 @@
       "userIsVerified": true
     },
     "post_011": {
+      "created_at": "2026-01-03T21:00:00.000Z",
       "title": "Building PWAs with Angular",
       "description": "Transform your Angular app into a Progressive Web App.",
       "content": "Progressive Web Apps combine the best of web and mobile apps. This tutorial walks you through adding service workers, creating app manifests, implementing offline functionality, and optimizing your Angular application for installation on any device.",
@@ -214,6 +226,7 @@
       "userIsVerified": true
     },
     "post_012": {
+      "created_at": "2026-01-03T22:00:00.000Z",
       "title": "RxJS Best Practices in 2026",
       "description": "Modern patterns for reactive programming with RxJS.",
       "content": "RxJS remains a powerful tool for handling asynchronous operations. Discover the latest best practices, learn about new operators, understand when to use observables vs signals, and master error handling strategies for robust reactive applications.",
@@ -226,6 +239,7 @@
       "userIsVerified": true
     },
     "post_013": {
+      "created_at": "2026-01-03T23:00:00.000Z",
       "title": "Angular Performance Optimization",
       "description": "Techniques to make your Angular apps lightning fast.",
       "content": "Performance is crucial for user experience. Learn about OnPush change detection, lazy loading strategies, bundle optimization, runtime performance profiling, and advanced techniques like virtual scrolling and web workers to build blazing-fast Angular apps.",
@@ -238,6 +252,7 @@
       "userIsVerified": true
     },
     "post_014": {
+      "created_at": "2026-01-04T00:00:00.000Z",
       "title": "State Management with NgRx SignalStore",
       "description": "Modern state management using NgRx's signal-based store.",
       "content": "NgRx SignalStore brings the power of signals to state management. This guide covers creating feature stores, implementing selectors with computed signals, handling side effects, and migrating from traditional NgRx patterns to the new signal-based approach.",
@@ -250,6 +265,7 @@
       "userIsVerified": true
     },
     "post_015": {
+      "created_at": "2026-01-04T01:00:00.000Z",
       "title": "Testing Angular Components",
       "description": "A complete guide to unit and integration testing in Angular.",
       "content": "Testing is essential for maintainable applications. Explore component testing with TestBed, mocking services and dependencies, testing observables and async operations, and writing integration tests that give you confidence in your Angular codebase.",
@@ -262,6 +278,7 @@
       "userIsVerified": true
     },
     "post_016": {
+      "created_at": "2026-01-04T02:00:00.000Z",
       "title": "Standalone Components Deep Dive",
       "description": "Everything you need to know about Angular standalone components.",
       "content": "Standalone components simplify Angular development by removing NgModule boilerplate. Learn how to create standalone components, pipes, and directives, manage dependencies, and structure your application using this modern Angular pattern.",
@@ -274,6 +291,7 @@
       "userIsVerified": true
     },
     "post_017": {
+      "created_at": "2026-01-04T03:00:00.000Z",
       "title": "Angular SSR with Hydration",
       "description": "Server-side rendering made easy with Angular's hydration feature.",
       "content": "Server-side rendering improves SEO and initial load times. Angular's hydration feature makes SSR seamless by reusing server-rendered DOM. Learn how to set up Angular Universal, implement hydration, and optimize your app for search engines.",
@@ -286,6 +304,7 @@
       "userIsVerified": true
     },
     "post_018": {
+      "created_at": "2026-01-04T04:00:00.000Z",
       "title": "Modern CSS in Angular",
       "description": "Styling techniques for beautiful Angular applications.",
       "content": "CSS has evolved significantly. Explore CSS custom properties, container queries, modern layout techniques with Grid and Flexbox, CSS-in-JS alternatives, and how to leverage Angular's view encapsulation for maintainable component styles.",
@@ -298,6 +317,7 @@
       "userIsVerified": true
     },
     "post_019": {
+      "created_at": "2026-01-04T05:00:00.000Z",
       "title": "Angular Dependency Injection Patterns",
       "description": "Advanced DI techniques for scalable applications.",
       "content": "Angular's dependency injection system is powerful and flexible. Discover advanced patterns like hierarchical injectors, injection tokens, factory providers, and how to design loosely coupled components that are easy to test and maintain.",
@@ -310,6 +330,7 @@
       "userIsVerified": true
     },
     "post_020": {
+      "created_at": "2026-01-04T06:00:00.000Z",
       "title": "Building Real-time Apps with WebSockets",
       "description": "Create live, interactive Angular applications.",
       "content": "Real-time features enhance user engagement. Learn how to integrate WebSockets with Angular, handle connection states, implement reconnection strategies, and build features like live chat, notifications, and collaborative editing.",
@@ -322,6 +343,7 @@
       "userIsVerified": true
     },
     "post_021": {
+      "created_at": "2026-01-04T07:00:00.000Z",
       "title": "Micro-frontends with Angular",
       "description": "Scaling frontend development with module federation.",
       "content": "Micro-frontends allow teams to work independently on large applications. This guide covers Webpack Module Federation, setting up a shell application, sharing dependencies, and deploying independent Angular micro-frontends.",
@@ -334,6 +356,7 @@
       "userIsVerified": true
     },
     "post_022": {
+      "created_at": "2026-01-04T08:00:00.000Z",
       "title": "Form Validation Strategies",
       "description": "Comprehensive guide to Angular form validation.",
       "content": "Proper form validation improves user experience and data quality. Explore reactive form validation, custom validators, async validators, cross-field validation, and displaying meaningful error messages in your Angular applications.",

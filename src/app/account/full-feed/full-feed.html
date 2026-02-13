@@ -8,7 +8,7 @@
     <div fullFeedSkeleton></div>
   }
   @if (post() && !isFetching()) {
-    <app-feed-post [post]="post()!" [type]="'full-feed'" [currentUserFeeds]="isCurrentUserFeed()" />
+    <app-feed-post [post]="post()!" [type]="'full-feed'" [currentUserPost]="isCurrentUserPost()" />
   }
 
   @for (feed of [0, 1, 2]; track feed) {

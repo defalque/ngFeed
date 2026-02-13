@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { delay, map, tap } from 'rxjs';
-import { Post } from '@/models/post.model';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { catchError, delay, map, tap, throwError } from 'rxjs';
+import { FirebasePost, Post } from '@/models/post.model';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -20,6 +20,7 @@ export class PostService {
 
   private userPosts = signal<Post[]>([]);
   loadedUserPosts = this.userPosts.asReadonly();
+
   setUserPosts(posts: Post[]) {
     this.userPosts.set(posts);
   }
@@ -54,7 +55,7 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.posts.set(posts)), // per eseguire side effects
-      delay(500) // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
     );
   }
 
@@ -75,13 +76,13 @@ export class PostService {
         return posts;
       }),
       tap((posts) => this.posts.set(posts)), // per eseguire side effects
-      delay(500) // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
     );
   }
 
   fetchUserPosts(id: string) {
     return this.fetchPosts(
-      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="userId"&equalTo="${id}"`
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="userId"&equalTo="${id}"`,
     ).pipe(
       map((res) => {
         if (!res) return [];
@@ -95,7 +96,13 @@ export class PostService {
             });
           }
         }
-        return posts;
+        // --- AGGIUNGI L'ORDINAMENTO QUI ---
+        // Ordine decrescente (più recente in alto)
+        return posts.sort((a, b) => {
+          const dateA = new Date(a.created_at).getTime();
+          const dateB = new Date(b.created_at).getTime();
+          return dateB - dateA;
+        });
       }),
       tap((posts) => {
         if (this.currentUserId === id) {
@@ -103,13 +110,13 @@ export class PostService {
         }
         this.userPosts.set(posts);
       }), // per eseguire side effects
-      delay(500) // delay artificiale per mostrare loading ui;
+      delay(500),
     );
   }
 
   fetchPost(postId: string) {
     return this.fetchPosts(
-      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`,
     ).pipe(
       map((res) => {
         if (!res) return null;
@@ -119,13 +126,63 @@ export class PostService {
       tap((post) => {
         if (post) this.post.set(post);
       }), // per eseguire side effects
-      delay(500) // delay artificiale per mostrare loading ui;
+      delay(500), // delay artificiale per mostrare loading ui;
+    );
+  }
+
+  createPost(post: FirebasePost) {
+    const oldPosts = this.currentUserPosts();
+
+    // 1. Creiamo un oggetto "temporaneo" con un ID fittizio per la UI
+    const tempId = Date.now().toString(); // O un UUID
+    const tempPost: Post = { ...post, id: tempId };
+
+    // 2. Aggiornamento ottimistico della UI
+    this.currentUserPosts.set([tempPost, ...oldPosts]);
+
+    // 3. Invio al server (senza l'id temporaneo)
+    return this.storePost(this.postsUrl, post).pipe(
+      delay(2000),
+      tap((response: any) => {
+        const realId = response.name;
+
+        // Sostituiamo il post temporaneo con quello reale (che ha l'ID vero)
+        this.currentUserPosts.update((posts) =>
+          posts.map((p) => (p.id === tempId ? { ...post, id: realId } : p)),
+        );
+      }),
+      catchError((error) => {
+        // Rollback in caso di errore
+        this.currentUserPosts.set(oldPosts);
+        return throwError(() => new Error('Richiesta fallita!'));
+      }),
+    );
+  }
+
+  updatePost(postId: string, post: FirebasePost) {
+    return this.editPost(
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/"${postId}.json"`,
+      post,
+    ).pipe(
+      delay(2000),
+      catchError((error) => {
+        // Rollback in caso di errore
+        return throwError(() => new Error('Richiesta fallita!'));
+      }),
     );
   }
 
   private fetchPosts(url: string) {
     return this.http.get<{
-      [key: string]: Omit<Post, 'id'>;
+      [key: string]: FirebasePost;
     }>(url);
+  }
+
+  private editPost(url: string, post: FirebasePost) {
+    return this.http.patch(url, post);
+  }
+
+  private storePost(url: string, post: FirebasePost) {
+    return this.http.post(url, post);
   }
 }

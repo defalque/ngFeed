@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, input, signal } from '@angular/core';
 import { FeedPost } from '@/home/feed/feed-post/feed-post';
 import { PostService } from '@/post.service';
 import { UserService } from '@/user.service';
@@ -24,23 +24,31 @@ export class YourFeeds {
   error = signal('');
   isFetching = signal(false);
 
-  loadedUserPosts = this.postService.loadedUserPosts;
+  loadedGenericUserPosts = this.postService.loadedUserPosts;
   loadedCurrentUserPosts = this.postService.loadedCurrentUserPosts;
+
+  loadedUserPosts = computed(() => {
+    return this.isCurrentUserPosts()
+      ? this.loadedCurrentUserPosts()
+      : this.loadedGenericUserPosts();
+  });
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
+      console.log(this.loadedUserPosts());
+      console.log(this.loadedCurrentUserPosts());
       if (
         params.get('id') === this.userService.loadedCurrentUser()?.id &&
         this.loadedCurrentUserPosts().length
       ) {
-        this.postService.setUserPosts(this.loadedCurrentUserPosts());
         return;
       }
-      this.loadUserFeeds(params.get('id')!);
+
+      this.loadUserPosts(params.get('id')!);
     });
   }
 
-  private loadUserFeeds(userId: string) {
+  private loadUserPosts(userId: string) {
     this.isFetching.set(true);
     this.postService
       .fetchUserPosts(userId)
