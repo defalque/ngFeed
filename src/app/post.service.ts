@@ -161,10 +161,21 @@ export class PostService {
 
   updatePost(postId: string, post: FirebasePost) {
     return this.editPost(
-      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/"${postId}.json"`,
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`,
       post,
     ).pipe(
       delay(2000),
+      tap((updatedPost) => {
+        // Aggiorna il segnale locale così la UI reagisce immediatamente
+        this.currentUserPosts.update((posts) => {
+          const index = posts.findIndex((p) => p.id === postId);
+          if (index !== -1) {
+            // Uniamo l'ID esistente con i nuovi dati
+            posts[index] = { ...post, id: postId } as Post;
+          }
+          return [...posts];
+        });
+      }),
       catchError((error) => {
         // Rollback in caso di errore
         return throwError(() => new Error('Richiesta fallita!'));

@@ -39,6 +39,8 @@ export class NewFeed {
           title: '',
           description: '',
           content: '',
+          likesCount: 0,
+          commentsCount: 0,
         }
       );
     }
@@ -49,25 +51,19 @@ export class NewFeed {
   mode = computed(() => this.modalService.isCreateNewPostFormOpen().mode);
 
   private addPost(post: FirebasePost) {
-    this.isWorking.set(true);
-    this.postService
-      .createPost(post)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isWorking.set(false)),
-      )
-      .subscribe();
+    return this.postService.createPost(post).pipe(
+      takeUntilDestroyed(this.destroyRef),
+      finalize(() => this.isWorking.set(false)),
+    );
   }
 
   private editPost(editedPost: FirebasePost) {
-    this.isWorking.set(true);
-    this.postService
+    return this.postService
       .updatePost(this.modalService.isCreateNewPostFormOpen().postId!, editedPost)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isWorking.set(false)),
-      )
-      .subscribe();
+      );
   }
 
   isWorking = signal(false);
@@ -76,12 +72,12 @@ export class NewFeed {
     if (formData.form.invalid) return;
 
     const newPost: FirebasePost = {
-      created_at: new Date().toISOString(),
+      created_at: new Date().toISOString(), // aggiungere anche update_at e non modificare questo se è update mode
       title: formData.form.value.title,
       description: formData.form.value.description,
       content: formData.form.value.content,
-      likesCount: 0,
-      commentsCount: 0,
+      likesCount: this.mode() === 'create' ? 0 : this.post().likesCount!,
+      commentsCount: this.mode() === 'create' ? 0 : this.post().commentsCount!,
       userId: this.userService.loadedCurrentUser()!.id,
       userUsername: this.userService.loadedCurrentUser()!.username,
       userFirstName: this.userService.loadedCurrentUser()!.firstName,
@@ -90,10 +86,26 @@ export class NewFeed {
       userAvatar: this.userService.loadedCurrentUser()!.avatar,
     };
 
-    if (this.mode() === 'create') this.addPost(newPost);
-    else this.editPost(newPost);
-
-    formData.form.reset();
-    this.modalService.closeCreateNewPost();
+    this.isWorking.set(true);
+    if (this.mode() === 'create')
+      this.addPost(newPost).subscribe({
+        next: () => {
+          formData.form.reset();
+          this.modalService.closeCreateNewPost();
+        },
+        error: (err) => {
+          console.error('Errore durante la creazione del post', err);
+        },
+      });
+    else
+      this.editPost(newPost).subscribe({
+        next: () => {
+          formData.form.reset();
+          this.modalService.closeCreateNewPost();
+        },
+        error: (err) => {
+          console.error('Errore durante la modifica del post', err);
+        },
+      });
   }
 }

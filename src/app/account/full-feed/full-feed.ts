@@ -1,5 +1,14 @@
 import { PostService } from '@/post.service';
-import { Component, DestroyRef, effect, inject, input, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FeedPost } from '@/home/feed/feed-post/feed-post';
 import { FullFeedSkeleton } from '@/ui/skeletons/full-feed-skeleton/full-feed-skeleton';
@@ -37,7 +46,18 @@ export class FullFeed implements OnInit {
 
   isFetching = signal(false);
 
-  post = this.postService.loadedPost;
+  // post = this.postService.loadedPost;
+  post = computed(() => {
+    if (this.isCurrentUserPost()) {
+      const posts = this.postService.loadedCurrentUserPosts(); // array di post
+      const found = posts.find((p) => p.id === this.postId());
+      return found;
+    } else {
+      const loaded = this.postService.loadedPost();
+      return loaded;
+    }
+  });
+
   currentUser = this.userService.loadedCurrentUser;
 
   constructor() {
@@ -67,9 +87,10 @@ export class FullFeed implements OnInit {
       // Se l’array è vuoto → fetch
       if (!postsArray?.length) {
         console.log('post not cached, fetching...');
-        // if (currentUserId === userId) {
-        //   this.loadPosts(currentUserId!);
-        // }
+        if (currentUserId === userId) {
+          this.loadPosts(currentUserId!);
+          return;
+        }
         this.loadPost(postId);
         return;
       }
