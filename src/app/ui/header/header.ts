@@ -1,16 +1,14 @@
 import { Component, signal } from '@angular/core';
 import { EqualIcon, LucideAngularModule, SunIcon, MoonIcon } from 'lucide-angular';
 import { ClickOutside } from '@/click-outside.directive';
+import { DropdownMenu } from '@/shared/dropdown-menu/dropdown-menu';
 
 @Component({
   selector: 'app-header',
-  imports: [LucideAngularModule, ClickOutside],
+  imports: [LucideAngularModule, ClickOutside, DropdownMenu],
   templateUrl: './header.html',
 })
 export class Header {
-  readonly EqualIcon = EqualIcon;
-  readonly SunIcon = SunIcon;
-  readonly MoonIcon = MoonIcon;
   isOpen = signal(false);
 
   toggleOpen() {
@@ -20,4 +18,8 @@ export class Header {
   closeMenu() {
     this.isOpen.set(false);
   }
+
+  readonly EqualIcon = EqualIcon;
+  readonly SunIcon = SunIcon;
+  readonly MoonIcon = MoonIcon;
 }

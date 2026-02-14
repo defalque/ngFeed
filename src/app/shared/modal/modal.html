@@ -7,6 +7,7 @@
     [class.opacity-100]="isVisible()"
     [class.opacity-0]="!isVisible()"
     [class.pointer-events-none]="!isVisible()"
+    (transitionend)="onTransitionEnd()"
     [inert]="!isVisible()"
   >
     <div

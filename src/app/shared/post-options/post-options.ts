@@ -10,10 +10,11 @@ import {
   TrashIcon,
 } from 'lucide-angular';
 import { ModalService } from '../modal/modal.service';
+import { DropdownMenu } from '../dropdown-menu/dropdown-menu';
 
 @Component({
   selector: 'app-post-options',
-  imports: [ClickOutside, LucideAngularModule],
+  imports: [ClickOutside, LucideAngularModule, DropdownMenu],
   templateUrl: './post-options.html',
   styleUrl: './post-options.css',
 })

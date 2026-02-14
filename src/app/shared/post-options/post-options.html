@@ -16,18 +16,10 @@
     <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
   </button>
 
-  <div
-    class="absolute top-full {{
-      isCurrentUserPost() ? 'w-46' : 'w-56'
-    }} font-semibold right-0 bg-white shadow-lg rounded-lg p-1.5 border border-gray-200 space-y-2 transition-transform duration-150 ease-out origin-top-right"
-    [class.opacity-100]="isOptionsOpen()"
-    [class.scale-100]="isOptionsOpen()"
-    [class.opacity-0]="!isOptionsOpen()"
-    [class.scale-85]="!isOptionsOpen()"
-    [class.-z-10]="!isOptionsOpen()"
-    [class.z-30]="isOptionsOpen()"
-    [inert]="!isOptionsOpen()"
-    [attr.aria-hidden]="!isOptionsOpen()"
+  <app-dropdown-menu
+    [isOpen]="isOptionsOpen()"
+    usedIn="post-options"
+    [isCurrentUserPost]="isCurrentUserPost()"
   >
     @if (!isCurrentUserPost()) {
       <button
@@ -74,5 +66,5 @@
         <lucide-icon [img]="TrashIcon" size="20" class="text-red-500!" aria-hidden></lucide-icon>
       </button>
     }
-  </div>
+  </app-dropdown-menu>
 </div>

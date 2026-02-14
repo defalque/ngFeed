@@ -34,5 +34,11 @@ export class Modal {
     });
   }
 
+  onTransitionEnd() {
+    if (!this.isVisible()) {
+      this.isRendered.set(false);
+    }
+  }
+
   readonly XIcon = XIcon;
 }

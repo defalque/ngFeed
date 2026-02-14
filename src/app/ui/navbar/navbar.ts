@@ -15,10 +15,11 @@ import {
   PlusIcon,
 } from 'lucide-angular';
 import { NavbarItem } from './navbar-item/navbar-item';
+import { DropdownMenu } from '@/shared/dropdown-menu/dropdown-menu';
 
 @Component({
   selector: 'app-navbar',
-  imports: [LucideAngularModule, ClickOutside, NavbarItem],
+  imports: [LucideAngularModule, ClickOutside, NavbarItem, DropdownMenu],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
