@@ -1,0 +1,116 @@
+@if (type() === 'for-you') {
+  <a
+    [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
+    class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
+  >
+    <img
+      [src]="post().userAvatar || '/assets/images/avatar.png'"
+      [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
+      class="rounded-full w-9 h-9 col-span-1"
+    />
+
+    <div class="flex items-center gap-2 col-span-1">
+      <a
+        [routerLink]="'/utente/' + post().userId"
+        class="text-base font-semibold hover:underline focus"
+        >{{ post().userUsername }}</a
+      >
+
+      @if (post().userIsVerified) {
+        <app-verified-icon size="size-4" />
+      }
+    </div>
+
+    <app-post-options
+      [id]="post().id"
+      [isCurrentUserPost]="false"
+      [isOptionsOpen]="currentOptionsOpen() === post().id"
+      (openOptions)="setCurrentOptionsOpen(post().id)"
+      (closeOptions)="setCurrentOptionsOpen(null)"
+    />
+
+    <h2
+      class="text-base sm:text-lg font-semibold tracking-normal col-start-2 col-span-full mb-1 text-shadow-2xs shadow-zinc-800/5"
+    >
+      {{ post().title }}
+    </h2>
+    <p class="text-sm sm:text-base tracking-normal text-black/80 col-start-2 col-span-full">
+      {{ post().description }}
+    </p>
+    <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
+  </a>
+}
+@if (type() === 'user-posts') {
+  <a
+    [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
+    class="flex flex-col gap-2 items-start px-4 py-4 sm:py-6 w-full focus"
+  >
+    <div class="flex justify-between items-start w-full _items-center gap-2">
+      <h2
+        class="text-base sm:text-lg font-semibold tracking-normal text-shadow-2xs shadow-zinc-800/5"
+      >
+        {{ post().title }}
+      </h2>
+      <app-post-options
+        [id]="post().id"
+        [isCurrentUserPost]="currentUserPost()"
+        [isOptionsOpen]="currentOptionsOpen() === post().id"
+        (openOptions)="setCurrentOptionsOpen(post().id)"
+        (closeOptions)="setCurrentOptionsOpen(null)"
+      />
+    </div>
+    <p class="text-sm sm:text-base tracking-normal text-start br text-black/80 wrap-anywhere">
+      {{ post().content }}
+    </p>
+    <div class="flex items-center gap-2">
+      <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
+    </div>
+  </a>
+}
+@if (type() === 'full-post') {
+  <div class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible">
+    <img
+      [src]="post().userAvatar || '/assets/images/avatar.png'"
+      [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
+      class="rounded-full w-9 h-9 col-span-1"
+    />
+
+    <div class="flex items-center gap-2 col-span-1">
+      <a
+        [routerLink]="'/utente/' + post().userId"
+        class="text-base font-semibold hover:underline focus"
+        >{{ post().userUsername }}</a
+      >
+
+      @if (post().userIsVerified) {
+        <app-verified-icon size="size-4" />
+      }
+    </div>
+
+    <app-post-options
+      [id]="post().id"
+      [isCurrentUserPost]="currentUserPost()"
+      [isOptionsOpen]="currentOptionsOpen() === post().id"
+      (openOptions)="setCurrentOptionsOpen(post().id)"
+      (closeOptions)="setCurrentOptionsOpen(null)"
+    />
+
+    <h2
+      class="text-lg sm:text-xl text-left font-semibold tracking-normal col-start-2 col-span-full text-shadow-2xs shadow-zinc-800/5"
+    >
+      {{ post().title }}
+    </h2>
+    <h3
+      class="text-base sm:text-lg text-left font-semibold tracking-normal text-black/80 col-start-2 col-span-full"
+    >
+      {{ post().description }}
+    </h3>
+    <p
+      class="text-sm sm:text-base text-left tracking-normal text-black/80 col-start-2 col-span-full wrap-anywhere"
+    >
+      {{ post().content }}
+    </p>
+
+    <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
+  </div>
+}

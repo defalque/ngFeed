@@ -26,13 +26,13 @@
     >
       @switch (dialogState().mode) {
         @case ('create') {
-          <app-new-feed />
+          <app-post-form />
         }
         @case ('edit') {
-          <app-new-feed />
+          <app-post-form />
         }
-        @case ('update') {
-          <app-update />
+        @case ('edit-user') {
+          <app-edit-user />
         }
         @case ('delete') {
           <app-delete-post />

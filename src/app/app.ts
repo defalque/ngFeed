@@ -1,20 +1,29 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LucideAngularModule, HouseIcon, UserIcon, SearchIcon, HeartIcon } from 'lucide-angular';
-import { Navbar } from './ui/navbar/navbar';
-import { Header } from './ui/header/header';
-import { UserService } from './user.service';
+import { Navbar } from './core/layout/navbar/navbar';
+import { Header } from './core/layout/header/header';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
-import { Modal } from './shared/modal/modal';
-import { ModalService } from './shared/modal/modal.service';
-import { Update } from './account/update/update';
-import { NewFeed } from './account/new-feed/new-feed';
-import { DeletePost } from './account/delete-post/delete-post';
+import { Modal } from './shared/components/modal/modal';
+import { ModalService } from './core/services/modal.service';
+import { DeletePost } from './features/user/delete-post/delete-post';
+import { UserService } from './core/services/user.service';
+import { PostForm } from './features/posts/post-form/post-form';
+import { EditUser } from './features/user/edit-user/edit-user';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LucideAngularModule, Navbar, Header, Modal, Update, NewFeed, DeletePost],
+  imports: [
+    RouterOutlet,
+    LucideAngularModule,
+    Navbar,
+    Header,
+    Modal,
+    PostForm,
+    DeletePost,
+    EditUser,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -34,7 +43,7 @@ export class App implements OnInit {
         return 'Nuovo post';
       case 'edit':
         return 'Modifica post';
-      case 'update':
+      case 'edit-user':
         return 'Modifica Profilo';
       case 'delete':
         return 'Elimina post';
@@ -50,7 +59,7 @@ export class App implements OnInit {
   isOpen() {
     return (
       this.dialogState().active &&
-      ['create', 'edit', 'update', 'delete'].includes(this.dialogState().mode)
+      ['create', 'edit', 'edit-user', 'delete'].includes(this.dialogState().mode)
     );
   }
 
