@@ -1,22 +1,24 @@
 <div class="flex flex-col px-5 sm:px-6 pb-4 gap-y-3">
-  <h2 class="text-base sm:text-lg font-medium mt-2">
+  <h2 class="text-base sm:text-lg font-medium mt-2 text-center sm:text-left">
     Sei sicuro di voler eliminare questo post "{{ postTitle() }}"?
   </h2>
-  <p class="text-sm sm:text-base">
+  <p class="text-sm sm:text-base text-center sm:text-left text-black/70">
     Questa è una operazione irreversibile. Dopo la conferma non sarà possibile effettuare il
     ripristino.
   </p>
-  <div class="flex items-center justify-end gap-4 mt-4">
+  <div
+    class="flex items-center sm:justify-end flex-col-reverse justify-center sm:flex-row gap-4 mt-4"
+  >
     <button
       type="button"
       (click)="closeModal()"
-      class="bg-gray-100 hover:bg-gray-200 text-black/70 cursor-pointer duration-300 px-4 py-2 text-base sm:text-lg rounded-md font-bold focus-button transition-colors"
+      class="bg-gray-100 hover:bg-gray-200 w-full sm:w-auto text-black/70 cursor-pointer duration-300 px-4 py-2 text-base sm:text-lg rounded-md font-bold focus-button transition-colors"
     >
       Annulla
     </button>
     <button
       type="button"
-      class="bg-red-500 hover:bg-red-600 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-md font-bold text-shadow-xs focus-button"
+      class="bg-red-500 hover:bg-red-600 w-full sm:w-auto cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-md font-bold text-shadow-xs focus-button"
     >
       Conferma
     </button>

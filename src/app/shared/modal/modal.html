@@ -1,12 +1,10 @@
 <div
-  class="fixed inset-0 bg-black/15 flex sm:items-center justify-center transition-opacity duration-150 ease-out"
+  class="fixed inset-0 bg-black/20 z-2000 flex sm:items-center justify-center transition-opacity duration-150 origin-bottom ease-out"
   [class]="{
     'items-end': !isAlert(),
   }"
   [class.opacity-100]="isOpen()"
   [class.opacity-0]="!isOpen()"
-  [class.-z-10]="!isOpen()"
-  [class.z-1000]="isOpen()"
   [class.pointer-events-none]="!isOpen()"
   [inert]="!isOpen()"
 >
@@ -19,25 +17,27 @@
     appClickOutsideDropdown
     [clickOutsideEnabled]="isOpen()"
     (onClickOutside)="toggleFn.emit()"
-    class="w-full sm:w-xl max-h-[95vh] overflow-y-auto border border-gray-300 _p-3 bg-white transition-transform ease-out origin-bottom sm:rounded-2xl animate-slideUp sm:animate-none duration-300 sm:duration-150"
+    class="sm:w-xl max-h-[95vh] overflow-y-auto rounded-t-2xl border border-gray-400/70 bg-white transition-transform ease-out origin-bottom sm:rounded-2xl animate-slideUp sm:animate-none sm:duration-150"
     [class]="{
-      'md:scale-90 md:opacity-0': !isOpen(),
-      'md:scale-100 md:opacity-100': isOpen(),
+      'sm:translate-y-0': !isOpen() && !isAlert(),
+      'w-86': isAlert(),
+      'w-full': !isAlert(),
+      'duration-150': isAlert(),
+      'duration-300': !isAlert(),
     }"
     [class.translate-y-full]="!isOpen() && !isAlert()"
-    [class.sm:translate-y-0]="!isOpen() && !isAlert()"
-    [class.md:scale-90]="!isOpen()"
-    [class.md:opacity-0]="!isOpen()"
     [class.pointer-events-none]="!isOpen()"
-    [class.rounded-t-2xl]="!isAlert()"
     [class.rounded-2xl]="isAlert()"
     [class.self-center]="isAlert()"
-    [class.opacity-100]="isOpen()"
-    [class.scale-100]="isOpen()"
-    [class.opacity-0]="!isOpen()"
-    [class.scale-85]="!isOpen()"
-    [class.-z-10]="!isOpen()"
-    [class.z-1000]="isOpen()"
+    [class.md:opacity-100]="isOpen()"
+    [class.md:scale-100]="isOpen()"
+    [class.md:opacity-0]="!isOpen()"
+    [class.md:scale-85]="!isOpen()"
+    [class.opacity-100]="isOpen() && isAlert()"
+    [class.scale-100]="isOpen() && isAlert()"
+    [class.opacity-0]="!isOpen() && isAlert()"
+    [class.scale-85]="!isOpen() && isAlert()"
+    [class.pointer-events-none]="!isOpen()"
     [inert]="!isOpen()"
   >
     <div class="bg-white sticky top-0 p-4">
@@ -54,6 +54,8 @@
       <h2 class="font-semibold text-center">{{ title() }}</h2>
     </div>
 
-    <ng-content></ng-content>
+    <div class="sm:max-h-[80vh] max-h-[95vh] overflow-y-auto">
+      <ng-content></ng-content>
+    </div>
   </div>
 </div>

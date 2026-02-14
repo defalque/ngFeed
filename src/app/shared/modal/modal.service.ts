@@ -4,7 +4,11 @@ import { effect, Injectable, signal } from '@angular/core';
 export class ModalService {
   constructor() {
     effect(() => {
-      if (this.isCreateNewPostFormOpen().active || this.isUpdateProfileOpen()) {
+      if (
+        this.isCreateNewPostFormOpen().active ||
+        this.isUpdateProfileOpen() ||
+        this.isDeletePostDialogOpen().active
+      ) {
         document.body.classList.add('modal-open');
       } else {
         document.body.classList.remove('modal-open');
