@@ -12,12 +12,10 @@ export class DeletePost {
   private postService = inject(PostService);
   private modalService = inject(ModalService);
 
-  closeModal = this.modalService.closeDeletePostDialog;
+  closeModal = this.modalService.closeDialog;
 
   postTitle = computed(() => {
-    const { postId } = this.modalService.isDeletePostDialogOpen();
-    return (
-      this.postService.loadedCurrentUserPosts().find((post) => post.id === postId)?.title || ''
-    );
+    const { id } = this.modalService.dialogState();
+    return this.postService.loadedCurrentUserPosts().find((post) => post.id === id)?.title || '';
   });
 }

@@ -30,12 +30,14 @@ export class NewFeed {
 
   private destroyRef = inject(DestroyRef);
 
-  post = computed(() => {
-    const { mode, postId } = this.modalService.isCreateNewPostFormOpen();
+  openDialog = this.modalService.openDialog;
 
-    if (mode === 'update') {
+  post = computed(() => {
+    const { mode, id } = this.modalService.dialogState();
+
+    if (mode === 'edit') {
       return (
-        this.postService.loadedCurrentUserPosts().find((p) => p.id === postId) || {
+        this.postService.loadedCurrentUserPosts().find((p) => p.id === id) || {
           title: '',
           description: '',
           content: '',
@@ -48,7 +50,7 @@ export class NewFeed {
     return { title: '', description: '', content: '' };
   });
 
-  mode = computed(() => this.modalService.isCreateNewPostFormOpen().mode);
+  mode = computed(() => this.modalService.dialogState().mode);
 
   private addPost(post: FirebasePost) {
     return this.postService.createPost(post).pipe(
@@ -58,12 +60,10 @@ export class NewFeed {
   }
 
   private editPost(editedPost: FirebasePost) {
-    return this.postService
-      .updatePost(this.modalService.isCreateNewPostFormOpen().postId!, editedPost)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isWorking.set(false)),
-      );
+    return this.postService.updatePost(this.modalService.dialogState().id!, editedPost).pipe(
+      takeUntilDestroyed(this.destroyRef),
+      finalize(() => this.isWorking.set(false)),
+    );
   }
 
   isWorking = signal(false);
@@ -91,7 +91,7 @@ export class NewFeed {
       this.addPost(newPost).subscribe({
         next: () => {
           formData.form.reset();
-          this.modalService.closeCreateNewPost();
+          this.modalService.closeDialog();
         },
         error: (err) => {
           console.error('Errore durante la creazione del post', err);
@@ -101,7 +101,7 @@ export class NewFeed {
       this.editPost(newPost).subscribe({
         next: () => {
           formData.form.reset();
-          this.modalService.closeCreateNewPost();
+          this.modalService.closeDialog();
         },
         error: (err) => {
           console.error('Errore durante la modifica del post', err);

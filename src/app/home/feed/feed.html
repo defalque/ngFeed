@@ -36,10 +36,12 @@
       <p class="text-xl text-center font-semibold text-zinc-400">Nessun feed al momento</p>
     </div>
   } @else {
-    @for (feed of posts(); track feed.id) {
-      <ul>
-        <app-feed-post type="feed" [post]="feed" [currentUserPost]="false" />
-      </ul>
-    }
+    <ul class="divide-y divide-gray-200">
+      @for (feed of posts(); track feed.id) {
+        <li>
+          <app-feed-post type="feed" [post]="feed" [currentUserPost]="false" />
+        </li>
+      }
+    </ul>
   }
 </div>

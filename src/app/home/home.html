@@ -22,9 +22,9 @@
       class="flex items-center gap-2 flex-1"
       role="button"
       tabindex="0"
-      (click)="openCreateNewPostForm('create', null)"
-      (keydown.enter)="openCreateNewPostForm('create', null)"
-      (keydown.space)="openCreateNewPostForm('create', null)"
+      (click)="openDialog('create', null)"
+      (keydown.enter)="openDialog('create', null)"
+      (keydown.space)="openDialog('create', null)"
     >
       <img
         [src]="'/assets/images/avatar.png'"

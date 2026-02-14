@@ -58,7 +58,7 @@
       </button>
     } @else {
       <button
-        (click)="openPost($event)"
+        (click)="openEditPostDialog($event)"
         class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
         [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
       >

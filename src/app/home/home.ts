@@ -10,5 +10,5 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class Home {
   private modal = inject(ModalService);
-  openCreateNewPostForm = this.modal.openCreateNewPost;
+  openDialog = this.modal.openDialog;
 }

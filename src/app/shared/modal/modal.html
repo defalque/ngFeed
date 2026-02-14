@@ -1,61 +1,64 @@
-<div
-  class="fixed inset-0 bg-black/20 z-2000 flex sm:items-center justify-center transition-opacity duration-150 origin-bottom ease-out"
-  [class]="{
-    'items-end': !isAlert(),
-  }"
-  [class.opacity-100]="isOpen()"
-  [class.opacity-0]="!isOpen()"
-  [class.pointer-events-none]="!isOpen()"
-  [inert]="!isOpen()"
->
+@if (isRendered()) {
   <div
-    [attr.role]="isAlert() ? 'alertdialog' : 'dialog'"
-    aria-modal="true"
-    [aria-label]="title()"
-    [cdkTrapFocus]="isOpen()"
-    [cdkTrapFocusAutoCapture]="isOpen()"
-    appClickOutsideDropdown
-    [clickOutsideEnabled]="isOpen()"
-    (onClickOutside)="toggleFn.emit()"
-    class="sm:w-xl max-h-[95vh] overflow-y-auto rounded-t-2xl border border-gray-400/70 bg-white transition-transform ease-out origin-bottom sm:rounded-2xl animate-slideUp sm:animate-none sm:duration-150"
+    class="fixed inset-0 bg-black/20 z-2000 flex sm:items-center justify-center transition-opacity duration-150 origin-bottom ease-out"
     [class]="{
-      'sm:translate-y-0': !isOpen() && !isAlert(),
-      'w-86': isAlert(),
-      'w-full': !isAlert(),
-      'duration-150': isAlert(),
-      'duration-300': !isAlert(),
+      'items-end': !isAlert(),
     }"
-    [class.translate-y-full]="!isOpen() && !isAlert()"
-    [class.pointer-events-none]="!isOpen()"
-    [class.rounded-2xl]="isAlert()"
-    [class.self-center]="isAlert()"
-    [class.md:opacity-100]="isOpen()"
-    [class.md:scale-100]="isOpen()"
-    [class.md:opacity-0]="!isOpen()"
-    [class.md:scale-85]="!isOpen()"
-    [class.opacity-100]="isOpen() && isAlert()"
-    [class.scale-100]="isOpen() && isAlert()"
-    [class.opacity-0]="!isOpen() && isAlert()"
-    [class.scale-85]="!isOpen() && isAlert()"
-    [class.pointer-events-none]="!isOpen()"
-    [inert]="!isOpen()"
+    [class.opacity-100]="isVisible()"
+    [class.opacity-0]="!isVisible()"
+    [class.pointer-events-none]="!isVisible()"
+    (transitionend)="onTransitionEnd()"
+    [inert]="!isVisible()"
   >
-    <div class="bg-white sticky top-0 p-4">
-      <button
-        aria-label="Chiudi modale"
-        cdkFocusRegionStart
-        cdkFocusInitial
-        (click)="toggleFn.emit()"
-        class="absolute top-1/2 -translate-y-1/2 right-2.5 p-2 rounded-full hover:bg-gray-100/55 active:scale-[0.88] cursor-pointer transition-transform"
-      >
-        <lucide-icon [img]="XIcon" size="18" aria-hidden></lucide-icon>
-      </button>
+    <div
+      [attr.role]="isAlert() ? 'alertdialog' : 'dialog'"
+      aria-modal="true"
+      [aria-label]="title()"
+      [cdkTrapFocus]="isVisible()"
+      [cdkTrapFocusAutoCapture]="isVisible()"
+      appClickOutsideDropdown
+      [clickOutsideEnabled]="isVisible()"
+      (onClickOutside)="toggleFn.emit()"
+      class="sm:w-xl max-h-[95vh] overflow-y-auto rounded-t-2xl border border-gray-400/70 bg-white transition-transform ease-out origin-bottom sm:rounded-2xl animate-slideUp sm:animate-none sm:duration-150"
+      [class]="{
+        'sm:translate-y-0': !isVisible() && !isAlert(),
+        'w-86': isAlert(),
+        'w-full': !isAlert(),
+        'duration-150': isAlert(),
+        'duration-300': !isAlert(),
+      }"
+      [class.translate-y-full]="!isVisible() && !isAlert()"
+      [class.pointer-events-none]="!isVisible()"
+      [class.rounded-2xl]="isAlert()"
+      [class.self-center]="isAlert()"
+      [class.md:opacity-100]="isVisible()"
+      [class.md:scale-100]="isVisible()"
+      [class.md:opacity-0]="!isVisible()"
+      [class.md:scale-85]="!isVisible()"
+      [class.opacity-100]="isVisible() && isAlert()"
+      [class.scale-100]="isVisible() && isAlert()"
+      [class.opacity-0]="!isVisible() && isAlert()"
+      [class.scale-85]="!isVisible() && isAlert()"
+      [class.pointer-events-none]="!isVisible()"
+      [inert]="!isVisible()"
+    >
+      <div class="bg-white sticky top-0 p-4">
+        <button
+          aria-label="Chiudi modale"
+          cdkFocusRegionStart
+          cdkFocusInitial
+          (click)="toggleFn.emit()"
+          class="absolute top-1/2 -translate-y-1/2 right-2.5 p-2 rounded-full hover:bg-gray-100/55 active:scale-[0.88] cursor-pointer transition-transform"
+        >
+          <lucide-icon [img]="XIcon" size="18" aria-hidden></lucide-icon>
+        </button>
 
-      <h2 class="font-semibold text-center">{{ title() }}</h2>
-    </div>
+        <h2 class="font-semibold text-center">{{ title() }}</h2>
+      </div>
 
-    <div class="sm:max-h-[80vh] max-h-[95vh] overflow-y-auto">
-      <ng-content></ng-content>
+      <div class="sm:max-h-[80vh] max-h-[95vh] overflow-y-auto">
+        <ng-content></ng-content>
+      </div>
     </div>
   </div>
-</div>
+}

@@ -1,14 +1,12 @@
 import { effect, Injectable, signal } from '@angular/core';
 
+type DialogMode = 'create' | 'edit' | 'delete' | 'update' | '';
+
 @Injectable({ providedIn: 'root' })
 export class ModalService {
   constructor() {
     effect(() => {
-      if (
-        this.isCreateNewPostFormOpen().active ||
-        this.isUpdateProfileOpen() ||
-        this.isDeletePostDialogOpen().active
-      ) {
+      if (this.dialogState().active) {
         document.body.classList.add('modal-open');
       } else {
         document.body.classList.remove('modal-open');
@@ -16,59 +14,26 @@ export class ModalService {
     });
   }
 
-  isDeletePostDialogOpen = signal<{ active: boolean; postId: string | null }>({
-    active: false,
-    postId: '',
-  });
-  isUpdateProfileOpen = signal(false);
-  isCreateNewPostFormOpen = signal<{
+  dialogState = signal<{
     active: boolean;
-    mode: 'create' | 'update' | '';
-    postId: string | null;
+    mode: DialogMode;
+    id: string | null;
   }>({
     active: false,
-    mode: 'create',
-    postId: null,
+    mode: '',
+    id: null,
   });
 
-  openDeletePostDialog = (postId: string | null) => {
-    console.log(postId);
-    this.isDeletePostDialogOpen.set({ active: true, postId });
+  openDialog = (mode: DialogMode, id: string | null) => {
+    this.dialogState.set({ active: true, mode, id });
   };
 
-  closeDeletePostDialog = () => {
-    this.isDeletePostDialogOpen.set({ active: false, postId: null });
+  closeDialog = () => {
+    this.dialogState.set({ active: false, mode: '', id: null });
   };
 
-  togglDeletePostDialog = () => {
-    this.isDeletePostDialogOpen.update((v) => ({
-      ...v,
-      active: !v.active,
-    }));
-  };
-
-  openUpdateProfile = () => {
-    this.isUpdateProfileOpen.set(true);
-  };
-
-  closeUpdateProfile = () => {
-    this.isUpdateProfileOpen.set(false);
-  };
-
-  toggleUpdateProfile = () => {
-    this.isUpdateProfileOpen.update((v) => !v);
-  };
-
-  openCreateNewPost = (mode: 'create' | 'update', postId: string | null) => {
-    this.isCreateNewPostFormOpen.set({ active: true, mode, postId });
-  };
-
-  closeCreateNewPost = () => {
-    this.isCreateNewPostFormOpen.set({ active: false, mode: '', postId: null });
-  };
-
-  toggleCreateNewPost = () => {
-    this.isCreateNewPostFormOpen.update((v) => ({
+  toggleDialog = () => {
+    this.dialogState.update((v) => ({
       ...v,
       active: !v.active,
     }));

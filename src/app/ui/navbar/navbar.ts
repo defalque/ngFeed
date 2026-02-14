@@ -37,7 +37,8 @@ export class Navbar {
   currentUser = this.userService.loadedCurrentUser;
 
   private modal = inject(ModalService);
-  openCreateNewPostForm = this.modal.openCreateNewPost;
+  // openCreateNewPostForm = this.modal.openCreateNewPost;
+  openDialog = this.modal.openDialog;
 
   isOpen = signal(false);
 

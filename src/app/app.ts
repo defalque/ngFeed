@@ -19,22 +19,40 @@ import { DeletePost } from './account/delete-post/delete-post';
   styleUrl: './app.css',
 })
 export class App implements OnInit {
-  readonly HomeIcon = HouseIcon;
-  readonly SearchIcon = SearchIcon;
-  readonly HeartIcon = HeartIcon;
-  readonly UserIcon = UserIcon;
-
   private userService = inject(UserService);
-  isFetching = signal(false);
+  private modalService = inject(ModalService);
   private destroyRef = inject(DestroyRef);
 
-  private modal = inject(ModalService);
-  isUpdateProfileFormOpen = this.modal.isUpdateProfileOpen;
-  toggleUpdateProfileForm = this.modal.closeUpdateProfile;
-  isCreateNewPostFormOpen = this.modal.isCreateNewPostFormOpen;
-  toggleCreateNewPostForm = this.modal.closeCreateNewPost;
-  isDeletePostDialogOpen = this.modal.isDeletePostDialogOpen;
-  toggleDeletePostDialog = this.modal.closeDeletePostDialog;
+  isFetching = signal(false);
+
+  dialogState = this.modalService.dialogState;
+  toggleDialog = this.modalService.toggleDialog;
+
+  currentTitle() {
+    switch (this.dialogState().mode) {
+      case 'create':
+        return 'Nuovo post';
+      case 'edit':
+        return 'Modifica post';
+      case 'update':
+        return 'Modifica Profilo';
+      case 'delete':
+        return 'Elimina post';
+      default:
+        return '';
+    }
+  }
+
+  isAlert() {
+    return this.dialogState().mode === 'delete';
+  }
+
+  isOpen() {
+    return (
+      this.dialogState().active &&
+      ['create', 'edit', 'update', 'delete'].includes(this.dialogState().mode)
+    );
+  }
 
   ngOnInit(): void {
     this.isFetching.set(true);
@@ -48,4 +66,9 @@ export class App implements OnInit {
         error: (err) => console.error('Errore nel caricamento utente', err),
       });
   }
+
+  readonly HomeIcon = HouseIcon;
+  readonly SearchIcon = SearchIcon;
+  readonly HeartIcon = HeartIcon;
+  readonly UserIcon = UserIcon;
 }

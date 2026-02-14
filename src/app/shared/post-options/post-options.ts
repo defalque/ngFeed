@@ -27,6 +27,8 @@ export class PostOptions {
   openOptions = output<void>();
   closeOptions = output<void>();
 
+  openDialog = this.modal.openDialog;
+
   private onOptionsClick(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
@@ -48,11 +50,11 @@ export class PostOptions {
     }
   }
 
-  openPost(event: MouseEvent) {
+  openEditPostDialog(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.toggleOptionsOpen();
-    this.modal.openCreateNewPost('update', this.id());
+    this.openDialog('edit', this.id());
   }
 
   openDeletePostDialog(event: MouseEvent) {
@@ -60,7 +62,7 @@ export class PostOptions {
     event.stopPropagation();
     this.toggleOptionsOpen();
     console.log(this.id());
-    this.modal.openDeletePostDialog(this.id());
+    this.openDialog('delete', this.id());
   }
 
   readonly EllipsisIcon = EllipsisIcon;

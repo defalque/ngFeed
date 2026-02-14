@@ -38,10 +38,12 @@
       </p>
     </div>
   } @else {
-    @for (feed of loadedUserPosts(); track feed.id) {
-      <ul class="py-1">
-        <app-feed-post type="your-feed" [post]="feed" [currentUserPost]="isCurrentUserPosts()" />
-      </ul>
-    }
+    <ul class="py-1 divide-y divide-gray-200">
+      @for (feed of loadedUserPosts(); track feed.id) {
+        <li>
+          <app-feed-post type="your-feed" [post]="feed" [currentUserPost]="isCurrentUserPosts()" />
+        </li>
+      }
+    </ul>
   }
 </div>

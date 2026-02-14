@@ -7,13 +7,7 @@
       <span class="text-5xl font-bold">ngFeed</span>
     </div>
   } @else {
-    <div
-      [inert]="
-        isUpdateProfileFormOpen() ||
-        isCreateNewPostFormOpen().active ||
-        isDeletePostDialogOpen().active
-      "
-    >
+    <div [inert]="dialogState().active">
       <app-header />
       <app-navbar />
 
@@ -25,28 +19,25 @@
     </div>
 
     <app-modal
-      [title]="isCreateNewPostFormOpen().mode === 'create' ? 'Nuovo post' : 'Modifica post'"
-      [isOpen]="isCreateNewPostFormOpen().active"
-      (toggleFn)="toggleCreateNewPostForm()"
+      [title]="currentTitle()"
+      [isAlert]="isAlert()"
+      [isOpen]="isOpen()"
+      (toggleFn)="toggleDialog()"
     >
-      <app-new-feed />
-    </app-modal>
-
-    <app-modal
-      [title]="'Modifica Profilo'"
-      [isOpen]="isUpdateProfileFormOpen()"
-      (toggleFn)="toggleUpdateProfileForm()"
-    >
-      <app-update />
-    </app-modal>
-
-    <app-modal
-      [title]="'Elimina post'"
-      [isAlert]="true"
-      [isOpen]="isDeletePostDialogOpen().active"
-      (toggleFn)="toggleDeletePostDialog()"
-    >
-      <app-delete-post />
+      @switch (dialogState().mode) {
+        @case ('create') {
+          <app-new-feed />
+        }
+        @case ('edit') {
+          <app-new-feed />
+        }
+        @case ('update') {
+          <app-update />
+        }
+        @case ('delete') {
+          <app-delete-post />
+        }
+      }
     </app-modal>
 
     <!-- <footer class="w-full flex items-center justify-center p-4 max-w-3xl mx-auto mt-auto">

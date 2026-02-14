@@ -45,6 +45,8 @@ export class Account implements OnInit {
   user = this.userService.user;
   isFetching = signal(false);
 
+  openDialog = this.modal.openDialog;
+
   constructor() {
     effect(() => {
       const userData = this.user();
@@ -91,9 +93,9 @@ export class Account implements OnInit {
     return this.userId() === this.currentUser()?.id;
   }
 
-  openUpdateProfile() {
-    this.modal.openUpdateProfile();
-  }
+  // openUpdateProfile() {
+  //   this.modal.openUpdateProfile();
+  // }
 
   readonly EllipsisIcon = EllipsisIcon;
   readonly HeartIcon = HeartIcon;
