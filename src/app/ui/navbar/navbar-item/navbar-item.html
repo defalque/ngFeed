@@ -1,0 +1,11 @@
+<a
+  [routerLink]="link()"
+  class="text-zinc-400/80 w-full flex items-center justify-center rounded-xl md:px-5 md:py-3 py-3 cursor-pointer _block focus transition-transform active:scale-[0.92] relative z-10 group"
+  [class.active]="isActive()"
+  [aria-label]="ariaLabel()"
+>
+  <div
+    class="bg-gray-100/55 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
+  ></div>
+  <lucide-icon [img]="icon()" size="28" aria-hidden="true"></lucide-icon>
+</a>

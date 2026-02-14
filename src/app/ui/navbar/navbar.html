@@ -11,32 +11,16 @@
     <ul
       class="flex md:flex-col items-center justify-around md:justify-center gap-2 md:gap-1 w-full flex-1"
     >
-      <li class="py-1 flex-1 md:flex-none">
-        <a
-          routerLink="/per-te"
-          class="text-zinc-400/80 w-full flex items-center justify-center rounded-xl md:px-5 md:py-3 py-3 cursor-pointer _block focus transition-transform active:scale-[0.92] relative z-10 group"
-          [class.active]="isHomeActive()"
-          aria-label="Home"
-        >
-          <div
-            class="bg-gray-100/55 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
-          ></div>
-          <lucide-icon [img]="HomeIcon" size="28" aria-hidden></lucide-icon>
-        </a>
-      </li>
-      <li class="py-1 flex-1 md:flex-none">
-        <a
-          routerLink="/cerca"
-          routerLinkActive="active"
-          class="text-zinc-400/80 w-full rounded-xl md:px-5 md:py-3 py-3 cursor-pointer flex items-center justify-center focus transition-transform active:scale-[0.92] relative z-10 group"
-          aria-label="Cerca"
-        >
-          <div
-            class="bg-gray-100/55 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
-          ></div>
-          <lucide-icon [img]="SearchIcon" size="28" aria-hidden></lucide-icon>
-        </a>
-      </li>
+      <li
+        appNavbarItem
+        link="/per-te"
+        [isActive]="isHomeActive()"
+        ariaLabel="Home"
+        [icon]="HomeIcon"
+      ></li>
+
+      <li appNavbarItem link="/cerca" ariaLabel="Cerca" [icon]="SearchIcon"></li>
+
       <li class="py-1 flex-1 md:flex-none">
         <button
           (click)="openDialog('create', null)"
@@ -46,32 +30,15 @@
           <lucide-icon [img]="PlusIcon" size="28" aria-hidden></lucide-icon>
         </button>
       </li>
-      <li class="py-1 flex-1 md:flex-none">
-        <a
-          routerLink="/preferiti"
-          routerLinkActive="active"
-          class="text-zinc-400/80 w-full rounded-xl md:px-5 md:py-3 py-3 cursor-pointer flex items-center justify-center focus transition-transform active:scale-[0.92] relative z-10 group"
-          aria-label="Preferiti"
-        >
-          <div
-            class="bg-gray-100/55 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
-          ></div>
-          <lucide-icon [img]="HeartIcon" size="28" aria-hidden></lucide-icon>
-        </a>
-      </li>
-      <li class="py-1 flex-1 md:flex-none">
-        <a
-          [routerLink]="'utente/' + currentUser()?.id"
-          routerLinkActive="active"
-          class="text-zinc-400/80 w-full rounded-xl md:px-5 md:py-3 py-3 cursor-pointer flex items-center justify-center focus transition-transform active:scale-[0.92] relative z-10 group"
-          aria-label="Profilo"
-        >
-          <div
-            class="bg-gray-100/55 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
-          ></div>
-          <lucide-icon [img]="UserIcon" size="28" aria-hidden></lucide-icon>
-        </a>
-      </li>
+
+      <li appNavbarItem link="/preferiti" ariaLabel="Preferiti" [icon]="HeartIcon"></li>
+
+      <li
+        appNavbarItem
+        [link]="'utente/' + currentUser()?.id"
+        ariaLabel="Profilo"
+        [icon]="UserIcon"
+      ></li>
     </ul>
   </div>
 
