@@ -2,11 +2,21 @@ import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { FocusField } from '@/shared/directives/focus-field.directive';
 import { ModalService } from '@/core/services/modal.service';
 import { FormsModule, NgForm } from '@angular/forms';
-import { FirebasePost } from '@/core/types/post.model';
+import {
+  EditedPost,
+  editPostFormSchema,
+  FirebasePost,
+  NewPost,
+  newPostFormSchema,
+  postSchema,
+} from '@/core/types/post.model';
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostService } from '@/core/services/post.service';
 import { UserService } from '@/core/services/user.service';
+import z from 'zod';
+
+type NewPostFormErrors = ReturnType<typeof z.treeifyError<typeof newPostFormSchema>>;
 
 @Component({
   selector: 'app-post-form',
@@ -43,42 +53,38 @@ export class PostForm {
 
   mode = computed(() => this.modalService.dialogState().mode);
 
-  private addPost(post: FirebasePost) {
-    return this.postService.createPost(post).pipe(
-      takeUntilDestroyed(this.destroyRef),
-      finalize(() => this.isWorking.set(false)),
-    );
-  }
-
-  private editPost(editedPost: FirebasePost) {
-    return this.postService.updatePost(this.modalService.dialogState().id!, editedPost).pipe(
-      takeUntilDestroyed(this.destroyRef),
-      finalize(() => this.isWorking.set(false)),
-    );
-  }
-
   isWorking = signal(false);
+
+  formErrors: NewPostFormErrors = { errors: [], properties: {} };
 
   onSubmit(formData: NgForm) {
     if (formData.form.invalid) return;
+    this.formErrors = { errors: [], properties: {} };
 
-    const newPost: FirebasePost = {
-      created_at: new Date().toISOString(), // aggiungere anche update_at e non modificare questo se è update mode
-      title: formData.form.value.title,
-      description: formData.form.value.description,
-      content: formData.form.value.content,
-      likesCount: this.mode() === 'create' ? 0 : this.post().likesCount!,
-      commentsCount: this.mode() === 'create' ? 0 : this.post().commentsCount!,
-      userId: this.userService.loadedCurrentUser()!.id,
-      userUsername: this.userService.loadedCurrentUser()!.username,
-      userFirstName: this.userService.loadedCurrentUser()!.firstName,
-      userLastName: this.userService.loadedCurrentUser()!.lastName,
-      userIsVerified: this.userService.loadedCurrentUser()!.isVerified,
-      userAvatar: this.userService.loadedCurrentUser()!.avatar,
-    };
+    if (this.mode() === 'create') {
+      const newPost = {
+        created_at: new Date().toISOString(),
+        title: formData.form.value.title,
+        description: formData.form.value.description,
+        content: formData.form.value.content,
+        userId: this.userService.loadedCurrentUser()!.id,
+        userUsername: this.userService.loadedCurrentUser()!.username,
+        userFirstName: this.userService.loadedCurrentUser()!.firstName,
+        userLastName: this.userService.loadedCurrentUser()!.lastName,
+        userIsVerified: this.userService.loadedCurrentUser()!.isVerified,
+        userAvatar: this.userService.loadedCurrentUser()!.avatar,
+      };
 
-    this.isWorking.set(true);
-    if (this.mode() === 'create')
+      const validationResult = newPostFormSchema.safeParse(newPost);
+
+      if (!validationResult.success) {
+        console.log(validationResult.error);
+        this.formErrors = z.treeifyError(validationResult.error);
+        console.log(this.formErrors);
+        return;
+      }
+
+      this.isWorking.set(true);
       this.addPost(newPost).subscribe({
         next: () => {
           formData.form.reset();
@@ -88,8 +94,22 @@ export class PostForm {
           console.error('Errore durante la creazione del post', err);
         },
       });
-    else
-      this.editPost(newPost).subscribe({
+    } else {
+      const editedPost = {
+        title: formData.form.value.title,
+        description: formData.form.value.description,
+        content: formData.form.value.content,
+      };
+
+      const validationResult = editPostFormSchema.safeParse(editedPost);
+
+      if (!validationResult.success) {
+        console.log(validationResult.error);
+        return;
+      }
+
+      this.isWorking.set(true);
+      this.editPost(editedPost).subscribe({
         next: () => {
           formData.form.reset();
           this.modalService.closeDialog();
@@ -98,5 +118,20 @@ export class PostForm {
           console.error('Errore durante la modifica del post', err);
         },
       });
+    }
+  }
+
+  private addPost(post: NewPost) {
+    return this.postService.createPost(post).pipe(
+      takeUntilDestroyed(this.destroyRef),
+      finalize(() => this.isWorking.set(false)),
+    );
+  }
+
+  private editPost(editedPost: EditedPost) {
+    return this.postService.updatePost(this.modalService.dialogState().id!, editedPost).pipe(
+      takeUntilDestroyed(this.destroyRef),
+      finalize(() => this.isWorking.set(false)),
+    );
   }
 }

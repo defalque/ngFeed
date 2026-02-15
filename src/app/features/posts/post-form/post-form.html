@@ -48,13 +48,13 @@
       name="content"
       class="w-full rounded-xl p-2 border border-gray-300/80 caret-black focus:outline-none disabled:cursor-not-allowed h-58 sm:h-36"
       [class.border-red-400]="content.invalid && content.touched && content.dirty"
-      [class.ring-1]="content.invalid && content.touched && content.dirty"
+      [class.ring-2]="content.invalid && content.touched && content.dirty"
       [class.ring-red-400]="content.invalid && content.touched && content.dirty"
       [class.focus:ring-2]="!(content.invalid && content.touched && content.dirty)"
       [class.focus:ring-black]="!(content.invalid && content.touched && content.dirty)"
       [ngModel]="post()!.content"
-      minlength="20"
       required
+      minlength="20"
       #content="ngModel"
       [disabled]="isWorking()"
     ></textarea>
@@ -65,7 +65,7 @@
     }
   </div>
 
-  <div class="flex flex-col items-start gap-2">
+  <!-- <div class="flex flex-col items-start gap-2">
     <label for="image">Immagine del post</label>
     <input
       type="file"
@@ -76,7 +76,7 @@
       #image="ngModel"
       [disabled]="isWorking()"
     />
-  </div>
+  </div> -->
 
   <button
     type="submit"

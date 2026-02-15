@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { catchError, delay, map, tap, throwError } from 'rxjs';
-import { FirebasePost, Post } from '@/core/types/post.model';
+import { EditedPost, FirebasePost, NewPost, Post } from '@/core/types/post.model';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -131,36 +131,46 @@ export class PostService {
     );
   }
 
-  createPost(post: FirebasePost) {
-    const oldPosts = this.currentUserPosts();
+  createPost(post: NewPost) {
+    // const oldPosts = this.currentUserPosts();
 
-    // 1. Creiamo un oggetto "temporaneo" con un ID fittizio per la UI
-    const tempId = Date.now().toString(); // O un UUID
-    const tempPost: Post = { ...post, id: tempId };
+    // // 1. Creiamo un oggetto "temporaneo" con un ID fittizio per la UI
+    // const tempId = Date.now().toString(); // O un UUID
+    // const tempPost: Post = { ...post, id: tempId, likesCount: 0, commentsCount: 0 };
 
-    // 2. Aggiornamento ottimistico della UI
-    this.currentUserPosts.set([tempPost, ...oldPosts]);
+    // // 2. Aggiornamento ottimistico della UI
+    // this.currentUserPosts.set([tempPost, ...oldPosts]);
 
     // 3. Invio al server (senza l'id temporaneo)
-    return this.storePost(this.postsUrl, post).pipe(
+    return this.storePost(this.postsUrl, { ...post, likesCount: 0, commentsCount: 0 }).pipe(
       delay(2000),
       tap((response: any) => {
         const realId = response.name;
 
-        // Sostituiamo il post temporaneo con quello reale (che ha l'ID vero)
-        this.currentUserPosts.update((posts) =>
-          posts.map((p) => (p.id === tempId ? { ...post, id: realId } : p)),
-        );
+        // // Sostituiamo il post temporaneo con quello reale (che ha l'ID vero)
+        // this.currentUserPosts.update((posts) =>
+        //   posts.map((p) =>
+        //     p.id === tempId ? { ...post, likesCount: 0, commentsCount: 0, id: realId } : p,
+        //   ),
+        // );const realId = response.name;
+
+        const newPost: Post = {
+          ...post,
+          id: realId,
+          likesCount: 0,
+          commentsCount: 0,
+        };
+
+        this.currentUserPosts.update((posts) => [newPost, ...posts]);
       }),
       catchError((error) => {
         // Rollback in caso di errore
-        this.currentUserPosts.set(oldPosts);
         return throwError(() => new Error('Richiesta fallita!'));
       }),
     );
   }
 
-  updatePost(postId: string, post: FirebasePost) {
+  updatePost(postId: string, post: EditedPost) {
     return this.editPost(
       `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`,
       post,
@@ -184,17 +194,38 @@ export class PostService {
     );
   }
 
+  deletePost(postId: string) {
+    // const oldPosts = this.currentUserPosts();
+    // this.currentUserPosts.update((posts) => posts.filter((post) => post.id !== postId));
+
+    return this.http
+      .delete(
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`,
+      )
+      .pipe(
+        delay(1000),
+        tap(() => {
+          console.log(`Post ${postId} eliminato con successo`);
+          this.currentUserPosts.update((posts) => posts.filter((post) => post.id !== postId));
+        }),
+        catchError((error) => {
+          // this.currentUserPosts.set(oldPosts);
+          return throwError(() => new Error('Delete request failed'));
+        }),
+      );
+  }
+
   private fetchPosts(url: string) {
     return this.http.get<{
       [key: string]: FirebasePost;
     }>(url);
   }
 
-  private editPost(url: string, post: FirebasePost) {
-    return this.http.patch(url, post);
-  }
-
   private storePost(url: string, post: FirebasePost) {
     return this.http.post(url, post);
+  }
+
+  private editPost(url: string, post: EditedPost) {
+    return this.http.patch(url, post);
   }
 }

@@ -11,16 +11,20 @@
   >
     <button
       type="button"
-      (click)="closeModal()"
-      class="bg-gray-100 hover:bg-gray-200 w-full sm:w-auto text-black/70 cursor-pointer duration-300 px-4 py-2 text-base sm:text-lg rounded-md font-bold focus-button transition-colors"
+      (click)="onCloseModal()"
+      class="bg-gray-100 hover:bg-gray-200 w-full sm:w-auto text-black/70 cursor-pointer duration-300 px-4 py-2 text-base sm:text-lg rounded-md font-bold focus-button transition-colors disabled:cursor-not-allowed"
+      [disabled]="isDeleting()"
     >
       Annulla
     </button>
     <button
       type="button"
-      class="bg-red-500 hover:bg-red-600 w-full sm:w-auto cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-md font-bold text-shadow-xs focus-button"
+      (click)="onDeletePost()"
+      class="bg-red-500 hover:bg-red-600 w-full sm:w-auto cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-md font-bold text-shadow-xs focus-button disabled:cursor-not-allowed"
+      [class.animate-pulse]="isDeleting()"
+      [disabled]="isDeleting()"
     >
-      Conferma
+      {{ isDeleting() ? 'Eliminazione in corso...' : 'Conferma' }}
     </button>
   </div>
 </div>
