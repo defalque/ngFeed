@@ -28,8 +28,9 @@ export const authorSchema = userSchema.pick({
 export type User = z.infer<typeof userSchema>;
 
 export const editUserSchema = userSchema.omit({
+  id: true,
+  avatar: true,
   followersCount: true,
   followingCount: true,
-  isVerified: true,
 });
-export type EditUserForm = z.infer<typeof editUserSchema>;
+export type EditedUser = z.infer<typeof editUserSchema>;

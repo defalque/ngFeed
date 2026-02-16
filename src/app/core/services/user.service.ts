@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 
-import { delay, map, tap } from 'rxjs';
-import { User } from '../types/user.model';
+import { catchError, debounce, debounceTime, delay, map, tap, throwError } from 'rxjs';
+import { EditedUser, User } from '../types/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -75,6 +75,53 @@ export class UserService {
       tap((users) => this.allUsers.set(users)), // per eseguire side effects
       delay(500), // delay artificiale per mostrare loading ui;
     );
+  }
+
+  updateUser(userId: string, newUserData: EditedUser) {
+    return this.editUser(
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json`,
+      newUserData,
+    ).pipe(
+      delay(2000),
+      tap((updatedUser) => {
+        this.currentUser.update((oldData) => {
+          if (!oldData) return null; // Protezione se l'utente non esiste
+
+          // Uniamo i vecchi dati con quelli nuovi (updatedUser)
+          return {
+            ...oldData,
+            ...updatedUser,
+          };
+        });
+        this.user.update((oldData) => {
+          if (!oldData) return null; // Protezione se l'utente non esiste
+
+          // Uniamo i vecchi dati con quelli nuovi (updatedUser)
+          return {
+            ...oldData,
+            ...updatedUser,
+          };
+        });
+      }),
+      catchError((error) => {
+        // Rollback in caso di errore
+        return throwError(() => new Error('Richiesta fallita!'));
+      }),
+    );
+  }
+
+  checkUniqueUsername(username: string) {
+    return this.fetchUsers(
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/usernames/${username}.json`,
+    ).pipe(
+      map((res) => {
+        return res !== null;
+      }),
+    );
+  }
+
+  private editUser(url: string, newUserData: EditedUser) {
+    return this.http.patch(url, newUserData);
   }
 
   private fetchUsers(url: string) {

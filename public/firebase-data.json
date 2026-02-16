@@ -368,5 +368,13 @@
       "userLastName": "De Falco",
       "userIsVerified": true
     }
+  },
+  "usernames": {
+    "marcodefalco": "user_006",
+    "alexchen": "user_005",
+    "sarahjones": "user_004",
+    "mikewilson": "user_003",
+    "janesmith": "user_002",
+    "johndoe": "user_001"
   }
 }

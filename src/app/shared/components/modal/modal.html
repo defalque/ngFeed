@@ -19,7 +19,7 @@
       appClickOutsideDropdown
       [clickOutsideEnabled]="isVisible()"
       (onClickOutside)="toggleFn.emit()"
-      class="sm:w-xl max-h-[95vh] overflow-y-auto rounded-t-2xl border border-gray-400/70 bg-white transition-transform ease-out origin-bottom sm:rounded-2xl animate-slideUp sm:animate-none sm:duration-150"
+      class="sm:w-xl max-h-[90vh] flex flex-col rounded-t-2xl border border-gray-400/70 bg-white transition-transform ease-out origin-bottom sm:rounded-2xl animate-slideUp sm:animate-none sm:duration-150"
       [class]="{
         'sm:translate-y-0': !isVisible() && !isAlert(),
         'w-86': isAlert(),
@@ -42,7 +42,7 @@
       [class.pointer-events-none]="!isVisible()"
       [inert]="!isVisible()"
     >
-      <div class="bg-white sticky top-0 p-4">
+      <div class="bg-white sticky top-0 p-4 rounded-t-2xl flex-none">
         <button
           aria-label="Chiudi modale"
           cdkFocusRegionStart
@@ -56,7 +56,7 @@
         <h2 class="font-semibold text-center">{{ title() }}</h2>
       </div>
 
-      <div class="sm:max-h-[80vh] max-h-[95vh] overflow-y-auto">
+      <div class="overflow-y-auto flex-1">
         <ng-content></ng-content>
       </div>
     </div>

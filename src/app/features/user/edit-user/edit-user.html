@@ -1,19 +1,29 @@
 <form
-  #form="ngForm"
-  (ngSubmit)="onSubmit(form)"
   appFocusField
+  [formGroup]="reactiveForm"
   class="flex flex-col gap-4 pb-4 sm:pb-6 sm:px-6 px-4 overflow-y-auto"
+  (ngSubmit)="onSubmit()"
 >
-  <div class="flex justify-baseline items-center gap-4">
+  <div class="grid grid-cols-2 gap-4" formGroupName="info">
     <div class="flex flex-col items-start gap-2 w-full">
       <label for="firstName">Nome</label>
       <input
         type="text"
         id="firstName"
         name="firstName"
-        class="w-full rounded-xl p-2 border border-gray-300/80 focus"
-        [(ngModel)]="user.firstName"
+        class="w-full rounded-xl p-2 border border-gray-300/80 focus:outline-none disabled:cursor-not-allowed"
+        [class.border-red-400]="firstNameIsInvalid"
+        [class.ring-2]="firstNameIsInvalid"
+        [class.ring-red-400]="firstNameIsInvalid"
+        [class.focus:ring-2]="!firstNameIsInvalid"
+        [class.focus:ring-black]="!firstNameIsInvalid"
+        formControlName="firstName"
       />
+      @if (firstNameIsInvalid) {
+        <p class="text-red-600 bg-red-500/10 rounded-xl text-left px-3 py-1 w-full">
+          Nome non valido
+        </p>
+      }
     </div>
     <div class="flex flex-col items-start gap-2 w-full">
       <label for="lastName">Cognome</label>
@@ -21,10 +31,25 @@
         type="text"
         id="lastName"
         name="lastName"
-        class="w-full rounded-xl p-2 border border-gray-300/80 focus"
-        [(ngModel)]="user.lastName"
+        class="w-full rounded-xl p-2 border border-gray-300/80 focus:outline-none disabled:cursor-not-allowed"
+        [class.border-red-400]="lastNameIsInvalid"
+        [class.ring-2]="lastNameIsInvalid"
+        [class.ring-red-400]="lastNameIsInvalid"
+        [class.focus:ring-2]="!lastNameIsInvalid"
+        [class.focus:ring-black]="!lastNameIsInvalid"
+        formControlName="lastName"
       />
+      @if (lastNameIsInvalid) {
+        <p class="text-red-600 bg-red-500/10 rounded-xl text-left px-3 py-1 w-full">
+          Cognome non valido
+        </p>
+      }
     </div>
+    @if (infoAreInvalid) {
+      <p class="text-red-600 bg-red-500/10 rounded-xl text-center px-3 py-1 col-span-full">
+        Non devono matchare
+      </p>
+    }
   </div>
 
   <div class="flex flex-col items-start gap-2">
@@ -33,9 +58,19 @@
       type="text"
       id="username"
       name="username"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
-      [(ngModel)]="user.username"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus:outline-none disabled:cursor-not-allowed"
+      [class.border-red-400]="usernameIsValid"
+      [class.ring-2]="usernameIsValid"
+      [class.ring-red-400]="usernameIsValid"
+      [class.focus:ring-2]="!usernameIsValid"
+      [class.focus:ring-black]="!usernameIsValid"
+      formControlName="username"
     />
+    @if (usernameIsValid) {
+      <p class="text-red-600 bg-red-500/10 rounded-xl text-left px-3 py-1 w-full">
+        Username non valido
+      </p>
+    }
   </div>
 
   <div class="flex flex-col items-start gap-2">
@@ -44,9 +79,17 @@
       id="bio"
       name="bio"
       rows="3"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
-      [(ngModel)]="user.bio"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus:outline-none disabled:cursor-not-allowed"
+      [class.border-red-400]="bioIsInvalid"
+      [class.ring-2]="bioIsInvalid"
+      [class.ring-red-400]="bioIsInvalid"
+      [class.focus:ring-2]="!bioIsInvalid"
+      [class.focus:ring-black]="!bioIsInvalid"
+      formControlName="bio"
     ></textarea>
+    @if (bioIsInvalid) {
+      <p class="text-red-600 bg-red-500/10 rounded-xl text-left px-3 py-1 w-full">Bio non valida</p>
+    }
   </div>
 
   <div class="flex flex-col items-start gap-2">
@@ -55,9 +98,17 @@
       type="url"
       id="website"
       name="website"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
-      [(ngModel)]="user.websiteUrl"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus:outline-none disabled:cursor-not-allowed"
+      [class.border-red-400]="websiteUrlIsInvalid"
+      [class.ring-2]="websiteUrlIsInvalid"
+      [class.ring-red-400]="websiteUrlIsInvalid"
+      [class.focus:ring-2]="!websiteUrlIsInvalid"
+      [class.focus:ring-black]="!websiteUrlIsInvalid"
+      formControlName="websiteUrl"
     />
+    @if (websiteUrlIsInvalid) {
+      <p class="text-red-600 bg-red-500/10 rounded-xl text-left px-3 py-1 w-full">URL non valida</p>
+    }
   </div>
 
   <div class="flex flex-col items-start gap-2">
@@ -66,15 +117,56 @@
       type="text"
       id="location"
       name="location"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
-      [(ngModel)]="user.location"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus:outline-none disabled:cursor-not-allowed"
+      [class.border-red-400]="locationIsInvalid"
+      [class.ring-2]="locationIsInvalid"
+      [class.ring-red-400]="locationIsInvalid"
+      [class.focus:ring-2]="!locationIsInvalid"
+      [class.focus:ring-black]="!locationIsInvalid"
+      formControlName="location"
     />
+    @if (locationIsInvalid) {
+      <p class="text-red-600 bg-red-500/10 rounded-xl text-left px-3 py-1 w-full">
+        Luogo non valido
+      </p>
+    }
   </div>
 
-  <button
-    type="submit"
-    class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button"
-  >
-    Aggiorna profilo
-  </button>
+  <fieldset class="flex flex-col items-start gap-2">
+    <label class="font-bold">Vuoi apparire come verificato?</label>
+
+    <div class="flex items-center gap-x-2">
+      <input type="radio" id="v-true" [value]="true" formControlName="isVerified" />
+      <label for="v-true">Si</label>
+    </div>
+
+    <div class="flex items-center gap-x-2">
+      <input type="radio" id="v-false" [value]="false" formControlName="isVerified" />
+      <label for="v-false">No</label>
+    </div>
+  </fieldset>
+
+  <div class="flex items-center gap-2">
+    <button
+      type="button"
+      (click)="onReset()"
+      [disabled]="reactiveForm.pending || isEditing()"
+      class="bg-gray-200 hover:bg-gray-300 disabled:hover:bg-gray-200 text-black/80 cursor-pointer transition-colors duration-300 px-4 py-2 text-base sm:text-lg rounded-xl font-semibold focus-button flex-none disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      Annulla
+    </button>
+    <button
+      type="submit"
+      [disabled]="reactiveForm.invalid || reactiveForm.pending || isEditing()"
+      class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {{ isEditing() ? 'Aggiornamento in corso...' : 'Aggiorna profilo' }}
+    </button>
+  </div>
+
+  @if (reactiveForm.dirty && reactiveForm.touched && reactiveForm.invalid) {
+    <p class="text-red-600 bg-red-500/10 rounded-xl text-center px-3 py-1 w-full">
+      Dati non validi
+    </p>
+  }
 </form>
