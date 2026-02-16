@@ -207,7 +207,7 @@ export class EditUser implements OnInit {
     // Disabilita tutto il form mentre carica
     this.reactiveForm.disable();
 
-    // ATTENZIONE - l'update non aggiorna ancora la tabella usernames nel caso l'utente modifichi il suo username
+    // ATTENZIONE - l'update non aggiorna ancora la tabella usernames nel caso l'utente modifichi il suo username, e non aggiorna i riferimenti nei post
     this.isEditing.set(true);
     this.userService
       .updateUser(this.currentUser()!.id, newUserData)

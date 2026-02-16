@@ -34,3 +34,10 @@ export const editUserSchema = userSchema.omit({
   followingCount: true,
 });
 export type EditedUser = z.infer<typeof editUserSchema>;
+
+export type FirebaseUser = {
+  localId: string; // The uid of the authenticated user.
+  email: string; // The email for the authenticated user
+  idToken: string; // A Firebase Auth ID token for the authenticated user.
+  expirationDate: Date; // The number of seconds in which the ID token expires.
+};

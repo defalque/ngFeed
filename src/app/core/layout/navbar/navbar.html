@@ -23,7 +23,7 @@
 
       <li class="py-1 flex-1 md:flex-none">
         <button
-          (click)="openDialog('create', null)"
+          (click)="openCreatePostDialog()"
           class="text-zinc-400/80 bg-gray-100/55 w-full hover:text-black rounded-xl md:px-5 md:py-3 py-3 cursor-pointer flex items-center justify-center focus transition-transform active:scale-[0.92] relative z-10 group"
           aria-label="Apri crea nuovo post form"
         >
@@ -31,11 +31,16 @@
         </button>
       </li>
 
-      <li appNavbarItem link="/preferiti" ariaLabel="Preferiti" [icon]="HeartIcon"></li>
+      <li
+        appNavbarItem
+        [link]="isAuthenticated() ? '/preferiti' : 'auth'"
+        ariaLabel="Preferiti"
+        [icon]="HeartIcon"
+      ></li>
 
       <li
         appNavbarItem
-        [link]="'utente/' + currentUser()?.id"
+        [link]="isAuthenticated() ? 'utente/' + currentUser()?.id : 'auth'"
         ariaLabel="Profilo"
         [icon]="UserIcon"
       ></li>
@@ -93,20 +98,21 @@
         >
           Impostazioni
         </button>
+        @if (isAuthenticated()) {
+          <button
+            class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+            [attr.tabindex]="isOpen() ? '0' : '-1'"
+          >
+            Segnala un problema
+          </button>
 
-        <button
-          class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-          [attr.tabindex]="isOpen() ? '0' : '-1'"
-        >
-          Segnala un problema
-        </button>
-
-        <button
-          class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-          [attr.tabindex]="isOpen() ? '0' : '-1'"
-        >
-          Esci
-        </button>
+          <button
+            class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+            [attr.tabindex]="isOpen() ? '0' : '-1'"
+          >
+            Esci
+          </button>
+        }
       </app-dropdown-menu>
     </div>
   </div>

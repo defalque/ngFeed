@@ -7,6 +7,7 @@ import { FullPost } from './features/posts/full-post/full-post';
 import { Favorites } from './features/favorites/favorites';
 import { NotFound } from './core/pages/not-found/not-found';
 import { userRoutes } from './features/user/user.routes';
+import { Auth } from './features/auth/auth';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'per-te', pathMatch: 'full' },
@@ -26,5 +27,6 @@ export const routes: Routes = [
     path: 'utente/:id/posts/:postId',
     component: FullPost,
   },
+  { path: 'auth', component: Auth },
   { path: '**', component: NotFound, title: 'Pagina non trovata' },
 ];

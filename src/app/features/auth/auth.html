@@ -1,0 +1,95 @@
+<div class="hidden md:block max-w-3xl mx-auto text-center w-full py-4">
+  <p class="text-xl font-bold tracking-normal">{{ isLoginMode() ? 'Accedi' : 'Registrati' }}</p>
+</div>
+<form
+  appFocusField
+  #form="ngForm"
+  class="flex flex-col gap-4 pb-4 sm:pb-6 sm:px-6 px-4 overflow-y-auto max-w-3xl mx-auto my-40"
+  (ngSubmit)="onSubmit(form)"
+>
+  <div class="flex flex-col items-start gap-2">
+    <label for="email">Email</label>
+    <input
+      type="text"
+      id="email"
+      name="email"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      ngModel
+      required
+      email
+      [disabled]="isLoading()"
+    />
+  </div>
+
+  <div class="flex flex-col items-start gap-2">
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      ngModel
+      required
+      minlength="6"
+      [disabled]="isLoading()"
+    />
+  </div>
+
+  <div class="flex items-center gap-2">
+    <button
+      type="submit"
+      [disabled]="!form.valid || isLoading()"
+      class="bg-black hover:bg-black/80 flex items-center justify-center gap-3 disabled:hover:bg-black transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 _disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+    >
+      @if (isLoginMode()) {
+        @if (isLoading()) {
+          <span>Attendi</span>
+          <div
+            class="size-5 rounded-full border-2 border-black border-t-2 border-t-white border-r-2 border-r-white border-b-2 border-b-white animate-spin"
+          ></div>
+        } @else {
+          Accedi
+        }
+      } @else {
+        @if (isLoading()) {
+          <span>Attendi</span>
+          <div
+            class="size-5 rounded-full border-2 border-black border-t-2 border-t-white border-r-2 border-r-white border-b-2 border-b-white animate-spin"
+          ></div>
+        } @else {
+          Registrati
+        }
+      }
+    </button>
+  </div>
+
+  <div class="flex items-center justify-center gap-2">
+    @if (isLoginMode()) {
+      <p>Non sei registrato?</p>
+      <button
+        type="button"
+        [disabled]="isLoading()"
+        class="hover:underline font-semibold cursor-pointer"
+        (click)="switchMode()"
+      >
+        Registrati
+      </button>
+    } @else {
+      <p>Sei già registrato?</p>
+      <button
+        type="button"
+        [disabled]="isLoading()"
+        class="hover:underline font-semibold cursor-pointer"
+        (click)="switchMode()"
+      >
+        Accedi
+      </button>
+    }
+  </div>
+
+  @if (error()) {
+    <p class="text-red-600 bg-red-500/10 rounded-xl text-center px-3 py-1 w-full">
+      {{ error() }}
+    </p>
+  }
+</form>

@@ -1,7 +1,7 @@
 import { UserService } from '@/core/services/user.service';
 import { ModalService } from '@/core/services/modal.service';
 import { ClickOutside } from '@/shared/directives/click-outside.directive';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   LucideAngularModule,
@@ -16,6 +16,7 @@ import {
 } from 'lucide-angular';
 import { NavbarItem } from './navbar-item/navbar-item';
 import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
+import { AuthService } from '@/core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -25,6 +26,7 @@ import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
 })
 export class Navbar {
   private router = inject(Router);
+  private authService = inject(AuthService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
 
@@ -33,6 +35,17 @@ export class Navbar {
   currentUser = this.userService.loadedCurrentUser;
 
   openDialog = this.modalService.openDialog;
+
+  openCreatePostDialog() {
+    if (this.isAuthenticated()) {
+      this.openDialog('create', null);
+      return;
+    }
+
+    this.router.navigate(['/auth']);
+  }
+
+  isAuthenticated = this.authService.isAuthenticated;
 
   toggleOpen() {
     this.isOpen.set(!this.isOpen());
