@@ -38,6 +38,27 @@ export class PostService {
   private readonly followedPostsUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="userId"&equalTo="user_002"';
 
+  fetchAllPosts() {
+    return this.fetchPosts(this.postsUrl).pipe(
+      map((res) => {
+        if (!res) return [];
+
+        const posts: Post[] = [];
+        for (const key in res) {
+          if (Object.prototype.hasOwnProperty.call(res, key)) {
+            posts.push({
+              id: key, // ID preso dalla key di Firebase
+              ...res[key], // dati senza id
+            });
+          }
+        }
+        return posts;
+      }),
+      tap((posts) => this.posts.set(posts)), // per eseguire side effects
+      delay(500), // delay artificiale per mostrare loading ui;
+    );
+  }
+
   fetchForYouPosts(userId: string) {
     return this.fetchPosts(this.postsUrl).pipe(
       map((res) => {

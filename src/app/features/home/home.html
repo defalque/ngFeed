@@ -7,37 +7,41 @@
     class="text-xl font-bold py-2 px-4 tracking-normal text-gray-400/80 cursor-pointer focus"
     >Per te</a
   >
-  <a
-    routerLink="/seguiti"
-    routerLinkActive="active"
-    class="text-xl font-bold text-zinc-400/80 py-2 px-4 tracking-normal cursor-pointer focus"
-    >Seguiti</a
+  @if (currentUser()) {
+    <a
+      routerLink="/seguiti"
+      routerLinkActive="active"
+      class="text-xl font-bold text-zinc-400/80 py-2 px-4 tracking-normal cursor-pointer focus"
+      >Seguiti</a
+    >
+  }
+</div>
+@if (currentUser()) {
+  <div
+    class="max-w-3xl mx-auto bg-white flex flex-col divide-y divide-gray-200 w-full px-0 md:px-2 pt-4 overflow-hidden"
   >
-</div>
-<div
-  class="max-w-3xl mx-auto bg-white flex flex-col divide-y divide-gray-200 w-full px-0 md:px-2 pt-4 overflow-hidden"
->
-  <div class="flex items-center _justify-between gap-3 border-b border-gray-300/50 p-4">
-    <div
-      class="flex items-center gap-2 flex-1"
-      role="button"
-      tabindex="0"
-      (click)="openDialog('create', null)"
-      (keydown.enter)="openDialog('create', null)"
-      (keydown.space)="openDialog('create', null)"
-    >
-      <img
-        [src]="'/assets/images/avatar.png'"
-        [alt]="'Avatar di Marco De Falco'"
-        class="size-9 rounded-full"
-      />
-      <p class="text-sm sm:text-base font-medium text-zinc-400/80">Cosa c'è di nuovo Marco?</p>
+    <div class="flex items-center _justify-between gap-3 border-b border-gray-300/50 p-4">
+      <div
+        class="flex items-center gap-2 flex-1"
+        role="button"
+        tabindex="0"
+        (click)="openDialog('create', null)"
+        (keydown.enter)="openDialog('create', null)"
+        (keydown.space)="openDialog('create', null)"
+      >
+        <img
+          [src]="'/assets/images/avatar.png'"
+          [alt]="'Avatar di Marco De Falco'"
+          class="size-9 rounded-full"
+        />
+        <p class="text-sm sm:text-base font-medium text-zinc-400/80">Cosa c'è di nuovo Marco?</p>
+      </div>
+      <button
+        class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-md font-bold text-shadow-2xs focus-button"
+      >
+        Pubblica
+      </button>
     </div>
-    <button
-      class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-md font-bold text-shadow-2xs focus-button"
-    >
-      Pubblica
-    </button>
   </div>
-</div>
+}
 <router-outlet />

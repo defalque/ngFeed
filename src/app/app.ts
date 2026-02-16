@@ -64,16 +64,16 @@ export class App implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isFetching.set(true);
-    this.userService
-      .fetchCurrentUser()
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isFetching.set(false)),
-      )
-      .subscribe({
-        error: (err) => console.error('Errore nel caricamento utente', err),
-      });
+    // this.isFetching.set(true);
+    // this.userService
+    //   .fetchCurrentUser()
+    //   .pipe(
+    //     takeUntilDestroyed(this.destroyRef),
+    //     finalize(() => this.isFetching.set(false)),
+    //   )
+    //   .subscribe({
+    //     error: (err) => console.error('Errore nel caricamento utente', err),
+    //   });
   }
 
   readonly HomeIcon = HouseIcon;

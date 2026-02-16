@@ -5,6 +5,7 @@ import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostService } from '@/core/services/post.service';
 import { UserService } from '@/core/services/user.service';
+import { AuthService } from '@/core/services/auth.service';
 
 @Component({
   selector: 'app-for-you',
@@ -12,6 +13,7 @@ import { UserService } from '@/core/services/user.service';
   templateUrl: './for-you.html',
 })
 export class ForYou {
+  private authService = inject(AuthService);
   private postService = inject(PostService);
   private userService = inject(UserService);
   private destroyRef = inject(DestroyRef);
@@ -21,13 +23,14 @@ export class ForYou {
 
   posts = this.postService.loadedPosts;
 
+  currentUser = this.authService.authenticatedUser;
+
   ngOnInit() {
     this.isFetching.set(true);
-    const user = this.userService.loadedCurrentUser();
 
-    if (user) {
+    if (this.currentUser()) {
       this.postService
-        .fetchForYouPosts(user.id)
+        .fetchAllPosts()
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           finalize(() => this.isFetching.set(false)),
@@ -39,24 +42,54 @@ export class ForYou {
           },
         });
     } else {
-      this.userService
-        .fetchCurrentUser()
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((user) => {
-          if (user)
-            this.postService
-              .fetchForYouPosts(user.id)
-              .pipe(
-                takeUntilDestroyed(this.destroyRef),
-                finalize(() => this.isFetching.set(false)),
-              )
-              .subscribe({
-                error: (error: Error) => {
-                  console.log(error);
-                  this.error.set(error.message);
-                },
-              });
+      this.postService
+        .fetchAllPosts()
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => this.isFetching.set(false)),
+        )
+        .subscribe({
+          error: (error: Error) => {
+            console.log(error);
+            this.error.set(error.message);
+          },
         });
     }
+
+    // const user = this.userService.loadedCurrentUser();
+
+    // if (user) {
+    //   this.postService
+    //     .fetchForYouPosts(user.id)
+    //     .pipe(
+    //       takeUntilDestroyed(this.destroyRef),
+    //       finalize(() => this.isFetching.set(false)),
+    //     )
+    //     .subscribe({
+    //       error: (error: Error) => {
+    //         console.log(error);
+    //         this.error.set(error.message);
+    //       },
+    //     });
+    // } else {
+    //   this.userService
+    //     .fetchCurrentUser()
+    //     .pipe(takeUntilDestroyed(this.destroyRef))
+    //     .subscribe((user) => {
+    //       if (user)
+    //         this.postService
+    //           .fetchForYouPosts(user.id)
+    //           .pipe(
+    //             takeUntilDestroyed(this.destroyRef),
+    //             finalize(() => this.isFetching.set(false)),
+    //           )
+    //           .subscribe({
+    //             error: (error: Error) => {
+    //               console.log(error);
+    //               this.error.set(error.message);
+    //             },
+    //           });
+    //     });
+    // }
   }
 }

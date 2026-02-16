@@ -1,3 +1,4 @@
+import { AuthService } from '@/core/services/auth.service';
 import { ModalService } from '@/core/services/modal.service';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -10,5 +11,9 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class Home {
   private modal = inject(ModalService);
+  private authService = inject(AuthService);
+
+  currentUser = this.authService.authenticatedUser;
+
   openDialog = this.modal.openDialog;
 }

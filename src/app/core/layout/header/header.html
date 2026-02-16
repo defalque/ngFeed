@@ -57,19 +57,21 @@
         Impostazioni
       </button>
 
-      <button
-        class="w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOpen() ? '0' : '-1'"
-      >
-        Segnala un problema
-      </button>
+      @if (currentUser()) {
+        <button
+          class="w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
+          [attr.tabindex]="isOpen() ? '0' : '-1'"
+        >
+          Segnala un problema
+        </button>
 
-      <button
-        class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOpen() ? '0' : '-1'"
-      >
-        Esci
-      </button>
+        <button
+          class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
+          [attr.tabindex]="isOpen() ? '0' : '-1'"
+        >
+          Esci
+        </button>
+      }
     </app-dropdown-menu>
   </div>
 </header>

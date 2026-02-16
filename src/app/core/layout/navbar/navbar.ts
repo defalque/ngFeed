@@ -33,6 +33,7 @@ export class Navbar {
   isOpen = signal(false);
 
   currentUser = this.userService.loadedCurrentUser;
+  isAuthenticated = this.authService.isAuthenticated;
 
   openDialog = this.modalService.openDialog;
 
@@ -44,8 +45,6 @@ export class Navbar {
 
     this.router.navigate(['/auth']);
   }
-
-  isAuthenticated = this.authService.isAuthenticated;
 
   toggleOpen() {
     this.isOpen.set(!this.isOpen());

@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { EqualIcon, LucideAngularModule, SunIcon, MoonIcon } from 'lucide-angular';
 import { ClickOutside } from '@/shared/directives/click-outside.directive';
 import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
+import { AuthService } from '@/core/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +10,10 @@ import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
   templateUrl: './header.html',
 })
 export class Header {
+  private authService = inject(AuthService);
+
+  currentUser = this.authService.authenticatedUser;
+
   isOpen = signal(false);
 
   toggleOpen() {
