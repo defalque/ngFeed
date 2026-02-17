@@ -66,6 +66,7 @@
         </button>
 
         <button
+          (click)="logUserOut($event)"
           class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOpen() ? '0' : '-1'"
         >

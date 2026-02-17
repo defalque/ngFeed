@@ -145,24 +145,33 @@
       <label for="v-false">No</label>
     </div>
   </fieldset>
-
-  <div class="flex items-center gap-2">
-    <button
-      type="button"
-      (click)="onReset()"
-      [disabled]="reactiveForm.pending || isEditing()"
-      class="bg-gray-200 hover:bg-gray-300 disabled:hover:bg-gray-200 text-black/80 cursor-pointer transition-colors duration-300 px-4 py-2 text-base sm:text-lg rounded-xl font-semibold focus-button flex-none disabled:cursor-not-allowed disabled:opacity-50"
-    >
-      Annulla
-    </button>
+  @if (currentUser()) {
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        (click)="onReset()"
+        [disabled]="reactiveForm.pending || isEditing()"
+        class="bg-gray-200 hover:bg-gray-300 disabled:hover:bg-gray-200 text-black/80 cursor-pointer transition-colors duration-300 px-4 py-2 text-base sm:text-lg rounded-xl font-semibold focus-button flex-none disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        Annulla
+      </button>
+      <button
+        type="submit"
+        [disabled]="reactiveForm.invalid || reactiveForm.pending || isEditing()"
+        class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {{ isEditing() ? 'Aggiornamento in corso...' : 'Aggiorna profilo' }}
+      </button>
+    </div>
+  } @else {
     <button
       type="submit"
       [disabled]="reactiveForm.invalid || reactiveForm.pending || isEditing()"
       class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      {{ isEditing() ? 'Aggiornamento in corso...' : 'Aggiorna profilo' }}
+      {{ isEditing() ? 'Salvataggio in corso...' : 'Salva informazioni' }}
     </button>
-  </div>
+  }
 
   @if (reactiveForm.dirty && reactiveForm.touched && reactiveForm.invalid) {
     <p class="text-red-600 bg-red-500/10 rounded-xl text-center px-3 py-1 w-full">

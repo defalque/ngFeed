@@ -32,14 +32,33 @@ export class Navbar {
 
   isOpen = signal(false);
 
-  currentUser = this.userService.loadedCurrentUser;
+  currentUserInfo = this.userService.loadedCurrentUser;
+  authenticatedUser = this.authService.authenticatedUser;
   isAuthenticated = this.authService.isAuthenticated;
 
   openDialog = this.modalService.openDialog;
 
   openCreatePostDialog() {
     if (this.isAuthenticated()) {
+      if (!this.currentUserInfo()) {
+        this.openDialog('edit-user', null);
+        return;
+      }
       this.openDialog('create', null);
+      return;
+    }
+
+    this.router.navigate(['/auth']);
+  }
+
+  redirectTo(path: string) {
+    if (this.isAuthenticated()) {
+      if (!this.currentUserInfo()) {
+        this.openDialog('edit-user', null);
+        return;
+      }
+
+      this.router.navigate([`${path}`]);
       return;
     }
 
@@ -54,9 +73,23 @@ export class Navbar {
     this.isOpen.set(false);
   }
 
+  logUserOut(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.authService.logout();
+    this.toggleOpen();
+  }
+
   isHomeActive(): boolean {
     const url = this.router.url;
     return url === '/per-te' || url === '/seguiti';
+  }
+
+  isActive(path: string) {
+    const url = this.router.url;
+    console.log(url);
+    console.log(path);
+    return url === path;
   }
 
   readonly HomeIcon = HouseIcon;

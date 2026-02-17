@@ -1,14 +1,7 @@
 <div
   class="max-w-3xl mx-auto gap-1 bg-white flex flex-col divide-y divide-gray-200 w-full px-0 md:px-2 pb-20 md:pb-4"
 >
-  @if (isFetching()) {
-    <ul class="divide-y divide-gray-200">
-      @for (item of [0, 1, 2, 3, 4, 5]; track item) {
-        <li feedSkeleton></li>
-      }
-    </ul>
-  }
-  @if (posts().length === 0 && !isFetching()) {
+  @if (posts().length === 0) {
     <div class="flex flex-col justify-cemter items-center mt-12">
       <svg
         viewBox="0 0 24 24"
@@ -45,3 +38,12 @@
     </ul>
   }
 </div>
+<!-- 
+@if (isFetching()) {
+    <ul class="divide-y divide-gray-200">
+      @for (item of [0, 1, 2, 3, 4, 5]; track item) {
+        <li feedSkeleton></li>
+      }
+    </ul>
+  }
+-->

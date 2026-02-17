@@ -1,8 +1,10 @@
 import {
   Component,
+  computed,
   DestroyRef,
   effect,
   inject,
+  input,
   OnInit,
   signal,
   ViewEncapsulation,
@@ -16,6 +18,8 @@ import { Title } from '@angular/platform-browser';
 import { ModalService } from '@/core/services/modal.service';
 import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { UserService } from '@/core/services/user.service';
+import { AuthService } from '@/core/services/auth.service';
+import { EditUser } from './edit-user/edit-user';
 
 @Component({
   selector: 'app-user',
@@ -26,6 +30,7 @@ import { UserService } from '@/core/services/user.service';
     RouterLinkActive,
     UserSkeleton,
     VerifiedIcon,
+    EditUser,
   ],
   templateUrl: './user.html',
   styleUrl: './user.css',
@@ -35,48 +40,65 @@ import { UserService } from '@/core/services/user.service';
 export class User implements OnInit {
   private titleService = inject(Title);
   private route = inject(ActivatedRoute);
+  private authService = inject(AuthService);
   private userService = inject(UserService);
   private modal = inject(ModalService);
   private destroyRef = inject(DestroyRef);
 
+  id = input.required<string>();
   userId = signal('');
 
-  private currentUser = this.userService.loadedCurrentUser;
-  user = this.userService.user;
+  authenticatedUser = this.authService.authenticatedUser;
+
+  user = computed(() => {
+    return this.isCurrentUserPage()
+      ? this.userService.loadedCurrentUser()
+      : this.userService.loadedGenericUser();
+  });
+
   isFetching = signal(false);
 
   openDialog = this.modal.openDialog;
 
   constructor() {
     effect(() => {
-      const userData = this.user();
-      if (userData) {
-        const fullTitle = `ngFeed - ${userData.firstName} ${userData.lastName || ''}`.trim();
-        this.titleService.setTitle(fullTitle);
+      const id = this.id();
+      const authUser = this.authenticatedUser();
+
+      // console.log(id, authUser?.localId);
+
+      if (!id) return;
+
+      if (id === authUser?.localId) {
+        if (this.user()) return;
+        this.loadAuthUserInfo();
       } else {
-        this.titleService.setTitle('Caricamento...');
+        this.loadUserInfo(id);
       }
     });
   }
 
-  ngOnInit(): void {
-    const sub = this.route.params.subscribe((params) => {
-      this.userId.set(params['id']);
-      if (this.currentUser()?.id === this.userId()) {
-        this.user.set(this.currentUser());
-        return;
-      }
-      this.loadUser(this.userId());
-    });
-    this.destroyRef.onDestroy(() => {
-      sub.unsubscribe();
-    });
-  }
+  ngOnInit(): void {}
 
-  loadUser(userId: string) {
+  loadAuthUserInfo() {
     this.isFetching.set(true);
     this.userService
-      .fetchUser(userId)
+      .fetchAuthUserInfo()
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isFetching.set(false)),
+      )
+      .subscribe({
+        error: (error: Error) => {
+          console.log(error);
+        },
+      });
+  }
+
+  loadUserInfo(userId: string) {
+    this.isFetching.set(true);
+    this.userService
+      .fetchUserInfo(userId)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
@@ -89,7 +111,7 @@ export class User implements OnInit {
   }
 
   isCurrentUserPage() {
-    return this.userId() === this.currentUser()?.id;
+    return this.id() === this.authenticatedUser()?.localId;
   }
 
   readonly EllipsisIcon = EllipsisIcon;

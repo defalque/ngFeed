@@ -1,10 +1,10 @@
 import { Component, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LucideAngularModule, LucideIconData } from 'lucide-angular';
 
 @Component({
   selector: 'li[appNavbarItem]',
-  imports: [RouterLink, LucideAngularModule],
+  imports: [RouterLink, LucideAngularModule, RouterLinkActive],
   templateUrl: './navbar-item.html',
   styleUrl: './navbar-item.css',
   host: {

@@ -1,61 +1,105 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 
-import { catchError, debounce, debounceTime, delay, map, tap, throwError } from 'rxjs';
-import { EditedUser, User } from '../types/user.model';
+import { catchError, delay, map, Observable, of, tap, throwError } from 'rxjs';
+import { EditedUser, NewUser, User } from '../types/user.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private http = inject(HttpClient);
+  private authService = inject(AuthService);
+  authenticatedUser = this.authService.authenticatedUser;
 
   private allUsers = signal<User[]>([]);
   loadedAllUsers = this.allUsers.asReadonly();
 
   private currentUser = signal<User | null>(null);
   loadedCurrentUser = this.currentUser.asReadonly();
+  setUser(value: User | null) {
+    this.currentUser.set(value);
+  }
 
-  user = signal<User | null>(null);
+  private genericUser = signal<User | null>(null);
+  loadedGenericUser = this.genericUser.asReadonly();
+  setGenericUser(value: User | null) {
+    this.genericUser.set(value);
+  }
 
   private readonly usersUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users.json';
   private readonly userUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/';
-  private readonly currentUserUrl =
-    'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/user_006.json';
 
-  fetchUser(id: string) {
-    const url = this.userUrl + id + '.json';
-    return this.fetchUsers(url).pipe(
+  // fetcha info di utente generico
+  fetchUserInfo(uid: string) {
+    return this.fetchUsers(
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/${uid}.json?`,
+    ).pipe(
       map((res) => {
         if (!res) return null;
 
-        return { id, ...res } as User;
+        return { id: uid, ...res } as User;
       }),
       tap((user) => {
-        if (user) this.user.set(user); // side effect
+        if (user) this.genericUser.set(user);
       }),
       delay(500), // delay artificiale per loading ui
     );
   }
 
-  fetchCurrentUser() {
-    return this.fetchUsers(this.currentUserUrl).pipe(
+  // fetcha info di utente autenticato
+  fetchAuthUserInfo() {
+    const authUser = this.authenticatedUser();
+    // console.log(authUser);
+    const uid = authUser?.localId;
+    const token = authUser?.idToken;
+
+    if (!uid || !token) return of(null);
+
+    return this.fetchUsers(
+      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/${uid}.json?auth=${token}`,
+    ).pipe(
       map((res) => {
         if (!res) return null;
 
-        // res è già l'oggetto utente, cambierà
-        return { id: 'user_006', ...res } as User;
+        return { id: uid, ...res } as User;
       }),
       tap((user) => {
-        if (user) this.currentUser.set(user); // side effect
+        if (user) this.currentUser.set(user);
       }),
       delay(500), // delay artificiale per loading ui
     );
   }
 
+  // crea info pubbliche utente in firebase realtime db
+  createAuthUserInfo(userInfo: EditedUser): Observable<any> {
+    const authUser = this.authenticatedUser();
+    const uid = authUser?.localId;
+    const token = authUser?.idToken;
+
+    if (!uid || !token) return of(null);
+
+    return this.http
+      .put(
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/${uid}.json?auth=${token}`,
+        { ...userInfo, followingCount: 0, followersCount: 0 },
+      )
+      .pipe(
+        delay(2000),
+        catchError((error) => {
+          // Rollback in caso di errore
+          return throwError(() => new Error('Richiesta fallita!'));
+        }),
+      );
+  }
+
+  // fetcha info pubbliche di tutti gli utenti, utilizzato in /search
   fetchAllUsers() {
+    const authId = this.authenticatedUser()?.localId;
+
     return this.fetchUsers(this.usersUrl).pipe(
       map((res) => {
         if (!res) return [];
@@ -63,20 +107,23 @@ export class UserService {
         const users: User[] = [];
         for (const key in res) {
           if (Object.prototype.hasOwnProperty.call(res, key)) {
-            if (key !== 'user_006')
+            // se authId è definito escludilo, altrimenti includi tutti
+            if (!authId || key !== authId) {
               users.push({
-                id: key, // ID preso dalla key di Firebase
-                ...res[key], // dati senza id
+                id: key,
+                ...res[key],
               });
+            }
           }
         }
         return users;
       }),
-      tap((users) => this.allUsers.set(users)), // per eseguire side effects
-      delay(500), // delay artificiale per mostrare loading ui;
+      tap((users) => this.allUsers.set(users)),
+      delay(500),
     );
   }
 
+  // modifica info pubbliche utente autenticato
   updateUser(userId: string, newUserData: EditedUser) {
     return this.editUser(
       `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json`,
@@ -93,15 +140,15 @@ export class UserService {
             ...updatedUser,
           };
         });
-        this.user.update((oldData) => {
-          if (!oldData) return null; // Protezione se l'utente non esiste
+        // this.user.update((oldData) => {
+        //   if (!oldData) return null; // Protezione se l'utente non esiste
 
-          // Uniamo i vecchi dati con quelli nuovi (updatedUser)
-          return {
-            ...oldData,
-            ...updatedUser,
-          };
-        });
+        //   // Uniamo i vecchi dati con quelli nuovi (updatedUser)
+        //   return {
+        //     ...oldData,
+        //     ...updatedUser,
+        //   };
+        // });
       }),
       catchError((error) => {
         // Rollback in caso di errore
@@ -120,10 +167,12 @@ export class UserService {
     );
   }
 
+  // utility
   private editUser(url: string, newUserData: EditedUser) {
     return this.http.patch(url, newUserData);
   }
 
+  // utility
   private fetchUsers(url: string) {
     return this.http.get<{
       [key: string]: Omit<User, 'id'>;

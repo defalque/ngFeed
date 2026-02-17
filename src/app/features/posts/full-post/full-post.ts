@@ -1,15 +1,4 @@
-import {
-  Component,
-  computed,
-  DestroyRef,
-  effect,
-  inject,
-  input,
-  OnInit,
-  signal,
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FullPostSkeleton } from '@/shared/components/skeletons/full-post-skeleton/full-post-skeleton';
+import { Component, computed, effect, inject, input } from '@angular/core';
 import {
   EllipsisIcon,
   HeartIcon,
@@ -17,47 +6,40 @@ import {
   RefreshCcw,
   LucideAngularModule,
 } from 'lucide-angular';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
-import { UserService } from '@/core/services/user.service';
 import { PostService } from '@/core/services/post.service';
 import { BlogPost } from '../post/post';
+import { AuthService } from '@/core/services/auth.service';
 
 @Component({
   selector: 'app-full-post',
-  imports: [BlogPost, FullPostSkeleton, LucideAngularModule, VerifiedIcon],
+  imports: [BlogPost, LucideAngularModule, VerifiedIcon],
   templateUrl: './full-post.html',
   styleUrl: './full-post.css',
   host: {
     class: 'block w-full',
   },
 })
-export class FullPost implements OnInit {
+export class FullPost {
   private titleService = inject(Title);
-  private route = inject(ActivatedRoute);
   private postService = inject(PostService);
-  private userService = inject(UserService);
-  private destroyRef = inject(DestroyRef);
+  private authService = inject(AuthService);
 
   id = input.required<string>();
   postId = input.required<string>();
 
-  isFetching = signal(false);
-
   post = computed(() => {
     if (this.isCurrentUserPost()) {
-      const posts = this.postService.loadedCurrentUserPosts(); // array di post
-      const found = posts.find((p) => p.id === this.postId());
-      return found;
+      return this.postService
+        .authUserPostsReadonly()
+        .find((p) => p.id === this.postId() && p.userId === this.id());
     } else {
-      const loaded = this.postService.loadedPost();
-      return loaded;
+      return this.postService
+        .allLoadedPosts()
+        .find((p) => p.id === this.postId() && p.userId === this.id());
     }
   });
-
-  currentUser = this.userService.loadedCurrentUser;
 
   constructor() {
     effect(() => {
@@ -71,72 +53,8 @@ export class FullPost implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    const sub = this.route.params.subscribe((params) => {
-      const userId = params['id'];
-      const postId = params['postId'];
-      const currentUserId = this.userService.loadedCurrentUser()?.id;
-
-      // Determina quale array controllare
-      const postsArray =
-        userId === currentUserId
-          ? this.postService.loadedCurrentUserPosts()
-          : this.postService.loadedPosts();
-
-      // Se l’array è vuoto → fetch
-      if (!postsArray?.length) {
-        console.log('post not cached, fetching...');
-        if (currentUserId === userId) {
-          this.loadPosts(currentUserId!);
-          return;
-        }
-        this.loadPost(postId);
-        return;
-      }
-
-      // Cerca il post
-      const foundPost = postsArray.find((p) => p.id === postId);
-      if (foundPost) {
-        this.postService.setLoadedPost(foundPost);
-      } else {
-        // post non in cache, fetch
-        this.loadPost(postId);
-      }
-    });
-
-    this.destroyRef.onDestroy(() => {
-      sub.unsubscribe();
-    });
-  }
-
-  private loadPost(postId: string) {
-    this.isFetching.set(true);
-    this.postService
-      .fetchPost(postId)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isFetching.set(false)),
-      )
-      .subscribe({
-        error: (error: Error) => console.log(console.log(error.message)),
-      });
-  }
-
-  private loadPosts(userId: string) {
-    this.isFetching.set(true);
-    this.postService
-      .fetchUserPosts(userId)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isFetching.set(false)),
-      )
-      .subscribe({
-        error: (error: Error) => console.log(console.log(error.message)),
-      });
-  }
-
   isCurrentUserPost() {
-    return this.id() === this.currentUser()?.id;
+    return this.id() === this.authService.authenticatedUser()?.localId;
   }
 
   readonly HeartIcon = HeartIcon;

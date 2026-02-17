@@ -16,7 +16,7 @@ export class Auth {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  isLoginMode = signal(false);
+  isLoginMode = signal(true);
 
   isLoading = signal(false);
 

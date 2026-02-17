@@ -10,8 +10,10 @@ import {
 } from '@angular/forms';
 import { finalize, first, map, of } from 'rxjs';
 import { A11yModule } from '@angular/cdk/a11y';
-import { EditedUser } from '@/core/types/user.model';
 import { ModalService } from '@/core/services/modal.service';
+import { AuthService } from '@/core/services/auth.service';
+import { EditedUser } from '@/core/types/user.model';
+import { Router } from '@angular/router';
 
 function validUrl(control: AbstractControl) {
   if (!control.value) return null;
@@ -56,9 +58,12 @@ function equalValues(controlName1: string, controlName2: string) {
   styleUrl: './edit-user.css',
 })
 export class EditUser implements OnInit {
+  private router = inject(Router);
+  private authService = inject(AuthService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
 
+  authenticatedUser = this.authService.authenticatedUser;
   currentUser = this.userService.loadedCurrentUser;
 
   reactiveForm = new FormGroup({
@@ -93,20 +98,19 @@ export class EditUser implements OnInit {
   });
 
   ngOnInit(): void {
-    const user = this.currentUser();
-    if (user) {
+    if (this.authenticatedUser()) {
       this.reactiveForm.patchValue({
         // Mappiamo i dati flat nel gruppo 'info'
         info: {
-          firstName: user.firstName,
-          lastName: user.lastName,
+          firstName: this.currentUser()?.firstName,
+          lastName: this.currentUser()?.lastName,
         },
         // Gli altri campi coincidono, quindi passano direttamente
-        username: user.username,
-        bio: user.bio,
-        websiteUrl: user.websiteUrl,
-        location: user.location,
-        isVerified: user.isVerified,
+        username: this.currentUser()?.username,
+        bio: this.currentUser()?.bio,
+        websiteUrl: this.currentUser()?.websiteUrl,
+        location: this.currentUser()?.location,
+        isVerified: this.currentUser()?.isVerified,
       });
     }
   }
@@ -204,21 +208,36 @@ export class EditUser implements OnInit {
       isVerified: this.reactiveForm.controls.isVerified.value!,
     };
 
-    // Disabilita tutto il form mentre carica
-    this.reactiveForm.disable();
+    if (!this.currentUser()) {
+      this.isEditing.set(true);
+      this.userService
+        .createAuthUserInfo(newUserData)
+        .pipe(
+          finalize(() => {
+            this.isEditing.set(false);
+            // Riabilita il form quando la chiamata è finita
+            this.reactiveForm.enable();
+            this.router.navigate(['/']);
+          }),
+        )
+        .subscribe();
+    } else {
+      // Disabilita tutto il form mentre carica
+      this.reactiveForm.disable();
 
-    // ATTENZIONE - l'update non aggiorna ancora la tabella usernames nel caso l'utente modifichi il suo username, e non aggiorna i riferimenti nei post
-    this.isEditing.set(true);
-    this.userService
-      .updateUser(this.currentUser()!.id, newUserData)
-      .pipe(
-        finalize(() => {
-          this.isEditing.set(false);
-          this.modalService.closeDialog();
-          // Riabilita il form quando la chiamata è finita
-          this.reactiveForm.enable();
-        }),
-      )
-      .subscribe();
+      // ATTENZIONE - l'update non aggiorna ancora la tabella usernames nel caso l'utente modifichi il suo username, e non aggiorna i riferimenti nei post
+      this.isEditing.set(true);
+      this.userService
+        .updateUser(this.authenticatedUser()!.localId, newUserData)
+        .pipe(
+          finalize(() => {
+            this.isEditing.set(false);
+            this.modalService.closeDialog();
+            // Riabilita il form quando la chiamata è finita
+            this.reactiveForm.enable();
+          }),
+        )
+        .subscribe();
+    }
   }
 }

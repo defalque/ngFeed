@@ -16,6 +16,13 @@ export class Header {
 
   isOpen = signal(false);
 
+  logUserOut(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.authService.logout();
+    this.toggleOpen();
+  }
+
   toggleOpen() {
     this.isOpen.set(!this.isOpen());
   }

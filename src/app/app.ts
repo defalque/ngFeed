@@ -1,16 +1,18 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LucideAngularModule, HouseIcon, UserIcon, SearchIcon, HeartIcon } from 'lucide-angular';
 import { Navbar } from './core/layout/navbar/navbar';
 import { Header } from './core/layout/header/header';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
+import { finalize, forkJoin } from 'rxjs';
 import { Modal } from './shared/components/modal/modal';
 import { ModalService } from './core/services/modal.service';
 import { DeletePost } from './features/user/delete-post/delete-post';
 import { UserService } from './core/services/user.service';
 import { PostForm } from './features/posts/post-form/post-form';
 import { EditUser } from './features/user/edit-user/edit-user';
+import { AuthService } from './core/services/auth.service';
+import { PostService } from './core/services/post.service';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +30,8 @@ import { EditUser } from './features/user/edit-user/edit-user';
   styleUrl: './app.css',
 })
 export class App implements OnInit {
+  private authService = inject(AuthService);
+  private postService = inject(PostService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
   private destroyRef = inject(DestroyRef);
@@ -63,17 +67,47 @@ export class App implements OnInit {
     );
   }
 
+  constructor() {
+    effect(() => {
+      const authUser = this.authService.authenticatedUser();
+
+      if (authUser) {
+        // Quando authUser cambia da null a un oggetto (login avvenuto)
+        // facciamo il fetch dei dati mancanti
+        forkJoin({
+          posts: this.postService.fetchAllPosts(),
+          userInfo: this.userService.fetchAuthUserInfo(),
+        })
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            finalize(() => this.isFetching.set(false)),
+          )
+          .subscribe({
+            error: (err) => console.error('Si è verificato un errore durante il caricamento', err),
+          });
+      } else {
+        this.userService.setUser(null);
+      }
+    });
+  }
+
   ngOnInit(): void {
-    // this.isFetching.set(true);
-    // this.userService
-    //   .fetchCurrentUser()
-    //   .pipe(
-    //     takeUntilDestroyed(this.destroyRef),
-    //     finalize(() => this.isFetching.set(false)),
-    //   )
-    //   .subscribe({
-    //     error: (err) => console.error('Errore nel caricamento utente', err),
-    //   });
+    this.isFetching.set(true);
+
+    this.authService.autoLogin();
+
+    forkJoin({
+      posts: this.postService.fetchAllPosts(),
+      userInfo: this.userService.fetchAuthUserInfo(),
+    })
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isFetching.set(false)),
+      )
+      .subscribe({
+        next: (data) => {},
+        error: (err) => console.error('Si è verificato un errore durante il caricamento', err),
+      });
   }
 
   readonly HomeIcon = HouseIcon;

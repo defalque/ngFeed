@@ -19,7 +19,7 @@ export class DeletePost {
 
   postTitle = computed(() => {
     const { id } = this.modalService.dialogState();
-    return this.postService.loadedCurrentUserPosts().find((post) => post.id === id)?.title || '';
+    return this.postService.authUserPostsReadonly().find((post) => post.id === id)?.title || '';
   });
 
   isDeleting = signal(false);
@@ -31,20 +31,20 @@ export class DeletePost {
   }
 
   onDeletePost() {
-    this.isDeleting.set(true);
-    this.postService
-      .deletePost(this.modalService.dialogState().id!)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isDeleting.set(true)),
-      )
-      .subscribe({
-        next: () => {
-          this.modalService.closeDialog();
-        },
-        error: (err) => {
-          console.error("Errore durante l'eliminazione del post", err);
-        },
-      });
+    // this.isDeleting.set(true);
+    // this.postService
+    //   .deletePost(this.modalService.dialogState().id!)
+    //   .pipe(
+    //     takeUntilDestroyed(this.destroyRef),
+    //     finalize(() => this.isDeleting.set(true)),
+    //   )
+    //   .subscribe({
+    //     next: () => {
+    //       this.modalService.closeDialog();
+    //     },
+    //     error: (err) => {
+    //       console.error("Errore durante l'eliminazione del post", err);
+    //     },
+    //   });
   }
 }

@@ -18,7 +18,7 @@ export const postSchema = z.object({
   userIsVerified: authorFields.isVerified,
   userAvatar: authorFields.avatar,
 });
-export type Post = z.infer<typeof postSchema>;
+// export type Post = z.infer<typeof postSchema>;
 
 export const firebasePostSchema = postSchema.omit({
   id: true,
@@ -45,3 +45,19 @@ export const editPostFormSchema = postSchema.omit({
   userAvatar: true,
 });
 export type EditedPost = z.infer<typeof editPostFormSchema>;
+
+export type Post = {
+  id: string;
+  created_at: string;
+  title: string;
+  description: string;
+  content: string;
+  commentsCount: number;
+  likesCount: number;
+  userId: string;
+  userUsername: string;
+  userFirstName: string;
+  userLastName: string;
+  userIsVerified: boolean;
+  userAvatar?: string;
+};

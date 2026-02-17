@@ -38,7 +38,7 @@ export class PostForm {
 
     if (mode === 'edit') {
       return (
-        this.postService.loadedCurrentUserPosts().find((p) => p.id === id) || {
+        this.postService.authUserPostsReadonly().find((p) => p.id === id) || {
           title: '',
           description: '',
           content: '',
@@ -62,76 +62,70 @@ export class PostForm {
     this.formErrors = { errors: [], properties: {} };
 
     if (this.mode() === 'create') {
-      const newPost = {
-        created_at: new Date().toISOString(),
-        title: formData.form.value.title,
-        description: formData.form.value.description,
-        content: formData.form.value.content,
-        userId: this.userService.loadedCurrentUser()!.id,
-        userUsername: this.userService.loadedCurrentUser()!.username,
-        userFirstName: this.userService.loadedCurrentUser()!.firstName,
-        userLastName: this.userService.loadedCurrentUser()!.lastName,
-        userIsVerified: this.userService.loadedCurrentUser()!.isVerified,
-        userAvatar: this.userService.loadedCurrentUser()!.avatar,
-      };
-
-      const validationResult = newPostFormSchema.safeParse(newPost);
-
-      if (!validationResult.success) {
-        console.log(validationResult.error);
-        this.formErrors = z.treeifyError(validationResult.error);
-        console.log(this.formErrors);
-        return;
-      }
-
-      this.isWorking.set(true);
-      this.addPost(newPost).subscribe({
-        next: () => {
-          formData.form.reset();
-          this.modalService.closeDialog();
-        },
-        error: (err) => {
-          console.error('Errore durante la creazione del post', err);
-        },
-      });
+      // const newPost = {
+      //   created_at: new Date().toISOString(),
+      //   title: formData.form.value.title,
+      //   description: formData.form.value.description,
+      //   content: formData.form.value.content,
+      //   userId: this.userService.loadedCurrentUser()!.id,
+      //   userUsername: this.userService.loadedCurrentUser()!.username,
+      //   userFirstName: this.userService.loadedCurrentUser()!.firstName,
+      //   userLastName: this.userService.loadedCurrentUser()!.lastName,
+      //   userIsVerified: this.userService.loadedCurrentUser()!.isVerified,
+      //   userAvatar: this.userService.loadedCurrentUser()!.avatar,
+      // };
+      // const validationResult = newPostFormSchema.safeParse(newPost);
+      // if (!validationResult.success) {
+      //   console.log(validationResult.error);
+      //   this.formErrors = z.treeifyError(validationResult.error);
+      //   console.log(this.formErrors);
+      //   return;
+      // }
+      // this.isWorking.set(true);
+      // this.addPost(newPost).subscribe({
+      //   next: () => {
+      //     formData.form.reset();
+      //     this.modalService.closeDialog();
+      //   },
+      //   error: (err) => {
+      //     console.error('Errore durante la creazione del post', err);
+      //   },
+      // });
     } else {
-      const editedPost = {
-        title: formData.form.value.title,
-        description: formData.form.value.description,
-        content: formData.form.value.content,
-      };
-
-      const validationResult = editPostFormSchema.safeParse(editedPost);
-
-      if (!validationResult.success) {
-        console.log(validationResult.error);
-        return;
-      }
-
-      this.isWorking.set(true);
-      this.editPost(editedPost).subscribe({
-        next: () => {
-          formData.form.reset();
-          this.modalService.closeDialog();
-        },
-        error: (err) => {
-          console.error('Errore durante la modifica del post', err);
-        },
-      });
+      // const editedPost = {
+      //   title: formData.form.value.title,
+      //   description: formData.form.value.description,
+      //   content: formData.form.value.content,
+      // };
+      // const validationResult = editPostFormSchema.safeParse(editedPost);
+      // if (!validationResult.success) {
+      //   console.log(validationResult.error);
+      //   return;
+      // }
+      // this.isWorking.set(true);
+      // this.editPost(editedPost).subscribe({
+      //   next: () => {
+      //     formData.form.reset();
+      //     this.modalService.closeDialog();
+      //   },
+      //   error: (err) => {
+      //     console.error('Errore durante la modifica del post', err);
+      //   },
+      // });
     }
   }
 
   private addPost(post: NewPost) {
-    return this.postService.createPost(post).pipe(
-      takeUntilDestroyed(this.destroyRef),
-      finalize(() => this.isWorking.set(false)),
-    );
+    // return this.postService.createPost(post).pipe(
+    //   takeUntilDestroyed(this.destroyRef),
+    //   finalize(() => this.isWorking.set(false)),
+    // );
   }
 
   private editPost(editedPost: EditedPost) {
-    return this.postService.updatePost(this.modalService.dialogState().id!, editedPost).pipe(
-      takeUntilDestroyed(this.destroyRef),
-      finalize(() => this.isWorking.set(false)),
-    );
+    // return this.postService.updatePost(this.modalService.dialogState().id!, editedPost).pipe(
+    //   takeUntilDestroyed(this.destroyRef),
+    //   finalize(() => this.isWorking.set(false)),
+    // );
   }
 }

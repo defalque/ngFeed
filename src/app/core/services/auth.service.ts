@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { catchError, tap, throwError } from 'rxjs';
 import { FirebaseUser } from '../types/user.model';
+import { Router } from '@angular/router';
 
 export type AuthResponseData = {
   idToken: string; // A Firebase Auth ID token for the authenticated user.
@@ -18,12 +19,12 @@ export type AuthResponseData = {
 })
 export class AuthService {
   private http = inject(HttpClient);
+  private router = inject(Router);
+  private tokenExpirationTimer: any;
 
   authenticatedUser = signal<FirebaseUser | null>(null);
   isAuthenticated = computed(() => {
     const user = this.authenticatedUser();
-    console.log(user);
-    console.log(!!user && !!user.idToken && new Date() < new Date(user.expirationDate));
     return !!user && !!user.idToken && new Date() < new Date(user.expirationDate);
   });
 
@@ -46,6 +47,8 @@ export class AuthService {
             expirationDate: new Date(new Date().getTime() + +resData.expiresIn * 1000),
           };
           this.authenticatedUser.set(user);
+          localStorage.setItem('userData', JSON.stringify(user));
+          this.autoLogout(+resData.expiresIn * 1000);
           console.log(user);
         }),
         catchError((error) => {
@@ -77,6 +80,8 @@ export class AuthService {
             expirationDate: new Date(new Date().getTime() + +resData.expiresIn * 1000),
           };
           this.authenticatedUser.set(user);
+          localStorage.setItem('userData', JSON.stringify(user));
+          this.autoLogout(+resData.expiresIn * 1000);
           console.log(user);
         }),
         catchError((error) => {
@@ -87,5 +92,33 @@ export class AuthService {
           return throwError(() => new Error("L'accesso non è andato a buon fine"));
         }),
       );
+  }
+
+  logout() {
+    this.authenticatedUser.set(null);
+    localStorage.removeItem('userData');
+    if (this.tokenExpirationTimer) clearTimeout(this.tokenExpirationTimer);
+    this.tokenExpirationTimer = null;
+    this.router.navigate(['/auth']);
+  }
+
+  autoLogin() {
+    const item = localStorage.getItem('userData');
+    const userData: FirebaseUser = item ? JSON.parse(item) : null;
+
+    if (!userData) return;
+
+    if (userData.idToken) {
+      this.authenticatedUser.set(userData);
+      const expirationDuration = new Date(userData.expirationDate).getTime() - new Date().getTime();
+      this.autoLogout(expirationDuration);
+    }
+  }
+
+  autoLogout(expirationDuration: number) {
+    console.log(expirationDuration);
+    this.tokenExpirationTimer = setTimeout(() => {
+      this.logout();
+    }, expirationDuration);
   }
 }

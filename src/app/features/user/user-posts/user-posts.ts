@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PostService } from '@/core/services/post.service';
 import { UserService } from '@/core/services/user.service';
 import { BlogPost } from '@/features/posts/post/post';
+import { AuthService } from '@/core/services/auth.service';
 
 @Component({
   selector: 'app-user-posts',
@@ -16,6 +17,7 @@ import { BlogPost } from '@/features/posts/post/post';
 export class UserPosts {
   private route = inject(ActivatedRoute);
   private postService = inject(PostService);
+  private authService = inject(AuthService);
   private userService = inject(UserService);
   private destroyRef = inject(DestroyRef);
 
@@ -24,8 +26,9 @@ export class UserPosts {
   error = signal('');
   isFetching = signal(false);
 
-  loadedGenericUserPosts = this.postService.loadedUserPosts;
-  loadedCurrentUserPosts = this.postService.loadedCurrentUserPosts;
+  authenticatedUser = this.authService.authenticatedUser;
+  loadedGenericUserPosts = this.postService.genericUserPostsReadonly;
+  loadedCurrentUserPosts = this.postService.authUserPostsReadonly;
 
   loadedUserPosts = computed(() => {
     return this.isCurrentUserPosts()
@@ -42,27 +45,37 @@ export class UserPosts {
         return;
       }
 
-      this.loadUserPosts(params.get('id')!);
+      this.fetchGenericUserPosts(params.get('id')!);
     });
   }
 
-  private loadUserPosts(userId: string) {
+  private fetchCurrentUserPosts() {
     this.isFetching.set(true);
     this.postService
-      .fetchUserPosts(userId)
+      .fetchPostsByUser(this.authenticatedUser()!.localId, true)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
       )
       .subscribe({
-        error: (error: Error) => {
-          console.log(error);
-          this.error.set(error.message);
-        },
+        error: (err: Error) => this.error.set(err.message),
+      });
+  }
+
+  private fetchGenericUserPosts(userId: string) {
+    this.isFetching.set(true);
+    this.postService
+      .fetchPostsByUser(userId, false)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isFetching.set(false)),
+      )
+      .subscribe({
+        error: (err: Error) => this.error.set(err.message),
       });
   }
 
   isCurrentUserPosts() {
-    return this.id() === this.userService.loadedCurrentUser()?.id;
+    return this.id() === this.authService.authenticatedUser()?.localId;
   }
 }
