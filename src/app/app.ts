@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LucideAngularModule, HouseIcon, UserIcon, SearchIcon, HeartIcon } from 'lucide-angular';
 import { Navbar } from './core/layout/navbar/navbar';
@@ -41,24 +41,22 @@ export class App implements OnInit {
   dialogState = this.modalService.dialogState;
   toggleDialog = this.modalService.toggleDialog;
 
-  // --- COMPUTED SIGNALS (Ottimizzazione Performance) ---
+  isOpen = computed(() => {
+    const { active, mode } = this.dialogState();
+    return active && ['create', 'edit', 'edit-user', 'delete'].includes(mode);
+  });
 
-  // isOpen = computed(() => {
-  //   const { active, mode } = this.dialogState();
-  //   return active && ['create', 'edit', 'edit-user', 'delete'].includes(mode);
-  // });
+  isAlert = computed(() => this.dialogState().mode === 'delete');
 
-  // isAlert = computed(() => this.dialogState().mode === 'delete');
-
-  // currentTitle = computed(() => {
-  //   const titles: Record<string, string> = {
-  //     'create': 'Nuovo post',
-  //     'edit': 'Modifica post',
-  //     'edit-user': 'Modifica Profilo',
-  //     'delete': 'Elimina post'
-  //   };
-  //   return titles[this.dialogState().mode] || '';
-  // });
+  currentTitle = computed(() => {
+    const titles: Record<string, string> = {
+      create: 'Nuovo post',
+      edit: 'Modifica post',
+      'edit-user': 'Modifica Profilo',
+      delete: 'Elimina post',
+    };
+    return titles[this.dialogState().mode] || '';
+  });
 
   constructor() {
     effect(() => {
@@ -68,6 +66,8 @@ export class App implements OnInit {
         // Fetch dei dati solo se l'utente è loggato
         this.fetchInitialData();
       } else {
+        this.postService.setAuthUserPosts([]);
+        this.postService.setUserPost(null);
         this.userService.setUser(null);
       }
     });
@@ -75,6 +75,7 @@ export class App implements OnInit {
 
   ngOnInit(): void {
     this.authService.autoLogin();
+    this.fetchInitialData();
   }
 
   /** Metodo centralizzato per il fetch dei dati iniziali */
@@ -94,31 +95,31 @@ export class App implements OnInit {
       });
   }
 
-  currentTitle() {
-    switch (this.dialogState().mode) {
-      case 'create':
-        return 'Nuovo post';
-      case 'edit':
-        return 'Modifica post';
-      case 'edit-user':
-        return 'Modifica Profilo';
-      case 'delete':
-        return 'Elimina post';
-      default:
-        return '';
-    }
-  }
+  // currentTitle() {
+  //   switch (this.dialogState().mode) {
+  //     case 'create':
+  //       return 'Nuovo post';
+  //     case 'edit':
+  //       return 'Modifica post';
+  //     case 'edit-user':
+  //       return 'Modifica Profilo';
+  //     case 'delete':
+  //       return 'Elimina post';
+  //     default:
+  //       return '';
+  //   }
+  // }
 
-  isAlert() {
-    return this.dialogState().mode === 'delete';
-  }
+  // isAlert() {
+  //   return this.dialogState().mode === 'delete';
+  // }
 
-  isOpen() {
-    return (
-      this.dialogState().active &&
-      ['create', 'edit', 'edit-user', 'delete'].includes(this.dialogState().mode)
-    );
-  }
+  // isOpen() {
+  //   return (
+  //     this.dialogState().active &&
+  //     ['create', 'edit', 'edit-user', 'delete'].includes(this.dialogState().mode)
+  //   );
+  // }
 
   readonly HomeIcon = HouseIcon;
   readonly SearchIcon = SearchIcon;

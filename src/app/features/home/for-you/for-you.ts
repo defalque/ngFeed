@@ -14,5 +14,9 @@ export class ForYou {
 
   currentUser = this.authService.authenticatedUser;
 
-  posts = computed(() => this.postService.allLoadedPosts());
+  posts = computed(() =>
+    this.postService.allLoadedPosts().filter((post) => post.userId !== this.currentUser()?.localId),
+  );
+
+  // fetchare sempre i post
 }

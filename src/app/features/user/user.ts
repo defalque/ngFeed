@@ -76,6 +76,15 @@ export class User implements OnInit {
         this.loadUserInfo(id);
       }
     });
+
+    effect(() => {
+      const user = this.user(); // reagisce sia se fetchato ora che già presente
+      if (!user) return;
+
+      const title = `${user.firstName + ' ' + user.lastName} – ngFeed`;
+
+      this.titleService.setTitle(title);
+    });
   }
 
   ngOnInit(): void {}

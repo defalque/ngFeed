@@ -87,8 +87,6 @@ export class Navbar {
 
   isActive(path: string) {
     const url = this.router.url;
-    console.log(url);
-    console.log(path);
     return url === path;
   }
 

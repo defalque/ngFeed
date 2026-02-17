@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { catchError, delay, map, tap, throwError } from 'rxjs';
+import { catchError, delay, EMPTY, map, of, switchMap, tap, throwError } from 'rxjs';
 import { EditedPost, FirebasePost, NewPost, Post } from '@/core/types/post.model';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
@@ -19,9 +19,18 @@ export class PostService {
 
   private authUserPosts = signal<Post[]>([]);
   authUserPostsReadonly = this.authUserPosts.asReadonly();
+  setAuthUserPosts(value: Post[] | []) {
+    this.authUserPosts.set(value);
+  }
 
   private genericUserPosts = signal<Post[]>([]);
   genericUserPostsReadonly = this.genericUserPosts.asReadonly();
+
+  private userPost = signal<Post | null>(null);
+  userPostReadonly = this.userPost.asReadonly();
+  setUserPost(value: Post | null) {
+    this.userPost.set(value);
+  }
 
   followedPosts = computed(() => {
     return this.allPosts().filter((post) => post.userId === 'user_002');
@@ -86,37 +95,79 @@ export class PostService {
       );
   }
 
+  fetchPost(postId: string, isAuthUser = false) {
+    return this.http
+      .get<Post>(
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`,
+      )
+      .pipe(
+        map((res) => {
+          if (!res) return null;
+
+          const post: Post = { ...res, id: postId };
+          return post;
+        }),
+        tap((post) => {
+          if (!post) return;
+          this.userPost.set(post);
+        }),
+        delay(500), // delay artificiale per loading UI
+      );
+  }
+
   createPost(post: NewPost) {
-    // const oldPosts = this.currentUserPosts();
-    // // 1. Creiamo un oggetto "temporaneo" con un ID fittizio per la UI
-    // const tempId = Date.now().toString(); // O un UUID
-    // const tempPost: Post = { ...post, id: tempId, likesCount: 0, commentsCount: 0 };
-    // // 2. Aggiornamento ottimistico della UI
-    // this.currentUserPosts.set([tempPost, ...oldPosts]);
-    // 3. Invio al server (senza l'id temporaneo)
-    // return this.storePost(this.postsUrl, { ...post, likesCount: 0, commentsCount: 0 }).pipe(
-    //   delay(2000),
-    //   tap((response: any) => {
-    //     const realId = response.name;
-    //     // // Sostituiamo il post temporaneo con quello reale (che ha l'ID vero)
-    //     // this.currentUserPosts.update((posts) =>
-    //     //   posts.map((p) =>
-    //     //     p.id === tempId ? { ...post, likesCount: 0, commentsCount: 0, id: realId } : p,
-    //     //   ),
-    //     // );const realId = response.name;
-    //     const newPost: Post = {
-    //       ...post,
-    //       id: realId,
-    //       likesCount: 0,
-    //       commentsCount: 0,
-    //     };
-    //     this.currentUserPosts.update((posts) => [newPost, ...posts]);
-    //   }),
-    //   catchError((error) => {
-    //     // Rollback in caso di errore
-    //     return throwError(() => new Error('Richiesta fallita!'));
-    //   }),
-    // );
+    const authUser = this.authenticatedUser();
+    const uid = authUser?.localId;
+    const token = authUser?.idToken;
+
+    if (!uid || !token) return EMPTY;
+
+    return this.http
+      .post<{
+        name: string;
+      }>(
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?auth=${token}`,
+        {},
+      )
+      .pipe(
+        switchMap((response) => {
+          const postId = response.name;
+
+          const newPost: Post = {
+            ...post,
+            id: postId,
+            likesCount: 0,
+            commentsCount: 0,
+          };
+
+          const updates: any = {
+            [`posts/${postId}`]: {
+              ...post,
+              created_at: new Date().toISOString(),
+              likesCount: 0,
+              commentsCount: 0,
+            },
+            [`user-posts/${post.userId}/${postId}`]: true,
+          };
+
+          return this.http
+            .patch(
+              `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+              updates,
+            )
+            .pipe(map(() => newPost));
+        }),
+        delay(500), // delay artificiale per loading ui
+        tap((newPost) => {
+          console.log('New Post:', newPost);
+          console.log('Current authUserPosts:', this.authUserPosts());
+          this.allPosts.update((posts) => [newPost, ...posts]);
+          this.authUserPosts.update((posts) => [newPost, ...posts]);
+        }),
+        catchError((error) => {
+          return throwError(() => new Error('Post creation failed'));
+        }),
+      );
   }
 
   updatePost(postId: string, post: EditedPost) {

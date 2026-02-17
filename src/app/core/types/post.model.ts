@@ -29,6 +29,7 @@ export const newPostFormSchema = postSchema.omit({
   id: true,
   likesCount: true,
   commentsCount: true,
+  postImage: true,
 });
 export type NewPost = z.infer<typeof newPostFormSchema>;
 
