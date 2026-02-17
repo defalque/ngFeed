@@ -41,6 +41,44 @@ export class App implements OnInit {
   dialogState = this.modalService.dialogState;
   toggleDialog = this.modalService.toggleDialog;
 
+  constructor() {
+    effect(() => {
+      const authUser = this.authService.authenticatedUser();
+
+      if (authUser) {
+        // Fetch dei dati solo se l'utente è loggato
+        this.fetchInitialData();
+      } else {
+        this.userService.setUser(null);
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    this.isFetching.set(true);
+
+    this.authService.autoLogin();
+
+    this.fetchInitialData();
+  }
+
+  /** Metodo centralizzato per il fetch dei dati iniziali */
+  private fetchInitialData() {
+    this.isFetching.set(true);
+
+    forkJoin({
+      posts: this.postService.fetchAllPosts(),
+      userInfo: this.userService.fetchAuthUserInfo(),
+    })
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isFetching.set(false)),
+      )
+      .subscribe({
+        error: (err) => console.error('Errore durante il caricamento dei dati', err),
+      });
+  }
+
   currentTitle() {
     switch (this.dialogState().mode) {
       case 'create':
@@ -65,49 +103,6 @@ export class App implements OnInit {
       this.dialogState().active &&
       ['create', 'edit', 'edit-user', 'delete'].includes(this.dialogState().mode)
     );
-  }
-
-  constructor() {
-    effect(() => {
-      const authUser = this.authService.authenticatedUser();
-
-      if (authUser) {
-        // Quando authUser cambia da null a un oggetto (login avvenuto)
-        // facciamo il fetch dei dati mancanti
-        forkJoin({
-          posts: this.postService.fetchAllPosts(),
-          userInfo: this.userService.fetchAuthUserInfo(),
-        })
-          .pipe(
-            takeUntilDestroyed(this.destroyRef),
-            finalize(() => this.isFetching.set(false)),
-          )
-          .subscribe({
-            error: (err) => console.error('Si è verificato un errore durante il caricamento', err),
-          });
-      } else {
-        this.userService.setUser(null);
-      }
-    });
-  }
-
-  ngOnInit(): void {
-    this.isFetching.set(true);
-
-    this.authService.autoLogin();
-
-    forkJoin({
-      posts: this.postService.fetchAllPosts(),
-      userInfo: this.userService.fetchAuthUserInfo(),
-    })
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isFetching.set(false)),
-      )
-      .subscribe({
-        next: (data) => {},
-        error: (err) => console.error('Si è verificato un errore durante il caricamento', err),
-      });
   }
 
   readonly HomeIcon = HouseIcon;
