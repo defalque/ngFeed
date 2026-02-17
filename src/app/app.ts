@@ -41,6 +41,25 @@ export class App implements OnInit {
   dialogState = this.modalService.dialogState;
   toggleDialog = this.modalService.toggleDialog;
 
+  // --- COMPUTED SIGNALS (Ottimizzazione Performance) ---
+
+  // isOpen = computed(() => {
+  //   const { active, mode } = this.dialogState();
+  //   return active && ['create', 'edit', 'edit-user', 'delete'].includes(mode);
+  // });
+
+  // isAlert = computed(() => this.dialogState().mode === 'delete');
+
+  // currentTitle = computed(() => {
+  //   const titles: Record<string, string> = {
+  //     'create': 'Nuovo post',
+  //     'edit': 'Modifica post',
+  //     'edit-user': 'Modifica Profilo',
+  //     'delete': 'Elimina post'
+  //   };
+  //   return titles[this.dialogState().mode] || '';
+  // });
+
   constructor() {
     effect(() => {
       const authUser = this.authService.authenticatedUser();
@@ -55,11 +74,7 @@ export class App implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isFetching.set(true);
-
     this.authService.autoLogin();
-
-    this.fetchInitialData();
   }
 
   /** Metodo centralizzato per il fetch dei dati iniziali */
