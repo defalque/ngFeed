@@ -27,23 +27,23 @@
 
     <!-- Dropdown -->
     <app-dropdown-menu [isOpen]="isOpen()" usedIn="header">
-      <div class="flex items-center justify-center gap-2">
+      <div class="flex items-center justify-center gap-1">
         <button
-          class="w-full px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 rounded-md cursor-pointer focus"
+          class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 rounded-md cursor-pointer focus"
           aria-label="Modalità chiara"
           [attr.tabindex]="isOpen() ? '0' : '-1'"
         >
           <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
         </button>
         <button
-          class="w-full px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 rounded-md cursor-pointer focus"
+          class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 rounded-md cursor-pointer focus"
           aria-label="Modalità scura"
           [attr.tabindex]="isOpen() ? '0' : '-1'"
         >
           <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
         </button>
         <button
-          class="w-full px-4 py-2 flex items-center justify-center bg-gray-100/75 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
+          class="w-full self-stretch px-4 py-2 flex items-center justify-center bg-gray-100/75 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOpen() ? '0' : '-1'"
         >
           Auto

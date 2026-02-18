@@ -11,7 +11,7 @@ import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { PostService } from '@/core/services/post.service';
 import { BlogPost } from '../post/post';
 import { AuthService } from '@/core/services/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { UserService } from '@/core/services/user.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
@@ -19,7 +19,7 @@ import { FullPostSkeleton } from '@/shared/components/skeletons/full-post-skelet
 
 @Component({
   selector: 'app-full-post',
-  imports: [BlogPost, LucideAngularModule, VerifiedIcon, FullPostSkeleton],
+  imports: [BlogPost, LucideAngularModule, VerifiedIcon, FullPostSkeleton, RouterLink],
   templateUrl: './full-post.html',
   styleUrl: './full-post.css',
   host: { class: 'block w-full' },

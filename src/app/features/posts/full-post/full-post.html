@@ -111,6 +111,14 @@
       </div>
     }
   } @else {
-    <p>Il post non esiste</p>
+    <div class="flex flex-col items-center gap-2">
+      <p class="text-xl font-medium max-w-xl">Il post che stavi cercando non esiste</p>
+      <a
+        routerLink="/"
+        class="text-base hover:underline underline-offset-2 cursor-pointer text-black px-4 py-2 rounded-md focus-button inline-block focus-button"
+      >
+        &larr; Torna alla home
+      </a>
+    </div>
   }
 </div>
