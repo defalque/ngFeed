@@ -14,6 +14,7 @@ import { ModalService } from '@/core/services/modal.service';
 import { AuthService } from '@/core/services/auth.service';
 import { EditedUser } from '@/core/types/user.model';
 import { Router } from '@angular/router';
+import { FocusField } from '@/shared/directives/focus-field.directive';
 
 function validUrl(control: AbstractControl) {
   if (!control.value) return null;
@@ -53,7 +54,7 @@ function equalValues(controlName1: string, controlName2: string) {
 
 @Component({
   selector: 'app-edit-user',
-  imports: [ReactiveFormsModule, A11yModule],
+  imports: [ReactiveFormsModule, A11yModule, FocusField],
   templateUrl: './edit-user.html',
   styleUrl: './edit-user.css',
 })
@@ -65,6 +66,8 @@ export class EditUser implements OnInit {
 
   authenticatedUser = this.authService.authenticatedUser;
   currentUser = this.userService.loadedCurrentUser;
+
+  initialFormValue!: any;
 
   reactiveForm = new FormGroup({
     info: new FormGroup(
@@ -112,7 +115,17 @@ export class EditUser implements OnInit {
         location: this.currentUser()?.location,
         isVerified: this.currentUser()?.isVerified,
       });
+
+      this.initialFormValue = this.reactiveForm.getRawValue();
+      this.reactiveForm.markAsPristine();
     }
+  }
+
+  isUnchanged(): boolean {
+    if (!this.currentUser()) return false;
+
+    const currentValue = this.reactiveForm.getRawValue();
+    return JSON.stringify(currentValue) === JSON.stringify(this.initialFormValue);
   }
 
   get infoAreInvalid() {
@@ -175,7 +188,7 @@ export class EditUser implements OnInit {
   isEditing = signal(false);
 
   onReset() {
-    if (this.isEditing()) return;
+    if (this.isEditing() || this.isUnchanged()) return;
 
     if (this.currentUser()) {
       const user = this.currentUser();
@@ -196,7 +209,7 @@ export class EditUser implements OnInit {
   }
 
   onSubmit() {
-    if (this.reactiveForm.invalid || this.isEditing()) return;
+    if (this.reactiveForm.invalid || this.isEditing() || this.isUnchanged()) return;
 
     const newUserData: EditedUser = {
       firstName: this.reactiveForm.controls.info.controls.firstName.value!,

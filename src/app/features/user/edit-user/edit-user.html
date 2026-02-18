@@ -141,18 +141,18 @@
         id="v-true"
         [value]="true"
         formControlName="isVerified"
-        class="appearance-none checked:bg-black/75 size-4 rounded-full ring-2 ring-black/75 outline-white outline-2 ring-offset-2 ml-1"
+        class="appearance-none checked:bg-black/75 size-4.5 rounded-full border border-black focus-visible:ring-[3px] ring-black/75 outline-white outline-2 ring-offset-2 ml-1 cursor-pointer"
       />
       <label for="v-true">Si</label>
     </div>
 
-    <div class="flex items-center gap-x-2">
+    <div class="flex items-center gap-x-2 cursor-pointer">
       <input
         type="radio"
         id="v-false"
         [value]="false"
         formControlName="isVerified"
-        class="appearance-none checked:bg-black/75 size-4 rounded-full ring-2 ring-black/75 outline-white outline-2 ring-offset-2 ml-1"
+        class="appearance-none checked:bg-black/75 size-4.5 rounded-full border border-black focus-visible:ring-[3px] ring-black/75 outline-white outline-2 ring-offset-2 ml-1 cursor-pointer"
       />
       <label for="v-false">No</label>
     </div>
@@ -163,14 +163,14 @@
       <button
         type="button"
         (click)="onReset()"
-        [disabled]="reactiveForm.pending || isEditing()"
+        [disabled]="reactiveForm.pending || isEditing() || isUnchanged()"
         class="bg-gray-200 hover:bg-gray-300 disabled:hover:bg-gray-200 text-black/80 cursor-pointer transition-colors duration-300 px-4 py-2 text-base sm:text-lg rounded-xl font-semibold focus-button flex-none disabled:cursor-not-allowed"
       >
         Annulla
       </button>
       <button
         type="submit"
-        [disabled]="reactiveForm.invalid || reactiveForm.pending || isEditing()"
+        [disabled]="reactiveForm.invalid || reactiveForm.pending || isEditing() || isUnchanged()"
         class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 disabled:cursor-not-allowed flex items-center justify-center gap-4"
       >
         @if (isEditing()) {
