@@ -1,13 +1,6 @@
 import { Routes } from '@angular/router';
-import { User } from './features/user/user';
 import { Home } from './features/home/home';
 import { homeRoutes } from './features/home/home.routes';
-import { Search } from './features/search/search';
-import { FullPost } from './features/posts/full-post/full-post';
-import { Favorites } from './features/favorites/favorites';
-import { NotFound } from './core/pages/not-found/not-found';
-import { userRoutes } from './features/user/user.routes';
-import { Auth } from './features/auth/auth';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'per-te', pathMatch: 'full' },
@@ -16,17 +9,29 @@ export const routes: Routes = [
     component: Home,
     children: homeRoutes,
   },
-  { path: 'cerca', component: Search, title: 'ngFeed - Cerca' },
-  { path: 'preferiti', component: Favorites, title: 'ngFeed - Preferiti' },
+  {
+    path: 'cerca',
+    loadComponent: () => import('./features/search/search').then((mod) => mod.Search),
+    title: 'ngFeed - Cerca',
+  },
+  {
+    path: 'preferiti',
+    loadComponent: () => import('./features/favorites/favorites').then((mod) => mod.Favorites),
+    title: 'ngFeed - Preferiti',
+  },
   {
     path: 'utente/:id',
-    component: User,
-    children: userRoutes,
+    loadComponent: () => import('./features/user/user').then((mod) => mod.User),
+    loadChildren: () => import('./features/user/user.routes').then((mod) => mod.userRoutes),
   },
   {
     path: 'utente/:id/posts/:postId',
-    component: FullPost,
+    loadComponent: () => import('./features/posts/full-post/full-post').then((mod) => mod.FullPost),
   },
-  { path: 'auth', component: Auth },
-  { path: '**', component: NotFound, title: 'Pagina non trovata' },
+  { path: 'auth', loadComponent: () => import('./features/auth/auth').then((mod) => mod.Auth) },
+  {
+    path: '**',
+    loadComponent: () => import('./core/pages/not-found/not-found').then((mod) => mod.NotFound),
+    title: 'Pagina non trovata',
+  },
 ];

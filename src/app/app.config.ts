@@ -3,8 +3,6 @@ import { provideRouter, withComponentInputBinding, withRouterConfig } from '@ang
 
 import { routes } from './app.routes';
 
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
 import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
@@ -18,10 +16,5 @@ export const appConfig: ApplicationConfig = {
         paramsInheritanceStrategy: 'always', // posso accedere ai dynamic params della parent route automaticamente tramite input binding (your-feeds.ts; line 16)
       }),
     ),
-    providePrimeNG({
-      theme: {
-        preset: Aura,
-      },
-    }),
   ],
 };

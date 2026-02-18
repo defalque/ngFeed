@@ -69,6 +69,7 @@
       class="relative inline-block"
     >
       <button
+        #button
         class="text-zinc-400/80 rounded-xl px-5 py-3 cursor-pointer focus transition-transform active:scale-[0.92] relative z-10 group"
         (click)="toggleOpen()"
         aria-label="Menu"
@@ -81,53 +82,55 @@
       </button>
 
       <!-- Dropdown menu -->
-      <app-dropdown-menu [isOpen]="isOpen()" usedIn="navbar">
-        <div class="flex items-center justify-center gap-1">
-          <button
-            class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-            aria-label="Modalità chiara"
-            [attr.tabindex]="isOpen() ? '0' : '-1'"
-          >
-            <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
-          </button>
-          <button
-            class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-            aria-label="Modalità scura"
-            [attr.tabindex]="isOpen() ? '0' : '-1'"
-          >
-            <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
-          </button>
-          <button
-            class="w-full self-stretch px-4 py-2 flex items-center justify-center bg-gray-100/55 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-            [attr.tabindex]="isOpen() ? '0' : '-1'"
-          >
-            Auto
-          </button>
-        </div>
+      @defer (on hover(button); on interaction(button)) {
+        <app-dropdown-menu [isOpen]="isOpen()" usedIn="navbar">
+          <div class="flex items-center justify-center gap-1">
+            <button
+              class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+              aria-label="Modalità chiara"
+              [attr.tabindex]="isOpen() ? '0' : '-1'"
+            >
+              <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
+            </button>
+            <button
+              class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+              aria-label="Modalità scura"
+              [attr.tabindex]="isOpen() ? '0' : '-1'"
+            >
+              <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
+            </button>
+            <button
+              class="w-full self-stretch px-4 py-2 flex items-center justify-center bg-gray-100/55 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+              [attr.tabindex]="isOpen() ? '0' : '-1'"
+            >
+              Auto
+            </button>
+          </div>
 
-        <button
-          class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-          [attr.tabindex]="isOpen() ? '0' : '-1'"
-        >
-          Impostazioni
-        </button>
-        @if (isAuthenticated()) {
           <button
             class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
             [attr.tabindex]="isOpen() ? '0' : '-1'"
           >
-            Segnala un problema
+            Impostazioni
           </button>
+          @if (isAuthenticated()) {
+            <button
+              class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+              [attr.tabindex]="isOpen() ? '0' : '-1'"
+            >
+              Segnala un problema
+            </button>
 
-          <a
-            (click)="logUserOut($event)"
-            class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-            [attr.tabindex]="isOpen() ? '0' : '-1'"
-          >
-            Esci
-          </a>
-        }
-      </app-dropdown-menu>
+            <a
+              (click)="logUserOut($event)"
+              class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+              [attr.tabindex]="isOpen() ? '0' : '-1'"
+            >
+              Esci
+            </a>
+          }
+        </app-dropdown-menu>
+      }
     </div>
   </div>
 </aside>

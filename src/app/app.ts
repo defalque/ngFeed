@@ -1,4 +1,13 @@
-import { Component, computed, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  OnInit,
+  signal,
+  Type,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LucideAngularModule, HouseIcon, UserIcon, SearchIcon, HeartIcon } from 'lucide-angular';
 import { Navbar } from './core/layout/navbar/navbar';
@@ -58,7 +67,14 @@ export class App implements OnInit {
     return titles[this.dialogState().mode] || '';
   });
 
+  isMobile = signal(false);
+
   constructor() {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    this.isMobile.set(mediaQuery.matches);
+
+    mediaQuery.addEventListener('change', (e) => this.isMobile.set(e.matches));
+
     effect(() => {
       const authUser = this.authService.authenticatedUser();
 
@@ -94,32 +110,6 @@ export class App implements OnInit {
         error: (err) => console.error('Errore durante il caricamento dei dati', err),
       });
   }
-
-  // currentTitle() {
-  //   switch (this.dialogState().mode) {
-  //     case 'create':
-  //       return 'Nuovo post';
-  //     case 'edit':
-  //       return 'Modifica post';
-  //     case 'edit-user':
-  //       return 'Modifica Profilo';
-  //     case 'delete':
-  //       return 'Elimina post';
-  //     default:
-  //       return '';
-  //   }
-  // }
-
-  // isAlert() {
-  //   return this.dialogState().mode === 'delete';
-  // }
-
-  // isOpen() {
-  //   return (
-  //     this.dialogState().active &&
-  //     ['create', 'edit', 'edit-user', 'delete'].includes(this.dialogState().mode)
-  //   );
-  // }
 
   readonly HomeIcon = HouseIcon;
   readonly SearchIcon = SearchIcon;

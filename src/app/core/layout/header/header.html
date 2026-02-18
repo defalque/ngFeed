@@ -14,6 +14,7 @@
     class="relative inline-block"
   >
     <button
+      #button
       class="text-zinc-400/80 rounded-xl active:scale-[0.92] transition-transform px-5 py-3 cursor-pointer focus relative z-10 group"
       aria-label="Menu"
       (click)="toggleOpen()"
@@ -26,53 +27,55 @@
     </button>
 
     <!-- Dropdown -->
-    <app-dropdown-menu [isOpen]="isOpen()" usedIn="header">
-      <div class="flex items-center justify-center gap-1">
-        <button
-          class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 rounded-md cursor-pointer focus"
-          aria-label="Modalità chiara"
-          [attr.tabindex]="isOpen() ? '0' : '-1'"
-        >
-          <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
-        </button>
-        <button
-          class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 rounded-md cursor-pointer focus"
-          aria-label="Modalità scura"
-          [attr.tabindex]="isOpen() ? '0' : '-1'"
-        >
-          <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
-        </button>
-        <button
-          class="w-full self-stretch px-4 py-2 flex items-center justify-center bg-gray-100/75 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
-          [attr.tabindex]="isOpen() ? '0' : '-1'"
-        >
-          Auto
-        </button>
-      </div>
+    @defer (on hover(button); on interaction(button)) {
+      <app-dropdown-menu [isOpen]="isOpen()" usedIn="header">
+        <div class="flex items-center justify-center gap-1">
+          <button
+            class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 rounded-md cursor-pointer focus"
+            aria-label="Modalità chiara"
+            [attr.tabindex]="isOpen() ? '0' : '-1'"
+          >
+            <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
+          </button>
+          <button
+            class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 rounded-md cursor-pointer focus"
+            aria-label="Modalità scura"
+            [attr.tabindex]="isOpen() ? '0' : '-1'"
+          >
+            <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
+          </button>
+          <button
+            class="w-full self-stretch px-4 py-2 flex items-center justify-center bg-gray-100/75 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
+            [attr.tabindex]="isOpen() ? '0' : '-1'"
+          >
+            Auto
+          </button>
+        </div>
 
-      <button
-        class="w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOpen() ? '0' : '-1'"
-      >
-        Impostazioni
-      </button>
-
-      @if (currentUser()) {
         <button
           class="w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOpen() ? '0' : '-1'"
         >
-          Segnala un problema
+          Impostazioni
         </button>
 
-        <button
-          (click)="logUserOut($event)"
-          class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
-          [attr.tabindex]="isOpen() ? '0' : '-1'"
-        >
-          Esci
-        </button>
-      }
-    </app-dropdown-menu>
+        @if (currentUser()) {
+          <button
+            class="w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
+            [attr.tabindex]="isOpen() ? '0' : '-1'"
+          >
+            Segnala un problema
+          </button>
+
+          <button
+            (click)="logUserOut($event)"
+            class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/75 rounded-md cursor-pointer focus"
+            [attr.tabindex]="isOpen() ? '0' : '-1'"
+          >
+            Esci
+          </button>
+        }
+      </app-dropdown-menu>
+    }
   </div>
 </header>

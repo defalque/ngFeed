@@ -8,7 +8,9 @@
     </div>
   } @else {
     <div [inert]="dialogState().active">
-      <app-header />
+      @defer (when isMobile()) {
+        <app-header />
+      }
       <app-navbar />
 
       <main
@@ -24,18 +26,20 @@
       [isOpen]="isOpen()"
       (toggleFn)="toggleDialog()"
     >
-      @switch (dialogState().mode) {
-        @case ('create') {
-          <app-post-form />
-        }
-        @case ('edit') {
-          <app-post-form />
-        }
-        @case ('edit-user') {
-          <app-edit-user />
-        }
-        @case ('delete') {
-          <app-delete-post />
+      @defer (when isOpen()) {
+        @switch (dialogState().mode) {
+          @case ('create') {
+            <app-post-form />
+          }
+          @case ('edit') {
+            <app-post-form />
+          }
+          @case ('edit-user') {
+            <app-edit-user />
+          }
+          @case ('delete') {
+            <app-delete-post />
+          }
         }
       }
     </app-modal>

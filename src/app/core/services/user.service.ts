@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 
 import { catchError, delay, EMPTY, map, Observable, of, tap, throwError } from 'rxjs';
-import { EditedUser, NewUser, User } from '../types/user.model';
+import { EditedUser, User } from '../types/user.model';
 import { AuthService } from './auth.service';
 import { PostService } from './post.service';
 
@@ -32,8 +32,6 @@ export class UserService {
 
   private readonly usersUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users.json';
-  private readonly userUrl =
-    'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/';
 
   // fetcha info di utente generico
   fetchUserInfo(uid: string) {

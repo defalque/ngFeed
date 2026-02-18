@@ -5,6 +5,7 @@
   class="relative inline-block col-span-1"
 >
   <button
+    #button
     class="text-zinc-400/80 rounded-full p-2 active:scale-[0.92] cursor-pointer col-span-1 focus relative z-10 group"
     [class.active]="isOptionsOpen()"
     aria-label="Opzioni post"
@@ -16,55 +17,62 @@
     <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
   </button>
 
-  <app-dropdown-menu
-    [isOpen]="isOptionsOpen()"
-    usedIn="post-options"
-    [isCurrentUserPost]="isCurrentUserPost()"
-  >
-    @if (!isCurrentUserPost()) {
-      <button
-        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-      >
-        <span>Salva</span>
-        <lucide-icon [img]="BookmarkIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
-      </button>
-      <button
-        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-      >
-        <span>Non mi interessa</span>
-        <lucide-icon [img]="ThumbsDownIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
-      </button>
-      <button
-        class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-      >
-        <span>Segnala</span>
-        <lucide-icon
-          [img]="MessageSquareWarningIcon"
-          size="20"
-          class="text-red-500!"
-          aria-hidden
-        ></lucide-icon>
-      </button>
-    } @else {
-      <button
-        (click)="openEditPostDialog($event)"
-        class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-      >
-        <span>Modifica</span>
-        <lucide-icon [img]="PencilIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
-      </button>
-      <button
-        (click)="openDeletePostDialog($event)"
-        class="w-full flex items-center justify-between text-red-500 px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
-        [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
-      >
-        <span>Elimina</span>
-        <lucide-icon [img]="TrashIcon" size="20" class="text-red-500!" aria-hidden></lucide-icon>
-      </button>
-    }
-  </app-dropdown-menu>
+  @defer (on hover(button); on interaction(button)) {
+    <app-dropdown-menu
+      [isOpen]="isOptionsOpen()"
+      usedIn="post-options"
+      [isCurrentUserPost]="isCurrentUserPost()"
+    >
+      @if (!isCurrentUserPost()) {
+        <button
+          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
+        >
+          <span>Salva</span>
+          <lucide-icon [img]="BookmarkIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
+        </button>
+        <button
+          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
+        >
+          <span>Non mi interessa</span>
+          <lucide-icon
+            [img]="ThumbsDownIcon"
+            size="20"
+            class="text-black!"
+            aria-hidden
+          ></lucide-icon>
+        </button>
+        <button
+          class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
+        >
+          <span>Segnala</span>
+          <lucide-icon
+            [img]="MessageSquareWarningIcon"
+            size="20"
+            class="text-red-500!"
+            aria-hidden
+          ></lucide-icon>
+        </button>
+      } @else {
+        <button
+          (click)="openEditPostDialog($event)"
+          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
+        >
+          <span>Modifica</span>
+          <lucide-icon [img]="PencilIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
+        </button>
+        <button
+          (click)="openDeletePostDialog($event)"
+          class="w-full flex items-center justify-between text-red-500 px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
+        >
+          <span>Elimina</span>
+          <lucide-icon [img]="TrashIcon" size="20" class="text-red-500!" aria-hidden></lucide-icon>
+        </button>
+      }
+    </app-dropdown-menu>
+  }
 </div>
