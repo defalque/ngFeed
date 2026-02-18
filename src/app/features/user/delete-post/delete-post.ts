@@ -31,20 +31,24 @@ export class DeletePost {
   }
 
   onDeletePost() {
-    // this.isDeleting.set(true);
-    // this.postService
-    //   .deletePost(this.modalService.dialogState().id!)
-    //   .pipe(
-    //     takeUntilDestroyed(this.destroyRef),
-    //     finalize(() => this.isDeleting.set(true)),
-    //   )
-    //   .subscribe({
-    //     next: () => {
-    //       this.modalService.closeDialog();
-    //     },
-    //     error: (err) => {
-    //       console.error("Errore durante l'eliminazione del post", err);
-    //     },
-    //   });
+    if (this.isDeleting()) return;
+
+    this.modalService.isBusy.set(true);
+    this.isDeleting.set(true);
+    this.postService
+      .deletePost(this.modalService.dialogState().id!)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => {
+          this.isDeleting.set(false);
+          this.modalService.isBusy.set(false);
+          this.modalService.closeDialog();
+        }),
+      )
+      .subscribe({
+        error: (err) => {
+          console.error("Errore durante l'eliminazione del post", err);
+        },
+      });
   }
 }

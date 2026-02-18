@@ -12,7 +12,7 @@
     <button
       type="button"
       (click)="onCloseModal()"
-      class="bg-gray-100 hover:bg-gray-200 w-full sm:w-auto text-black/70 cursor-pointer duration-300 px-4 py-2 text-base sm:text-lg rounded-md font-bold focus-button transition-colors disabled:cursor-not-allowed"
+      class="bg-gray-100 hover:bg-gray-200 disabled:hover:bg-gray-100 w-full sm:w-auto text-black/70 cursor-pointer duration-300 px-4 py-2 text-base sm:text-lg rounded-md font-semibold focus-button transition-colors disabled:cursor-not-allowed"
       [disabled]="isDeleting()"
     >
       Annulla
@@ -20,11 +20,17 @@
     <button
       type="button"
       (click)="onDeletePost()"
-      class="bg-red-500 hover:bg-red-600 w-full sm:w-auto cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-md font-bold text-shadow-xs focus-button disabled:cursor-not-allowed"
-      [class.animate-pulse]="isDeleting()"
+      class="bg-red-500 hover:bg-red-600 disabled:hover:bg-red-500 w-full sm:w-auto cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-md font-semibold text-shadow-xs focus-button disabled:cursor-not-allowed flex items-center gap-4 justify-center"
       [disabled]="isDeleting()"
     >
-      {{ isDeleting() ? 'Eliminazione in corso...' : 'Conferma' }}
+      @if (isDeleting()) {
+        <span>Eliminazione</span>
+        <div
+          class="size-5 rounded-full border-[3px] border-red-500 border-t-[3px] border-t-white border-r-[3px] border-r-white border-b-[3px] border-b-white animate-spin [animation-duration:500ms]"
+        ></div>
+      } @else {
+        <span>Conferma</span>
+      }
     </button>
   </div>
 </div>

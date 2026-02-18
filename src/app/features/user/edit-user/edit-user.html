@@ -159,7 +159,7 @@
   </fieldset>
 
   @if (currentUser()) {
-    <div class="flex items-center gap-2 mt-2">
+    <div class="flex sm:items-center sm:flex-row flex-col-reverse gap-2 mt-2">
       <button
         type="button"
         (click)="onReset()"
@@ -171,9 +171,17 @@
       <button
         type="submit"
         [disabled]="reactiveForm.invalid || reactiveForm.pending || isEditing()"
-        class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 disabled:cursor-not-allowed"
+        class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 disabled:cursor-not-allowed flex items-center justify-center gap-4"
       >
-        {{ isEditing() ? 'Aggiornamento in corso...' : 'Aggiorna profilo' }}
+        @if (isEditing()) {
+          <span>Modifica in corso</span>
+
+          <div
+            class="size-5 rounded-full border-[3px] border-black border-t-white border-r-white animate-spin [animation-duration:500ms]"
+          ></div>
+        } @else {
+          <span>Aggiorna profilo</span>
+        }
       </button>
     </div>
   } @else {

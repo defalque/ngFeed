@@ -82,51 +82,58 @@ export class PostForm {
       //   return;
       // }
 
+      this.modalService.isBusy.set(true);
       this.isWorking.set(true);
       this.addPost(newPost).subscribe({
         next: () => {
           formData.form.reset();
-          this.modalService.closeDialog();
         },
         error: (err) => {
           console.error('Errore durante la creazione del post', err);
         },
       });
     } else {
-      // const editedPost = {
-      //   title: formData.form.value.title,
-      //   description: formData.form.value.description,
-      //   content: formData.form.value.content,
-      // };
+      const editedPost = {
+        title: formData.form.value.title,
+        description: formData.form.value.description,
+        content: formData.form.value.content,
+      };
       // const validationResult = editPostFormSchema.safeParse(editedPost);
       // if (!validationResult.success) {
       //   console.log(validationResult.error);
       //   return;
       // }
-      // this.isWorking.set(true);
-      // this.editPost(editedPost).subscribe({
-      //   next: () => {
-      //     formData.form.reset();
-      //     this.modalService.closeDialog();
-      //   },
-      //   error: (err) => {
-      //     console.error('Errore durante la modifica del post', err);
-      //   },
-      // });
+      this.isWorking.set(true);
+      this.editPost(editedPost).subscribe({
+        next: () => {
+          formData.form.reset();
+        },
+        error: (err) => {
+          console.error('Errore durante la modifica del post', err);
+        },
+      });
     }
   }
 
   private addPost(post: NewPost) {
     return this.postService.createPost(post).pipe(
       takeUntilDestroyed(this.destroyRef),
-      finalize(() => this.isWorking.set(false)),
+      finalize(() => {
+        this.isWorking.set(false);
+        this.modalService.isBusy.set(false);
+        this.modalService.closeDialog();
+      }),
     );
   }
 
   private editPost(editedPost: EditedPost) {
-    // return this.postService.updatePost(this.modalService.dialogState().id!, editedPost).pipe(
-    //   takeUntilDestroyed(this.destroyRef),
-    //   finalize(() => this.isWorking.set(false)),
-    // );
+    return this.postService.editPost(this.modalService.dialogState().id!, editedPost).pipe(
+      takeUntilDestroyed(this.destroyRef),
+      finalize(() => {
+        this.isWorking.set(false);
+        this.modalService.isBusy.set(false);
+        this.modalService.closeDialog();
+      }),
+    );
   }
 }

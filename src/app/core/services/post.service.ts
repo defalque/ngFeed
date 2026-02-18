@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { catchError, delay, EMPTY, map, of, switchMap, tap, throwError } from 'rxjs';
+import { catchError, delay, EMPTY, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { EditedPost, FirebasePost, NewPost, Post } from '@/core/types/post.model';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
@@ -170,48 +170,67 @@ export class PostService {
       );
   }
 
-  updatePost(postId: string, post: EditedPost) {
-    // return this.editPost(
-    //   `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`,
-    //   post,
-    // ).pipe(
-    //   delay(2000),
-    //   tap((updatedPost) => {
-    //     // Aggiorna il segnale locale così la UI reagisce immediatamente
-    //     this.currentUserPosts.update((posts) => {
-    //       const index = posts.findIndex((p) => p.id === postId);
-    //       if (index !== -1) {
-    //         // Uniamo l'ID esistente con i nuovi dati
-    //         posts[index] = { ...post, id: postId } as Post;
-    //       }
-    //       return [...posts];
-    //     });
-    //   }),
-    //   catchError((error) => {
-    //     // Rollback in caso di errore
-    //     return throwError(() => new Error('Richiesta fallita!'));
-    //   }),
-    // );
+  deletePost(postId: string) {
+    const authUser = this.authenticatedUser();
+    const userId = authUser?.localId;
+    const token = authUser?.idToken;
+
+    if (!token || !postId || !userId) return EMPTY;
+
+    const updates: any = {
+      [`posts/${postId}`]: null,
+      [`user-posts/${userId}/${postId}`]: null,
+    };
+
+    return this.http
+      .patch(
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        updates,
+      )
+      .pipe(
+        delay(2000),
+        tap(() => {
+          this.allPosts.update((posts) => posts.filter((p) => p.id !== postId));
+          this.authUserPosts.update((posts) => posts.filter((p) => p.id !== postId));
+
+          console.log(`Post ${postId} eliminato con successo.`);
+        }),
+        catchError((error) => {
+          console.error(error);
+          return throwError(() => new Error('Post deletion failed'));
+        }),
+      );
   }
 
-  deletePost(postId: string) {
-    // const oldPosts = this.currentUserPosts();
-    // this.currentUserPosts.update((posts) => posts.filter((post) => post.id !== postId));
-    // return this.http
-    //   .delete(
-    //     `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`,
-    //   )
-    //   .pipe(
-    //     delay(1000),
-    //     tap(() => {
-    //       console.log(`Post ${postId} eliminato con successo`);
-    //       this.currentUserPosts.update((posts) => posts.filter((post) => post.id !== postId));
-    //     }),
-    //     catchError((error) => {
-    //       // this.currentUserPosts.set(oldPosts);
-    //       return throwError(() => new Error('Delete request failed'));
-    //     }),
-    //   );
+  editPost(postId: string, editedPost: EditedPost) {
+    const authUser = this.authenticatedUser();
+    const userId = authUser?.localId;
+    const token = authUser?.idToken;
+
+    if (!token || !postId || !userId) return EMPTY;
+
+    const updates: any = {};
+
+    Object.keys(editedPost).forEach((key) => {
+      updates[`posts/${postId}/${key}`] = (editedPost as any)[key];
+    });
+
+    return this.http
+      .patch(
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        updates,
+      )
+      .pipe(
+        delay(2000), // delay artificiale per loading ui
+        tap(() => {
+          this.authUserPosts.update((oldPosts) => {
+            return oldPosts.map((post) => (post.id === postId ? { ...post, ...editedPost } : post));
+          });
+        }),
+        catchError((error) => {
+          return throwError(() => new Error('Post creation failed'));
+        }),
+      );
   }
 
   // utility
@@ -219,15 +238,5 @@ export class PostService {
     return this.http.get<{
       [key: string]: FirebasePost;
     }>(url);
-  }
-
-  // utility
-  private storePost(url: string, post: FirebasePost) {
-    return this.http.post(url, post);
-  }
-
-  // utility
-  private editPost(url: string, post: EditedPost) {
-    return this.http.patch(url, post);
   }
 }

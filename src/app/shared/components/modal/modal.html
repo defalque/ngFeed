@@ -47,8 +47,9 @@
           aria-label="Chiudi modale"
           cdkFocusRegionStart
           cdkFocusInitial
-          (click)="toggleFn.emit()"
-          class="absolute top-1/2 -translate-y-1/2 right-2.5 p-2 rounded-full hover:bg-gray-100/55 active:scale-[0.88] cursor-pointer transition-transform focus"
+          (click)="onClose()"
+          class="absolute top-1/2 -translate-y-1/2 right-2.5 p-2 rounded-full hover:bg-gray-100/55 active:scale-[0.88] cursor-pointer transition-transform focus disabled:cursor-not-allowed disabled:hover:bg-white disabled:active:scale-100"
+          [disabled]="isBusy()"
         >
           <lucide-icon [img]="XIcon" size="18" aria-hidden></lucide-icon>
         </button>

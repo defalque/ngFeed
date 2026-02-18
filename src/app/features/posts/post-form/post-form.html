@@ -80,13 +80,17 @@
 
   <button
     type="submit"
-    class="bg-black hover:bg-black/80 disabled:hover:bg-black disabled:animate-pulse cursor-pointer disabled:cursor-not-allowed transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button"
-    [disabled]="isWorking()"
+    class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer disabled:cursor-not-allowed transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex items-center gap-4 justify-center"
+    [disabled]="isWorking() || !form.dirty"
   >
     @if (isWorking()) {
-      {{ mode() === 'create' ? 'Creazione in corso...' : 'Salvataggio modifiche...' }}
+      <span>{{ mode() === 'create' ? 'Pubblicazione in corso' : 'Salvataggio in corso' }}</span>
+
+      <div
+        class="size-5 rounded-full border-[3px] border-black border-t-white border-r-white animate-spin [animation-duration:500ms]"
+      ></div>
     } @else {
-      {{ mode() === 'create' ? 'Crea post' : 'Salva modifiche' }}
+      <span>{{ mode() === 'create' ? 'Pubblica post' : 'Salva modifiche' }}</span>
     }
   </button>
 

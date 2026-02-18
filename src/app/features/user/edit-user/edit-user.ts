@@ -209,31 +209,29 @@ export class EditUser implements OnInit {
     };
 
     if (!this.currentUser()) {
+      this.reactiveForm.disable();
+
       this.isEditing.set(true);
       this.userService
         .createAuthUserInfo(newUserData)
         .pipe(
           finalize(() => {
             this.isEditing.set(false);
-            // Riabilita il form quando la chiamata è finita
             this.reactiveForm.enable();
             this.router.navigate(['/']);
           }),
         )
         .subscribe();
     } else {
-      // Disabilita tutto il form mentre carica
       this.reactiveForm.disable();
 
-      // ATTENZIONE - l'update non aggiorna ancora la tabella usernames nel caso l'utente modifichi il suo username, e non aggiorna i riferimenti nei post
       this.isEditing.set(true);
       this.userService
-        .updateUser(this.authenticatedUser()!.localId, newUserData)
+        .updateAuthUserInfo(newUserData)
         .pipe(
           finalize(() => {
             this.isEditing.set(false);
             this.modalService.closeDialog();
-            // Riabilita il form quando la chiamata è finita
             this.reactiveForm.enable();
           }),
         )

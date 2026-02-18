@@ -2,6 +2,7 @@ import { ClickOutside } from '@/shared/directives/click-outside.directive';
 import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { LucideAngularModule, XIcon } from 'lucide-angular';
 import { A11yModule } from '@angular/cdk/a11y';
+import { ModalService } from '@/core/services/modal.service';
 
 @Component({
   selector: 'app-modal',
@@ -10,6 +11,8 @@ import { A11yModule } from '@angular/cdk/a11y';
   styleUrl: './modal.css',
 })
 export class Modal {
+  private modalService = inject(ModalService);
+
   title = input<string>('Modale');
   isAlert = input<boolean>(false);
   isOpen = input.required<boolean>();
@@ -17,6 +20,8 @@ export class Modal {
 
   isRendered = signal(false);
   isVisible = signal(false);
+
+  isBusy = this.modalService.isBusy;
 
   constructor() {
     effect(() => {
@@ -32,6 +37,10 @@ export class Modal {
         this.isVisible.set(false);
       }
     });
+  }
+
+  onClose() {
+    this.toggleFn.emit();
   }
 
   onTransitionEnd() {

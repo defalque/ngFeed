@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 
-import { catchError, delay, map, Observable, of, tap, throwError } from 'rxjs';
+import { catchError, delay, EMPTY, map, Observable, of, tap, throwError } from 'rxjs';
 import { EditedUser, NewUser, User } from '../types/user.model';
 import { AuthService } from './auth.service';
+import { PostService } from './post.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ import { AuthService } from './auth.service';
 export class UserService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
+  private postService = inject(PostService);
   authenticatedUser = this.authService.authenticatedUser;
 
   private allUsers = signal<User[]>([]);
@@ -96,6 +98,52 @@ export class UserService {
       );
   }
 
+  // modifica info pubbliche utente in firebase realtime db (atomico, modifica anche info utente nei suoi post)
+  updateAuthUserInfo(newUserData: EditedUser) {
+    const uid = this.authenticatedUser()?.localId;
+    const token = this.authenticatedUser()?.idToken;
+    if (!token) return EMPTY;
+
+    const updates: any = {};
+
+    Object.keys(newUserData).forEach((key) => {
+      // Questo crea chiavi tipo: "users/123/firstName", "users/123/username", ecc.
+      updates[`users/${uid}/${key}`] = (newUserData as any)[key];
+    });
+
+    const userPosts = this.postService.authUserPostsReadonly();
+
+    userPosts.forEach((post) => {
+      updates[`posts/${post.id}/userFirstName`] = newUserData.firstName;
+      updates[`posts/${post.id}/userLastName`] = newUserData.lastName;
+      updates[`posts/${post.id}/userUsername`] = newUserData.username;
+      updates[`posts/${post.id}/userIsVerified`] = newUserData.isVerified;
+      // updates[`posts/${post.id}/userAvatar`] = newUserData.avatar;
+    });
+
+    return this.http
+      .patch(
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        updates,
+      )
+      .pipe(
+        delay(2000),
+        tap(() => {
+          console.log(this.currentUser());
+          this.currentUser.update((oldUserData) => {
+            if (!oldUserData) return null;
+            console.log(oldUserData);
+
+            return {
+              ...oldUserData, // Mantiene id, followersCount, followingCount, ecc.
+              ...newUserData, // Sovrascrive firstName, lastName, username, bio, ecc.
+            };
+          });
+          // aggiornare info post locali?
+        }),
+      );
+  }
+
   // fetcha info pubbliche di tutti gli utenti, utilizzato in /search
   fetchAllUsers() {
     const authId = this.authenticatedUser()?.localId;
@@ -120,40 +168,6 @@ export class UserService {
       }),
       tap((users) => this.allUsers.set(users)),
       delay(500),
-    );
-  }
-
-  // modifica info pubbliche utente autenticato
-  updateUser(userId: string, newUserData: EditedUser) {
-    return this.editUser(
-      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json`,
-      newUserData,
-    ).pipe(
-      delay(2000),
-      tap((updatedUser) => {
-        this.currentUser.update((oldData) => {
-          if (!oldData) return null; // Protezione se l'utente non esiste
-
-          // Uniamo i vecchi dati con quelli nuovi (updatedUser)
-          return {
-            ...oldData,
-            ...updatedUser,
-          };
-        });
-        // this.user.update((oldData) => {
-        //   if (!oldData) return null; // Protezione se l'utente non esiste
-
-        //   // Uniamo i vecchi dati con quelli nuovi (updatedUser)
-        //   return {
-        //     ...oldData,
-        //     ...updatedUser,
-        //   };
-        // });
-      }),
-      catchError((error) => {
-        // Rollback in caso di errore
-        return throwError(() => new Error('Richiesta fallita!'));
-      }),
     );
   }
 
