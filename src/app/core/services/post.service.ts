@@ -22,6 +22,9 @@ export class PostService {
   setAuthUserPosts(value: Post[] | []) {
     this.authUserPosts.set(value);
   }
+  updateAuthUserPosts(updater: (posts: Post[]) => Post[]) {
+    this.authUserPosts.update(updater);
+  }
 
   private genericUserPosts = signal<Post[]>([]);
   genericUserPostsReadonly = this.genericUserPosts.asReadonly();

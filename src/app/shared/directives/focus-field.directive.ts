@@ -12,7 +12,7 @@ export class FocusField {
   onFieldFocus(event: FocusEvent) {
     const el = event.target as HTMLElement;
 
-    if (['INPUT', 'TEXTAREA'].includes(el.tagName)) {
+    if (['INPUT', 'TEXTAREA', 'BUTTON'].includes(el.tagName)) {
       el.focus({ preventScroll: true });
       el.scrollIntoView({
         behavior: 'smooth',

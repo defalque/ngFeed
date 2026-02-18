@@ -1,5 +1,5 @@
 import { UserService } from '@/core/services/user.service';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
@@ -63,6 +63,8 @@ export class EditUser implements OnInit {
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
+
+  submitBtn = viewChild<ElementRef<HTMLButtonElement>>('submitBtn');
 
   authenticatedUser = this.authService.authenticatedUser;
   currentUser = this.userService.loadedCurrentUser;
@@ -230,6 +232,15 @@ export class EditUser implements OnInit {
 
   onSubmit() {
     if (this.reactiveForm.invalid || this.isEditing() || this.isUnchanged()) return;
+
+    const btn = this.submitBtn();
+
+    if (btn) {
+      btn.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
 
     const newUserData: EditedUser = {
       firstName: this.reactiveForm.controls.info.controls.firstName.value!,

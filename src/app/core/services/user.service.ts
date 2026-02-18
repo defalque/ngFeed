@@ -137,7 +137,16 @@ export class UserService {
               ...newUserData, // Sovrascrive firstName, lastName, username, bio, ecc.
             };
           });
-          // aggiornare info post locali?
+          this.postService.updateAuthUserPosts((posts) =>
+            posts.map((post) => ({
+              ...post,
+              userFirstName: newUserData.firstName,
+              userLastName: newUserData.lastName,
+              userUsername: newUserData.username,
+              userIsVerified: newUserData.isVerified,
+              userAvatar: newUserData.avatar,
+            })),
+          );
         }),
       );
   }
