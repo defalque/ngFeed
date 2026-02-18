@@ -7,20 +7,83 @@
       <div class="absolute top-1/2 -translate-y-1/2 translate-x-1/2 ml-2 pointer-events-none">
         <lucide-icon [img]="SearchIcon" size="20" class="text-zinc-400/80!"></lucide-icon>
       </div>
+
       <input
         type="text"
+        [formControl]="searchControl"
         class="w-full rounded-3xl p-3 border border-gray-300/50 pl-12 focus"
         placeholder="Cerca"
       />
-      <button
-        class="absolute top-1/2 right-0 -translate-y-1/2 -translate-x-1/2 hover:bg-gray-100/55 rounded-full p-2 cursor-pointer mr-2 focus"
+
+      <div
+        appClickOutsideDropdown
+        [clickOutsideEnabled]="isOpen()"
+        (onClickOutside)="closeMenu()"
+        class="absolute right-4 md:right-6 top-0 bottom-0 flex items-center"
       >
-        <lucide-icon
-          [img]="SlidersHorizontalIcon"
-          size="19"
-          class="text-zinc-400/80!"
-        ></lucide-icon>
-      </button>
+        <div class="relative">
+          <button
+            #button
+            (click)="toggleOpen()"
+            [aria-label]="isOpen() ? 'Chiudi filtri' : 'Apri filtri'"
+            class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer focus outline-none active:scale-[0.88] transition-transform duration-100"
+          >
+            <lucide-icon
+              [img]="SlidersHorizontalIcon"
+              size="19"
+              class="text-zinc-400/80!"
+              aria-hidden="true"
+            ></lucide-icon>
+          </button>
+
+          @defer (on hover(button); on interaction(button)) {
+            <app-dropdown-menu [isOpen]="isOpen()" usedIn="header">
+              <a
+                routerLink="./"
+                [queryParams]="{ verified: verified() === 'true' ? null : 'true' }"
+                queryParamsHandling="merge"
+                class="w-full text-left px-4 py-2 rounded-md cursor-pointer focus flex items-center justify-between {{
+                  verified() === 'true' && 'bg-gray-100 hover:bg-gray-100'
+                }} {{
+                  verified() === undefined || verified() !== 'true' ? 'hover:bg-gray-100/55' : ''
+                }}"
+                [attr.tabindex]="isOpen() ? '0' : '-1'"
+              >
+                Verificati
+                <app-verified-icon size="size-4.5" [black]="true" aria-hidden="true" />
+              </a>
+              <a
+                routerLink="./"
+                [queryParams]="{ orderBy: !orderBy() ? 'most-followed' : null }"
+                queryParamsHandling="merge"
+                class="w-full text-left px-4 py-2 rounded-md cursor-pointer focus flex items-center justify-between {{
+                  orderBy() === 'most-followed' && 'bg-gray-100 hover:bg-gray-100'
+                }} {{
+                  orderBy() === undefined || orderBy() !== 'most-followed'
+                    ? 'hover:bg-gray-100/55'
+                    : ''
+                }}"
+                [attr.tabindex]="isOpen() ? '0' : '-1'"
+              >
+                I più seguiti
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-star-fill"
+                  viewBox="0 0 16 16"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                  />
+                </svg>
+              </a>
+            </app-dropdown-menu>
+          }
+        </div>
+      </div>
     </div>
   </div>
 
@@ -57,7 +120,7 @@
         <p class="text-xl text-center font-semibold text-zinc-400">Nessun utente al momento</p>
       </div>
     } @else {
-      @for (user of users(); track user.id) {
+      @for (user of filteredUsers(); track user.id) {
         <div
           class="grid grid-cols-[2.8rem_1fr_auto] gap-x-2 px-2 md:px-4 py-4 border-b last:border-b-0 border-gray-200"
         >

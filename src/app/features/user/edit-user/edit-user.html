@@ -94,11 +94,11 @@
         </p>
       }
     </div>
-    <div class="relative flex-none">
+    <div class="relative flex-none rounded-full overflow-hidden shadow-md">
       <img
         [src]="avatarUrl"
         alt="Avatar preview"
-        class="size-24 bg-gray-200 rounded-full object-cover border border-gray-200 shadow-sm"
+        class="size-24 object-cover"
         (error)="$any($event.target).src = '/assets/images/default-user.avif'"
       />
     </div>
@@ -190,7 +190,7 @@
   </fieldset>
 
   @if (currentUser()) {
-    <div class="flex sm:items-center sm:flex-row flex-col-reverse gap-2 mt-2">
+    <div class="flex flex-col-reverse gap-2 mt-2">
       <button
         type="button"
         (click)="onReset()"

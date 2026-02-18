@@ -9,4 +9,5 @@ import { Component, input } from '@angular/core';
 export class VerifiedIcon {
   size = input.required<'size-4' | 'size-4.5' | 'size-5'>();
   mode = input<'absolute' | 'inline'>('inline');
+  black = input<boolean>(false);
 }

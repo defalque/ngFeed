@@ -48,6 +48,7 @@ export class Auth {
       .pipe(
         finalize(() => {
           this.isLoading.set(false);
+          formData.reset();
         }),
       )
       .subscribe({
@@ -58,7 +59,5 @@ export class Auth {
           this.error.set(err.message);
         },
       });
-
-    formData.reset();
   }
 }
