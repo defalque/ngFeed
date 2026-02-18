@@ -7,7 +7,7 @@
     class="text-xl font-bold py-2 px-4 tracking-normal text-gray-400/80 cursor-pointer focus"
     >Per te</a
   >
-  @if (currentUser()) {
+  @if (authUser() && currentUser()) {
     <a
       routerLink="/seguiti"
       routerLinkActive="active"
@@ -16,7 +16,7 @@
     >
   }
 </div>
-@if (currentUser()) {
+@if (authUser() && currentUser()) {
   <div
     class="max-w-3xl mx-auto bg-white flex flex-col divide-y divide-gray-200 w-full px-0 md:px-2 pt-4 overflow-hidden"
   >
@@ -30,11 +30,13 @@
         (keydown.space)="openDialog('create', null)"
       >
         <img
-          [src]="'/assets/images/avatar.png'"
-          [alt]="'Avatar di Marco De Falco'"
+          [src]="currentUser()?.avatar || '/assets/images/default-user.avif'"
+          [alt]="'Avatar di ' + currentUser()?.firstName + ' ' + currentUser()?.lastName"
           class="size-9 rounded-full"
         />
-        <p class="text-sm sm:text-base font-medium text-zinc-400/80">Cosa c'è di nuovo Marco?</p>
+        <p class="text-sm sm:text-base font-medium text-zinc-400/80">
+          Cosa c'è di nuovo {{ currentUser()?.firstName }}?
+        </p>
       </div>
       <button
         class="bg-black hover:bg-black/80 cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-md font-bold text-shadow-2xs focus-button"

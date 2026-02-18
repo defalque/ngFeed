@@ -4,7 +4,7 @@
     class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
   >
     <img
-      [src]="post().userAvatar || '/assets/images/avatar.png'"
+      [src]="post().userAvatar || '/assets/images/default-user.avif'"
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
       class="rounded-full w-9 h-9 col-span-1"
     />
@@ -70,7 +70,7 @@
 @if (type() === 'full-post') {
   <div class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible">
     <img
-      [src]="post().userAvatar || '/assets/images/avatar.png'"
+      [src]="post().userAvatar || '/assets/images/default-user.avif'"
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
       class="rounded-full w-9 h-9 col-span-1"
     />
