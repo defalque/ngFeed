@@ -118,7 +118,7 @@ export class UserService {
       updates[`posts/${post.id}/userLastName`] = newUserData.lastName;
       updates[`posts/${post.id}/userUsername`] = newUserData.username;
       updates[`posts/${post.id}/userIsVerified`] = newUserData.isVerified;
-      // updates[`posts/${post.id}/userAvatar`] = newUserData.avatar;
+      updates[`posts/${post.id}/userAvatar`] = newUserData.avatar;
     });
 
     return this.http

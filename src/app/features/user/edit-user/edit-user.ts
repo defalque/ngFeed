@@ -88,6 +88,9 @@ export class EditUser implements OnInit {
       asyncValidators: [isUsernameUnique(this.userService, this.currentUser()?.username)],
       updateOn: 'blur',
     }),
+    avatar: new FormControl('', {
+      validators: [validUrl],
+    }),
     bio: new FormControl('', {
       validators: [Validators.minLength(2)],
     }),
@@ -110,6 +113,7 @@ export class EditUser implements OnInit {
         },
         // Gli altri campi coincidono, quindi passano direttamente
         username: this.currentUser()?.username,
+        avatar: this.currentUser()?.avatar,
         bio: this.currentUser()?.bio,
         websiteUrl: this.currentUser()?.websiteUrl,
         location: this.currentUser()?.location,
@@ -159,6 +163,22 @@ export class EditUser implements OnInit {
       this.reactiveForm.controls.username.dirty &&
       this.reactiveForm.controls.username.invalid
     );
+  }
+
+  get avatarIsInvalid() {
+    return (
+      this.reactiveForm.controls.avatar.touched &&
+      this.reactiveForm.controls.avatar.dirty &&
+      this.reactiveForm.controls.avatar.invalid
+    );
+  }
+
+  get avatarUrl(): string {
+    const value = this.reactiveForm.controls.avatar.value;
+    const defaultAvatar = '/assets/images/default-user.avif';
+
+    // Mostra l'avatar inserito solo se il campo è valido e non vuoto
+    return value && !this.avatarIsInvalid ? value : defaultAvatar;
   }
 
   get bioIsInvalid() {
@@ -215,6 +235,7 @@ export class EditUser implements OnInit {
       firstName: this.reactiveForm.controls.info.controls.firstName.value!,
       lastName: this.reactiveForm.controls.info.controls.lastName.value!,
       username: this.reactiveForm.controls.username.value!,
+      avatar: this.reactiveForm.controls.avatar.value!,
       bio: this.reactiveForm.controls.bio.value!,
       websiteUrl: this.reactiveForm.controls.websiteUrl.value!,
       location: this.reactiveForm.controls.location.value!,

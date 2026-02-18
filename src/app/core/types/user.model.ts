@@ -71,6 +71,7 @@ export type EditedUser = {
   username: string;
   firstName: string;
   lastName: string;
+  avatar?: string;
   bio: string;
   location?: string;
   websiteUrl?: string;
