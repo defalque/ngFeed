@@ -262,8 +262,8 @@ export class EditUser implements OnInit {
         .pipe(
           finalize(() => {
             this.isEditing.set(false);
+            this.modalService.closeDialog();
             this.reactiveForm.enable();
-            this.router.navigate(['/']);
           }),
         )
         .subscribe();

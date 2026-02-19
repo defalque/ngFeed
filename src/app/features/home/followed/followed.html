@@ -1,7 +1,7 @@
 <div
   class="max-w-3xl mx-auto bg-white flex flex-col divide-y divide-gray-200 w-full px-0 md:px-2 pb-20 md:pb-4"
 >
-  @if (!posts()) {
+  @if (!posts().length) {
     <div class="flex flex-col justify-cemter items-center mt-12">
       <svg
         viewBox="0 0 24 24"
@@ -27,13 +27,20 @@
           </g>
         </g>
       </svg>
-      <p class="text-xl text-center font-semibold text-zinc-400">Nessun post al momento</p>
+      <p class="text-xl text-center font-semibold text-zinc-400">
+        Comincia a seguire nuovi account
+      </p>
     </div>
   } @else {
     <ul class="divide-y divide-gray-200">
       @for (post of posts(); track post.id) {
         <li>
-          <app-post type="for-you" [post]="post" [currentUserPost]="false" />
+          <app-post
+            type="for-you"
+            [post]="post"
+            [currentUserPost]="false"
+            [isSavedPost]="isSavedPost(post.id)"
+          />
         </li>
       }
     </ul>

@@ -221,9 +221,17 @@
       #submitBtn
       type="submit"
       [disabled]="reactiveForm.invalid || reactiveForm.pending || isEditing()"
-      class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 disabled:cursor-not-allowed mt-4"
+      class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 disabled:cursor-not-allowed mt-4 flex items-center justify-center gap-2"
     >
-      {{ isEditing() ? 'Salvataggio in corso...' : 'Salva informazioni' }}
+      @if (isEditing()) {
+        <span>Salvataggio in corso</span>
+
+        <div
+          class="size-5 rounded-full border-[3px] border-black border-t-white border-r-white animate-spin [animation-duration:500ms]"
+        ></div>
+      } @else {
+        <span>Salva informazioni</span>
+      }
     </button>
   }
 

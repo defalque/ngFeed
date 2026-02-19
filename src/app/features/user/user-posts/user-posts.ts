@@ -29,6 +29,7 @@ export class UserPosts {
   authenticatedUser = this.authService.authenticatedUser;
   loadedGenericUserPosts = this.postService.genericUserPostsReadonly;
   loadedCurrentUserPosts = this.postService.authUserPostsReadonly;
+  savedPostsIds = this.postService.loadedSavedPostsIds;
 
   loadedUserPosts = computed(() => {
     return this.isCurrentUserPosts()
@@ -82,4 +83,6 @@ export class UserPosts {
   isCurrentUserPosts() {
     return this.id() === this.authService.authenticatedUser()?.localId;
   }
+
+  isSavedPost = (postId: string) => this.savedPostsIds().includes(postId);
 }

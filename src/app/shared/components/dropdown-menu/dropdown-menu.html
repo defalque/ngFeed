@@ -14,7 +14,6 @@
     [class.-z-10]="!isVisible()"
     [class.z-20]="isVisible()"
     [inert]="!isVisible()"
-    [attr.aria-hidden]="!isVisible()"
     (transitionend)="onTransitionEnd()"
   >
     <ng-content />

@@ -35,9 +35,15 @@ export class PostService {
     this.userPost.set(value);
   }
 
-  followedPosts = computed(() => {
-    return this.allPosts().filter((post) => post.userId === 'user_002');
-  });
+  private savedPostsIds = signal<string[]>([]);
+  loadedSavedPostsIds = this.savedPostsIds.asReadonly();
+  setSavedPostsIds(value: string[]) {
+    this.savedPostsIds.set(value);
+  }
+
+  // followedPosts = computed(() => {
+  //   return this.allPosts().filter((post) => post.userId === 'user_002');
+  // });
 
   private readonly postsUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json';
@@ -126,33 +132,33 @@ export class PostService {
     if (!uid || !token) return EMPTY;
 
     return this.http
-      .post<{
-        name: string;
-      }>(
+      .post<{ name: string }>(
         `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?auth=${token}`,
-        {},
+        { userId: uid }, // necessario per superare le rules
       )
       .pipe(
         switchMap((response) => {
           const postId = response.name;
 
-          const newPost: Post = {
+          const newPostData = {
             ...post,
-            id: postId,
+            userId: uid,
+            created_at: new Date().toISOString(),
             likesCount: 0,
             commentsCount: 0,
           };
 
           const updates: any = {
-            [`posts/${postId}`]: {
-              ...post,
-              created_at: new Date().toISOString(),
-              likesCount: 0,
-              commentsCount: 0,
-            },
-            [`user-posts/${post.userId}/${postId}`]: true,
+            [`posts/${postId}`]: newPostData,
+            [`user-posts/${uid}/${postId}`]: true,
           };
 
+          const newPost: Post = {
+            ...newPostData,
+            id: postId,
+          };
+
+          // multi-location update atomico
           return this.http
             .patch(
               `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
@@ -160,14 +166,12 @@ export class PostService {
             )
             .pipe(map(() => newPost));
         }),
-        delay(500), // delay artificiale per loading ui
+        delay(500),
         tap((newPost) => {
-          console.log('New Post:', newPost);
-          console.log('Current authUserPosts:', this.authUserPosts());
           this.allPosts.update((posts) => [newPost, ...posts]);
           this.authUserPosts.update((posts) => [newPost, ...posts]);
         }),
-        catchError((error) => {
+        catchError(() => {
           return throwError(() => new Error('Post creation failed'));
         }),
       );
@@ -233,6 +237,63 @@ export class PostService {
         catchError((error) => {
           return throwError(() => new Error('Post creation failed'));
         }),
+      );
+  }
+
+  savePostAction(postId: string, mode: 'save' | 'unsave') {
+    const uid = this.authenticatedUser()?.localId;
+    const token = this.authenticatedUser()?.idToken;
+    if (!token) return EMPTY;
+
+    const updates: any = {};
+    if (mode === 'save') {
+      updates[`user-saved-posts/${uid}/${postId}`] = true;
+    } else {
+      updates[`user-saved-posts/${uid}/${postId}`] = null;
+    }
+
+    return this.http
+      .patch(
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        updates,
+      )
+      .pipe(
+        delay(500),
+        tap(() => {
+          if (mode === 'save') {
+            this.savedPostsIds.update((savedPostsIds) => [...savedPostsIds, postId]);
+          } else {
+            this.savedPostsIds.update((savedPostsIds) =>
+              savedPostsIds.filter((id) => id !== postId),
+            );
+          }
+        }),
+        catchError((error) => {
+          return throwError(() => new Error('Save post failed'));
+        }),
+      );
+  }
+
+  fetchSavedPostsIds() {
+    const authUser = this.authenticatedUser();
+    const uid = authUser?.localId;
+    const token = authUser?.idToken;
+
+    if (!uid || !token) {
+      this.savedPostsIds.set([]);
+      return of<string[]>([]);
+    }
+
+    return this.http
+      .get<
+        string[]
+      >(`https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/user-saved-posts/${uid}.json`)
+      .pipe(
+        map((res) => {
+          if (!res) return [];
+          return Object.keys(res);
+        }),
+        tap((savedPostsIds) => this.savedPostsIds.set(savedPostsIds)),
       );
   }
 

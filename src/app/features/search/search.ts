@@ -33,12 +33,16 @@ export class Search implements OnInit {
   private userService = inject(UserService);
   private destroyRef = inject(DestroyRef);
 
+  followedIds = this.userService.loadedFollowedIds;
+
   // query params con input binding automatico
   verified = input<'true'>();
   orderBy = input<'most-followed'>();
 
   // gestione fetching iniziale
-  allUsers = this.userService.loadedAllUsers;
+  allUsers = computed(() =>
+    this.userService.loadedAllUsers().filter((u) => !this.followedIds().includes(u.id)),
+  );
   error = signal('');
   isFetching = signal(false);
   ngOnInit(): void {
@@ -68,6 +72,10 @@ export class Search implements OnInit {
 
   // gestione search input
   isSearching = signal(false);
+  isFollowActionPending = signal(false);
+  onFollowActionPendingChange(isPending: boolean) {
+    this.isFollowActionPending.set(isPending);
+  }
   searchControl = new FormControl('', { nonNullable: true });
   usersToSearch$ = this.searchControl.valueChanges.pipe(
     tap((term) => this.isSearching.set(term.trim().length > 0)), // mostra subito loading quando l'input non e vuoto

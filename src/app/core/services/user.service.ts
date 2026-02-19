@@ -43,6 +43,12 @@ export class UserService {
     this.genericUser.set(value);
   }
 
+  private followedIds = signal<string[]>([]);
+  loadedFollowedIds = this.followedIds.asReadonly();
+  setFollowedIds(value: string[]) {
+    this.followedIds.set(value);
+  }
+
   private readonly usersUrl =
     'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users.json';
 
@@ -57,10 +63,35 @@ export class UserService {
         return { id: uid, ...res } as User;
       }),
       tap((user) => {
-        if (user) this.genericUser.set(user);
+        if (user) {
+          this.genericUser.set(user);
+        }
       }),
       delay(500), // delay artificiale per loading ui
     );
+  }
+
+  fetchFollowedIds() {
+    const authUser = this.authenticatedUser();
+    const uid = authUser?.localId;
+    const token = authUser?.idToken;
+
+    if (!uid || !token) {
+      this.followedIds.set([]);
+      return of<string[]>([]);
+    }
+
+    return this.http
+      .get<Record<
+        string,
+        true
+      > | null>(`https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/user-following/${uid}.json?auth=${token}`)
+      .pipe(
+        map((res) => Object.keys(res ?? {})),
+        tap((followedIds) => {
+          this.followedIds.set(followedIds);
+        }),
+      );
   }
 
   // fetcha info di utente autenticato
@@ -102,6 +133,9 @@ export class UserService {
       )
       .pipe(
         delay(2000),
+        tap(() => {
+          this.currentUser.set({ ...userInfo, followingCount: 0, followersCount: 0 } as User);
+        }),
         catchError((error) => {
           // Rollback in caso di errore
           return throwError(() => new Error('Richiesta fallita!'));
@@ -210,7 +244,51 @@ export class UserService {
             id: key,
           })),
         ),
-        delay(1000), // <-- ritarda di 1 secondo
+        delay(500),
+      );
+  }
+
+  followAction(otherUserId: string, mode: 'follow' | 'unfollow') {
+    const uid = this.authenticatedUser()?.localId;
+    const token = this.authenticatedUser()?.idToken;
+    if (!token) return EMPTY;
+
+    const updates: any = {};
+    if (mode === 'follow' && this.currentUser()) {
+      updates[`user-following/${uid}/${otherUserId}`] = true;
+      updates[`user-followers/${otherUserId}/${uid}`] = true;
+    } else {
+      updates[`user-following/${uid}/${otherUserId}`] = null;
+      updates[`user-followers/${otherUserId}/${uid}`] = null;
+    }
+
+    return this.http
+      .patch(
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        updates,
+      )
+      .pipe(
+        delay(500),
+        tap(() => {
+          if (mode === 'follow') {
+            this.currentUser.update((user) => {
+              if (!user) return null;
+              return { ...user, followingCount: user.followingCount + 1 };
+            });
+            this.followedIds.update((followedIds) => [...followedIds, otherUserId]);
+          } else {
+            this.currentUser.update((user) => {
+              if (!user) return null;
+              return { ...user, followingCount: user.followingCount - 1 };
+            });
+            this.followedIds.update((followedIds) =>
+              followedIds.filter((id) => id !== otherUserId),
+            );
+          }
+        }),
+        catchError((error) => {
+          return throwError(() => new Error('Follow user failed'));
+        }),
       );
   }
 

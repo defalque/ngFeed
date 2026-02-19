@@ -712,5 +712,19 @@
     "mikewilson": "user_003",
     "janesmith": "user_002",
     "johndoe": "user_001"
+  },
+  "user-following": {
+    "user_001": {
+      "user_002": true,
+      "user_006": true
+    }
+  },
+  "user-followers": {
+    "user_002": {
+      "user_001": true
+    },
+    "user_006": {
+      "user_001": true
+    }
   }
 }

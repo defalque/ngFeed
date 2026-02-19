@@ -40,7 +40,12 @@
     <ul class="py-1 divide-y divide-gray-200">
       @for (post of loadedUserPosts(); track post.id) {
         <li>
-          <app-post type="user-posts" [post]="post" [currentUserPost]="isCurrentUserPosts()" />
+          <app-post
+            type="user-posts"
+            [post]="post"
+            [currentUserPost]="isCurrentUserPosts()"
+            [isSavedPost]="isSavedPost(post.id)"
+          />
         </li>
       }
     </ul>

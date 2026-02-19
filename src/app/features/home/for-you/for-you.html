@@ -32,7 +32,12 @@
     <ul class="divide-y divide-gray-200">
       @for (post of posts(); track post.id) {
         <li>
-          <app-post type="for-you" [post]="post" [currentUserPost]="false" />
+          <app-post
+            type="for-you"
+            [post]="post"
+            [currentUserPost]="false"
+            [isSavedPost]="savedPostsIds().includes(post.id)"
+          />
         </li>
       }
     </ul>

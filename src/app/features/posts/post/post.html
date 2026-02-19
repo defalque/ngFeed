@@ -25,6 +25,7 @@
       [id]="post().id"
       [isCurrentUserPost]="false"
       [isOptionsOpen]="currentOptionsOpen() === post().id"
+      [isSavedPost]="isSavedPost()"
       (openOptions)="setCurrentOptionsOpen(post().id)"
       (closeOptions)="setCurrentOptionsOpen(null)"
     />
@@ -54,6 +55,7 @@
       <app-post-options
         [id]="post().id"
         [isCurrentUserPost]="currentUserPost()"
+        [isSavedPost]="isSavedPost()"
         [isOptionsOpen]="currentOptionsOpen() === post().id"
         (openOptions)="setCurrentOptionsOpen(post().id)"
         (closeOptions)="setCurrentOptionsOpen(null)"
@@ -90,6 +92,7 @@
     <app-post-options
       [id]="post().id"
       [isCurrentUserPost]="currentUserPost()"
+      [isSavedPost]="isSavedPost()"
       [isOptionsOpen]="currentOptionsOpen() === post().id"
       (openOptions)="setCurrentOptionsOpen(post().id)"
       (closeOptions)="setCurrentOptionsOpen(null)"

@@ -21,9 +21,18 @@
   </div>
   <button
     (click)="onFollowClick()"
-    class="bg-black hover:bg-black/80 cursor-pointer transition-transform duration-300 text-white px-6 py-2 text-base rounded-md font-bold text-shadow-2xs focus-button active:scale-[0.95]"
+    class="bg-black hover:bg-black/80 cursor-pointer transition-transform duration-300 text-white px-6 py-2 text-base rounded-md font-bold text-shadow-2xs focus-button active:scale-[0.95] flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:hover:bg-black disabled:active:scale-100"
+    [disabled]="buttonDisabled()"
   >
-    Segui
+    @if (isFollowing()) {
+      <span>Attendi</span>
+
+      <div
+        class="size-5 rounded-full border-[3px] border-black border-t-white border-r-white animate-spin [animation-duration:500ms]"
+      ></div>
+    } @else {
+      {{ userIsFollowing() ? 'Non seguire più' : 'Segui' }}
+    }
   </button>
 
   <p class="text-sm text-black/80 col-span-full col-start-2 pt-4 text-start">

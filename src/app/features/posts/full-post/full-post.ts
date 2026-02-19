@@ -37,6 +37,7 @@ export class FullPost {
 
   isFetching = signal(false);
   error = signal('');
+  savedPostsIds = this.postService.loadedSavedPostsIds;
 
   // Segnale derivato per il post corrente
   post = computed(() => {
@@ -114,6 +115,8 @@ export class FullPost {
   isCurrentUserPost() {
     return this.id() === this.authService.authenticatedUser()?.localId;
   }
+
+  isSavedPost = (postId: string) => this.savedPostsIds().includes(postId);
 
   readonly HeartIcon = HeartIcon;
   readonly MessageCircleIcon = MessageCircleIcon;

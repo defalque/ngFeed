@@ -22,6 +22,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostService } from '@/core/services/post.service';
 import { UserService } from '@/core/services/user.service';
 import z from 'zod';
+import { AuthService } from '@/core/services/auth.service';
 
 type NewPostFormErrors = ReturnType<typeof z.treeifyError<typeof newPostFormSchema>>;
 
@@ -34,6 +35,7 @@ type NewPostFormErrors = ReturnType<typeof z.treeifyError<typeof newPostFormSche
 export class PostForm {
   private modalService = inject(ModalService);
   private postService = inject(PostService);
+  private authService = inject(AuthService);
   private userService = inject(UserService);
   private destroyRef = inject(DestroyRef);
 
@@ -78,6 +80,7 @@ export class PostForm {
   });
 
   ngOnInit(): void {
+    console.log(this.authService.authenticatedUser());
     if (this.mode() === 'edit') {
       this.reactiveForm.patchValue({
         title: this.post()?.title,

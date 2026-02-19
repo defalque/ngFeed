@@ -13,7 +13,7 @@ import { LucideAngularModule, HouseIcon, UserIcon, SearchIcon, HeartIcon } from 
 import { Navbar } from './core/layout/navbar/navbar';
 import { Header } from './core/layout/header/header';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize, forkJoin } from 'rxjs';
+import { catchError, finalize, forkJoin, of } from 'rxjs';
 import { Modal } from './shared/components/modal/modal';
 import { ModalService } from './core/services/modal.service';
 import { DeletePost } from './features/user/delete-post/delete-post';
@@ -78,10 +78,10 @@ export class App implements OnInit {
     effect(() => {
       const authUser = this.authService.authenticatedUser();
 
-      if (authUser) {
-        // Fetch dei dati solo se l'utente è loggato
-        this.fetchInitialData();
-      } else {
+      // I post iniziali devono essere sempre caricati, anche senza utente autenticato.
+      this.fetchInitialData();
+
+      if (!authUser) {
         this.postService.setAuthUserPosts([]);
         this.postService.setUserPost(null);
         this.userService.setUser(null);
@@ -91,7 +91,6 @@ export class App implements OnInit {
 
   ngOnInit(): void {
     this.authService.autoLogin();
-    this.fetchInitialData();
   }
 
   /** Metodo centralizzato per il fetch dei dati iniziali */
@@ -99,14 +98,19 @@ export class App implements OnInit {
     this.isFetching.set(true);
 
     forkJoin({
-      posts: this.postService.fetchAllPosts(),
-      userInfo: this.userService.fetchAuthUserInfo(),
+      posts: this.postService.fetchAllPosts().pipe(catchError(() => of([]))),
+      userInfo: this.userService.fetchAuthUserInfo().pipe(catchError(() => of(null))),
+      followedIds: this.userService.fetchFollowedIds().pipe(catchError(() => of([]))),
+      savedPostsIds: this.postService.fetchSavedPostsIds().pipe(catchError(() => of([]))),
     })
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
       )
       .subscribe({
+        next: ({ posts, userInfo, followedIds, savedPostsIds }) => {
+          console.log(posts, userInfo, followedIds);
+        },
         error: (err) => console.error('Errore durante il caricamento dei dati', err),
       });
   }

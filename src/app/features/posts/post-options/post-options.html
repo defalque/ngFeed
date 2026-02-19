@@ -25,12 +25,27 @@
     >
       @if (!isCurrentUserPost()) {
         <button
+          (click)="onSavePostClick($event)"
           class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
-          <span>Salva</span>
-          <lucide-icon [img]="BookmarkIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
+          @if (isSavingPost()) {
+            <span>{{ isSavedPost() ? 'Rimozione post' : 'Salvataggio post' }}</span>
+
+            <div
+              class="size-5 rounded-full border-[3px] border-black border-t-white border-r-white animate-spin [animation-duration:500ms]"
+            ></div>
+          } @else {
+            {{ isSavedPost() ? 'Rimuovi dai preferiti' : 'Salva' }}
+            <lucide-icon
+              [img]="BookmarkIcon"
+              size="20"
+              class="text-black!"
+              aria-hidden
+            ></lucide-icon>
+          }
         </button>
+
         <button
           class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"

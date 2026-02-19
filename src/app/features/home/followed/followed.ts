@@ -5,6 +5,7 @@ import { finalize } from 'rxjs';
 import { BlogPost } from '@/features/posts/post/post';
 import { PostService } from '@/core/services/post.service';
 import { AuthService } from '@/core/services/auth.service';
+import { UserService } from '@/core/services/user.service';
 
 @Component({
   selector: 'app-followed',
@@ -14,6 +15,16 @@ import { AuthService } from '@/core/services/auth.service';
 export class Followed {
   private authService = inject(AuthService);
   private postService = inject(PostService);
+  private userService = inject(UserService);
 
-  posts = computed(() => this.postService.followedPosts());
+  authenticatedUser = this.authService.authenticatedUser;
+  savedPostsIds = this.postService.loadedSavedPostsIds;
+
+  posts = computed(() =>
+    this.postService
+      .allLoadedPosts()
+      .filter((post) => this.userService.loadedFollowedIds().includes(post.userId)),
+  );
+
+  isSavedPost = (postId: string) => this.savedPostsIds().includes(postId);
 }

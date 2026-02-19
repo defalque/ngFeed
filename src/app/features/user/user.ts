@@ -10,7 +10,13 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { EllipsisIcon, HeartIcon, LucideAngularModule, MessageCircleIcon } from 'lucide-angular';
-import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { UserSkeleton } from '@/shared/components/skeletons/user-skeleton/user-skeleton';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
@@ -44,11 +50,14 @@ export class User implements OnInit {
   private userService = inject(UserService);
   private modal = inject(ModalService);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
   id = input.required<string>();
   userId = signal('');
 
   authenticatedUser = this.authService.authenticatedUser;
+  isAuthenticated = this.authService.isAuthenticated;
+  followedIds = this.userService.loadedFollowedIds;
 
   user = computed(() => {
     return this.isCurrentUserPage()
@@ -121,6 +130,52 @@ export class User implements OnInit {
 
   isCurrentUserPage() {
     return this.id() === this.authenticatedUser()?.localId;
+  }
+
+  isFollowing = signal(false);
+  userIsFollowing = computed(() => {
+    return this.followedIds().includes(this.id());
+  });
+  onFollowClick() {
+    if (this.isFollowing()) return;
+
+    if (this.isAuthenticated()) {
+      if (!this.user()) {
+        this.openDialog('edit-user', null);
+        return;
+      }
+
+      this.isFollowing.set(true);
+      if (this.userIsFollowing()) {
+        this.userService
+          .followAction(this.id(), 'unfollow')
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            finalize(() => this.isFollowing.set(false)),
+          )
+          .subscribe({
+            error: (error: Error) => {
+              console.log(error);
+            },
+          });
+        return;
+      } else {
+        this.userService
+          .followAction(this.id(), 'follow')
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            finalize(() => this.isFollowing.set(false)),
+          )
+          .subscribe({
+            error: (error: Error) => {
+              console.log(error);
+            },
+          });
+      }
+      return;
+    }
+
+    this.router.navigate(['/auth']);
   }
 
   readonly EllipsisIcon = EllipsisIcon;
