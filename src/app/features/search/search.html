@@ -11,7 +11,7 @@
       <input
         type="text"
         [formControl]="searchControl"
-        class="w-full rounded-3xl p-3 border border-gray-300/50 pl-12 focus"
+        class="w-full rounded-3xl px-3 py-2.5 border border-gray-300/50 pl-12 focus"
         placeholder="Cerca"
       />
 
@@ -24,9 +24,10 @@
         <div class="relative">
           <button
             #button
+            [disabled]="!searchControl.value"
             (click)="toggleOpen()"
             [aria-label]="isOpen() ? 'Chiudi filtri' : 'Apri filtri'"
-            class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer focus outline-none active:scale-[0.88] transition-transform duration-100"
+            class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer focus outline-none active:scale-[0.88] transition-transform duration-100 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:bg-white"
           >
             <lucide-icon
               [img]="SlidersHorizontalIcon"
@@ -91,14 +92,28 @@
     <p class="text-sm text-gray-500/80 px-2 md:px-4 pb-2 text-start font-semibold">
       Account suggeriti da seguire
     </p>
-    @if (isFetching()) {
+
+    @if (isFetching() || isSearching()) {
       <ul>
         @for (item of [0, 1, 2, 3, 4, 5]; track item) {
           <li searchUsersSkeleton></li>
         }
       </ul>
     }
-    @if (!users() && !isFetching()) {
+
+    @if (
+      !isFetching() &&
+      !isSearching() &&
+      (searchControl.value ? filteredUsers().length : allUsers().length)
+    ) {
+      <ul>
+        @for (user of searchControl.value ? filteredUsers() : allUsers(); track user.id) {
+          <app-user-card [user]="user" />
+        }
+      </ul>
+    }
+
+    @if (!isFetching() && !isSearching() && searchControl.value && filteredUsers().length === 0) {
       <div class="flex flex-col justify-cemter items-center mt-12 gap-2">
         <svg
           fill="#9f9fa9"
@@ -106,7 +121,7 @@
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
           stroke="#9f9fa9"
-          class="size-22"
+          class="size-18"
         >
           <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
           <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -117,69 +132,10 @@
             ></path>
           </g>
         </svg>
-        <p class="text-xl text-center font-semibold text-zinc-400">Nessun utente al momento</p>
+        <p class="text-lg text-center font-medium text-zinc-400">
+          Nessun utente corrsiponde ai tuoi criteri di ricerca
+        </p>
       </div>
-    } @else {
-      @for (user of filteredUsers(); track user.id) {
-        <div
-          class="grid grid-cols-[2.8rem_1fr_auto] gap-x-2 px-2 md:px-4 py-4 border-b last:border-b-0 border-gray-200"
-        >
-          <!-- <div class="w-full h-full bg-gray-200 rounded-full col-span-1"></div> -->
-          <img
-            [src]="user.avatar || '/assets/images/default-user.avif'"
-            [alt]="'Avatar di ' + user.firstName + ' ' + user.lastName"
-            class="rounded-full w-full h-full"
-          />
-          <div class="flex items-center gap-2 col-span-1">
-            <div class="flex flex-col items-start">
-              <div class="flex items-center gap-2">
-                <a
-                  [routerLink]="['/utente/', user.id]"
-                  class="text-base font-bold hover:underline"
-                  >{{ user.firstName + ' ' + user.lastName }}</a
-                >
-                @if (user.isVerified) {
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="size-4 text-blue-500"
-                  >
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M21.007 8.27C22.194 9.125 23 10.45 23 12c0 1.55-.806 2.876-1.993 3.73.24 1.442-.134 2.958-1.227 4.05-1.095 1.095-2.61 1.459-4.046 1.225C14.883 22.196 13.546 23 12 23c-1.55 0-2.878-.807-3.731-1.996-1.438.235-2.954-.128-4.05-1.224-1.095-1.095-1.459-2.611-1.217-4.05C1.816 14.877 1 13.551 1 12s.816-2.878 2.002-3.73c-.242-1.439.122-2.955 1.218-4.05 1.093-1.094 2.61-1.467 4.057-1.227C9.125 1.804 10.453 1 12 1c1.545 0 2.88.803 3.732 1.993 1.442-.24 2.956.135 4.048 1.227 1.093 1.092 1.468 2.608 1.227 4.05Zm-4.426-.084a1 1 0 0 1 .233 1.395l-5 7a1 1 0 0 1-1.521.126l-3-3a1 1 0 0 1 1.414-1.414l2.165 2.165 4.314-6.04a1 1 0 0 1 1.395-.232Z"
-                        fill="currentColor"
-                      ></path>
-                    </g>
-                  </svg>
-                }
-              </div>
-              <p class="text-sm text-gray-500">@{{ user.username }}</p>
-            </div>
-          </div>
-          <button
-            (click)="onFollowClick()"
-            class="bg-black hover:bg-black/80 cursor-pointer transition-transform duration-300 text-white px-6 py-2 text-base rounded-md font-bold text-shadow-2xs focus-button active:scale-[0.95]"
-          >
-            Segui
-          </button>
-
-          <p class="text-sm text-black/80 col-span-full col-start-2 pt-4 text-start">
-            {{ user.bio }}
-          </p>
-          <span class="text-sm text-black/80 col-span-1 col-start-2 pt-2 text-start"
-            >Follower: {{ user.followersCount }}</span
-          >
-        </div>
-      }
     }
   </div>
 </div>

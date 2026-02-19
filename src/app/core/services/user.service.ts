@@ -1,7 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 
-import { catchError, delay, EMPTY, map, Observable, of, tap, throwError } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  delay,
+  distinctUntilChanged,
+  EMPTY,
+  map,
+  Observable,
+  of,
+  pipe,
+  switchMap,
+  tap,
+  throwError,
+} from 'rxjs';
 import { EditedUser, User } from '../types/user.model';
 import { AuthService } from './auth.service';
 import { PostService } from './post.service';
@@ -176,6 +189,29 @@ export class UserService {
       tap((users) => this.allUsers.set(users)),
       delay(500),
     );
+  }
+
+  searchUser(term: string) {
+    return this.http
+      .get<Record<string, User>>(
+        'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users.json',
+        {
+          params: {
+            orderBy: '"username"',
+            startAt: `"${term}"`,
+            endAt: `"${term}\uf8ff"`,
+          },
+        },
+      )
+      .pipe(
+        map((data) =>
+          Object.entries(data ?? {}).map(([key, value]) => ({
+            ...value,
+            id: key,
+          })),
+        ),
+        delay(1000), // <-- ritarda di 1 secondo
+      );
   }
 
   checkUniqueUsername(username: string) {

@@ -1,22 +1,16 @@
 import { Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
-import {
-  EllipsisIcon,
-  LucideAngularModule,
-  SearchIcon,
-  SlidersHorizontalIcon,
-} from 'lucide-angular';
-import { Router, RouterLink } from '@angular/router';
+import { LucideAngularModule, SearchIcon, SlidersHorizontalIcon } from 'lucide-angular';
+import { RouterLink } from '@angular/router';
 import { SearchUsersSkeleton } from '@/shared/components/skeletons/search-users-skeleton/search-users-skeleton';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize, of, switchMap, tap } from 'rxjs';
 import { UserService } from '@/core/services/user.service';
-import { AuthService } from '@/core/services/auth.service';
-import { ModalService } from '@/core/services/modal.service';
 import { A11yModule } from '@angular/cdk/a11y';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ClickOutside } from '@/shared/directives/click-outside.directive';
 import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
 import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
+import { UserCard } from '../user/user-card/user-card';
 
 @Component({
   selector: 'app-search',
@@ -29,63 +23,24 @@ import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
     ClickOutside,
     DropdownMenu,
     VerifiedIcon,
+    UserCard,
   ],
   templateUrl: './search.html',
   styleUrl: './search.css',
   host: { class: 'block w-full' },
 })
 export class Search implements OnInit {
-  private router = inject(Router);
-  private authService = inject(AuthService);
   private userService = inject(UserService);
-  private modalService = inject(ModalService);
   private destroyRef = inject(DestroyRef);
 
   // query params con input binding automatico
   verified = input<'true'>();
   orderBy = input<'most-followed'>();
 
-  isAuthenticated = this.authService.isAuthenticated;
-  users = this.userService.loadedAllUsers;
-  currentUser = this.userService.loadedCurrentUser;
-  openDialog = this.modalService.openDialog;
-
+  // gestione fetching iniziale
+  allUsers = this.userService.loadedAllUsers;
   error = signal('');
   isFetching = signal(false);
-  isOpen = signal(false);
-
-  closeMenu() {
-    this.isOpen.set(false);
-  }
-
-  toggleOpen() {
-    this.isOpen.set(!this.isOpen());
-  }
-
-  searchControl = new FormControl('', { nonNullable: true });
-  private search$ = this.searchControl.valueChanges.pipe(debounceTime(300), distinctUntilChanged());
-  search = toSignal(this.search$, { initialValue: '' });
-
-  filteredUsers = computed(() => {
-    let result = this.users();
-
-    const term = this.search().toLowerCase();
-    if (term) {
-      result = result.filter((user) => user.username.toLowerCase().includes(term));
-    }
-
-    const verified = this.verified();
-    if (verified === 'true') {
-      result = result.filter((user) => user.isVerified);
-    }
-
-    if (this.orderBy() === 'most-followed') {
-      result = [...result].sort((a, b) => b.followersCount - a.followersCount);
-    }
-
-    return result;
-  });
-
   ngOnInit(): void {
     this.isFetching.set(true);
     this.userService
@@ -102,21 +57,51 @@ export class Search implements OnInit {
       });
   }
 
-  onFollowClick() {
-    if (this.isAuthenticated()) {
-      if (!this.currentUser()) {
-        this.openDialog('edit-user', null);
-        return;
-      }
-
-      // logica follow-user
-      return;
-    }
-
-    this.router.navigate(['/auth']);
+  // gestione dropdown filtri
+  isOpen = signal(false);
+  closeMenu() {
+    this.isOpen.set(false);
+  }
+  toggleOpen() {
+    this.isOpen.set(!this.isOpen());
   }
 
-  readonly EllipsisIcon = EllipsisIcon;
+  // gestione search input
+  isSearching = signal(false);
+  searchControl = new FormControl('', { nonNullable: true });
+  usersToSearch$ = this.searchControl.valueChanges.pipe(
+    tap((term) => this.isSearching.set(term.trim().length > 0)), // mostra subito loading quando l'input non e vuoto
+    debounceTime(300), // aspetta 300ms prima di fare la query
+    distinctUntilChanged(), // evita richieste duplicate
+    switchMap((term) => {
+      const normalizedTerm = term.trim();
+      if (!normalizedTerm.length) {
+        this.isSearching.set(false);
+        return of([]);
+      }
+
+      // riafferma loading dopo eventuale cancellazione della richiesta precedente
+      this.isSearching.set(true);
+      return this.userService.searchUser(normalizedTerm).pipe(
+        finalize(() => this.isSearching.set(false)), // al termine della query, disattiva loading
+      );
+    }),
+  );
+  usersToSearch = toSignal(this.usersToSearch$, { initialValue: [] });
+  filteredUsers = computed(() => {
+    let result = this.usersToSearch();
+
+    if (this.verified() === 'true') {
+      result = result.filter((u) => u.isVerified);
+    }
+
+    if (this.orderBy() === 'most-followed') {
+      result = [...result].sort((a, b) => b.followersCount - a.followersCount);
+    }
+
+    return result;
+  });
+
   readonly SearchIcon = SearchIcon;
   readonly SlidersHorizontalIcon = SlidersHorizontalIcon;
 }
