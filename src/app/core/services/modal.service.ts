@@ -6,11 +6,13 @@ type DialogMode = 'create' | 'edit' | 'delete' | 'edit-user' | '';
 export class ModalService {
   constructor() {
     effect(() => {
-      if (this.dialogState().active) {
-        document.body.classList.add('modal-open');
-      } else {
-        document.body.classList.remove('modal-open');
-      }
+      const open = this.dialogState().active;
+      const html = document.documentElement;
+      const hadVerticalScrollbar = window.innerWidth > html.clientWidth;
+
+      html.classList.toggle('modal-open', open);
+      html.classList.toggle('modal-open-preserve-scrollbar', open && hadVerticalScrollbar);
+      document.body.classList.toggle('modal-open', open);
     });
   }
 

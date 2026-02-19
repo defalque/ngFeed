@@ -1,7 +1,7 @@
 import { UserService } from '@/core/services/user.service';
 import { ModalService } from '@/core/services/modal.service';
 import { ClickOutside } from '@/shared/directives/click-outside.directive';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   LucideAngularModule,
@@ -13,6 +13,7 @@ import {
   SunIcon,
   MoonIcon,
   PlusIcon,
+  BookmarkIcon,
 } from 'lucide-angular';
 import { NavbarItem } from './navbar-item/navbar-item';
 import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
@@ -92,10 +93,10 @@ export class Navbar {
 
   readonly HomeIcon = HouseIcon;
   readonly SearchIcon = SearchIcon;
-  readonly HeartIcon = HeartIcon;
   readonly UserIcon = UserIcon;
   readonly EqualIcon = EqualIcon;
   readonly SunIcon = SunIcon;
   readonly MoonIcon = MoonIcon;
   readonly PlusIcon = PlusIcon;
+  readonly BookmarkIcon = BookmarkIcon;
 }

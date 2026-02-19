@@ -25,7 +25,6 @@ import { ModalService } from '@/core/services/modal.service';
 import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { UserService } from '@/core/services/user.service';
 import { AuthService } from '@/core/services/auth.service';
-import { EditUser } from './edit-user/edit-user';
 
 @Component({
   selector: 'app-user',
@@ -36,7 +35,6 @@ import { EditUser } from './edit-user/edit-user';
     RouterLinkActive,
     UserSkeleton,
     VerifiedIcon,
-    EditUser,
   ],
   templateUrl: './user.html',
   styleUrl: './user.css',
