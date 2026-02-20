@@ -183,7 +183,7 @@ export class PostService {
           this.authUserPosts.update((posts) => [newPost, ...posts]);
         }),
         catchError(() => {
-          return throwError(() => new Error('Post creation failed'));
+          return throwError(() => new Error('Errore durante la creazione del post'));
         }),
       );
   }
@@ -215,7 +215,7 @@ export class PostService {
         }),
         catchError((error) => {
           console.error(error);
-          return throwError(() => new Error('Post deletion failed'));
+          return throwError(() => new Error("Errore durante l'eliminazione del post"));
         }),
       );
   }
@@ -246,7 +246,7 @@ export class PostService {
           });
         }),
         catchError((error) => {
-          return throwError(() => new Error('Post creation failed'));
+          return throwError(() => new Error('Errore durante la modifica del post'));
         }),
       );
   }
@@ -280,7 +280,9 @@ export class PostService {
           }
         }),
         catchError((error) => {
-          return throwError(() => new Error('Save post failed'));
+          return throwError(
+            () => new Error('Errore durante il salvataggio del post nei preferiti'),
+          );
         }),
       );
   }
@@ -318,7 +320,7 @@ export class PostService {
           } else {
             this.likedPostsIds.set(oldLikedPostsIds);
           }
-          return throwError(() => new Error('Like post failed'));
+          return throwError(() => new Error('Errore durante il like del post'));
         }),
       );
   }
