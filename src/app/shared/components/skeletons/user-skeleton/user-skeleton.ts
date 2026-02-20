@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'div[userSkeleton]',
@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   host: {
     class: 'w-full',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserSkeleton {}

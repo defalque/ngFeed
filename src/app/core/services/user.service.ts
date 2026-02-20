@@ -132,7 +132,7 @@ export class UserService {
         { ...userInfo, followingCount: 0, followersCount: 0 },
       )
       .pipe(
-        delay(2000),
+        delay(500),
         tap(() => {
           this.currentUser.set({ ...userInfo, followingCount: 0, followersCount: 0 } as User);
         }),
@@ -172,7 +172,7 @@ export class UserService {
         updates,
       )
       .pipe(
-        delay(2000),
+        delay(500),
         tap(() => {
           console.log(this.currentUser());
           this.currentUser.update((oldUserData) => {

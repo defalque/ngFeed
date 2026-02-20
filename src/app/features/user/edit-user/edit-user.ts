@@ -1,5 +1,13 @@
 import { UserService } from '@/core/services/user.service';
-import { Component, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
@@ -15,6 +23,7 @@ import { AuthService } from '@/core/services/auth.service';
 import { EditedUser } from '@/core/types/user.model';
 import { Router } from '@angular/router';
 import { FocusField } from '@/shared/directives/focus-field.directive';
+import { NgOptimizedImage } from '@angular/common';
 
 function validUrl(control: AbstractControl) {
   if (!control.value) return null;
@@ -54,9 +63,10 @@ function equalValues(controlName1: string, controlName2: string) {
 
 @Component({
   selector: 'app-edit-user',
-  imports: [ReactiveFormsModule, A11yModule, FocusField],
+  imports: [ReactiveFormsModule, A11yModule, FocusField, NgOptimizedImage],
   templateUrl: './edit-user.html',
   styleUrl: './edit-user.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditUser implements OnInit {
   private router = inject(Router);

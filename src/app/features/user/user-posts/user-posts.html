@@ -41,11 +41,12 @@
       @for (post of loadedUserPosts(); track post.id) {
         <li>
           <app-post
-            [isLikedPost]="isLikedPost(post.id)"
+            [index]="0"
+            [isLikedPost]="likedSet().has(post.id)"
             type="user-posts"
             [post]="post"
             [currentUserPost]="isCurrentUserPosts()"
-            [isSavedPost]="isSavedPost(post.id)"
+            [isSavedPost]="savedSet().has(post.id)"
           />
         </li>
       }

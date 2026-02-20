@@ -1,7 +1,15 @@
 import { ClickOutside } from '@/shared/directives/click-outside.directive';
 import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
 import { ModalService } from '@/core/services/modal.service';
-import { Component, DestroyRef, inject, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import {
   BookmarkIcon,
   EllipsisIcon,
@@ -23,6 +31,7 @@ import { PostService } from '@/core/services/post.service';
   imports: [ClickOutside, LucideAngularModule, DropdownMenu],
   templateUrl: './post-options.html',
   styleUrl: './post-options.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostOptions {
   private modal = inject(ModalService);

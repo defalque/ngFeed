@@ -1,4 +1,13 @@
-import { Component, computed, DestroyRef, effect, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import {
   EllipsisIcon,
   HeartIcon,
@@ -23,6 +32,7 @@ import { FullPostSkeleton } from '@/shared/components/skeletons/full-post-skelet
   templateUrl: './full-post.html',
   styleUrl: './full-post.css',
   host: { class: 'block w-full' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FullPost {
   private titleService = inject(Title);
@@ -39,6 +49,8 @@ export class FullPost {
   error = signal('');
   savedPostsIds = this.postService.loadedSavedPostsIds;
   likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
+  readonly savedSet = computed(() => new Set(this.savedPostsIds()));
+  readonly likedSet = computed(() => new Set(this.likedPostsIds()));
 
   // Segnale derivato per il post corrente
   post = computed(() => {
@@ -116,9 +128,6 @@ export class FullPost {
   isCurrentUserPost() {
     return this.id() === this.authService.authenticatedUser()?.localId;
   }
-
-  isSavedPost = (postId: string) => this.savedPostsIds().includes(postId);
-  isLikedPost = (postId: string) => this.likedPostsIds().includes(postId);
 
   readonly HeartIcon = HeartIcon;
   readonly MessageCircleIcon = MessageCircleIcon;

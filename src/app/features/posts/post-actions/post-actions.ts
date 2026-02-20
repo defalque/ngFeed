@@ -1,5 +1,5 @@
 import { PostService } from '@/core/services/post.service';
-import { Component, DestroyRef, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input } from '@angular/core';
 import { HeartIcon, LucideAngularModule, MessageCircleIcon, RefreshCcw } from 'lucide-angular';
 import { AuthService } from '@/core/services/auth.service';
 import { UserService } from '@/core/services/user.service';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   imports: [LucideAngularModule],
   templateUrl: './post-actions.html',
   styleUrl: './post-actions.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex items-center gap-2 col-start-2 pt-2 col-span-1 -ml-2',
   },

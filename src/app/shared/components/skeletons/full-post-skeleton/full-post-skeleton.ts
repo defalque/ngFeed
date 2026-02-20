@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'div[fullPostSkeleton]',
@@ -9,5 +9,6 @@ import { Component } from '@angular/core';
     class:
       'bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible animate-pulse',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FullPostSkeleton {}

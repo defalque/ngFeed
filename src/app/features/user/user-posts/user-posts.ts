@@ -1,4 +1,12 @@
-import { Component, computed, DestroyRef, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { UserPostsSkeleton } from '@/shared/components/skeletons/user-posts-skeleton/user-posts-skeleton';
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -13,6 +21,7 @@ import { AuthService } from '@/core/services/auth.service';
   imports: [BlogPost, UserPostsSkeleton],
   templateUrl: './user-posts.html',
   styleUrl: './user-posts.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserPosts {
   private route = inject(ActivatedRoute);
@@ -31,6 +40,8 @@ export class UserPosts {
   loadedCurrentUserPosts = this.postService.authUserPostsReadonly;
   savedPostsIds = this.postService.loadedSavedPostsIds;
   likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
+  readonly savedSet = computed(() => new Set(this.savedPostsIds()));
+  readonly likedSet = computed(() => new Set(this.likedPostsIds()));
 
   loadedUserPosts = computed(() => {
     return this.isCurrentUserPosts()
@@ -84,7 +95,4 @@ export class UserPosts {
   isCurrentUserPosts() {
     return this.id() === this.authService.authenticatedUser()?.localId;
   }
-
-  isSavedPost = (postId: string) => this.savedPostsIds().includes(postId);
-  isLikedPost = (postId: string) => this.likedPostsIds().includes(postId);
 }

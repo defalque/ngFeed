@@ -4,9 +4,13 @@
     class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
   >
     <img
-      [src]="post().userAvatar || '/assets/images/default-user.avif'"
+      [ngSrc]="post().userAvatar || '/assets/images/default-user.avif'"
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
       class="rounded-full w-9 h-9 col-span-1"
+      (error)="$any($event.target).src = '/assets/images/default-user.avif'"
+      [loading]="index() < 3 ? 'eager' : 'lazy'"
+      width="36"
+      height="36"
     />
 
     <div class="flex items-center gap-2 col-span-1">
@@ -85,6 +89,7 @@
       [src]="post().userAvatar || '/assets/images/default-user.avif'"
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
       class="rounded-full w-9 h-9 col-span-1"
+      priority
     />
 
     <div class="flex items-center gap-2 col-span-1">

@@ -59,11 +59,12 @@
     }
   } @else if (post() && !isFetching()) {
     <app-post
-      [isLikedPost]="isLikedPost(post()!.id)"
+      [index]="0"
+      [isLikedPost]="likedSet().has(post()!.id)"
       [post]="post()!"
       [type]="'full-post'"
       [currentUserPost]="isCurrentUserPost()"
-      [isSavedPost]="isSavedPost(post()!.id)"
+      [isSavedPost]="savedSet().has(post()!.id)"
     />
     @for (post of [0, 1, 2]; track post) {
       <div class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible">

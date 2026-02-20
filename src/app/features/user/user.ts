@@ -10,6 +10,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { EllipsisIcon, HeartIcon, LucideAngularModule, MessageCircleIcon } from 'lucide-angular';
+import { NgOptimizedImage } from '@angular/common';
 import {
   ActivatedRoute,
   Router,
@@ -30,6 +31,7 @@ import { AuthService } from '@/core/services/auth.service';
   selector: 'app-user',
   imports: [
     LucideAngularModule,
+    NgOptimizedImage,
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
@@ -63,6 +65,12 @@ export class User implements OnInit {
       : this.userService.loadedGenericUser();
   });
 
+  avatarError = signal(false);
+  avatarSrc = computed(() => {
+    if (this.avatarError()) return '/assets/images/default-user.avif';
+    return this.user()?.avatar || '/assets/images/default-user.avif';
+  });
+
   isFetching = signal(false);
 
   openDialog = this.modal.openDialog;
@@ -88,10 +96,13 @@ export class User implements OnInit {
       const user = this.user(); // reagisce sia se fetchato ora che già presente
       if (!user) return;
 
-      const title = `${user.firstName + ' ' + user.lastName} – ngFeed`;
-
-      this.titleService.setTitle(title);
+      this.avatarError.set(false);
+      this.titleService.setTitle(`${user.firstName + ' ' + user.lastName} – ngFeed`);
     });
+  }
+
+  onAvatarError(): void {
+    this.avatarError.set(true);
   }
 
   ngOnInit(): void {}

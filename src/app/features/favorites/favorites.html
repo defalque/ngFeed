@@ -34,10 +34,11 @@
     </div>
   } @else {
     <ul class="py-1 divide-y divide-gray-200">
-      @for (post of posts(); track post.id) {
+      @for (post of posts(); track post.id; let index = $index) {
         <li>
           <app-post
-            [isLikedPost]="isLikedPost(post.id)"
+            [index]="index"
+            [isLikedPost]="likedSet().has(post.id)"
             [post]="post"
             [type]="'for-you'"
             [currentUserPost]="false"

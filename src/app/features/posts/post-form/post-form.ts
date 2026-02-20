@@ -1,4 +1,11 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  signal,
+} from '@angular/core';
 import { FocusField } from '@/shared/directives/focus-field.directive';
 import { ModalService } from '@/core/services/modal.service';
 import {
@@ -31,6 +38,7 @@ type NewPostFormErrors = ReturnType<typeof z.treeifyError<typeof newPostFormSche
   imports: [FocusField, FormsModule, ReactiveFormsModule],
   templateUrl: './post-form.html',
   styleUrl: './post-form.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostForm {
   private modalService = inject(ModalService);

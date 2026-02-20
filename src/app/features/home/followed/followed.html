@@ -33,14 +33,15 @@
     </div>
   } @else {
     <ul class="divide-y divide-gray-200">
-      @for (post of posts(); track post.id) {
+      @for (post of posts(); track post.id; let index = $index) {
         <li>
           <app-post
-            [isLikedPost]="isLikedPost(post.id)"
+            [index]="index"
             type="for-you"
             [post]="post"
             [currentUserPost]="false"
-            [isSavedPost]="isSavedPost(post.id)"
+            [isLikedPost]="likedSet().has(post.id)"
+            [isSavedPost]="savedSet().has(post.id)"
           />
         </li>
       }

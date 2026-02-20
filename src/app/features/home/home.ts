@@ -3,10 +3,11 @@ import { ModalService } from '@/core/services/modal.service';
 import { UserService } from '@/core/services/user.service';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgOptimizedImage],
   templateUrl: './home.html',
   host: { class: 'block w-full' },
 })

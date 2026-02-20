@@ -1,7 +1,4 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
-import { FeedSkeleton } from '@/shared/components/skeletons/feed-skeleton/feed-skeleton';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { BlogPost } from '@/features/posts/post/post';
 import { PostService } from '@/core/services/post.service';
 import { AuthService } from '@/core/services/auth.service';
@@ -11,6 +8,7 @@ import { UserService } from '@/core/services/user.service';
   selector: 'app-followed',
   imports: [BlogPost],
   templateUrl: './followed.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Followed {
   private authService = inject(AuthService);
@@ -20,13 +18,11 @@ export class Followed {
   authenticatedUser = this.authService.authenticatedUser;
   savedPostsIds = this.postService.loadedSavedPostsIds;
   likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
-
+  readonly savedSet = computed(() => new Set(this.savedPostsIds()));
+  readonly likedSet = computed(() => new Set(this.likedPostsIds()));
   posts = computed(() =>
     this.postService
       .allLoadedPosts()
       .filter((post) => this.userService.loadedFollowedIds().includes(post.userId)),
   );
-
-  isSavedPost = (postId: string) => this.savedPostsIds().includes(postId);
-  isLikedPost = (postId: string) => this.likedPostsIds().includes(postId);
 }

@@ -96,10 +96,13 @@
     </div>
     <div class="relative flex-none rounded-full overflow-hidden shadow-md">
       <img
-        [src]="avatarUrl"
+        [ngSrc]="avatarUrl"
         alt="Avatar preview"
         class="size-24 object-cover"
         (error)="$any($event.target).src = '/assets/images/default-user.avif'"
+        width="96"
+        height="96"
+        priority
       />
     </div>
   </div>
@@ -164,7 +167,7 @@
   </div>
 
   <fieldset class="flex flex-col items-start gap-2">
-    <label>Vuoi apparire come verificato?</label>
+    <legend>Vuoi apparire come verificato?</legend>
 
     <div class="flex items-center gap-x-2">
       <input

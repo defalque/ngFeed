@@ -1,4 +1,13 @@
-import { Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { LucideAngularModule, SearchIcon, SlidersHorizontalIcon } from 'lucide-angular';
 import { RouterLink } from '@angular/router';
 import { SearchUsersSkeleton } from '@/shared/components/skeletons/search-users-skeleton/search-users-skeleton';
@@ -29,6 +38,7 @@ import { AuthService } from '@/core/services/auth.service';
   templateUrl: './search.html',
   styleUrl: './search.css',
   host: { class: 'block w-full' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Search implements OnInit {
   private userService = inject(UserService);

@@ -14,9 +14,13 @@
               <app-verified-icon size="size-4.5" mode="absolute" />
             }
             <img
-              [src]="user()?.avatar || '/assets/images/default-user.avif'"
+              [ngSrc]="avatarSrc()"
               [alt]="'Avatar di ' + user()?.firstName + ' ' + user()?.lastName"
+              width="112"
+              height="112"
               class="md:size-24 size-24 sm:size-28 bg-gray-200 rounded-full col-span-1"
+              (error)="onAvatarError()"
+              priority
             />
           </div>
           <div class="flex items-center gap-4">

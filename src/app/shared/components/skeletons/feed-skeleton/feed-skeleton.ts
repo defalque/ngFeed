@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'li[feedSkeleton]',
@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   host: {
     class: 'bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible animate-pulse',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeedSkeleton {}

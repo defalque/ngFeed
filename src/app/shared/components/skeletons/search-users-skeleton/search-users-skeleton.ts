@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'li[searchUsersSkeleton]',
@@ -9,5 +9,6 @@ import { Component } from '@angular/core';
     class:
       'grid grid-cols-[2.8rem_1fr_auto] gap-x-2 px-2 md:px-4 py-4 border-b last:border-b-0 border-gray-200 animate-pulse',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchUsersSkeleton {}

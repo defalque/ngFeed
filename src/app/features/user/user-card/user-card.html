@@ -2,9 +2,13 @@
   class="grid grid-cols-[2.8rem_1fr_auto] gap-x-2 px-2 md:px-4 py-4 border-b last:border-b-0 border-gray-200"
 >
   <img
-    [src]="user().avatar || '/assets/images/default-user.avif'"
+    [ngSrc]="user().avatar || '/assets/images/default-user.avif'"
     [alt]="'Avatar di ' + user().firstName + ' ' + user().lastName"
     class="rounded-full w-full h-full"
+    (error)="$any($event.target).src = '/assets/images/default-user.avif'"
+    width="36"
+    height="36"
+    priority
   />
   <div class="flex items-center gap-2 col-span-1">
     <div class="flex flex-col items-start">

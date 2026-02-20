@@ -1,17 +1,28 @@
 import { ModalService } from '@/core/services/modal.service';
 import { UserService } from '@/core/services/user.service';
 import { User } from '@/core/types/user.model';
-import { Component, computed, DestroyRef, inject, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-user-card',
-  imports: [RouterLink, VerifiedIcon],
+  imports: [RouterLink, VerifiedIcon, NgOptimizedImage],
   templateUrl: './user-card.html',
   styleUrl: './user-card.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserCard {
   private router = inject(Router);

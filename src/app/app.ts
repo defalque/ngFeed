@@ -22,6 +22,7 @@ import { PostForm } from './features/posts/post-form/post-form';
 import { EditUser } from './features/user/edit-user/edit-user';
 import { AuthService } from './core/services/auth.service';
 import { PostService } from './core/services/post.service';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +35,7 @@ import { PostService } from './core/services/post.service';
     PostForm,
     DeletePost,
     EditUser,
+    NgOptimizedImage,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

@@ -201,7 +201,7 @@ export class PostService {
         updates,
       )
       .pipe(
-        delay(2000),
+        delay(500),
         tap(() => {
           this.allPosts.update((posts) => posts.filter((p) => p.id !== postId));
           this.authUserPosts.update((posts) => posts.filter((p) => p.id !== postId));
@@ -234,7 +234,7 @@ export class PostService {
         updates,
       )
       .pipe(
-        delay(2000), // delay artificiale per loading ui
+        delay(500), // delay artificiale per loading ui
         tap(() => {
           this.authUserPosts.update((oldPosts) => {
             return oldPosts.map((post) => (post.id === postId ? { ...post, ...editedPost } : post));
