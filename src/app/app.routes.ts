@@ -28,7 +28,11 @@ export const routes: Routes = [
     path: 'utente/:id/posts/:postId',
     loadComponent: () => import('./features/posts/full-post/full-post').then((mod) => mod.FullPost),
   },
-  { path: 'auth', loadComponent: () => import('./features/auth/auth').then((mod) => mod.Auth) },
+  {
+    path: 'auth',
+    loadComponent: () => import('./features/auth/auth').then((mod) => mod.Auth),
+    title: 'Entra in ngFeed',
+  },
   {
     path: '**',
     loadComponent: () => import('./core/pages/not-found/not-found').then((mod) => mod.NotFound),

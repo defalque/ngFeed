@@ -1,9 +1,15 @@
 <button
-  class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+  (click)="onLikePostClick($event)"
+  class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer flex items-center gap-1 focus active:scale-[0.92] transition-transform duration-150"
   aria-label="Mi piace del post"
 >
-  <lucide-icon [img]="HeartIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
-  <span class="text-sm text-black">{{ likesCount() }}</span>
+  <lucide-icon
+    [img]="HeartIcon"
+    size="20"
+    class="{{ isLikedPost() ? 'text-red-500! fill-red-500!' : 'text-black! ' }}"
+    aria-hidden
+  ></lucide-icon>
+  <!-- <span class="text-sm text-black">{{ likesCount() }}</span> -->
 </button>
 <button
   class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"

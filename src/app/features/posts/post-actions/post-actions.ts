@@ -1,5 +1,11 @@
-import { Component, input } from '@angular/core';
+import { PostService } from '@/core/services/post.service';
+import { Component, DestroyRef, inject, input } from '@angular/core';
 import { HeartIcon, LucideAngularModule, MessageCircleIcon, RefreshCcw } from 'lucide-angular';
+import { AuthService } from '@/core/services/auth.service';
+import { UserService } from '@/core/services/user.service';
+import { ModalService } from '@/core/services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-actions',
@@ -11,10 +17,59 @@ import { HeartIcon, LucideAngularModule, MessageCircleIcon, RefreshCcw } from 'l
   },
 })
 export class PostActions {
+  private router = inject(Router);
+  private postService = inject(PostService);
+  private authService = inject(AuthService);
+  private userService = inject(UserService);
+  private modalService = inject(ModalService);
+  private destroyRef = inject(DestroyRef);
+
+  isAuthenticated = this.authService.isAuthenticated;
+  currentUser = this.userService.loadedCurrentUser;
+  openDialog = this.modalService.openDialog;
+
+  isLikedPost = input.required<boolean>();
+  postId = input.required<string>();
+  likesCount = input.required<number>();
+  commentsCount = input.required<number>();
+
+  onLikePostClick(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.isAuthenticated()) {
+      if (!this.currentUser()) {
+        this.openDialog('edit-user', null);
+        return;
+      }
+
+      if (this.isLikedPost()) {
+        this.postService
+          .likePostAction(this.postId(), 'unlike')
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe({
+            error: (error: Error) => {
+              console.log(error);
+            },
+          });
+        return;
+      } else {
+        this.postService
+          .likePostAction(this.postId(), 'like')
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe({
+            error: (error: Error) => {
+              console.log(error);
+            },
+          });
+        return;
+      }
+    }
+
+    this.router.navigate(['/auth']);
+  }
+
   readonly HeartIcon = HeartIcon;
   readonly MessageCircleIcon = MessageCircleIcon;
   readonly RefreshCcw = RefreshCcw;
-
-  likesCount = input.required<number>();
-  commentsCount = input.required<number>();
 }

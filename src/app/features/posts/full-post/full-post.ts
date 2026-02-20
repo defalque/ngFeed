@@ -38,6 +38,7 @@ export class FullPost {
   isFetching = signal(false);
   error = signal('');
   savedPostsIds = this.postService.loadedSavedPostsIds;
+  likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
 
   // Segnale derivato per il post corrente
   post = computed(() => {
@@ -117,6 +118,7 @@ export class FullPost {
   }
 
   isSavedPost = (postId: string) => this.savedPostsIds().includes(postId);
+  isLikedPost = (postId: string) => this.likedPostsIds().includes(postId);
 
   readonly HeartIcon = HeartIcon;
   readonly MessageCircleIcon = MessageCircleIcon;

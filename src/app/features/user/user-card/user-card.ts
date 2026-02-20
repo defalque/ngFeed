@@ -1,4 +1,3 @@
-import { AuthService } from '@/core/services/auth.service';
 import { ModalService } from '@/core/services/modal.service';
 import { UserService } from '@/core/services/user.service';
 import { User } from '@/core/types/user.model';
@@ -16,70 +15,47 @@ import { finalize } from 'rxjs';
 })
 export class UserCard {
   private router = inject(Router);
-  private authService = inject(AuthService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
   private destroyRef = inject(DestroyRef);
 
-  isAuthenticated = this.authService.isAuthenticated;
-  currentUser = this.userService.loadedCurrentUser;
-  followedIds = this.userService.loadedFollowedIds;
   openDialog = this.modalService.openDialog;
 
-  id = input.required<string>();
-
   user = input.required<User>();
+  isAuthenticated = input.required<boolean>();
+  currentUser = input.required<User | null>();
+  followedIds = input.required<string[]>();
   isFollowActionPending = input(false);
   followActionPendingChange = output<boolean>();
 
   isFollowing = signal(false);
   buttonDisabled = computed(() => this.isFollowing() || this.isFollowActionPending());
-  userIsFollowing = computed(() => {
-    return this.followedIds().includes(this.id());
-  });
   onFollowClick() {
     if (this.buttonDisabled()) return;
 
     if (this.isAuthenticated()) {
-      if (!this.user()) {
+      if (!this.currentUser()) {
         this.openDialog('edit-user', null);
         return;
       }
 
       this.isFollowing.set(true);
       this.followActionPendingChange.emit(true);
-      if (this.userIsFollowing()) {
-        this.userService
-          .followAction(this.id(), 'unfollow')
-          .pipe(
-            takeUntilDestroyed(this.destroyRef),
-            finalize(() => {
-              this.isFollowing.set(false);
-              this.followActionPendingChange.emit(false);
-            }),
-          )
-          .subscribe({
-            error: (error: Error) => {
-              console.log(error);
-            },
-          });
-        return;
-      } else {
-        this.userService
-          .followAction(this.id(), 'follow')
-          .pipe(
-            takeUntilDestroyed(this.destroyRef),
-            finalize(() => {
-              this.isFollowing.set(false);
-              this.followActionPendingChange.emit(false);
-            }),
-          )
-          .subscribe({
-            error: (error: Error) => {
-              console.log(error);
-            },
-          });
-      }
+      this.userService
+        .followAction(this.user().id, 'follow')
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => {
+            this.isFollowing.set(false);
+            this.followActionPendingChange.emit(false);
+          }),
+        )
+        .subscribe({
+          error: (error: Error) => {
+            console.log(error);
+          },
+        });
+
       return;
     }
 

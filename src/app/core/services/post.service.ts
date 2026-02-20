@@ -41,6 +41,12 @@ export class PostService {
     this.savedPostsIds.set(value);
   }
 
+  private likedPostsIds = signal<string[]>([]);
+  loadedLikedPostsIds = this.likedPostsIds.asReadonly();
+  setLikedPostsIds(value: string[]) {
+    this.likedPostsIds.set(value);
+  }
+
   // followedPosts = computed(() => {
   //   return this.allPosts().filter((post) => post.userId === 'user_002');
   // });
@@ -274,6 +280,44 @@ export class PostService {
       );
   }
 
+  likePostAction(postId: string, mode: 'like' | 'unlike') {
+    const uid = this.authenticatedUser()?.localId;
+    const token = this.authenticatedUser()?.idToken;
+    if (!token) return EMPTY;
+
+    const oldLikedPostsIds = this.likedPostsIds();
+
+    if (mode === 'like') {
+      this.likedPostsIds.update((likedPostsIds) => [...likedPostsIds, postId]);
+    } else {
+      this.likedPostsIds.update((likedPostsIds) => likedPostsIds.filter((id) => id !== postId));
+    }
+
+    const updates: any = {};
+    if (mode === 'like') {
+      updates[`user-liked-posts/${uid}/${postId}`] = true;
+    } else {
+      updates[`user-liked-posts/${uid}/${postId}`] = null;
+    }
+
+    return this.http
+      .patch(
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        updates,
+      )
+      .pipe(
+        delay(500),
+        catchError((error) => {
+          if (mode === 'like') {
+            this.likedPostsIds.set(oldLikedPostsIds);
+          } else {
+            this.likedPostsIds.set(oldLikedPostsIds);
+          }
+          return throwError(() => new Error('Like post failed'));
+        }),
+      );
+  }
+
   fetchSavedPostsIds() {
     const authUser = this.authenticatedUser();
     const uid = authUser?.localId;
@@ -294,6 +338,29 @@ export class PostService {
           return Object.keys(res);
         }),
         tap((savedPostsIds) => this.savedPostsIds.set(savedPostsIds)),
+      );
+  }
+
+  fetchLikedPostsIds() {
+    const authUser = this.authenticatedUser();
+    const uid = authUser?.localId;
+    const token = authUser?.idToken;
+
+    if (!uid || !token) {
+      this.likedPostsIds.set([]);
+      return of<string[]>([]);
+    }
+
+    return this.http
+      .get<
+        string[]
+      >(`https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/user-liked-posts/${uid}.json`)
+      .pipe(
+        map((res) => {
+          if (!res) return [];
+          return Object.keys(res);
+        }),
+        tap((likedPostsIds) => this.likedPostsIds.set(likedPostsIds)),
       );
   }
 

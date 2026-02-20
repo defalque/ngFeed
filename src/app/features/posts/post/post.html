@@ -38,7 +38,12 @@
     <p class="text-sm sm:text-base tracking-normal text-black/80 col-start-2 col-span-full">
       {{ post().description }}
     </p>
-    <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
+    <app-post-actions
+      [isLikedPost]="isLikedPost()"
+      [postId]="post().id"
+      [likesCount]="post().likesCount"
+      [commentsCount]="post().commentsCount"
+    />
   </a>
 }
 @if (type() === 'user-posts') {
@@ -65,7 +70,12 @@
       {{ post().content }}
     </p>
     <div class="flex items-center gap-2">
-      <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
+      <app-post-actions
+        [isLikedPost]="isLikedPost()"
+        [postId]="post().id"
+        [likesCount]="post().likesCount"
+        [commentsCount]="post().commentsCount"
+      />
     </div>
   </a>
 }
@@ -114,6 +124,11 @@
       {{ post().content }}
     </p>
 
-    <app-post-actions [likesCount]="post().likesCount" [commentsCount]="post().commentsCount" />
+    <app-post-actions
+      [isLikedPost]="isLikedPost()"
+      [postId]="post().id"
+      [likesCount]="post().likesCount"
+      [commentsCount]="post().commentsCount"
+    />
   </div>
 }

@@ -2,7 +2,6 @@ import { Component, computed, inject } from '@angular/core';
 import { BlogPost } from '../../posts/post/post';
 import { PostService } from '@/core/services/post.service';
 import { AuthService } from '@/core/services/auth.service';
-import { UserService } from '@/core/services/user.service';
 
 @Component({
   selector: 'app-for-you',
@@ -12,10 +11,10 @@ import { UserService } from '@/core/services/user.service';
 export class ForYou {
   private authService = inject(AuthService);
   private postService = inject(PostService);
-  private userService = inject(UserService);
 
   authenticatedUser = this.authService.authenticatedUser;
   savedPostsIds = this.postService.loadedSavedPostsIds;
+  likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
 
   posts = computed(() =>
     this.postService
@@ -24,6 +23,7 @@ export class ForYou {
   );
 
   isSavedPost = (postId: string) => this.savedPostsIds().includes(postId);
+  isLikedPost = (postId: string) => this.likedPostsIds().includes(postId);
 
   // fetchare sempre i post
 }

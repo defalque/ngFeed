@@ -36,6 +36,7 @@
       @for (post of posts(); track post.id) {
         <li>
           <app-post
+            [isLikedPost]="isLikedPost(post.id)"
             type="for-you"
             [post]="post"
             [currentUserPost]="false"

@@ -30,6 +30,7 @@ export class UserPosts {
   loadedGenericUserPosts = this.postService.genericUserPostsReadonly;
   loadedCurrentUserPosts = this.postService.authUserPostsReadonly;
   savedPostsIds = this.postService.loadedSavedPostsIds;
+  likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
 
   loadedUserPosts = computed(() => {
     return this.isCurrentUserPosts()
@@ -85,4 +86,5 @@ export class UserPosts {
   }
 
   isSavedPost = (postId: string) => this.savedPostsIds().includes(postId);
+  isLikedPost = (postId: string) => this.likedPostsIds().includes(postId);
 }

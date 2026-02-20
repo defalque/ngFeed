@@ -102,14 +102,15 @@ export class App implements OnInit {
       userInfo: this.userService.fetchAuthUserInfo().pipe(catchError(() => of(null))),
       followedIds: this.userService.fetchFollowedIds().pipe(catchError(() => of([]))),
       savedPostsIds: this.postService.fetchSavedPostsIds().pipe(catchError(() => of([]))),
+      likedPostsIds: this.postService.fetchLikedPostsIds().pipe(catchError(() => of([]))),
     })
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
       )
       .subscribe({
-        next: ({ posts, userInfo, followedIds, savedPostsIds }) => {
-          console.log(posts, userInfo, followedIds);
+        next: ({ posts, userInfo, followedIds, savedPostsIds, likedPostsIds }) => {
+          console.log(posts, userInfo, followedIds, savedPostsIds, likedPostsIds);
         },
         error: (err) => console.error('Errore durante il caricamento dei dati', err),
       });

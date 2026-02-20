@@ -12,8 +12,11 @@ import { BlogPost } from '../posts/post/post';
 export class Favorites {
   private postService = inject(PostService);
   savedPostsIds = this.postService.loadedSavedPostsIds;
+  likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
 
   posts = computed(() =>
     this.postService.allLoadedPosts().filter((post) => this.savedPostsIds().includes(post.id)),
   );
+
+  isLikedPost = (postId: string) => this.likedPostsIds().includes(postId);
 }

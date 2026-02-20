@@ -19,6 +19,7 @@ export class Followed {
 
   authenticatedUser = this.authService.authenticatedUser;
   savedPostsIds = this.postService.loadedSavedPostsIds;
+  likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
 
   posts = computed(() =>
     this.postService
@@ -27,4 +28,5 @@ export class Followed {
   );
 
   isSavedPost = (postId: string) => this.savedPostsIds().includes(postId);
+  isLikedPost = (postId: string) => this.likedPostsIds().includes(postId);
 }

@@ -59,6 +59,7 @@
     }
   } @else if (post() && !isFetching()) {
     <app-post
+      [isLikedPost]="isLikedPost(post()!.id)"
       [post]="post()!"
       [type]="'full-post'"
       [currentUserPost]="isCurrentUserPost()"

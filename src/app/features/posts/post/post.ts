@@ -12,6 +12,7 @@ import { PostOptions } from '../post-options/post-options';
   styleUrl: './post.css',
 })
 export class BlogPost {
+  isLikedPost = input.required<boolean>();
   isSavedPost = input.required<boolean>();
   type = input.required<'for-you' | 'user-posts' | 'full-post'>();
   post = input.required<Post>();

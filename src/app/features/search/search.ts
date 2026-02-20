@@ -11,6 +11,7 @@ import { ClickOutside } from '@/shared/directives/click-outside.directive';
 import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
 import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { UserCard } from '../user/user-card/user-card';
+import { AuthService } from '@/core/services/auth.service';
 
 @Component({
   selector: 'app-search',
@@ -31,9 +32,12 @@ import { UserCard } from '../user/user-card/user-card';
 })
 export class Search implements OnInit {
   private userService = inject(UserService);
+  private authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
 
-  followedIds = this.userService.loadedFollowedIds;
+  currentUser = this.userService.loadedCurrentUser;
+  isAuthenticated = this.authService.isAuthenticated;
+  followedIds = computed(() => this.userService.loadedFollowedIds());
 
   // query params con input binding automatico
   verified = input<'true'>();
