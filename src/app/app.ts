@@ -24,7 +24,7 @@ import { AuthService } from './core/services/auth.service';
 import { PostService } from './core/services/post.service';
 import { NgOptimizedImage } from '@angular/common';
 import { Error } from './core/pages/error/error';
-import { ToastItem } from './shared/components/toast/toast-item/toast-item';
+import { ToastContainer } from './shared/components/toast/toast-container/toast-container';
 
 @Component({
   selector: 'app-root',
@@ -39,7 +39,7 @@ import { ToastItem } from './shared/components/toast/toast-item/toast-item';
     EditUser,
     NgOptimizedImage,
     Error,
-    ToastItem,
+    ToastContainer,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

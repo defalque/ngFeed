@@ -1,0 +1,20 @@
+<!-- <button
+  (click)="onClick()"
+  class="bg-black text-white px-4 py-2 rounded-md fixed bottom-36 right-4 z-9000"
+>
+  Show Toast
+</button> -->
+
+<div
+  role="region"
+  aria-label="Notifiche"
+  class="fixed left-2 right-6 md:left-auto md:right-4 bottom-16 md:bottom-2 md:w-80 z-5000"
+>
+  @for (toast of toasts(); track toast.id) {
+    <app-toast-item
+      [toast]="toast"
+      [icon]="getIcon(toast.type)"
+      (dismiss)="onDismiss(toast.id)"
+    ></app-toast-item>
+  }
+</div>

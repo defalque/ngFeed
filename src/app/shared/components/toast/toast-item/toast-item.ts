@@ -1,18 +1,23 @@
-import { ToastService } from '@/core/services/toast.service';
-import { Component, effect, inject, signal } from '@angular/core';
+import { Toast } from '@/core/services/toast.service';
+import { Component, effect, input, output, signal } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
-import { LucideAngularModule, XIcon } from 'lucide-angular';
+import { Info, LucideAngularModule, LucideIconData, X } from 'lucide-angular';
 
 @Component({
   selector: 'app-toast-item',
   imports: [A11yModule, LucideAngularModule],
   templateUrl: './toast-item.html',
   styleUrl: './toast-item.css',
+  host: {
+    class: 'relative',
+  },
 })
 export class ToastItem {
-  private toastService = inject(ToastService);
-  isOpen = signal(false);
+  toast = input.required<Toast>();
+  icon = input<LucideIconData | null>();
+  dismiss = output<void>();
 
+  isOpen = signal(true);
   isRendered = signal(false);
   isVisible = signal(false);
 
@@ -35,12 +40,14 @@ export class ToastItem {
   onTransitionEnd() {
     if (!this.isVisible()) {
       this.isRendered.set(false);
+      this.dismiss.emit();
     }
   }
 
-  showToast() {
-    this.isOpen.update((v) => !v);
+  closeToast() {
+    this.isOpen.set(false);
   }
 
-  readonly XIcon = XIcon;
+  readonly XIcon = X;
+  readonly InfoIcon = Info;
 }
