@@ -12,6 +12,7 @@ import { BlogPost } from '../posts/post/post';
 })
 export class Favorites {
   private postService = inject(PostService);
+
   savedPostsIds = this.postService.loadedSavedPostsIds;
   likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
   readonly likedSet = computed(() => new Set(this.likedPostsIds()));

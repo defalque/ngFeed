@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { catchError, delay, EMPTY, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { catchError, delay, EMPTY, map, of, switchMap, tap, throwError } from 'rxjs';
 import { EditedPost, FirebasePost, NewPost, Post } from '@/core/types/post.model';
-import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -106,6 +105,9 @@ export class PostService {
             this.genericUserPosts.set(posts);
           }
         }),
+        catchError((error) => {
+          return throwError(() => new Error('Errore durante il caricamento dei post'));
+        }),
         delay(500), // delay artificiale per mostrare loading ui;
       );
   }
@@ -125,6 +127,9 @@ export class PostService {
         tap((post) => {
           if (!post) return;
           this.userPost.set(post);
+        }),
+        catchError((error) => {
+          return throwError(() => new Error('Errore durante il caricamento dei post'));
         }),
         delay(500), // delay artificiale per loading UI
       );

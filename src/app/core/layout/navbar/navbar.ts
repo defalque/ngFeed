@@ -7,7 +7,6 @@ import {
   LucideAngularModule,
   HouseIcon,
   SearchIcon,
-  HeartIcon,
   UserIcon,
   EqualIcon,
   SunIcon,

@@ -20,7 +20,7 @@ import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { PostService } from '@/core/services/post.service';
 import { BlogPost } from '../post/post';
 import { AuthService } from '@/core/services/auth.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { UserService } from '@/core/services/user.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
@@ -36,7 +36,6 @@ import { FullPostSkeleton } from '@/shared/components/skeletons/full-post-skelet
 })
 export class FullPost {
   private titleService = inject(Title);
-  private route = inject(ActivatedRoute);
   private postService = inject(PostService);
   private authService = inject(AuthService);
   private userService = inject(UserService);
@@ -58,13 +57,19 @@ export class FullPost {
     const postId = this.postId();
 
     // Cerca nei post dell'utente autenticato
-    const inAuthPosts = this.postService.authUserPostsReadonly().find((p) => p.id === postId);
+    const inAuthPosts = this.postService
+      .authUserPostsReadonly()
+      .find((p) => p.id === postId && p.userId === currentUserId);
 
     // Cerca nei post di altri utenti
-    const inGenericPosts = this.postService.genericUserPostsReadonly().find((p) => p.id === postId);
+    const inGenericPosts = this.postService
+      .genericUserPostsReadonly()
+      .find((p) => p.id === postId && p.userId !== currentUserId);
 
     // Cerca nei post globali caricati
-    const inAllLoadedPosts = this.postService.allLoadedPosts().find((p) => p.id === postId);
+    const inAllLoadedPosts = this.postService
+      .allLoadedPosts()
+      .find((p) => p.id === postId && p.userId === currentUserId);
 
     if (currentUserId === this.id()) {
       // Se il post appartiene all'utente autenticato

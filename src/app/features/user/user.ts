@@ -5,7 +5,6 @@ import {
   effect,
   inject,
   input,
-  OnInit,
   signal,
   ViewEncapsulation,
 } from '@angular/core';
@@ -43,7 +42,7 @@ import { AuthService } from '@/core/services/auth.service';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'block w-full' },
 })
-export class User implements OnInit {
+export class User {
   private titleService = inject(Title);
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
@@ -104,8 +103,6 @@ export class User implements OnInit {
   onAvatarError(): void {
     this.avatarError.set(true);
   }
-
-  ngOnInit(): void {}
 
   loadAuthUserInfo() {
     this.isFetching.set(true);

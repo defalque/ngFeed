@@ -12,7 +12,7 @@ import { LucideAngularModule, SearchIcon, SlidersHorizontalIcon } from 'lucide-a
 import { RouterLink } from '@angular/router';
 import { SearchUsersSkeleton } from '@/shared/components/skeletons/search-users-skeleton/search-users-skeleton';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, finalize, of, switchMap, tap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, finalize, of, switchMap, tap } from 'rxjs';
 import { UserService } from '@/core/services/user.service';
 import { A11yModule } from '@angular/cdk/a11y';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -69,7 +69,6 @@ export class Search implements OnInit {
       )
       .subscribe({
         error: (error: Error) => {
-          console.log(error);
           this.error.set(error.message);
         },
       });
@@ -86,6 +85,7 @@ export class Search implements OnInit {
 
   // gestione search input
   isSearching = signal(false);
+  searchError = signal('');
   isFollowActionPending = signal(false);
   onFollowActionPendingChange(isPending: boolean) {
     this.isFollowActionPending.set(isPending);
@@ -102,10 +102,18 @@ export class Search implements OnInit {
         return of([]);
       }
 
+      if (this.error()) {
+        return of([]);
+      }
+
       // riafferma loading dopo eventuale cancellazione della richiesta precedente
       this.isSearching.set(true);
       return this.userService.searchUser(normalizedTerm).pipe(
         finalize(() => this.isSearching.set(false)), // al termine della query, disattiva loading
+        catchError((err) => {
+          this.error.set(err?.message ?? 'Ricerca non disponibile');
+          return of([]);
+        }),
       );
     }),
   );

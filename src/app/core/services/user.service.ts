@@ -1,20 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-
-import {
-  catchError,
-  debounceTime,
-  delay,
-  distinctUntilChanged,
-  EMPTY,
-  map,
-  Observable,
-  of,
-  pipe,
-  switchMap,
-  tap,
-  throwError,
-} from 'rxjs';
+import { catchError, delay, EMPTY, map, Observable, of, tap, throwError } from 'rxjs';
 import { EditedUser, User } from '../types/user.model';
 import { AuthService } from './auth.service';
 import { PostService } from './post.service';
@@ -221,6 +207,9 @@ export class UserService {
         return users;
       }),
       tap((users) => this.allUsers.set(users)),
+      catchError((error) => {
+        return throwError(() => new Error('Errore durante il caricamento degli utenti'));
+      }),
       delay(500),
     );
   }
@@ -244,6 +233,9 @@ export class UserService {
             id: key,
           })),
         ),
+        catchError((error) => {
+          return throwError(() => new Error('Errore durante la ricerca degli utenti'));
+        }),
         delay(500),
       );
   }

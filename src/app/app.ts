@@ -23,6 +23,7 @@ import { EditUser } from './features/user/edit-user/edit-user';
 import { AuthService } from './core/services/auth.service';
 import { PostService } from './core/services/post.service';
 import { NgOptimizedImage } from '@angular/common';
+import { Error } from './core/pages/error/error';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,7 @@ import { NgOptimizedImage } from '@angular/common';
     DeletePost,
     EditUser,
     NgOptimizedImage,
+    Error,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -48,6 +50,8 @@ export class App implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   isFetching = signal(false);
+  /** Set when critical fetch fails; triggers error page display */
+  errorState = signal<boolean>(false);
 
   dialogState = this.modalService.dialogState;
   toggleDialog = this.modalService.toggleDialog;
@@ -96,11 +100,12 @@ export class App implements OnInit {
   }
 
   /** Metodo centralizzato per il fetch dei dati iniziali */
-  private fetchInitialData() {
+  fetchInitialData() {
+    this.errorState.set(false);
     this.isFetching.set(true);
 
     forkJoin({
-      posts: this.postService.fetchAllPosts().pipe(catchError(() => of([]))),
+      posts: this.postService.fetchAllPosts(), // No catchError: failures show error page
       userInfo: this.userService.fetchAuthUserInfo().pipe(catchError(() => of(null))),
       followedIds: this.userService.fetchFollowedIds().pipe(catchError(() => of([]))),
       savedPostsIds: this.postService.fetchSavedPostsIds().pipe(catchError(() => of([]))),
@@ -113,10 +118,20 @@ export class App implements OnInit {
       .subscribe({
         next: ({ posts, userInfo, followedIds, savedPostsIds, likedPostsIds }) => {
           console.log(posts, userInfo, followedIds, savedPostsIds, likedPostsIds);
+          if (posts.length === 0) {
+            // Optional: treat empty posts as error (e.g. API unreachable)
+            // this.errorState.set(true);
+          }
         },
-        error: (err) => console.error('Errore durante il caricamento dei dati', err),
+        error: (err) => {
+          console.error('Errore durante il caricamento dei dati', err);
+          this.errorState.set(true);
+        },
       });
   }
+
+  /** Retry initial data fetch (used by error page) */
+  retryInitialData = () => this.fetchInitialData();
 
   readonly HomeIcon = HouseIcon;
   readonly SearchIcon = SearchIcon;

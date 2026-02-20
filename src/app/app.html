@@ -1,5 +1,7 @@
 <div class="h-screen">
-  @if (isFetching()) {
+  @if (errorState()) {
+    <app-error [onRetry]="retryInitialData" />
+  } @else if (isFetching()) {
     <div
       class="absolute inset-0 z-50 bg-white flex items-center justify-center flex-col gap-2 animate-pulse duration-500"
     >
