@@ -17,7 +17,7 @@
 
       @if (!isAuthenticated()) {
         <a
-          class="bg-black text-white px-4 py-2 rounded-md absolute top-4 right-4 font-medium cursor-pointer focus-button active:scale-[0.95] transition-transform hover:bg-black/80"
+          class="bg-black text-white px-4 py-2 rounded-md absolute top-4 right-4 font-medium cursor-pointer focus-button active:scale-[0.95] transition-transform hover:bg-black/80 z-1000 shadow-xs hidden md:block"
           routerLink="/auth"
           >Accedi</a
         >

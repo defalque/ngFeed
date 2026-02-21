@@ -64,12 +64,12 @@ export class FullPost {
     // Cerca nei post di altri utenti
     const inGenericPosts = this.postService
       .genericUserPostsReadonly()
-      .find((p) => p.id === postId && p.userId !== currentUserId);
+      .find((p) => p.id === postId && p.userId !== this.id());
 
     // Cerca nei post globali caricati
     const inAllLoadedPosts = this.postService
       .allLoadedPosts()
-      .find((p) => p.id === postId && p.userId === currentUserId);
+      .find((p) => p.id === postId && p.userId === this.id());
 
     if (currentUserId === this.id()) {
       // Se il post appartiene all'utente autenticato

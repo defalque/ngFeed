@@ -311,7 +311,7 @@ export class PostService {
 
     return this.http
       .patch(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.jso?auth=${token}`,
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
         updates,
       )
       .pipe(
