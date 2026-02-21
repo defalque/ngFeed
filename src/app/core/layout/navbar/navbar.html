@@ -7,7 +7,9 @@
   </div>
 
   <!-- Navvigazione principale -->
-  <div class="flex flex-col items-center w-full flex-1 min-h-0 overflow-y-auto bg-white">
+  <div
+    class="flex flex-col items-center w-full flex-1 min-h-0 overflow-y-auto bg-white dark:bg-zinc-950"
+  >
     <ul
       class="flex md:flex-col items-center justify-around md:justify-center gap-2 md:gap-1 w-full flex-1"
     >
@@ -24,7 +26,7 @@
       <li class="py-1 flex-1 md:flex-none">
         <button
           (click)="openCreatePostDialog()"
-          class="text-zinc-400/80 bg-gray-100/55 w-full hover:text-black rounded-xl md:px-5 md:py-3 py-3 cursor-pointer flex items-center justify-center focus transition-transform active:scale-[0.92] relative z-10 group"
+          class="text-zinc-400/80 bg-gray-100/55 dark:bg-zinc-800/70 w-full hover:text-black dark:hover:text-zinc-100 rounded-xl md:px-5 md:py-3 py-3 cursor-pointer flex items-center justify-center focus transition-transform active:scale-[0.92] relative z-10 group"
           aria-label="Apri crea nuovo post form"
         >
           <lucide-icon [img]="PlusIcon" size="28" aria-hidden></lucide-icon>
@@ -39,7 +41,7 @@
           aria-label="Apri crea nuovo post form"
         >
           <div
-            class="bg-gray-100/55 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
+            class="bg-gray-100/55 dark:bg-zinc-800/70 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
           ></div>
           <lucide-icon [img]="BookmarkIcon" size="28" aria-hidden></lucide-icon>
         </button>
@@ -53,7 +55,7 @@
           aria-label="Apri crea nuovo post form"
         >
           <div
-            class="bg-gray-100/55 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
+            class="bg-gray-100/55 dark:bg-zinc-800/70 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
           ></div>
           <lucide-icon [img]="UserIcon" size="28" aria-hidden></lucide-icon>
         </button>
@@ -76,7 +78,7 @@
         [class.active]="isOpen()"
       >
         <div
-          class="bg-gray-100/55 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
+          class="bg-gray-100/55 dark:bg-zinc-800/70 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
         ></div>
         <lucide-icon [img]="EqualIcon" size="30" aria-hidden></lucide-icon>
       </button>
@@ -86,36 +88,46 @@
         <app-dropdown-menu [isOpen]="isOpen()" usedIn="navbar">
           <div class="flex items-center justify-center gap-1">
             <button
-              class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+              class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus {{
+                themeMode() === 'light' ? 'bg-gray-100 dark:bg-zinc-800' : ''
+              }}"
               aria-label="Modalità chiara"
               [attr.tabindex]="isOpen() ? '0' : '-1'"
+              (click)="setTheme('light')"
             >
               <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
             </button>
             <button
-              class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+              class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus {{
+                themeMode() === 'dark' ? 'bg-gray-100 dark:bg-zinc-800' : ''
+              }}"
               aria-label="Modalità scura"
               [attr.tabindex]="isOpen() ? '0' : '-1'"
+              (click)="setTheme('dark')"
             >
               <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
             </button>
             <button
-              class="w-full self-stretch px-4 py-2 flex items-center justify-center bg-gray-100/55 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+              class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus {{
+                themeMode() === 'system' ? 'bg-gray-100 dark:bg-zinc-800' : ''
+              }}"
+              aria-label="Segui tema di sistema"
               [attr.tabindex]="isOpen() ? '0' : '-1'"
+              (click)="setTheme('system')"
             >
               Auto
             </button>
           </div>
 
           <button
-            class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+            class="w-full text-left px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
             [attr.tabindex]="isOpen() ? '0' : '-1'"
           >
             Impostazioni
           </button>
           @if (isAuthenticated()) {
             <button
-              class="w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+              class="w-full text-left px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
               [attr.tabindex]="isOpen() ? '0' : '-1'"
             >
               Segnala un problema
@@ -123,7 +135,7 @@
 
             <a
               (click)="logUserOut($event)"
-              class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+              class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
               [attr.tabindex]="isOpen() ? '0' : '-1'"
             >
               Esci

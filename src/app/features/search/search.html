@@ -2,7 +2,7 @@
   <p class="text-xl font-bold tracking-normal">Cerca</p>
 </div>
 <div class="max-w-3xl flex flex-col gap-4 mx-auto text-center w-full pt-2 pb-4">
-  <div class="md:sticky top-0 bg-white">
+  <div class="md:sticky top-0 bg-white dark:bg-zinc-950">
     <div class="flex items-center gap-4 px-2 md:px-4 py-2 relative">
       <div class="absolute top-1/2 -translate-y-1/2 translate-x-1/2 ml-2 pointer-events-none">
         <lucide-icon [img]="SearchIcon" size="20" class="text-zinc-400/80!"></lucide-icon>
@@ -13,7 +13,7 @@
         id="search"
         name="search"
         [formControl]="searchControl"
-        class="w-full rounded-3xl px-3 py-2.5 border border-gray-300/50 pl-12 focus"
+        class="w-full rounded-3xl px-3 py-2.5 border border-gray-300/50 dark:border-zinc-600/50 pl-12 focus"
         placeholder="Cerca"
       />
 
@@ -29,7 +29,7 @@
             [disabled]="!searchControl.value"
             (click)="toggleOpen()"
             [aria-label]="isOpen() ? 'Chiudi filtri' : 'Apri filtri'"
-            class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer focus outline-none active:scale-[0.88] transition-transform duration-100 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:bg-white"
+            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer focus outline-none active:scale-[0.88] transition-transform duration-100 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:bg-white dark:disabled:hover:bg-zinc-950"
           >
             <lucide-icon
               [img]="SlidersHorizontalIcon"
@@ -46,9 +46,12 @@
                 [queryParams]="{ verified: verified() === 'true' ? null : 'true' }"
                 queryParamsHandling="merge"
                 class="w-full text-left px-4 py-2 rounded-md cursor-pointer focus flex items-center justify-between {{
-                  verified() === 'true' && 'bg-gray-100 hover:bg-gray-100'
+                  verified() === 'true' &&
+                    'bg-gray-100 dark:bg-zinc-800/50 hover:bg-gray-100 dark:hover:bg-zinc-800/50'
                 }} {{
-                  verified() === undefined || verified() !== 'true' ? 'hover:bg-gray-100/55' : ''
+                  verified() === undefined || verified() !== 'true'
+                    ? 'hover:bg-gray-100/55 dark:hover:bg-zinc-800/50'
+                    : ''
                 }}"
                 [attr.tabindex]="isOpen() ? '0' : '-1'"
               >
@@ -60,10 +63,11 @@
                 [queryParams]="{ orderBy: !orderBy() ? 'most-followed' : null }"
                 queryParamsHandling="merge"
                 class="w-full text-left px-4 py-2 rounded-md cursor-pointer focus flex items-center justify-between {{
-                  orderBy() === 'most-followed' && 'bg-gray-100 hover:bg-gray-100'
+                  orderBy() === 'most-followed' &&
+                    'bg-gray-100 dark:bg-zinc-800/50 hover:bg-gray-100 dark:hover:bg-zinc-800/50'
                 }} {{
                   orderBy() === undefined || orderBy() !== 'most-followed'
-                    ? 'hover:bg-gray-100/55'
+                    ? 'hover:bg-gray-100/55 dark:hover:bg-zinc-800/50'
                     : ''
                 }}"
                 [attr.tabindex]="isOpen() ? '0' : '-1'"
@@ -91,7 +95,9 @@
   </div>
 
   <div class="flex flex-col pb-20 md:pb-4">
-    <p class="text-sm text-gray-500/80 px-2 md:px-4 pb-2 text-start font-semibold">
+    <p
+      class="text-sm text-gray-500/80 dark:text-zinc-400/80 px-2 md:px-4 pb-2 text-start font-semibold"
+    >
       Account suggeriti da seguire
     </p>
 

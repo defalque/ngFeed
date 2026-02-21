@@ -2,7 +2,7 @@
   <h2 class="text-base sm:text-lg font-medium mt-2 text-center sm:text-left">
     Sei sicuro di voler eliminare questo post "{{ postTitle() }}"?
   </h2>
-  <p class="text-sm sm:text-base text-center sm:text-left text-black/70">
+  <p class="text-sm sm:text-base text-center sm:text-left text-black/70 dark:text-zinc-400">
     Questa è una operazione irreversibile. Dopo la conferma non sarà possibile effettuare il
     ripristino.
   </p>
@@ -12,7 +12,7 @@
     <button
       type="button"
       (click)="onCloseModal()"
-      class="bg-gray-100 hover:bg-gray-200 disabled:hover:bg-gray-100 w-full sm:w-auto text-black/70 cursor-pointer duration-300 px-4 py-2 text-base sm:text-lg rounded-md font-semibold focus-button transition-colors disabled:cursor-not-allowed"
+      class="bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 disabled:hover:bg-gray-100 dark:disabled:hover:bg-zinc-800 w-full sm:w-auto text-black/70 dark:text-zinc-400 cursor-pointer duration-300 px-4 py-2 text-base sm:text-lg rounded-md font-semibold focus-button transition-colors disabled:cursor-not-allowed"
       [disabled]="isDeleting()"
     >
       Annulla
@@ -20,13 +20,13 @@
     <button
       type="button"
       (click)="onDeletePost()"
-      class="bg-red-500 hover:bg-red-600 disabled:hover:bg-red-500 w-full sm:w-auto cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-md font-semibold text-shadow-xs focus-button disabled:cursor-not-allowed flex items-center gap-4 justify-center"
+      class="bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-600/80 disabled:hover:bg-red-500 dark:disabled:hover:bg-red-600/80 w-full sm:w-auto cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-md font-semibold text-shadow-xs focus-button disabled:cursor-not-allowed flex items-center gap-4 justify-center"
       [disabled]="isDeleting()"
     >
       @if (isDeleting()) {
         <span>Eliminazione</span>
         <div
-          class="size-5 rounded-full border-[3px] border-red-500 border-t-[3px] border-t-white border-r-[3px] border-r-white border-b-[3px] border-b-white animate-spin [animation-duration:500ms]"
+          class="size-5 rounded-full border-[3px] border-red-500 dark:border-red-600 border-t-[3px] border-t-white border-r-[3px] border-r-white border-b-[3px] border-b-white animate-spin [animation-duration:500ms]"
         ></div>
       } @else {
         <span>Conferma</span>

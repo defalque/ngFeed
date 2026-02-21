@@ -1,4 +1,4 @@
-<div class="flex flex-col divide-y divide-gray-200 pb-20 md:pb-4">
+<div class="flex flex-col divide-y divide-gray-200 dark:divide-zinc-800/50 pb-20 md:pb-4">
   @if (isFetching() && !error()) {
     <ul>
       @for (feed of [0, 1, 2, 3, 4]; track feed) {
@@ -54,7 +54,7 @@
       <p class="text-lg text-center font-medium text-zinc-400">{{ error() }}. Riprova più tardi.</p>
     </div>
   } @else {
-    <ul class="py-1 divide-y divide-gray-200">
+    <ul class="py-1 divide-y divide-gray-200 dark:divide-zinc-800/50">
       @for (post of loadedUserPosts(); track post.id) {
         <li>
           <app-post

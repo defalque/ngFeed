@@ -26,6 +26,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { Error } from './core/pages/error/error';
 import { ToastContainer } from './shared/components/toast/toast-container/toast-container';
 import { ToastService } from './core/services/toast.service';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -52,6 +53,7 @@ export class App implements OnInit {
   private userService = inject(UserService);
   private modalService = inject(ModalService);
   private toastService = inject(ToastService);
+  private themeService = inject(ThemeService);
   private destroyRef = inject(DestroyRef);
 
   isAuthenticated = this.authService.isAuthenticated;
@@ -84,6 +86,8 @@ export class App implements OnInit {
   isMobile = signal(false);
 
   constructor() {
+    this.themeService.initTheme();
+
     const mediaQuery = window.matchMedia('(max-width: 768px)');
     this.isMobile.set(mediaQuery.matches);
 
@@ -101,6 +105,7 @@ export class App implements OnInit {
         this.userService.setUser(null);
       }
     });
+
   }
 
   ngOnInit(): void {

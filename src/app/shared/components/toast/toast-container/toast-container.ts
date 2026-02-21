@@ -76,7 +76,7 @@ export class ToastContainer implements AfterViewChecked {
   }
 
   // onClick() {
-  //   this.toastService.show('Errore imprevisto. Riprova più tardi.', 'info');
+  //   this.toastService.show('Errore imprevisto. Riprova più tardi.', 'neutral');
   // }
 
   /**

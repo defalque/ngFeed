@@ -1,26 +1,36 @@
 <button
   (click)="onLikePostClick($event)"
-  class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer flex items-center gap-1 focus active:scale-[0.92] transition-transform duration-150"
+  class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus active:scale-[0.92] transition-transform duration-150"
   aria-label="Mi piace del post"
 >
   <lucide-icon
     [img]="HeartIcon"
     size="20"
-    class="{{ isLikedPost() ? 'text-red-500! fill-red-500!' : 'text-black! ' }}"
+    class="{{ isLikedPost() ? 'text-red-500! fill-red-500!' : 'text-black! dark:text-white!' }}"
     aria-hidden
   ></lucide-icon>
   <!-- <span class="text-sm text-black">{{ likesCount() }}</span> -->
 </button>
 <button
-  class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+  class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
   aria-label="Commenti del post"
 >
-  <lucide-icon [img]="MessageCircleIcon" size="18" class="text-black!" aria-hidden></lucide-icon>
-  <span class="text-sm text-black">{{ commentsCount() }}</span>
+  <lucide-icon
+    [img]="MessageCircleIcon"
+    size="18"
+    class="text-black! dark:text-white!"
+    aria-hidden
+  ></lucide-icon>
+  <span class="text-sm text-black dark:text-white!">{{ commentsCount() }}</span>
 </button>
 <button
-  class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer focus"
+  class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer focus"
   aria-label="Reposta il post"
 >
-  <lucide-icon [img]="RefreshCcw" size="18" class="text-black!" aria-hidden></lucide-icon>
+  <lucide-icon
+    [img]="RefreshCcw"
+    size="18"
+    class="text-black! dark:text-white!"
+    aria-hidden
+  ></lucide-icon>
 </button>

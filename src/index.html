@@ -10,8 +10,19 @@
     <link rel="preload" href="assets/images/default-user.avif" as="image" />
 
     <link rel="preconnect" href="https://randomuser.me" />
+    <script>
+      (() => {
+        const storageKey = 'ngfeed-theme';
+        const storedTheme = localStorage.getItem(storageKey);
+        const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const resolvedTheme =
+          storedTheme === 'dark' || (storedTheme !== 'light' && isSystemDark) ? 'dark' : 'light';
+
+        document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
+      })();
+    </script>
   </head>
-  <body class="antialiased bg-white text-black">
+  <body class="antialiased bg-white text-black dark:bg-zinc-950 dark:text-zinc-100">
     <app-root></app-root>
   </body>
 </html>

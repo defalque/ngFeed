@@ -1,8 +1,14 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 ::selection {
   background-color: #000;
   color: #fff;
+}
+.dark ::selection {
+  background-color: #fff;
+  color: #000;
 }
 
 html {
@@ -34,20 +40,28 @@ body.modal-open {
   background: #aaa;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: #52525b;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #71717a;
+}
+
 .active {
-  @apply text-black!;
+  @apply text-black! dark:text-zinc-100!;
 }
 
 .focus {
-  @apply focus-visible:outline-2 focus-visible:outline-black;
+  @apply focus-visible:outline-2 focus-visible:outline-black dark:focus-visible:outline-zinc-600;
 }
 
 .focus-input {
-  @apply caret-black focus:ring-2 focus:ring-black focus:outline-none;
+  @apply caret-black focus:ring-2 focus:ring-black focus:outline-none dark:caret-zinc-100 dark:focus:ring-zinc-700;
 }
 
 .focus-button {
-  @apply focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black;
+  @apply focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black dark:focus-visible:outline-zinc-100;
 }
 
 .shape-bg {

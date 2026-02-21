@@ -13,7 +13,7 @@
       type="text"
       id="email"
       name="email"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus dark:border-zinc-800/50 dark:bg-zinc-900 dark:text-zinc-100"
       ngModel
       required
       email
@@ -27,7 +27,7 @@
       type="password"
       id="password"
       name="password"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus"
+      class="w-full rounded-xl p-2 border border-gray-300/80 focus dark:border-zinc-800/50 dark:bg-zinc-900 dark:text-zinc-100"
       ngModel
       required
       minlength="6"
@@ -35,17 +35,17 @@
     />
   </div>
 
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-2 mt-2">
     <button
       type="submit"
       [disabled]="!form.valid || isLoading()"
-      class="bg-black hover:bg-black/80 flex items-center justify-center gap-3 disabled:hover:bg-black transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 _disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+      class="bg-black dark:bg-white text-white dark:text-black hover:bg-black/80 dark:hover:bg-white/80 flex items-center justify-center gap-3 disabled:hover:bg-black dark:disabled:hover:bg-white transition-colors duration-300 px-4 py-2 text-base sm:text-lg rounded-xl font-semibold text-shadow-2xs dark:text-shadow-none focus-button flex-1 disabled:cursor-not-allowed cursor-pointer"
     >
       @if (isLoginMode()) {
         @if (isLoading()) {
           <span>Attendi</span>
           <div
-            class="size-5 rounded-full border-2 border-black border-t-2 border-t-white border-r-2 border-r-white border-b-2 border-b-white animate-spin [animation-duration:500ms]"
+            class="size-5 rounded-full border-2 border-black border-t-2 border-t-white border-r-2 border-r-white border-b-2 dark:border-white dark:border-t-black dark:border-r-black animate-spin [animation-duration:500ms]"
           ></div>
         } @else {
           Accedi

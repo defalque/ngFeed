@@ -2,20 +2,22 @@
   <p class="text-xl font-bold tracking-normal">Post</p>
 </div>
 <div
-  class="max-w-3xl flex flex-col mx-auto text-center w-full py-4 divide-y divide-gray-200 pb-20 md:pb-4"
+  class="max-w-3xl flex flex-col mx-auto text-center w-full py-4 divide-y divide-gray-200 dark:divide-zinc-800/50 pb-20 md:pb-4"
 >
   @if (isFetching() && !error()) {
     <div fullPostSkeleton></div>
     @for (post of [0, 1, 2]; track post) {
-      <div class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible">
-        <div class="w-9 h-9 bg-gray-200 rounded-full col-span-1"></div>
+      <div
+        class="bg-white dark:bg-zinc-950 p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible"
+      >
+        <div class="w-9 h-9 bg-gray-200 dark:bg-zinc-800 rounded-full col-span-1"></div>
         <div class="flex items-center gap-2 col-span-1">
           <span class="text-base font-semibold">marcodefalco</span>
           <app-verified-icon size="size-4" />
         </div>
         <div class="relative inline-block col-span-1">
           <button
-            class="hover:bg-gray-100/55 text-zinc-400/80 rounded-full p-2 cursor-pointer col-span-1 focus"
+            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 text-zinc-400/80 dark:text-zinc-400/80 rounded-full p-2 cursor-pointer col-span-1 focus"
             aria-label="Opzioni post"
           >
             <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
@@ -23,36 +25,46 @@
         </div>
 
         <p
-          class="text-sm sm:text-base text-left tracking-normal text-black/80 col-start-2 col-span-full"
+          class="text-sm sm:text-base text-left tracking-normal text-black/80 dark:text-white/80 col-start-2 col-span-full"
         >
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis doloremque illum
           voluptates facilis aspernatur dolorum facere inventore aperiam blanditiis!
         </p>
         <div class="flex items-center gap-2 col-start-2 pt-2 col-span-1 -ml-2">
           <button
-            class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
             aria-label="Mi piace del post"
           >
-            <lucide-icon [img]="HeartIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
-            <span class="text-sm text-black">10</span>
+            <lucide-icon
+              [img]="HeartIcon"
+              size="20"
+              class="text-black! dark:text-white!"
+              aria-hidden
+            ></lucide-icon>
+            <span class="text-sm text-black dark:text-white">10</span>
           </button>
           <button
-            class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
             aria-label="Commenti del post"
           >
             <lucide-icon
               [img]="MessageCircleIcon"
               size="18"
-              class="text-black!"
+              class="text-black! dark:text-white!"
               aria-hidden
             ></lucide-icon>
-            <span class="text-sm text-black">10</span>
+            <span class="text-sm text-black dark:text-white">10</span>
           </button>
           <button
-            class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer focus"
+            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer focus"
             aria-label="Reposta il post"
           >
-            <lucide-icon [img]="RefreshCcw" size="18" class="text-black!" aria-hidden></lucide-icon>
+            <lucide-icon
+              [img]="RefreshCcw"
+              size="18"
+              class="text-black! dark:text-white!"
+              aria-hidden
+            ></lucide-icon>
           </button>
         </div>
       </div>
@@ -67,52 +79,69 @@
       [isSavedPost]="savedSet().has(post()!.id)"
     />
     @for (post of [0, 1, 2]; track post) {
-      <div class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible">
-        <div class="w-9 h-9 bg-gray-200 rounded-full col-span-1"></div>
+      <div
+        class="bg-white dark:bg-zinc-950 p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible"
+      >
+        <div class="w-9 h-9 bg-gray-200 dark:bg-zinc-800 rounded-full col-span-1"></div>
         <div class="flex items-center gap-2 col-span-1">
           <span class="text-base font-semibold">marcodefalco</span>
           <app-verified-icon size="size-4" />
         </div>
         <div class="relative inline-block col-span-1">
           <button
-            class="hover:bg-gray-100/55 text-zinc-400/80 rounded-full p-2 cursor-pointer col-span-1 focus"
+            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 text-zinc-400/80 dark:text-zinc-400/80 rounded-full p-2 cursor-pointer col-span-1 focus"
             aria-label="Opzioni post"
           >
-            <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
+            <lucide-icon
+              [img]="EllipsisIcon"
+              size="18"
+              class="text-black! dark:text-white!"
+              aria-hidden
+            ></lucide-icon>
           </button>
         </div>
 
         <p
-          class="text-sm sm:text-base text-left tracking-normal text-black/80 col-start-2 col-span-full"
+          class="text-sm sm:text-base text-left tracking-normal text-black/80 dark:text-white/80 col-start-2 col-span-full"
         >
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis doloremque illum
           voluptates facilis aspernatur dolorum facere inventore aperiam blanditiis!
         </p>
         <div class="flex items-center gap-2 col-start-2 pt-2 col-span-1 -ml-2">
           <button
-            class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
             aria-label="Mi piace del post"
           >
-            <lucide-icon [img]="HeartIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
-            <span class="text-sm text-black">10</span>
+            <lucide-icon
+              [img]="HeartIcon"
+              size="20"
+              class="text-black! dark:text-white!"
+              aria-hidden
+            ></lucide-icon>
+            <span class="text-sm text-black dark:text-white">10</span>
           </button>
           <button
-            class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
             aria-label="Commenti del post"
           >
             <lucide-icon
               [img]="MessageCircleIcon"
               size="18"
-              class="text-black!"
+              class="text-black! dark:text-white!"
               aria-hidden
             ></lucide-icon>
-            <span class="text-sm text-black">10</span>
+            <span class="text-sm text-black dark:text-white">10</span>
           </button>
           <button
-            class="hover:bg-gray-100/55 rounded-full p-2 cursor-pointer focus"
+            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer focus"
             aria-label="Reposta il post"
           >
-            <lucide-icon [img]="RefreshCcw" size="18" class="text-black!" aria-hidden></lucide-icon>
+            <lucide-icon
+              [img]="RefreshCcw"
+              size="18"
+              class="text-black! dark:text-white!"
+              aria-hidden
+            ></lucide-icon>
           </button>
         </div>
       </div>
@@ -139,7 +168,7 @@
       <p class="text-xl font-medium max-w-xl">Il post che stavi cercando non esiste</p>
       <a
         routerLink="/"
-        class="text-base hover:underline underline-offset-2 cursor-pointer text-black px-4 py-2 rounded-md focus-button inline-block focus-button"
+        class="text-base hover:underline underline-offset-2 cursor-pointer text-black dark:text-white px-4 py-2 rounded-md focus-button inline-block focus-button"
       >
         &larr; Torna alla home
       </a>

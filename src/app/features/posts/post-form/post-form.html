@@ -17,10 +17,12 @@
       type="text"
       id="title"
       name="title"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus:outline-none disabled:cursor-not-allowed"
+      class="w-full rounded-xl p-2 focus-input border border-gray-300/80 dark:border-zinc-600/50 focus:outline-none disabled:cursor-not-allowed"
       [class.border-red-400]="titleIsInvalid"
+      [class.dark:border-red-500]="titleIsInvalid"
       [class.ring-2]="titleIsInvalid"
       [class.ring-red-400]="titleIsInvalid"
+      [class.dark:ring-red-500]="titleIsInvalid"
       [class.focus:ring-2]="!titleIsInvalid"
       [class.focus:ring-black]="!titleIsInvalid"
       formControlName="title"
@@ -32,7 +34,9 @@
       #title="ngModel"
      -->
     @if (titleIsInvalid) {
-      <p class="text-red-600 bg-red-500/10 rounded-xl text-left px-3 py-1 w-full">
+      <p
+        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+      >
         Titolo non valido
       </p>
     }
@@ -44,16 +48,20 @@
       id="description"
       name="description"
       rows="2"
-      class="w-full rounded-xl p-2 border border-gray-300/80 focus:outline-none disabled:cursor-not-allowed"
+      class="w-full rounded-xl p-2 focus-input border border-gray-300/80 dark:border-zinc-600/50 focus:outline-none disabled:cursor-not-allowed"
       [class.border-red-400]="descriptionIsInvalid"
+      [class.dark:border-red-500]="descriptionIsInvalid"
       [class.ring-2]="descriptionIsInvalid"
       [class.ring-red-400]="descriptionIsInvalid"
+      [class.dark:ring-red-500]="descriptionIsInvalid"
       [class.focus:ring-2]="!descriptionIsInvalid"
       [class.focus:ring-black]="!descriptionIsInvalid"
       formControlName="description"
     ></textarea>
     @if (descriptionIsInvalid) {
-      <p class="text-red-600 bg-red-500/10 rounded-xl text-left px-3 py-1 w-full">
+      <p
+        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+      >
         Descrizione non valida
       </p>
     }
@@ -64,16 +72,20 @@
     <textarea
       id="content"
       name="content"
-      class="w-full rounded-xl p-2 border border-gray-300/80 caret-black focus:outline-none disabled:cursor-not-allowed h-58 sm:h-36"
+      class="w-full rounded-xl p-2 focus-input border border-gray-300/80 dark:border-zinc-600/50 focus:outline-none disabled:cursor-not-allowed h-58 sm:h-36"
       [class.border-red-400]="contentIsInvalid"
+      [class.dark:border-red-500]="contentIsInvalid"
       [class.ring-2]="contentIsInvalid"
       [class.ring-red-400]="contentIsInvalid"
+      [class.dark:ring-red-500]="contentIsInvalid"
       [class.focus:ring-2]="!contentIsInvalid"
       [class.focus:ring-black]="!contentIsInvalid"
       formControlName="content"
     ></textarea>
     @if (contentIsInvalid) {
-      <p class="text-red-600 bg-red-500/10 rounded-xl text-left px-3 py-1 w-full">
+      <p
+        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+      >
         Deve contenere almeno 20 caratteri
       </p>
     }
@@ -94,14 +106,14 @@
 
   <button
     type="submit"
-    class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer disabled:cursor-not-allowed transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-lg font-semibold text-shadow-2xs focus-button flex items-center gap-4 justify-center"
+    class="bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 disabled:hover:bg-black dark:disabled:hover:bg-white cursor-pointer disabled:cursor-not-allowed transition-colors duration-300 text-white dark:text-black px-4 py-2 text-base sm:text-lg rounded-lg font-semibold text-shadow-2xs dark:text-shadow-none focus-button flex items-center gap-4 justify-center mt-2"
     [disabled]="reactiveForm.invalid || reactiveForm.pending || isWorking() || isUnchanged()"
   >
     @if (isWorking()) {
       <span>{{ mode() === 'create' ? 'Pubblicazione in corso' : 'Salvataggio in corso' }}</span>
 
       <div
-        class="size-5 rounded-full border-[3px] border-black border-t-white border-r-white animate-spin [animation-duration:500ms]"
+        class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
       ></div>
     } @else {
       <span>{{ mode() === 'create' ? 'Pubblica post' : 'Salva modifiche' }}</span>

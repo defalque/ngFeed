@@ -1,6 +1,6 @@
 @if (isRendered()) {
   <div
-    class="absolute flex flex-col gap-1 rounded-lg bg-white shadow-lg border border-gray-300/90 p-1 font-semibold transition-transform duration-150 ease-out {{
+    class="absolute flex flex-col gap-1 rounded-lg bg-white dark:bg-zinc-900 shadow-lg border border-gray-300/90 dark:border-zinc-800/20 p-1 font-semibold transition-transform duration-150 ease-out {{
       usedIn() === 'navbar' && 'w-56 mb-1 bottom-full left-0 origin-bottom-left'
     }} {{ usedIn() === 'header' && 'w-56 mt-1 top-full right-0 origin-top-right' }} {{
       usedIn() === 'post-options' && 'mt-1 right-0 origin-top-right'

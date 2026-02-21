@@ -12,7 +12,7 @@
     (click)="toggleOptionsOpen($event)"
   >
     <div
-      class="bg-gray-100/55 w-full h-full rounded-full scale-[0.85] absolute p-2.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
+      class="bg-gray-100/55 dark:bg-zinc-800/70 w-full h-full rounded-full scale-[0.85] absolute p-2.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
     ></div>
     <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
   </button>
@@ -26,40 +26,40 @@
       @if (!isCurrentUserPost()) {
         <button
           (click)="onSavePostClick($event)"
-          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
           @if (isSavingPost()) {
             <span>{{ isSavedPost() ? 'Rimozione post' : 'Salvataggio post' }}</span>
 
             <div
-              class="size-5 rounded-full border-[3px] border-black border-t-white border-r-white animate-spin [animation-duration:500ms]"
+              class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-r-white animate-spin [animation-duration:500ms]"
             ></div>
           } @else {
             {{ isSavedPost() ? 'Rimuovi' : 'Salva' }}
             <lucide-icon
               [img]="BookmarkIcon"
               size="20"
-              class="text-black!"
+              class="text-black! dark:text-white!"
               aria-hidden
             ></lucide-icon>
           }
         </button>
 
         <button
-          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
           <span>Non mi interessa</span>
           <lucide-icon
             [img]="ThumbsDownIcon"
             size="20"
-            class="text-black!"
+            class="text-black! dark:text-white!"
             aria-hidden
           ></lucide-icon>
         </button>
         <button
-          class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
           <span>Segnala</span>
@@ -73,15 +73,20 @@
       } @else {
         <button
           (click)="openEditPostDialog($event)"
-          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
           <span>Modifica</span>
-          <lucide-icon [img]="PencilIcon" size="20" class="text-black!" aria-hidden></lucide-icon>
+          <lucide-icon
+            [img]="PencilIcon"
+            size="20"
+            class="text-black! dark:text-white!"
+            aria-hidden
+          ></lucide-icon>
         </button>
         <button
           (click)="openDeletePostDialog($event)"
-          class="w-full flex items-center justify-between text-red-500 px-4 py-2 hover:bg-gray-100/55 rounded-md cursor-pointer focus"
+          class="w-full flex items-center justify-between text-red-500 px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
           <span>Elimina</span>

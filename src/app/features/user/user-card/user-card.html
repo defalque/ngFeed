@@ -1,5 +1,5 @@
 <li
-  class="grid grid-cols-[2.8rem_1fr_auto] gap-x-2 px-2 md:px-4 py-4 border-b last:border-b-0 border-gray-200"
+  class="grid grid-cols-[2.8rem_1fr_auto] gap-x-2 px-2 md:px-4 py-4 border-b last:border-b-0 border-gray-200 dark:border-zinc-800/50"
 >
   <img
     [ngSrc]="user().avatar || '/assets/images/default-user.avif'"
@@ -20,29 +20,29 @@
           <app-verified-icon size="size-4" />
         }
       </div>
-      <p class="text-sm text-gray-500">@{{ user().username }}</p>
+      <p class="text-sm text-gray-500 dark:text-zinc-400">@{{ user().username }}</p>
     </div>
   </div>
   <button
     (click)="onFollowClick()"
-    class="bg-black hover:bg-black/80 cursor-pointer transition-transform duration-300 text-white px-6 text-base rounded-md font-bold text-shadow-2xs focus-button active:scale-[0.95] flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:hover:bg-black disabled:active:scale-100"
+    class="bg-black hover:bg-black/80 dark:bg-white dark:hover:bg-white/80 cursor-pointer transition-transform duration-300 text-white dark:text-black px-6 text-base rounded-md font-bold text-shadow-2xs dark:text-shadow-none focus-button active:scale-[0.95] flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:hover:bg-black disabled:active:scale-100"
     [disabled]="buttonDisabled()"
   >
     @if (isFollowing()) {
       <span>Attendi</span>
 
       <div
-        class="size-5 rounded-full border-[3px] border-black border-t-white border-r-white animate-spin [animation-duration:500ms]"
+        class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
       ></div>
     } @else {
       Segui
     }
   </button>
 
-  <p class="text-sm text-black/80 col-span-full col-start-2 pt-4 text-start">
+  <p class="text-sm text-black/80 dark:text-white/80 col-span-full col-start-2 pt-4 text-start">
     {{ user().bio }}
   </p>
-  <span class="text-sm text-black/80 col-span-1 col-start-2 pt-2 text-start"
+  <span class="text-sm text-black/80 dark:text-white/80 col-span-1 col-start-2 pt-2 text-start"
     >Follower: {{ user().followersCount }}</span
   >
 </li>

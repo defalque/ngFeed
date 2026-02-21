@@ -17,6 +17,7 @@ import {
 import { NavbarItem } from './navbar-item/navbar-item';
 import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
 import { AuthService } from '@/core/services/auth.service';
+import { ThemeMode, ThemeService } from '@/core/services/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -29,12 +30,14 @@ export class Navbar {
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
+  private themeService = inject(ThemeService);
 
   isOpen = signal(false);
 
   currentUserInfo = this.userService.loadedCurrentUser;
   authenticatedUser = this.authService.authenticatedUser;
   isAuthenticated = this.authService.isAuthenticated;
+  themeMode = this.themeService.themeMode;
 
   openDialog = this.modalService.openDialog;
 
@@ -88,6 +91,10 @@ export class Navbar {
   isActive(path: string) {
     const url = this.router.url;
     return url === path;
+  }
+
+  setTheme(mode: ThemeMode) {
+    this.themeService.setTheme(mode);
   }
 
   readonly HomeIcon = HouseIcon;

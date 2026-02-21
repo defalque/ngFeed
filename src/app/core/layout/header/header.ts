@@ -3,6 +3,7 @@ import { EqualIcon, LucideAngularModule, SunIcon, MoonIcon } from 'lucide-angula
 import { ClickOutside } from '@/shared/directives/click-outside.directive';
 import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
 import { AuthService } from '@/core/services/auth.service';
+import { ThemeMode, ThemeService } from '@/core/services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -11,8 +12,10 @@ import { AuthService } from '@/core/services/auth.service';
 })
 export class Header {
   private authService = inject(AuthService);
+  private themeService = inject(ThemeService);
 
   currentUser = this.authService.authenticatedUser;
+  themeMode = this.themeService.themeMode;
 
   isOpen = signal(false);
 
@@ -29,6 +32,10 @@ export class Header {
 
   closeMenu() {
     this.isOpen.set(false);
+  }
+
+  setTheme(mode: ThemeMode) {
+    this.themeService.setTheme(mode);
   }
 
   readonly EqualIcon = EqualIcon;

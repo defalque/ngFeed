@@ -1,7 +1,7 @@
 @if (type() === 'for-you') {
   <a
     [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
-    class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
+    class="bg-white dark:bg-zinc-950 p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
   >
     <img
       [ngSrc]="post().userAvatar || '/assets/images/default-user.avif'"
@@ -39,7 +39,9 @@
     >
       {{ post().title }}
     </h2>
-    <p class="text-sm sm:text-base tracking-normal text-black/80 col-start-2 col-span-full mb-2">
+    <p
+      class="text-sm sm:text-base tracking-normal text-black/80 dark:text-white/80 col-start-2 col-span-full mb-2"
+    >
       {{ post().description }}
     </p>
     <app-post-actions
@@ -72,7 +74,7 @@
     </div>
     @if (shouldShowReadMore(post().content)) {
       <p
-        class="text-sm sm:text-base tracking-normal text-start text-black/80 wrap-anywhere"
+        class="text-sm sm:text-base tracking-normal text-start text-black/80 dark:text-white/80 wrap-anywhere"
         [class.line-clamp-3]="!isExpanded()"
       >
         {{
@@ -80,7 +82,9 @@
         }}
       </p>
     } @else {
-      <p class="text-sm sm:text-base tracking-normal text-start text-black/80 wrap-anywhere">
+      <p
+        class="text-sm sm:text-base tracking-normal text-start text-black/80 dark:text-white/80 wrap-anywhere"
+      >
         {{ post().content }}
       </p>
     }
@@ -107,7 +111,9 @@
   </a>
 }
 @if (type() === 'full-post') {
-  <div class="bg-white p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible">
+  <div
+    class="bg-white dark:bg-zinc-950 p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible"
+  >
     <img
       [src]="post().userAvatar || '/assets/images/default-user.avif'"
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
@@ -142,13 +148,13 @@
       {{ post().title }}
     </h2>
     <h3
-      class="text-base sm:text-lg text-left font-semibold tracking-normal text-black/80 col-start-2 col-span-full"
+      class="text-base sm:text-lg text-left font-semibold tracking-normal text-black/80 dark:text-white/80 col-start-2 col-span-full"
     >
       {{ post().description }}
     </h3>
 
     <p
-      class="text-sm sm:text-base tracking-normal text-left text-black/80 wrap-anywhere col-start-2 col-span-full"
+      class="text-sm sm:text-base tracking-normal text-left text-black/80 dark:text-white/80 wrap-anywhere col-start-2 col-span-full"
       [class.line-clamp-3]="!isExpanded() && shouldShowReadMore(post().content)"
     >
       @if (shouldShowReadMore(post().content)) {
