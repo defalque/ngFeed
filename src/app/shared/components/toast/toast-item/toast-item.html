@@ -1,6 +1,6 @@
 @if (isRendered()) {
   <div
-    class="relative z-5000 border shadow-xs rounded-lg px-3 py-4 origin-bottom transition-all duration-300 ease-out {{
+    class="relative toast-item-inner z-5000 border shadow-xs rounded-lg px-3 py-4 origin-bottom transition-all duration-300 ease-out {{
       toast().type === 'success'
         ? 'bg-green-50 text-green-700 border-green-400/30'
         : toast().type === 'error'
@@ -21,10 +21,12 @@
     (transitionend)="onTransitionEnd()"
     [inert]="!isVisible()"
   >
+    @if (!exiting()) {
     <button
+      type="button"
       aria-label="Chiudi notifica"
       (click)="closeToast()"
-      class="absolute -top-2 -right-2 cursor-pointer focus focus-visible:ring-1 focus-visible:ring-offset-1 p-0.5 border rounded-full transition-colors duration-150 {{
+      class="absolute -top-2 -right-2 cursor-pointer focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:outline-none p-0.5 border rounded-full transition-colors duration-150 {{
         toast().type === 'success'
           ? 'bg-green-50 text-green-700 border-green-400/30 hover:bg-green-100'
           : toast().type === 'error'
@@ -40,6 +42,7 @@
         <lucide-icon [img]="XIcon" size="16" aria-hidden></lucide-icon>
       </span>
     </button>
+    }
 
     <div class="flex items-start gap-2">
       @if (icon()) {

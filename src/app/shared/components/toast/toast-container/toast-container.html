@@ -5,16 +5,35 @@
   Show Toast
 </button> -->
 
-<div
+<ol
   role="region"
   aria-label="Notifiche"
-  class="fixed left-2 right-2 md:left-auto md:right-4 bottom-16 md:bottom-4 md:w-80 z-5000"
+  class="toast-list fixed left-2 right-2 md:left-auto md:right-4 bottom-16 md:bottom-4 md:w-80 z-5000 flex flex-col gap-2"
 >
-  @for (toast of toasts(); track toast.id) {
-    <app-toast-item
-      [toast]="toast"
-      [icon]="getIcon(toast.type)"
-      (dismiss)="onDismiss(toast.id)"
-    ></app-toast-item>
+  @for (toast of displayToasts(); track toast.id) {
+    <li class="toast-slot" #toastSlot>
+      <app-toast-item
+        [toast]="toast"
+        [icon]="getIcon(toast.type)"
+        (closeRequest)="onCloseRequest(toast.id)"
+      ></app-toast-item>
+    </li>
   }
-</div>
+</ol>
+@if (exitingToast(); as exiting) {
+  <div
+    class="toast-exit-overlay fixed z-4999"
+    aria-hidden="true"
+    [style.top.px]="exiting.bounds.top"
+    [style.left.px]="exiting.bounds.left"
+    [style.width.px]="exiting.bounds.width"
+    [style.height.px]="exiting.bounds.height"
+  >
+    <app-toast-item
+      [toast]="exiting.toast"
+      [icon]="getIcon(exiting.toast.type)"
+      [exiting]="true"
+      (dismiss)="onExitingDismiss()"
+    ></app-toast-item>
+  </div>
+}

@@ -1,0 +1,19 @@
+.toast-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toast-slot {
+  transition: transform 0.3s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast-slot {
+    transition: none;
+  }
+}
+
+.toast-exit-overlay {
+  pointer-events: none;
+}
