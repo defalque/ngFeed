@@ -15,6 +15,14 @@
       }
       <app-navbar />
 
+      @if (!isAuthenticated()) {
+        <a
+          class="bg-black text-white px-4 py-2 rounded-md absolute top-4 right-4 font-medium cursor-pointer focus-button active:scale-[0.95] transition-transform hover:bg-black/80"
+          routerLink="/auth"
+          >Accedi</a
+        >
+      }
+
       <main
         class="w-full flex flex-1 flex-col items-center pt-16 md:pt-0 pl-2 md:pl-30 pr-2 lg:pr-30"
       >

@@ -280,8 +280,10 @@ export class PostService {
           }
         }),
         catchError((error) => {
-          return throwError(
-            () => new Error('Errore durante il salvataggio del post nei preferiti'),
+          return throwError(() =>
+            mode === 'save'
+              ? new Error("Errore durante l'aggiunta del post ai preferiti")
+              : new Error('Errore durante la rimozione del post dai preferiti'),
           );
         }),
       );
@@ -309,7 +311,7 @@ export class PostService {
 
     return this.http
       .patch(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.jso?auth=${token}`,
         updates,
       )
       .pipe(
@@ -320,7 +322,7 @@ export class PostService {
           } else {
             this.likedPostsIds.set(oldLikedPostsIds);
           }
-          return throwError(() => new Error('Errore durante il like del post'));
+          return throwError(() => new Error('Errore imprevisto. Riprova a breve.'));
         }),
       );
   }

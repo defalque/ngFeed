@@ -123,8 +123,7 @@ export class UserService {
           this.currentUser.set({ ...userInfo, followingCount: 0, followersCount: 0 } as User);
         }),
         catchError((error) => {
-          // Rollback in caso di errore
-          return throwError(() => new Error('Richiesta fallita!'));
+          return throwError(() => new Error('Errore durante la creazione del profilo'));
         }),
       );
   }
@@ -180,6 +179,9 @@ export class UserService {
               userAvatar: newUserData.avatar,
             })),
           );
+        }),
+        catchError((error) => {
+          return throwError(() => new Error('Errore durante la modifica del profilo'));
         }),
       );
   }
@@ -279,7 +281,7 @@ export class UserService {
           }
         }),
         catchError((error) => {
-          return throwError(() => new Error('Follow user failed'));
+          return throwError(() => new Error('Errore imprevisto. Riprova a breve.'));
         }),
       );
   }

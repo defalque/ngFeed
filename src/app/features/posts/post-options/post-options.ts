@@ -25,6 +25,7 @@ import { finalize } from 'rxjs';
 import { AuthService } from '@/core/services/auth.service';
 import { Router } from '@angular/router';
 import { PostService } from '@/core/services/post.service';
+import { ToastService } from '@/core/services/toast.service';
 
 @Component({
   selector: 'app-post-options',
@@ -39,6 +40,7 @@ export class PostOptions {
   private userService = inject(UserService);
   private authService = inject(AuthService);
   private postService = inject(PostService);
+  private toastService = inject(ToastService);
   private destroyRef = inject(DestroyRef);
 
   isAuthenticated = this.authService.isAuthenticated;
@@ -116,8 +118,11 @@ export class PostOptions {
             }),
           )
           .subscribe({
+            complete: () => {
+              this.toastService.show('Post rimosso dai preferiti', 'success');
+            },
             error: (error: Error) => {
-              console.log(error);
+              this.toastService.show(error.message, 'error');
             },
           });
         return;
@@ -133,8 +138,11 @@ export class PostOptions {
             }),
           )
           .subscribe({
+            complete: () => {
+              this.toastService.show('Post aggiunto ai preferiti', 'success');
+            },
             error: (error: Error) => {
-              console.log(error);
+              this.toastService.show(error.message, 'error');
             },
           });
         return;

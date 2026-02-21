@@ -24,7 +24,7 @@
     <button
       aria-label="Chiudi notifica"
       (click)="closeToast()"
-      class="absolute -top-2 -right-2 cursor-pointer focus focus-visible:ring-1 focus-visible:ring-offset-1  p-0.5 border rounded-full transition-colors duration-150 {{
+      class="absolute -top-2 -right-2 cursor-pointer focus focus-visible:ring-1 focus-visible:ring-offset-1 p-0.5 border rounded-full transition-colors duration-150 {{
         toast().type === 'success'
           ? 'bg-green-50 text-green-700 border-green-400/30 hover:bg-green-100'
           : toast().type === 'error'
@@ -43,22 +43,24 @@
 
     <div class="flex items-start gap-2">
       @if (icon()) {
-        <lucide-icon
-          [img]="icon()!"
-          size="20"
-          class="{{
-            toast().type === 'success'
-              ? '_text-green-700 fill-green-700 text-green-50'
-              : toast().type === 'error'
-                ? '_text-red-600 fill-red-600 text-red-50'
-                : toast().type === 'info'
-                  ? '_text-blue-600 fill-blue-600 text-blue-50'
-                  : toast().type === 'warning'
-                    ? '_text-yellow-700/80 fill-yellow-700/80 text-yellow-50'
-                    : 'text-black/50'
-          }}"
-          aria-hidden
-        ></lucide-icon>
+        <span class="toast-icon">
+          <lucide-icon
+            [img]="icon()!"
+            size="16"
+            class="{{
+              toast().type === 'success'
+                ? 'fill-green-700 text-green-50'
+                : toast().type === 'error'
+                  ? 'fill-red-600 text-red-50'
+                  : toast().type === 'info'
+                    ? 'fill-blue-600 text-blue-50'
+                    : toast().type === 'warning'
+                      ? 'fill-yellow-700/80 text-yellow-50'
+                      : 'text-black/50'
+            }}"
+            aria-hidden
+          ></lucide-icon>
+        </span>
       }
       <p
         [attr.role]="toast().type === 'error' ? 'alert' : 'status'"
@@ -68,23 +70,6 @@
       >
         {{ toast().message }}
       </p>
-      <!-- <button
-        (click)="closeToast()"
-        aria-label="Chiudi notifica"
-        class=" rounded-md px-2 py-1 sm:text-sm text-base active:scale-[0.95] cursor-pointer duration-150 transition-transform focus disabled:cursor-not-allowed disabled:hover:bg-white disabled:active:scale-100 self-center focus-visible:ring-1 focus-visible:ring-offset-1  {{
-          toast().type === 'success'
-            ? 'bg-green-100 hover:bg-green-200/50 text-green-700 '
-            : toast().type === 'error'
-              ? 'bg-red-100 hover:bg-red-200/50 text-red-600 '
-              : toast().type === 'info'
-                ? 'bg-blue-100 hover:bg-blue-200/50 text-blue-600 '
-                : toast().type === 'warning'
-                  ? 'bg-amber-100 hover:bg-amber-200/50 text-amber-700 '
-                  : 'bg-gray-100 hover:bg-gray-200/50 text-black/70 '
-        }}"
-      >
-        Chiudi
-      </button> -->
     </div>
   </div>
 }

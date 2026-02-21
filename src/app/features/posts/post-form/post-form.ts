@@ -24,7 +24,8 @@ import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostService } from '@/core/services/post.service';
 import { UserService } from '@/core/services/user.service';
-import { AuthService } from '@/core/services/auth.service';
+// import { AuthService } from '@/core/services/auth.service';
+import { ToastService } from '@/core/services/toast.service';
 //import z from 'zod';
 
 //type NewPostFormErrors = ReturnType<typeof z.treeifyError<typeof newPostFormSchema>>;
@@ -39,12 +40,12 @@ import { AuthService } from '@/core/services/auth.service';
 export class PostForm {
   private modalService = inject(ModalService);
   private postService = inject(PostService);
-  private authService = inject(AuthService);
   private userService = inject(UserService);
+  private toastService = inject(ToastService);
   private destroyRef = inject(DestroyRef);
+  // private authService = inject(AuthService);
 
   currentUser = this.userService.loadedCurrentUser;
-
   openDialog = this.modalService.openDialog;
 
   post = computed(() => {
@@ -98,6 +99,8 @@ export class PostForm {
 
   isUnchanged(): boolean {
     if (!this.currentUser()) return false;
+    if (this.mode() === 'create') return false;
+    if (this.initialFormValue === undefined) return false;
 
     const currentValue = this.reactiveForm.getRawValue();
     return JSON.stringify(currentValue) === JSON.stringify(this.initialFormValue);
@@ -166,8 +169,11 @@ export class PostForm {
         next: () => {
           this.reactiveForm.reset();
         },
+        complete: () => {
+          this.toastService.show('Post creato con successo', 'success');
+        },
         error: (err) => {
-          console.error('Errore durante la creazione del post', err);
+          this.toastService.show(err.message, 'error');
         },
       });
     } else {
@@ -182,8 +188,11 @@ export class PostForm {
         next: () => {
           this.reactiveForm.reset();
         },
+        complete: () => {
+          this.toastService.show('Post modificato con successo', 'success');
+        },
         error: (err) => {
-          console.error('Errore durante la modifica del post', err);
+          this.toastService.show(err.message, 'error');
         },
       });
     }

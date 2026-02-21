@@ -11,7 +11,7 @@ import {
 import { EllipsisIcon, HeartIcon, LucideAngularModule, MessageCircleIcon } from 'lucide-angular';
 import { NgOptimizedImage } from '@angular/common';
 import {
-  ActivatedRoute,
+  // ActivatedRoute,
   Router,
   RouterLink,
   RouterLinkActive,
@@ -25,6 +25,7 @@ import { ModalService } from '@/core/services/modal.service';
 import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { UserService } from '@/core/services/user.service';
 import { AuthService } from '@/core/services/auth.service';
+import { ToastService } from '@/core/services/toast.service';
 
 @Component({
   selector: 'app-user',
@@ -44,9 +45,10 @@ import { AuthService } from '@/core/services/auth.service';
 })
 export class User {
   private titleService = inject(Title);
-  private route = inject(ActivatedRoute);
+  // private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private userService = inject(UserService);
+  private toastService = inject(ToastService);
   private modal = inject(ModalService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
@@ -161,7 +163,7 @@ export class User {
           )
           .subscribe({
             error: (error: Error) => {
-              console.log(error);
+              this.toastService.show(error.message, 'error');
             },
           });
         return;
@@ -174,7 +176,7 @@ export class User {
           )
           .subscribe({
             error: (error: Error) => {
-              console.log(error);
+              this.toastService.show(error.message, 'error');
             },
           });
       }

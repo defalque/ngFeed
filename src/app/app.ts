@@ -8,7 +8,7 @@ import {
   signal,
   Type,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { LucideAngularModule, HouseIcon, UserIcon, SearchIcon, HeartIcon } from 'lucide-angular';
 import { Navbar } from './core/layout/navbar/navbar';
 import { Header } from './core/layout/header/header';
@@ -25,6 +25,7 @@ import { PostService } from './core/services/post.service';
 import { NgOptimizedImage } from '@angular/common';
 import { Error } from './core/pages/error/error';
 import { ToastContainer } from './shared/components/toast/toast-container/toast-container';
+import { ToastService } from './core/services/toast.service';
 
 @Component({
   selector: 'app-root',
@@ -40,6 +41,7 @@ import { ToastContainer } from './shared/components/toast/toast-container/toast-
     NgOptimizedImage,
     Error,
     ToastContainer,
+    RouterLink,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -49,7 +51,11 @@ export class App implements OnInit {
   private postService = inject(PostService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
+  private toastService = inject(ToastService);
   private destroyRef = inject(DestroyRef);
+
+  isAuthenticated = this.authService.isAuthenticated;
+  currentUser = this.userService.loadedCurrentUser;
 
   isFetching = signal(false);
   /** Set when critical fetch fails; triggers error page display */
@@ -119,10 +125,13 @@ export class App implements OnInit {
       )
       .subscribe({
         next: ({ posts, userInfo, followedIds, savedPostsIds, likedPostsIds }) => {
-          console.log(posts, userInfo, followedIds, savedPostsIds, likedPostsIds);
-          if (posts.length === 0) {
-            // Optional: treat empty posts as error (e.g. API unreachable)
-            // this.errorState.set(true);
+          // console.log(posts, userInfo, followedIds, savedPostsIds, likedPostsIds);
+          const authUser = this.authService.authenticatedUser();
+          if (authUser && !userInfo) {
+            this.toastService.show(
+              'Ti invitiamo a completare il tuo profilo per iniziare a utilizzare ngFeed al meglio',
+              'warning',
+            );
           }
         },
         error: (err) => {
