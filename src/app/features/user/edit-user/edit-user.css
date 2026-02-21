@@ -1,0 +1,33 @@
+/* Radio: rounded square with ring/border, simple selected state */
+.edit-user__radio {
+  appearance: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  border-radius: 0.25rem;
+  margin: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.edit-user__radio:hover {
+  border-color: rgba(0, 0, 0, 0.8);
+}
+
+.edit-user__radio:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.35);
+}
+
+.edit-user__radio:checked {
+  background-color: #000;
+  border-color: #000;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edit-user__radio {
+    transition: none;
+  }
+}

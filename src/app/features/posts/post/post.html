@@ -39,7 +39,7 @@
     >
       {{ post().title }}
     </h2>
-    <p class="text-sm sm:text-base tracking-normal text-black/80 col-start-2 col-span-full">
+    <p class="text-sm sm:text-base tracking-normal text-black/80 col-start-2 col-span-full mb-2">
       {{ post().description }}
     </p>
     <app-post-actions
@@ -55,7 +55,7 @@
     [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
     class="flex flex-col gap-2 items-start px-4 py-4 sm:py-6 w-full focus"
   >
-    <div class="flex justify-between items-start w-full _items-center gap-2">
+    <div class="flex justify-between items-start w-full gap-2">
       <h2
         class="text-base sm:text-lg font-semibold tracking-normal text-shadow-2xs shadow-zinc-800/5"
       >
@@ -89,23 +89,21 @@
     >
       {{ post().content }}
     </p> -->
-    <div class="flex items-center justify-between w-full gap-2">
-      <app-post-actions
-        [isLikedPost]="isLikedPost()"
-        [postId]="post().id"
-        [likesCount]="post().likesCount"
-        [commentsCount]="post().commentsCount"
-      />
+    @if (shouldShowReadMore(post().content)) {
+      <button
+        (click)="expandContent($event)"
+        class="text-sm sm:text-base tracking-normal text-sky-500 wrap-anywhere cursor-pointer focus hover:underline"
+      >
+        {{ isExpanded() ? 'Leggi di meno' : 'Leggi di più' }}
+      </button>
+    }
 
-      @if (shouldShowReadMore(post().content)) {
-        <button
-          (click)="expandContent($event)"
-          class="text-sm sm:text-base tracking-normal text-sky-500 wrap-anywhere cursor-pointer focus hover:underline"
-        >
-          {{ isExpanded() ? 'Leggi di meno' : 'Leggi di più' }}
-        </button>
-      }
-    </div>
+    <app-post-actions
+      [isLikedPost]="isLikedPost()"
+      [postId]="post().id"
+      [likesCount]="post().likesCount"
+      [commentsCount]="post().commentsCount"
+    />
   </a>
 }
 @if (type() === 'full-post') {
@@ -148,34 +146,25 @@
     >
       {{ post().description }}
     </h3>
+
     <p
       class="text-sm sm:text-base tracking-normal text-left text-black/80 wrap-anywhere col-start-2 col-span-full"
       [class.line-clamp-3]="!isExpanded() && shouldShowReadMore(post().content)"
     >
       @if (shouldShowReadMore(post().content)) {
-        {{
-          isExpanded() ? post().content : (post().content | slice: 0 : readMoreThreshold) + '...'
-        }}
+        {{ isExpanded() ? post().content : (post().content | slice: 0 : readMoreThreshold) }}
       } @else {
         {{ post().content }}
       }
     </p>
-    <!-- @if (shouldShowReadMore(post().content)) {
-      <p
-        class="text-sm sm:text-base tracking-normal text-left text-black/80 wrap-anywhere col-start-2 col-span-full"
-        [class.line-clamp-3]="!isExpanded()"
+    @if (shouldShowReadMore(post().content)) {
+      <button
+        (click)="expandContent($event)"
+        class="text-sm sm:text-base tracking-normal text-sky-500 font-normal cursor-pointer col-start-2 focus hover:underline self-start text-left w-fit"
       >
-        {{
-          isExpanded() ? post().content : (post().content | slice: 0 : readMoreThreshold) + '...'
-        }}
-      </p>
-    } @else {
-      <p
-        class="text-sm sm:text-base tracking-normal text-left text-black/80 wrap-anywhere col-start-2 col-span-full"
-      >
-        {{ post().content }}
-      </p>
-    } -->
+        {{ isExpanded() ? 'Leggi di meno' : 'Leggi di più' }}
+      </button>
+    }
 
     <app-post-actions
       [isLikedPost]="isLikedPost()"
@@ -183,14 +172,5 @@
       [likesCount]="post().likesCount"
       [commentsCount]="post().commentsCount"
     />
-
-    @if (shouldShowReadMore(post().content)) {
-      <button
-        (click)="expandContent($event)"
-        class="text-sm sm:text-base tracking-normal text-sky-500 wrap-anywhere cursor-pointer focus hover:underline"
-      >
-        {{ isExpanded() ? 'Leggi di meno' : 'Leggi di più' }}
-      </button>
-    }
   </div>
 }

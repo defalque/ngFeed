@@ -96,7 +96,10 @@ export class PostService {
               });
             }
           }
-          return posts;
+          // Newest first, same order as when adding a post
+          return posts.sort(
+            (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+          );
         }),
         tap((posts) => {
           if (isAuthUser) {

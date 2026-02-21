@@ -31,14 +31,11 @@ export class BlogPost {
   readMoreThreshold = 300;
 
   constructor() {
-    effect(
-      () => {
-        if (this.type() === 'full-post') {
-          this.isExpanded.set(true);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.type() === 'full-post') {
+        this.isExpanded.set(true);
+      }
+    });
   }
 
   expandContent(event: Event) {

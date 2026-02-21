@@ -25,7 +25,7 @@
   </div>
   <button
     (click)="onFollowClick()"
-    class="bg-black hover:bg-black/80 cursor-pointer transition-transform duration-300 text-white px-6 py-2 text-base rounded-md font-bold text-shadow-2xs focus-button active:scale-[0.95] flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:hover:bg-black disabled:active:scale-100"
+    class="bg-black hover:bg-black/80 cursor-pointer transition-transform duration-300 text-white px-6 text-base rounded-md font-bold text-shadow-2xs focus-button active:scale-[0.95] flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:hover:bg-black disabled:active:scale-100"
     [disabled]="buttonDisabled()"
   >
     @if (isFollowing()) {

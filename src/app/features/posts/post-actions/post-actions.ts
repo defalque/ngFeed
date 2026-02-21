@@ -15,7 +15,7 @@ import { ToastService } from '@/core/services/toast.service';
   styleUrl: './post-actions.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'flex items-center gap-2 col-start-2 pt-2 col-span-1 -ml-2',
+    class: 'flex items-center gap-2 col-start-2 col-span-1 -ml-2',
   },
 })
 export class PostActions {

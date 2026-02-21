@@ -169,26 +169,29 @@
   <fieldset class="flex flex-col items-start gap-2">
     <legend>Vuoi apparire come verificato?</legend>
 
-    <div class="flex items-center gap-x-2">
-      <input
-        type="radio"
-        id="v-true"
-        [value]="true"
-        formControlName="isVerified"
-        class="appearance-none checked:bg-black size-4.5 rounded-full border border-black/75 focus-visible:ring-[3px] ring-black/75 outline-white outline-2 ring-offset-2 ml-1 cursor-pointer"
-      />
-      <label for="v-true">Si</label>
-    </div>
-
-    <div class="flex items-center gap-x-2 cursor-pointer">
-      <input
-        type="radio"
-        id="v-false"
-        [value]="false"
-        formControlName="isVerified"
-        class="appearance-none checked:bg-black size-4.5 rounded-full border border-black/75 focus-visible:ring-[3px] ring-black/75 outline-white outline-2 ring-offset-2 ml-1 cursor-pointer"
-      />
-      <label for="v-false">No</label>
+    <div class="flex items-center gap-4">
+      <label for="v-true" class="flex items-center gap-2 cursor-pointer">
+        <input
+          type="radio"
+          id="v-true"
+          name="isVerified"
+          [value]="true"
+          formControlName="isVerified"
+          class="edit-user__radio"
+        />
+        <span>Sì</span>
+      </label>
+      <label for="v-false" class="flex items-center gap-2 cursor-pointer">
+        <input
+          type="radio"
+          id="v-false"
+          name="isVerified"
+          [value]="false"
+          formControlName="isVerified"
+          class="edit-user__radio"
+        />
+        <span>No</span>
+      </label>
     </div>
   </fieldset>
 
@@ -198,7 +201,7 @@
         type="button"
         (click)="onReset()"
         [disabled]="reactiveForm.pending || isEditing() || isUnchanged()"
-        class="bg-gray-200 hover:bg-gray-300 disabled:hover:bg-gray-200 text-black/80 cursor-pointer transition-colors duration-300 px-4 py-2 text-base sm:text-lg rounded-xl font-semibold focus-button flex-none disabled:cursor-not-allowed"
+        class="bg-gray-100 hover:bg-gray-200 disabled:hover:bg-gray-100 text-black/80 cursor-pointer transition-colors duration-300 px-4 py-2 text-base sm:text-lg rounded-xl font-semibold focus-button flex-none disabled:cursor-not-allowed"
       >
         Annulla
       </button>
@@ -206,7 +209,7 @@
         #submitBtn
         type="submit"
         [disabled]="reactiveForm.invalid || reactiveForm.pending || isEditing() || isUnchanged()"
-        class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 disabled:cursor-not-allowed flex items-center justify-center gap-4"
+        class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-lg font-semibold text-shadow-2xs focus-button flex-1 disabled:cursor-not-allowed flex items-center justify-center gap-4"
       >
         @if (isEditing()) {
           <span>Modifica in corso</span>
@@ -224,7 +227,7 @@
       #submitBtn
       type="submit"
       [disabled]="reactiveForm.invalid || reactiveForm.pending || isEditing()"
-      class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex-1 disabled:cursor-not-allowed mt-4 flex items-center justify-center gap-2"
+      class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-lg font-semibold text-shadow-2xs focus-button flex-1 disabled:cursor-not-allowed mt-4 flex items-center justify-center gap-4"
     >
       @if (isEditing()) {
         <span>Salvataggio in corso</span>

@@ -94,7 +94,7 @@
 
   <button
     type="submit"
-    class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer disabled:cursor-not-allowed transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-xl font-bold text-shadow-2xs focus-button flex items-center gap-4 justify-center"
+    class="bg-black hover:bg-black/80 disabled:hover:bg-black cursor-pointer disabled:cursor-not-allowed transition-colors duration-300 text-white px-4 py-2 text-base sm:text-lg rounded-lg font-semibold text-shadow-2xs focus-button flex items-center gap-4 justify-center"
     [disabled]="reactiveForm.invalid || reactiveForm.pending || isWorking() || isUnchanged()"
   >
     @if (isWorking()) {
