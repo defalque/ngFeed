@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { ToastService, ToastType } from '@/core/services/toast.service';
 import { ToastItem } from '../toast-item/toast-item';
-import { LucideAngularModule, Check, X, Info, CircleAlert, CircleX } from 'lucide-angular';
+import { LucideAngularModule, CircleCheck, X, Info, CircleAlert, CircleX } from 'lucide-angular';
 
 @Component({
   selector: 'app-toast-container',
@@ -16,7 +16,7 @@ export class ToastContainer {
 
   toasts = computed(() => this.toastService.toasts()) ?? [];
 
-  readonly CheckIcon = Check;
+  readonly CheckIcon = CircleCheck;
   readonly XIcon = X;
   readonly InfoIcon = Info;
   readonly CircleAlertIcon = CircleAlert;

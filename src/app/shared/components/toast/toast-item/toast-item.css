@@ -1,0 +1,13 @@
+.toast-close-icon lucide-icon svg,
+.toast-close-icon ::ng-deep svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+@media (min-width: 768px) {
+  .toast-close-icon lucide-icon svg,
+  .toast-close-icon ::ng-deep svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
