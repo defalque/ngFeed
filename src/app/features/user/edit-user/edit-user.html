@@ -11,19 +11,21 @@
         type="text"
         id="firstName"
         name="firstName"
-        class="w-full rounded-xl p-2 focus-input border border-gray-300/80 dark:border-zinc-600/50 focus:outline-none disabled:cursor-not-allowed"
-        [class.border-red-400]="firstNameIsInvalid"
-        [class.dark:border-red-500]="firstNameIsInvalid"
-        [class.ring-2]="firstNameIsInvalid"
-        [class.dark:ring-red-500]="firstNameIsInvalid"
-        [class.ring-red-400]="firstNameIsInvalid"
-        [class.focus:ring-2]="!firstNameIsInvalid"
-        [class.focus:ring-black]="!firstNameIsInvalid"
+        [attr.aria-invalid]="firstNameIsInvalid || infoAreInvalid"
+        [attr.aria-describedby]="firstNameAriaDescribedBy()"
+        class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
+          firstNameIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+        }}"
         formControlName="firstName"
       />
       @if (firstNameIsInvalid) {
         <p
-          class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
+          id="firstName-error"
+          role="alert"
+          aria-live="polite"
+          class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-600/10 rounded-xl text-left px-3 py-1 w-full"
+          animate.enter="error-enter"
+          animate.leave="error-leave"
         >
           Nome non valido
         </p>
@@ -35,19 +37,21 @@
         type="text"
         id="lastName"
         name="lastName"
-        class="w-full rounded-xl p-2 focus-input border border-gray-300/80 dark:border-zinc-600/50 focus:outline-none disabled:cursor-not-allowed"
-        [class.border-red-400]="lastNameIsInvalid"
-        [class.dark:border-red-500]="lastNameIsInvalid"
-        [class.ring-2]="lastNameIsInvalid"
-        [class.ring-red-400]="lastNameIsInvalid"
-        [class.dark:ring-red-500]="lastNameIsInvalid"
-        [class.focus:ring-2]="!lastNameIsInvalid"
-        [class.focus:ring-black]="!lastNameIsInvalid"
+        [attr.aria-invalid]="lastNameIsInvalid || infoAreInvalid"
+        [attr.aria-describedby]="lastNameAriaDescribedBy()"
+        class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
+          lastNameIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+        }}"
         formControlName="lastName"
       />
       @if (lastNameIsInvalid) {
         <p
-          class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+          id="lastName-error"
+          role="alert"
+          aria-live="polite"
+          class="text-red-600 dark:text-red-500 bg-red-600/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+          animate.enter="error-enter"
+          animate.leave="error-leave"
         >
           Cognome non valido
         </p>
@@ -55,7 +59,12 @@
     </div>
     @if (infoAreInvalid) {
       <p
-        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-center px-3 py-1 col-span-full"
+        id="info-error"
+        role="alert"
+        aria-live="polite"
+        class="text-red-600 dark:text-red-500 bg-red-600/10 dark:bg-red-500/10 rounded-xl text-center px-3 py-1 col-span-full"
+        animate.enter="error-enter"
+        animate.leave="error-leave"
       >
         Non devono matchare
       </p>
@@ -68,19 +77,22 @@
       type="text"
       id="username"
       name="username"
-      class="w-full rounded-xl p-2 focus-input border border-gray-300/80 dark:border-zinc-600/50 focus:outline-none disabled:cursor-not-allowed"
-      [class.dark:border-red-500]="usernameIsValid"
-      [class.border-red-400]="usernameIsValid"
-      [class.ring-2]="usernameIsValid"
-      [class.dark:ring-red-500]="usernameIsValid"
-      [class.ring-red-400]="usernameIsValid"
-      [class.focus:ring-2]="!usernameIsValid"
-      [class.focus:ring-black]="!usernameIsValid"
+      [attr.aria-invalid]="usernameIsInvalid"
+      [attr.aria-describedby]="usernameIsInvalid ? 'username-error' : null"
+      class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
+        usernameIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+      }}"
       formControlName="username"
     />
-    @if (usernameIsValid) {
+    @if (usernameIsInvalid) {
       <p
-        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
+        id="username-error"
+        role="alert"
+        aria-live="polite"
+        spellcheck="false"
+        class="text-red-600 dark:text-red-500 bg-red-600/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
+        animate.enter="error-enter"
+        animate.leave="error-leave"
       >
         Username non valido
       </p>
@@ -94,19 +106,21 @@
         type="text"
         id="avatar"
         name="avatar"
-        class="w-full rounded-xl flex-1 p-2 focus-input border border-gray-300/80 dark:border-zinc-600/50 focus:outline-none disabled:cursor-not-allowed"
-        [class.dark:border-red-500]="avatarIsInvalid"
-        [class.border-red-400]="avatarIsInvalid"
-        [class.ring-2]="avatarIsInvalid"
-        [class.dark:ring-red-500]="avatarIsInvalid"
-        [class.ring-red-400]="avatarIsInvalid"
-        [class.focus:ring-2]="!avatarIsInvalid"
-        [class.focus:ring-black]="!avatarIsInvalid"
+        [attr.aria-invalid]="avatarIsInvalid"
+        [attr.aria-describedby]="avatarIsInvalid ? 'avatar-error' : null"
+        class="w-full rounded-xl flex-1 p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
+          avatarIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+        }}"
         formControlName="avatar"
       />
       @if (avatarIsInvalid) {
         <p
-          class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+          id="avatar-error"
+          role="alert"
+          aria-live="polite"
+          class="text-red-600 dark:text-red-500 bg-red-600/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+          animate.enter="error-enter"
+          animate.leave="error-leave"
         >
           URL avatar non valida
         </p>
@@ -131,18 +145,21 @@
       id="bio"
       name="bio"
       rows="3"
-      class="w-full rounded-xl p-2 focus-input border border-gray-300/80 dark:border-zinc-600/50 focus:outline-none disabled:cursor-not-allowed"
-      [class.dark:border-red-500]="bioIsInvalid"
-      [class.border-red-400]="bioIsInvalid"
-      [class.ring-2]="bioIsInvalid"
-      [class.ring-red-400]="bioIsInvalid"
-      [class.focus:ring-2]="!bioIsInvalid"
-      [class.focus:ring-black]="!bioIsInvalid"
+      [attr.aria-invalid]="bioIsInvalid"
+      [attr.aria-describedby]="bioIsInvalid ? 'bio-error' : null"
+      class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
+        bioIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+      }}"
       formControlName="bio"
     ></textarea>
     @if (bioIsInvalid) {
       <p
-        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
+        id="bio-error"
+        role="alert"
+        aria-live="polite"
+        class="text-red-600 dark:text-red-500 bg-red-600/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
+        animate.enter="error-enter"
+        animate.leave="error-leave"
       >
         Bio non valida
       </p>
@@ -155,19 +172,21 @@
       type="url"
       id="website"
       name="website"
-      class="w-full rounded-xl p-2 focus-input border border-gray-300/80 dark:border-zinc-600/50 focus:outline-none disabled:cursor-not-allowed"
-      [class.dark:border-red-500]="websiteUrlIsInvalid"
-      [class.border-red-400]="websiteUrlIsInvalid"
-      [class.ring-2]="websiteUrlIsInvalid"
-      [class.dark:ring-red-500]="websiteUrlIsInvalid"
-      [class.ring-red-400]="websiteUrlIsInvalid"
-      [class.focus:ring-2]="!websiteUrlIsInvalid"
-      [class.focus:ring-black]="!websiteUrlIsInvalid"
+      [attr.aria-invalid]="websiteUrlIsInvalid"
+      [attr.aria-describedby]="websiteUrlIsInvalid ? 'website-error' : null"
+      class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
+        websiteUrlIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+      }}"
       formControlName="websiteUrl"
     />
     @if (websiteUrlIsInvalid) {
       <p
-        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
+        id="website-error"
+        role="alert"
+        aria-live="polite"
+        class="text-red-600 dark:text-red-500 bg-red-600/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
+        animate.enter="error-enter"
+        animate.leave="error-leave"
       >
         URL non valida
       </p>
@@ -180,19 +199,21 @@
       type="text"
       id="location"
       name="location"
-      class="w-full rounded-xl p-2 focus-input border border-gray-300/80 dark:border-zinc-600/50 focus:outline-none disabled:cursor-not-allowed"
-      [class.dark:border-red-500]="locationIsInvalid"
-      [class.border-red-400]="locationIsInvalid"
-      [class.ring-2]="locationIsInvalid"
-      [class.ring-red-400]="locationIsInvalid"
-      [class.dark:ring-red-500]="locationIsInvalid"
-      [class.focus:ring-2]="!locationIsInvalid"
-      [class.focus:ring-black]="!locationIsInvalid"
+      [attr.aria-invalid]="locationIsInvalid"
+      [attr.aria-describedby]="locationIsInvalid ? 'location-error' : null"
+      class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
+        locationIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+      }}"
       formControlName="location"
     />
     @if (locationIsInvalid) {
       <p
-        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
+        id="location-error"
+        role="alert"
+        aria-live="polite"
+        class="text-red-600 dark:text-red-500 bg-red-600/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
+        animate.enter="error-enter"
+        animate.leave="error-leave"
       >
         Luogo non valido
       </p>
@@ -235,14 +256,15 @@
       <button
         #submitBtn
         type="submit"
-        [disabled]="reactiveForm.invalid || reactiveForm.pending || isEditing() || isUnchanged()"
+        [disabled]="reactiveForm.pending || isEditing() || isUnchanged()"
         class="bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 disabled:hover:bg-black dark:disabled:hover:bg-white cursor-pointer transition-colors duration-300 text-white dark:text-black px-4 py-2 text-base sm:text-lg rounded-lg font-semibold text-shadow-2xs dark:text-shadow-none focus-button flex-1 disabled:cursor-not-allowed flex items-center justify-center gap-4"
       >
         @if (isEditing()) {
-          <span>Modifica in corso</span>
+          <span>Modifica in corso...</span>
 
           <div
             class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
+            aria-hidden="true"
           ></div>
         } @else {
           <span>Aggiorna profilo</span>
@@ -261,24 +283,19 @@
     <button
       #submitBtn
       type="submit"
-      [disabled]="reactiveForm.invalid || reactiveForm.pending || isEditing()"
+      [disabled]="reactiveForm.pending || isEditing()"
       class="bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 disabled:hover:bg-black dark:disabled:hover:bg-white cursor-pointer transition-colors duration-300 text-white dark:text-black px-4 py-2 text-base sm:text-lg rounded-lg font-semibold text-shadow-2xs dark:text-shadow-none focus-button flex-1 disabled:cursor-not-allowed mt-4 flex items-center justify-center gap-4"
     >
       @if (isEditing()) {
-        <span>Salvataggio in corso</span>
+        <span>Salvataggio in corso...</span>
 
         <div
           class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
+          aria-hidden="true"
         ></div>
       } @else {
         <span>Salva informazioni</span>
       }
     </button>
-  }
-
-  @if (reactiveForm.dirty && reactiveForm.touched && reactiveForm.invalid) {
-    <p class="text-red-600 bg-red-600/20 rounded-xl text-center px-3 py-1 w-full">
-      Dati non validi
-    </p>
   }
 </form>

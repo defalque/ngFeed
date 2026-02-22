@@ -171,12 +171,26 @@ export class EditUser implements OnInit {
     );
   }
 
-  get usernameIsValid() {
+  get usernameIsInvalid() {
     return (
       this.reactiveForm.controls.username.touched &&
       this.reactiveForm.controls.username.dirty &&
       this.reactiveForm.controls.username.invalid
     );
+  }
+
+  firstNameAriaDescribedBy(): string | null {
+    const ids: string[] = [];
+    if (this.firstNameIsInvalid) ids.push('firstName-error');
+    if (this.infoAreInvalid) ids.push('info-error');
+    return ids.length > 0 ? ids.join(' ') : null;
+  }
+
+  lastNameAriaDescribedBy(): string | null {
+    const ids: string[] = [];
+    if (this.lastNameIsInvalid) ids.push('lastName-error');
+    if (this.infoAreInvalid) ids.push('info-error');
+    return ids.length > 0 ? ids.join(' ') : null;
   }
 
   get avatarIsInvalid() {
@@ -221,6 +235,48 @@ export class EditUser implements OnInit {
 
   isEditing = signal(false);
 
+  private readonly invalidFieldIds = [
+    'firstName',
+    'lastName',
+    'username',
+    'avatar',
+    'bio',
+    'website',
+    'location',
+  ] as const;
+
+  private focusFirstInvalidField(): void {
+    const { info, username, avatar, bio, websiteUrl, location } =
+      this.reactiveForm.controls;
+
+    const invalidById = (id: string) => {
+      switch (id) {
+        case 'firstName':
+        case 'lastName':
+          return info.invalid;
+        case 'username':
+          return username.invalid;
+        case 'avatar':
+          return avatar.invalid;
+        case 'bio':
+          return bio.invalid;
+        case 'website':
+          return websiteUrl.invalid;
+        case 'location':
+          return location.invalid;
+        default:
+          return false;
+      }
+    };
+
+    for (const id of this.invalidFieldIds) {
+      if (invalidById(id)) {
+        document.getElementById(id)?.focus();
+        return;
+      }
+    }
+  }
+
   onReset() {
     if (this.isEditing() || this.isUnchanged()) return;
 
@@ -243,7 +299,13 @@ export class EditUser implements OnInit {
   }
 
   onSubmit() {
-    if (this.reactiveForm.invalid || this.isEditing() || this.isUnchanged()) return;
+    if (this.isEditing() || this.isUnchanged()) return;
+
+    if (this.reactiveForm.invalid) {
+      this.reactiveForm.markAllAsTouched();
+      this.focusFirstInvalidField();
+      return;
+    }
 
     const btn = this.submitBtn();
 

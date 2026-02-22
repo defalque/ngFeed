@@ -1,1 +1,35 @@
+/* Error state: red border, outline with offset on focus only (no ring) */
+:host input.border-red-500:focus,
+:host textarea.border-red-500:focus {
+  box-shadow: none !important;
+  outline: 2px solid #fb2c36 !important;
+  outline-offset: 2px !important;
+}
 
+.error-enter {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.25s cubic-bezier(0.165, 0.84, 0.44, 1),
+    transform 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  @starting-style {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.error-leave {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition:
+    opacity 0.15s cubic-bezier(0.23, 1, 0.32, 1),
+    transform 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .error-enter,
+  .error-leave {
+    transition: none;
+  }
+}
