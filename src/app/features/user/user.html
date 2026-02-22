@@ -87,7 +87,7 @@
           } @else {
             <button
               (click)="onFollowClick()"
-              class="bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 w-full md:w-auto md:max-w-fit cursor-pointer duration-300 text-white dark:text-black px-4 py-2 md:text-sm text-base rounded-md font-bold text-shadow-2xs dark:text-shadow-none focus-button md:self-start active:scale-[0.95] transition-transform flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:hover:bg-black disabled:active:scale-100"
+              class="bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 w-full md:w-auto md:max-w-fit cursor-pointer duration-300 text-white dark:text-black px-4 py-2 md:text-sm text-base rounded-md font-bold text-shadow-2xs dark:text-shadow-none focus-button md:self-start active:scale-[0.95] transition-transform flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:hover:bg-black dark:disabled:hover:bg-white dark:disabled:text-black disabled:active:scale-100"
               [disabled]="isFollowing()"
             >
               @if (isFollowing()) {

@@ -1,13 +1,4 @@
-import {
-  Component,
-  computed,
-  DestroyRef,
-  effect,
-  inject,
-  OnInit,
-  signal,
-  Type,
-} from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { LucideAngularModule, HouseIcon, UserIcon, SearchIcon, HeartIcon } from 'lucide-angular';
 import { Navbar } from './core/layout/navbar/navbar';
@@ -64,16 +55,14 @@ export class App implements OnInit {
   /** Set when critical fetch fails; triggers error page display */
   errorState = signal<boolean>(false);
 
+  /** State del dialog della modale */
   dialogState = this.modalService.dialogState;
   toggleDialog = this.modalService.toggleDialog;
-
   isOpen = computed(() => {
     const { active, mode } = this.dialogState();
     return active && ['create', 'edit', 'edit-user', 'delete'].includes(mode);
   });
-
   isAlert = computed(() => this.dialogState().mode === 'delete');
-
   currentTitle = computed(() => {
     const titles: Record<string, string> = {
       create: 'Nuovo post',
@@ -106,7 +95,6 @@ export class App implements OnInit {
         this.userService.setUser(null);
       }
     });
-
   }
 
   ngOnInit(): void {
@@ -119,7 +107,7 @@ export class App implements OnInit {
     this.isFetching.set(true);
 
     forkJoin({
-      posts: this.postService.fetchAllPosts(), // No catchError: failures show error page
+      posts: this.postService.fetchAllPosts(), // No catchError: mostro l'errore nella pagina di errore
       userInfo: this.userService.fetchAuthUserInfo().pipe(catchError(() => of(null))),
       followedIds: this.userService.fetchFollowedIds().pipe(catchError(() => of([]))),
       savedPostsIds: this.postService.fetchSavedPostsIds().pipe(catchError(() => of([]))),
@@ -141,13 +129,16 @@ export class App implements OnInit {
           }
         },
         error: (err) => {
-          console.error('Errore durante il caricamento dei dati', err);
+          this.toastService.show(
+            'Errore durante il caricamento dei dati. Riprova più tardi.',
+            'error',
+          );
           this.errorState.set(true);
         },
       });
   }
 
-  /** Retry initial data fetch (used by error page) */
+  /** Riprova il fetch dei dati iniziali (usato dalla pagina di errore) */
   retryInitialData = () => this.fetchInitialData();
 
   readonly HomeIcon = HouseIcon;

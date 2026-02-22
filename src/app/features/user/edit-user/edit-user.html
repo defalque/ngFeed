@@ -23,7 +23,7 @@
       />
       @if (firstNameIsInvalid) {
         <p
-          class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+          class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
         >
           Nome non valido
         </p>
@@ -80,7 +80,7 @@
     />
     @if (usernameIsValid) {
       <p
-        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
       >
         Username non valido
       </p>
@@ -142,7 +142,7 @@
     ></textarea>
     @if (bioIsInvalid) {
       <p
-        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
       >
         Bio non valida
       </p>
@@ -167,7 +167,7 @@
     />
     @if (websiteUrlIsInvalid) {
       <p
-        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
       >
         URL non valida
       </p>
@@ -192,7 +192,7 @@
     />
     @if (locationIsInvalid) {
       <p
-        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
+        class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
       >
         Luogo non valido
       </p>
@@ -211,6 +211,7 @@
           [value]="true"
           formControlName="isVerified"
           class="edit-user__radio"
+          tabindex="0"
         />
         <span>Sì</span>
       </label>
@@ -222,6 +223,7 @@
           [value]="false"
           formControlName="isVerified"
           class="edit-user__radio"
+          tabindex="0"
         />
         <span>No</span>
       </label>
@@ -229,15 +231,7 @@
   </fieldset>
 
   @if (currentUser()) {
-    <div class="flex flex-col-reverse gap-2 mt-2">
-      <button
-        type="button"
-        (click)="onReset()"
-        [disabled]="reactiveForm.pending || isEditing() || isUnchanged()"
-        class="bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 disabled:hover:bg-gray-100 dark:disabled:hover:bg-zinc-800 text-black/80 dark:text-white/80 cursor-pointer transition-colors duration-300 px-4 py-2 text-base sm:text-lg rounded-xl font-semibold focus-button flex-none disabled:cursor-not-allowed"
-      >
-        Annulla
-      </button>
+    <div class="flex flex-col gap-2 mt-2">
       <button
         #submitBtn
         type="submit"
@@ -255,6 +249,14 @@
         }
       </button>
     </div>
+    <button
+      type="button"
+      (click)="onReset()"
+      [disabled]="reactiveForm.pending || isEditing() || isUnchanged()"
+      class="bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 disabled:hover:bg-gray-100 dark:disabled:hover:bg-zinc-800 text-black/80 dark:text-white/80 cursor-pointer transition-colors duration-300 px-4 py-2 text-base sm:text-lg rounded-xl font-semibold focus-button flex-none disabled:cursor-not-allowed"
+    >
+      Annulla
+    </button>
   } @else {
     <button
       #submitBtn
@@ -275,7 +277,7 @@
   }
 
   @if (reactiveForm.dirty && reactiveForm.touched && reactiveForm.invalid) {
-    <p class="text-red-600 bg-red-500/10 rounded-xl text-center px-3 py-1 w-full">
+    <p class="text-red-600 bg-red-600/20 rounded-xl text-center px-3 py-1 w-full">
       Dati non validi
     </p>
   }

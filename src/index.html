@@ -10,11 +10,15 @@
     <link rel="preload" href="assets/images/default-user.avif" as="image" />
 
     <link rel="preconnect" href="https://randomuser.me" />
+
+    <!-- Applica il tema subito per evitare flash del tema sbagliato prima del bootstrap di Angular -->
     <script>
       (() => {
         const storageKey = 'ngfeed-theme';
         const storedTheme = localStorage.getItem(storageKey);
         const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // Risolvi: dark esplicito, oppure (nessuna preferenza / system) e SO in dark mode
         const resolvedTheme =
           storedTheme === 'dark' || (storedTheme !== 'light' && isSystemDark) ? 'dark' : 'light';
 
