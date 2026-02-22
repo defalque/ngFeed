@@ -58,6 +58,7 @@ export class App implements OnInit {
 
   isAuthenticated = this.authService.isAuthenticated;
   currentUser = this.userService.loadedCurrentUser;
+  resolvedTheme = this.themeService.resolvedTheme;
 
   isFetching = signal(false);
   /** Set when critical fetch fails; triggers error page display */
