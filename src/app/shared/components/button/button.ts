@@ -45,6 +45,6 @@ export class Button {
             ? `${this.resetButtonColors} rounded-md`
             : `${this.primaryButtonColors} rounded-md`;
 
-    return `cursor-pointer transition-all duration-300 text-shadow-2xs dark:text-shadow-none focus-button flex items-center gap-2 justify-center active:scale-[0.95] disabled:active:scale-100 disabled:cursor-not-allowed  ${sizeClasses} ${variantClasses} ${this.twStyles()}`;
+    return `cursor-pointer button-transition text-shadow-2xs dark:text-shadow-none focus-button flex items-center gap-2 justify-center disabled:cursor-not-allowed ${sizeClasses} ${variantClasses} ${this.twStyles()}`;
   });
 }

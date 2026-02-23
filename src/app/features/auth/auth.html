@@ -25,10 +25,10 @@
     />
   </div>
 
-  <div class="flex flex-col items-start gap-2">
+  <div class="flex flex-col items-start gap-2 relative">
     <label for="password">Password</label>
     <input
-      type="password"
+      [type]="passwordVisible() ? 'text' : 'password'"
       id="password"
       name="password"
       autocomplete="current-password"
@@ -38,6 +38,26 @@
       minlength="6"
       [disabled]="isLoading()"
     />
+
+    @if (passwordVisible()) {
+      <button
+        type="button"
+        aria-label="Nascondi password"
+        (click)="togglePasswordVisibility()"
+        class="absolute right-2 top-1/2 translate-y-1/2 cursor-pointer"
+      >
+        <lucide-icon [img]="EyeOffIcon" size="16" aria-hidden="true"></lucide-icon>
+      </button>
+    } @else {
+      <button
+        type="button"
+        aria-label="Mostra password"
+        (click)="togglePasswordVisibility()"
+        class="absolute right-2 top-1/2 translate-y-1/2 cursor-pointer"
+      >
+        <lucide-icon [img]="EyeIcon" size="16" aria-hidden="true"></lucide-icon>
+      </button>
+    }
   </div>
 
   <app-button variant="form-submit" [disabled]="!form.valid || isLoading()" twStyles="flex-1">

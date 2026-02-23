@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, delay, EMPTY, map, Observable, of, tap, throwError } from 'rxjs';
+import { catchError, delay, EMPTY, finalize, map, Observable, of, tap, throwError } from 'rxjs';
 import { EditedUser, User } from '../types/user.model';
 import { AuthService } from './auth.service';
 import { PostService } from './post.service';
@@ -29,6 +29,9 @@ export class UserService {
     this.genericUser.set(value);
   }
 
+  private genericUserLoading = signal(false);
+  genericUserLoadingReadonly = this.genericUserLoading.asReadonly();
+
   private followedIds = signal<string[]>([]);
   loadedFollowedIds = this.followedIds.asReadonly();
   setFollowedIds(value: string[]) {
@@ -40,6 +43,8 @@ export class UserService {
 
   // fetcha info di utente generico
   fetchUserInfo(uid: string) {
+    this.genericUser.set(null); // Clear stale data before fetching
+    this.genericUserLoading.set(true);
     return this.fetchUsers(
       `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/${uid}.json?`,
     ).pipe(
@@ -49,10 +54,9 @@ export class UserService {
         return { id: uid, ...res } as User;
       }),
       tap((user) => {
-        if (user) {
-          this.genericUser.set(user);
-        }
+        this.genericUser.set(user); // Set user or null (user not found)
       }),
+      finalize(() => this.genericUserLoading.set(false)),
       delay(500), // delay artificiale per loading ui
     );
   }

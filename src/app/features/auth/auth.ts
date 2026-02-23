@@ -5,10 +5,10 @@ import { AuthResponseData, AuthService } from '@/core/services/auth.service';
 import { finalize, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Button } from '@/shared/components/button/button';
-
+import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 @Component({
   selector: 'app-auth',
-  imports: [A11yModule, FormsModule, Button],
+  imports: [A11yModule, FormsModule, Button, LucideAngularModule],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
   host: { class: 'block w-full' },
@@ -61,4 +61,12 @@ export class Auth {
         },
       });
   }
+
+  passwordVisible = signal(false);
+  togglePasswordVisibility() {
+    this.passwordVisible.set(!this.passwordVisible());
+  }
+
+  readonly EyeIcon = Eye;
+  readonly EyeOffIcon = EyeOff;
 }

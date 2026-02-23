@@ -1,0 +1,12 @@
+.button-transition {
+  transition-property: transform, opacity;
+  transition-duration: 300ms;
+}
+
+.button-transition:active {
+  transform: scale(0.97);
+}
+
+.button-transition:disabled:active {
+  transform: scale(1);
+}

@@ -49,6 +49,13 @@ export class UserPosts {
       : this.loadedGenericUserPosts();
   });
 
+  userExists = computed(() => {
+    if (this.isCurrentUserPosts()) return true;
+    if (this.userService.genericUserLoadingReadonly()) return true;
+    const genericUser = this.userService.loadedGenericUser();
+    return genericUser !== null && genericUser.id === this.id();
+  });
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const userId = params.get('id');
