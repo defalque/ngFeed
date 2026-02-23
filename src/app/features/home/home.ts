@@ -4,10 +4,11 @@ import { UserService } from '@/core/services/user.service';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
+import { Button } from '@/shared/components/button/button';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgOptimizedImage],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgOptimizedImage, Button],
   templateUrl: './home.html',
   host: { class: 'block w-full' },
 })

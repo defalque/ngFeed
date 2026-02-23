@@ -257,7 +257,7 @@
         #submitBtn
         type="submit"
         [disabled]="reactiveForm.pending || isEditing() || isUnchanged()"
-        class="bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 disabled:hover:bg-black dark:disabled:hover:bg-white cursor-pointer transition-colors duration-300 text-white dark:text-black px-4 py-2 text-base sm:text-lg rounded-lg font-semibold text-shadow-2xs dark:text-shadow-none focus-button flex-1 disabled:cursor-not-allowed flex items-center justify-center gap-4"
+        class="bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 disabled:hover:bg-black dark:disabled:hover:bg-white cursor-pointer transition-colors duration-300 text-white dark:text-black px-4 py-2 text-base rounded-xl font-semibold text-shadow-2xs dark:text-shadow-none focus-button flex-1 disabled:cursor-not-allowed flex items-center justify-center gap-4"
       >
         @if (isEditing()) {
           <span>Modifica in corso...</span>
@@ -271,20 +271,20 @@
         }
       </button>
     </div>
-    <button
-      type="button"
+    <app-button
+      variant="form-reset"
+      twStyles="flex-none"
       (click)="onReset()"
       [disabled]="reactiveForm.pending || isEditing() || isUnchanged()"
-      class="bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 disabled:hover:bg-gray-100 dark:disabled:hover:bg-zinc-800 text-black/80 dark:text-white/80 cursor-pointer transition-colors duration-300 px-4 py-2 text-base sm:text-lg rounded-xl font-semibold focus-button flex-none disabled:cursor-not-allowed"
     >
       Annulla
-    </button>
+    </app-button>
   } @else {
     <button
       #submitBtn
       type="submit"
       [disabled]="reactiveForm.pending || isEditing()"
-      class="bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 disabled:hover:bg-black dark:disabled:hover:bg-white cursor-pointer transition-colors duration-300 text-white dark:text-black px-4 py-2 text-base sm:text-lg rounded-lg font-semibold text-shadow-2xs dark:text-shadow-none focus-button flex-1 disabled:cursor-not-allowed mt-4 flex items-center justify-center gap-4"
+      class="bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 disabled:hover:bg-black dark:disabled:hover:bg-white cursor-pointer transition-colors duration-300 text-white dark:text-black px-4 py-2 text-base rounded-xl font-semibold text-shadow-2xs dark:text-shadow-none focus-button flex-1 disabled:cursor-not-allowed mt-4 flex items-center justify-center gap-4"
     >
       @if (isEditing()) {
         <span>Salvataggio in corso...</span>

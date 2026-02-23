@@ -2,7 +2,6 @@ import { UserService } from '@/core/services/user.service';
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   inject,
   OnInit,
   signal,
@@ -25,6 +24,7 @@ import { EditedUser } from '@/core/types/user.model';
 import { FocusField } from '@/shared/directives/focus-field.directive';
 import { NgOptimizedImage } from '@angular/common';
 import { ToastService } from '@/core/services/toast.service';
+import { Button } from '@/shared/components/button/button';
 
 function validUrl(control: AbstractControl) {
   if (!control.value) return null;
@@ -64,7 +64,7 @@ function equalValues(controlName1: string, controlName2: string) {
 
 @Component({
   selector: 'app-edit-user',
-  imports: [ReactiveFormsModule, A11yModule, FocusField, NgOptimizedImage],
+  imports: [ReactiveFormsModule, A11yModule, FocusField, NgOptimizedImage, Button],
   templateUrl: './edit-user.html',
   styleUrl: './edit-user.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -76,7 +76,7 @@ export class EditUser implements OnInit {
   private modalService = inject(ModalService);
   private toastService = inject(ToastService);
 
-  submitBtn = viewChild<ElementRef<HTMLButtonElement>>('submitBtn');
+  submitBtn = viewChild(Button);
 
   authenticatedUser = this.authService.authenticatedUser;
   currentUser = this.userService.loadedCurrentUser;
@@ -246,8 +246,7 @@ export class EditUser implements OnInit {
   ] as const;
 
   private focusFirstInvalidField(): void {
-    const { info, username, avatar, bio, websiteUrl, location } =
-      this.reactiveForm.controls;
+    const { info, username, avatar, bio, websiteUrl, location } = this.reactiveForm.controls;
 
     const invalidById = (id: string) => {
       switch (id) {
@@ -310,7 +309,7 @@ export class EditUser implements OnInit {
     const btn = this.submitBtn();
 
     if (btn) {
-      btn.nativeElement.scrollIntoView({
+      btn.elementRef.nativeElement.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
       });
@@ -341,7 +340,7 @@ export class EditUser implements OnInit {
           }),
         )
         .subscribe({
-          complete: () => {
+          next: () => {
             this.toastService.show('Profilo creato con successo', 'success');
           },
           error: (err) => {
@@ -362,7 +361,7 @@ export class EditUser implements OnInit {
           }),
         )
         .subscribe({
-          complete: () => {
+          next: () => {
             this.toastService.show('Profilo modificato con successo', 'success');
           },
           error: (err) => {

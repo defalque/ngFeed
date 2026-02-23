@@ -17,10 +17,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { NgOptimizedImage } from '@angular/common';
 import { ToastService } from '@/core/services/toast.service';
+import { Button } from '@/shared/components/button/button';
 
 @Component({
   selector: 'app-user-card',
-  imports: [RouterLink, VerifiedIcon, NgOptimizedImage],
+  imports: [RouterLink, VerifiedIcon, NgOptimizedImage, Button],
   templateUrl: './user-card.html',
   styleUrl: './user-card.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

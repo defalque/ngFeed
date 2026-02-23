@@ -26,13 +26,14 @@ import { PostService } from '@/core/services/post.service';
 import { UserService } from '@/core/services/user.service';
 // import { AuthService } from '@/core/services/auth.service';
 import { ToastService } from '@/core/services/toast.service';
+import { Button } from '@/shared/components/button/button';
 //import z from 'zod';
 
 //type NewPostFormErrors = ReturnType<typeof z.treeifyError<typeof newPostFormSchema>>;
 
 @Component({
   selector: 'app-post-form',
-  imports: [FocusField, FormsModule, ReactiveFormsModule],
+  imports: [FocusField, FormsModule, ReactiveFormsModule, Button],
   templateUrl: './post-form.html',
   styleUrl: './post-form.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -168,8 +169,6 @@ export class PostForm {
       this.addPost(newPost).subscribe({
         next: () => {
           this.reactiveForm.reset();
-        },
-        complete: () => {
           this.toastService.show('Post creato con successo', 'success');
         },
         error: (err) => {
@@ -187,8 +186,6 @@ export class PostForm {
       this.editPost(editedPost).subscribe({
         next: () => {
           this.reactiveForm.reset();
-        },
-        complete: () => {
           this.toastService.show('Post modificato con successo', 'success');
         },
         error: (err) => {

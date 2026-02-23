@@ -1,0 +1,10 @@
+<button
+  #buttonRef
+  [type]="type()"
+  [disabled]="disabled()"
+  [attr.aria-label]="ariaLabel()"
+  [class]="buttonClasses()"
+  (click)="onClick.emit()"
+>
+  <ng-content></ng-content>
+</button>

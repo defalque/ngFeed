@@ -4,10 +4,11 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { AuthResponseData, AuthService } from '@/core/services/auth.service';
 import { finalize, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { Button } from '@/shared/components/button/button';
 
 @Component({
   selector: 'app-auth',
-  imports: [A11yModule, FormsModule],
+  imports: [A11yModule, FormsModule, Button],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
   host: { class: 'block w-full' },

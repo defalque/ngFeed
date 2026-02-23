@@ -1,6 +1,8 @@
 <div class="h-screen">
   @if (errorState()) {
-    <app-error [onRetry]="retryInitialData" />
+    @defer (when errorState()) {
+      <app-error [onRetry]="retryInitialData" />
+    }
   } @else if (isFetching()) {
     <div
       class="absolute inset-0 z-50 bg-white dark:bg-zinc-950 flex items-center justify-center flex-col gap-2 animate-pulse duration-500"
@@ -19,9 +21,8 @@
       @defer (when isMobile()) {
         <app-header />
       }
-      <app-navbar />
 
-      @if (!isAuthenticated()) {
+      @defer (when !isAuthenticated()) {
         <a
           class="bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-md absolute top-4 right-4 font-medium cursor-pointer focus-button active:scale-[0.95] transition-all hover:bg-black/80 dark:hover:bg-white/80 z-1000 shadow-xs hidden md:block"
           routerLink="/auth"
@@ -30,6 +31,8 @@
         >
       }
 
+      <app-navbar />
+
       <main
         class="w-full flex flex-1 flex-col items-center pt-16 md:pt-0 pl-2 md:pl-30 pr-2 lg:pr-30"
       >
@@ -37,13 +40,13 @@
       </main>
     </div>
 
-    <app-modal
-      [title]="currentTitle()"
-      [isAlert]="isAlert()"
-      [isOpen]="isOpen()"
-      (toggleFn)="toggleDialog()"
-    >
-      @defer (when isOpen()) {
+    @defer (when isOpen()) {
+      <app-modal
+        [title]="currentTitle()"
+        [isAlert]="isAlert()"
+        [isOpen]="isOpen()"
+        (toggleFn)="toggleDialog()"
+      >
         @switch (dialogState().mode) {
           @case ('create') {
             <app-post-form />
@@ -58,10 +61,12 @@
             <app-delete-post />
           }
         }
-      }
-    </app-modal>
+      </app-modal>
+    }
 
-    <app-toast-container />
+    @defer (when toasts().length > 0) {
+      <app-toast-container />
+    }
 
     <!-- <footer class="w-full flex items-center justify-center p-4 max-w-3xl mx-auto mt-auto">
     <p class="text-gray-500 text-sm">

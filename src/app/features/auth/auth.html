@@ -40,35 +40,29 @@
     />
   </div>
 
-  <div class="flex items-center gap-2 mt-2">
-    <button
-      type="submit"
-      [disabled]="!form.valid || isLoading()"
-      class="bg-black dark:bg-white text-white dark:text-black hover:bg-black/80 dark:hover:bg-white/80 flex items-center justify-center gap-3 disabled:hover:bg-black dark:disabled:hover:bg-white transition-colors duration-300 px-4 py-2 text-base sm:text-lg rounded-xl font-semibold text-shadow-2xs dark:text-shadow-none focus-button flex-1 disabled:cursor-not-allowed cursor-pointer"
-    >
-      @if (isLoginMode()) {
-        @if (isLoading()) {
-          <span>Attendi</span>
-          <div
-            class="size-5 rounded-full border-2 border-black border-t-2 border-t-white border-r-2 border-r-white border-b-2 dark:border-white dark:border-t-black dark:border-r-black animate-spin [animation-duration:500ms]"
-            aria-hidden="true"
-          ></div>
-        } @else {
-          <span>Accedi</span>
-        }
+  <app-button variant="form-submit" [disabled]="!form.valid || isLoading()" twStyles="flex-1">
+    @if (isLoginMode()) {
+      @if (isLoading()) {
+        <span>Attendi</span>
+        <div
+          class="size-5 rounded-full border-2 border-black border-t-2 border-t-white border-r-2 border-r-white border-b-2 dark:border-white dark:border-t-black dark:border-r-black animate-spin [animation-duration:500ms]"
+          aria-hidden="true"
+        ></div>
       } @else {
-        @if (isLoading()) {
-          <span>Attendi</span>
-          <div
-            class="size-5 rounded-full border-2 border-black border-t-2 border-t-white border-r-2 border-r-white border-b-2 dark:border-white dark:border-t-black dark:border-r-black animate-spin [animation-duration:500ms]"
-            aria-hidden="true"
-          ></div>
-        } @else {
-          <span>Registrati</span>
-        }
+        <span>Accedi</span>
       }
-    </button>
-  </div>
+    } @else {
+      @if (isLoading()) {
+        <span>Attendi</span>
+        <div
+          class="size-5 rounded-full border-2 border-black border-t-2 border-t-white border-r-2 border-r-white border-b-2 dark:border-white dark:border-t-black dark:border-r-black animate-spin [animation-duration:500ms]"
+          aria-hidden="true"
+        ></div>
+      } @else {
+        <span>Registrati</span>
+      }
+    }
+  </app-button>
 
   <div class="flex items-center justify-center gap-2">
     @if (isLoginMode()) {

@@ -95,9 +95,9 @@
     />
   </div> -->
 
-  <button
-    type="submit"
-    class="bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 disabled:hover:bg-black dark:disabled:hover:bg-white cursor-pointer disabled:cursor-not-allowed transition-colors duration-300 text-white dark:text-black px-4 py-2 text-base sm:text-lg rounded-lg font-semibold text-shadow-2xs dark:text-shadow-none focus-button flex items-center gap-4 justify-center mt-2"
+  <app-button
+    variant="form-submit"
+    size="md"
     [disabled]="reactiveForm.invalid || isWorking() || isUnchanged()"
   >
     @if (isWorking()) {
@@ -112,5 +112,5 @@
     } @else {
       <span>{{ mode() === 'create' ? 'Pubblica post' : 'Salva modifiche' }}</span>
     }
-  </button>
+  </app-button>
 </form>

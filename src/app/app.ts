@@ -50,6 +50,7 @@ export class App implements OnInit {
   isAuthenticated = this.authService.isAuthenticated;
   currentUser = this.userService.loadedCurrentUser;
   resolvedTheme = this.themeService.resolvedTheme;
+  toasts = computed(() => this.toastService.toasts());
 
   isFetching = signal(false);
   /** Set when critical fetch fails; triggers error page display */
@@ -103,12 +104,16 @@ export class App implements OnInit {
 
   /** Metodo centralizzato per il fetch dei dati iniziali */
   fetchInitialData() {
+    const authUser = this.authService.authenticatedUser();
     this.errorState.set(false);
     this.isFetching.set(true);
 
     forkJoin({
       posts: this.postService.fetchAllPosts(), // No catchError: mostro l'errore nella pagina di errore
       userInfo: this.userService.fetchAuthUserInfo().pipe(catchError(() => of(null))),
+      currentUserPosts: this.postService
+        .fetchPostsByUser(authUser?.localId || '', true)
+        .pipe(catchError(() => of([]))),
       followedIds: this.userService.fetchFollowedIds().pipe(catchError(() => of([]))),
       savedPostsIds: this.postService.fetchSavedPostsIds().pipe(catchError(() => of([]))),
       likedPostsIds: this.postService.fetchLikedPostsIds().pipe(catchError(() => of([]))),
@@ -118,9 +123,15 @@ export class App implements OnInit {
         finalize(() => this.isFetching.set(false)),
       )
       .subscribe({
-        next: ({ posts, userInfo, followedIds, savedPostsIds, likedPostsIds }) => {
-          // console.log(posts, userInfo, followedIds, savedPostsIds, likedPostsIds);
-          const authUser = this.authService.authenticatedUser();
+        next: ({
+          posts,
+          userInfo,
+          currentUserPosts,
+          followedIds,
+          savedPostsIds,
+          likedPostsIds,
+        }) => {
+          console.log(posts, userInfo, currentUserPosts, followedIds, savedPostsIds, likedPostsIds);
           if (authUser && !userInfo) {
             this.toastService.show(
               'Ti invitiamo a completare il tuo profilo per iniziare a utilizzare ngFeed al meglio',

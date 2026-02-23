@@ -39,7 +39,7 @@
             ></lucide-icon>
           </button>
 
-          @defer (on hover(button); on interaction(button)) {
+          @defer (when isOpen()) {
             <app-dropdown-menu [isOpen]="isOpen()" usedIn="header">
               <a
                 routerLink="./"

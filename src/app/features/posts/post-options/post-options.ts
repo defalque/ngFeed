@@ -118,7 +118,7 @@ export class PostOptions {
             }),
           )
           .subscribe({
-            complete: () => {
+            next: () => {
               this.toastService.show('Post rimosso dai preferiti', 'success');
             },
             error: (error: Error) => {
@@ -138,7 +138,7 @@ export class PostOptions {
             }),
           )
           .subscribe({
-            complete: () => {
+            next: () => {
               this.toastService.show('Post aggiunto ai preferiti', 'success');
             },
             error: (error: Error) => {

@@ -26,6 +26,7 @@ import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { UserService } from '@/core/services/user.service';
 import { AuthService } from '@/core/services/auth.service';
 import { ToastService } from '@/core/services/toast.service';
+import { Button } from '@/shared/components/button/button';
 
 @Component({
   selector: 'app-user',
@@ -37,6 +38,7 @@ import { ToastService } from '@/core/services/toast.service';
     RouterLinkActive,
     UserSkeleton,
     VerifiedIcon,
+    Button,
   ],
   templateUrl: './user.html',
   styleUrl: './user.css',

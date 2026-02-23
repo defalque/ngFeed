@@ -23,21 +23,17 @@
       <p class="text-sm text-gray-500 dark:text-zinc-400">@{{ user().username }}</p>
     </div>
   </div>
-  <button
-    (click)="onFollowClick()"
-    class="bg-black hover:bg-black/80 dark:bg-white dark:hover:bg-white/80 cursor-pointer transition-transform duration-300 text-white dark:text-black px-6 text-base rounded-md font-bold text-shadow-2xs dark:text-shadow-none focus-button active:scale-[0.95] flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:hover:bg-black disabled:active:scale-100"
-    [disabled]="buttonDisabled()"
-  >
+
+  <app-button (click)="onFollowClick()" [disabled]="buttonDisabled()" size="md">
     @if (isFollowing()) {
       <span>Attendi</span>
-
       <div
         class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
       ></div>
     } @else {
       Segui
     }
-  </button>
+  </app-button>
 
   <p class="text-sm text-black/80 dark:text-white/80 col-span-full col-start-2 pt-4 text-start">
     {{ user().bio }}
