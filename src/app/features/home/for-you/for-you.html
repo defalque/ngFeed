@@ -2,11 +2,7 @@
   class="max-w-3xl mx-auto gap-1 bg-white dark:bg-zinc-950 flex flex-col divide-y divide-gray-200 dark:divide-zinc-800/50 w-full px-0 md:px-2 pb-20 md:pb-4"
 >
   @if (posts().length === 0) {
-    <div
-      class="flex flex-col justify-center items-center my-20"
-      animate.enter="empty-enter"
-      animate.leave="empty-leave"
-    >
+    <div appEmptyWrapper layout="full-page">
       <svg
         viewBox="0 0 24 24"
         version="1.1"

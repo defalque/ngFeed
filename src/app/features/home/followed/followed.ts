@@ -3,10 +3,11 @@ import { BlogPost } from '@/features/posts/post/post';
 import { PostService } from '@/core/services/post.service';
 import { AuthService } from '@/core/services/auth.service';
 import { UserService } from '@/core/services/user.service';
+import { EmptyWrapper } from '@/shared/components/empty-wrapper/empty-wrapper';
 
 @Component({
   selector: 'app-followed',
-  imports: [BlogPost],
+  imports: [BlogPost, EmptyWrapper],
   templateUrl: './followed.html',
   styleUrl: './followed.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

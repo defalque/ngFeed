@@ -15,10 +15,11 @@ import { PostService } from '@/core/services/post.service';
 import { UserService } from '@/core/services/user.service';
 import { BlogPost } from '@/features/posts/post/post';
 import { AuthService } from '@/core/services/auth.service';
+import { EmptyWrapper } from '@/shared/components/empty-wrapper/empty-wrapper';
 
 @Component({
   selector: 'app-user-posts',
-  imports: [BlogPost, UserPostsSkeleton],
+  imports: [BlogPost, UserPostsSkeleton, EmptyWrapper],
   templateUrl: './user-posts.html',
   styleUrl: './user-posts.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

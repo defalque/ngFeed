@@ -6,11 +6,7 @@
       }
     </ul>
   } @else if (loadedUserPosts().length === 0 && userExists() && !error()) {
-    <div
-      class="flex flex-col justify-cemter items-center mt-6"
-      animate.enter="empty-enter"
-      animate.leave="empty-leave"
-    >
+    <div appEmptyWrapper layout="card">
       <svg
         viewBox="0 0 24 24"
         version="1.1"
@@ -42,7 +38,7 @@
       </p>
     </div>
   } @else if (error() && userExists()) {
-    <div class="flex flex-col items-center gap-2">
+    <div appEmptyWrapper layout="card">
       <svg
         viewBox="0 0 24 24"
         fill="none"
@@ -62,7 +58,9 @@
           ></path>
         </g>
       </svg>
-      <p class="text-lg text-center font-medium text-zinc-400">{{ error() }}. Riprova più tardi.</p>
+      <p aria-live="assertive" class="text-lg text-center font-medium text-zinc-400">
+        {{ error() }}. Riprova più tardi.
+      </p>
     </div>
   } @else {
     <ul class="py-1 divide-y divide-gray-200 dark:divide-zinc-800/50">

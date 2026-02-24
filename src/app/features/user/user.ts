@@ -27,6 +27,7 @@ import { UserService } from '@/core/services/user.service';
 import { AuthService } from '@/core/services/auth.service';
 import { ToastService } from '@/core/services/toast.service';
 import { Button } from '@/shared/components/button/button';
+import { EmptyWrapper } from '@/shared/components/empty-wrapper/empty-wrapper';
 
 @Component({
   selector: 'app-user',
@@ -39,6 +40,7 @@ import { Button } from '@/shared/components/button/button';
     UserSkeleton,
     VerifiedIcon,
     Button,
+    EmptyWrapper,
   ],
   templateUrl: './user.html',
   styleUrl: './user.css',

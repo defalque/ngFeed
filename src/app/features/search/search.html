@@ -110,11 +110,7 @@
     }
 
     @if (error() || searchError()) {
-      <div
-        class="flex flex-col justify-cemter items-center mt-12 gap-2"
-        animate.enter="empty-enter"
-        animate.leave="empty-leave"
-      >
+      <div appEmptyWrapper layout="card">
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -169,11 +165,7 @@
       searchControl.value &&
       filteredUsers().length === 0
     ) {
-      <div
-        class="flex flex-col justify-cemter items-center mt-12 gap-2"
-        animate.enter="empty-enter"
-        animate.leave="empty-leave"
-      >
+      <div appEmptyWrapper layout="card">
         <svg
           fill="#9f9fa9"
           viewBox="0 0 32 32"

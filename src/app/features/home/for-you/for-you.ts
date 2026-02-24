@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { BlogPost } from '../../posts/post/post';
 import { PostService } from '@/core/services/post.service';
 import { AuthService } from '@/core/services/auth.service';
+import { EmptyWrapper } from '@/shared/components/empty-wrapper/empty-wrapper';
 
 @Component({
   selector: 'app-for-you',
-  imports: [BlogPost],
+  imports: [BlogPost, EmptyWrapper],
   templateUrl: './for-you.html',
   styleUrl: './for-you.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

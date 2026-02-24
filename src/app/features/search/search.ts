@@ -21,6 +21,7 @@ import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
 import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { UserCard } from '../user/user-card/user-card';
 import { AuthService } from '@/core/services/auth.service';
+import { EmptyWrapper } from '@/shared/components/empty-wrapper/empty-wrapper';
 
 @Component({
   selector: 'app-search',
@@ -34,6 +35,7 @@ import { AuthService } from '@/core/services/auth.service';
     DropdownMenu,
     VerifiedIcon,
     UserCard,
+    EmptyWrapper,
   ],
   templateUrl: './search.html',
   styleUrl: './search.css',
