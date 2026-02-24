@@ -2,6 +2,7 @@ import { UserService } from '@/core/services/user.service';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   inject,
   OnInit,
   signal,
@@ -76,7 +77,7 @@ export class EditUser implements OnInit {
   private modalService = inject(ModalService);
   private toastService = inject(ToastService);
 
-  submitBtn = viewChild(Button);
+  submitBtn = viewChild<ElementRef<HTMLButtonElement>>('submitBtn');
 
   authenticatedUser = this.authService.authenticatedUser;
   currentUser = this.userService.loadedCurrentUser;
@@ -309,7 +310,7 @@ export class EditUser implements OnInit {
     const btn = this.submitBtn();
 
     if (btn) {
-      btn.elementRef.nativeElement.scrollIntoView({
+      btn.nativeElement.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
       });

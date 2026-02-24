@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthResponseData, AuthService } from '@/core/services/auth.service';
@@ -6,16 +6,21 @@ import { finalize, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Button } from '@/shared/components/button/button';
 import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
+import { FocusField } from '@/shared/directives/focus-field.directive';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-auth',
-  imports: [A11yModule, FormsModule, Button, LucideAngularModule],
+  imports: [A11yModule, FormsModule, Button, LucideAngularModule, FocusField],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block w-full' },
 })
 export class Auth {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
   isLoginMode = signal(true);
 
@@ -47,13 +52,14 @@ export class Auth {
 
     authObs
       .pipe(
+        takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.isLoading.set(false);
-          formData.reset();
         }),
       )
       .subscribe({
         next: () => {
+          formData.reset();
           this.router.navigate(['/per-te']);
         },
         error: (err: Error) => {
