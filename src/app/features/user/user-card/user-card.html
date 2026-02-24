@@ -1,44 +1,41 @@
-<li
-  class="grid grid-cols-[2.8rem_1fr_auto] gap-x-2 px-2 md:px-4 py-4 border-b last:border-b-0 border-gray-200 dark:border-zinc-800/50"
->
-  <img
-    [ngSrc]="user().avatar || '/assets/images/default-user.avif'"
-    [alt]="'Avatar di ' + user().firstName + ' ' + user().lastName"
-    class="rounded-full w-full h-full"
-    (error)="$any($event.target).src = '/assets/images/default-user.avif'"
-    width="36"
-    height="36"
-    priority
-  />
-  <div class="flex items-center gap-2 col-span-1">
-    <div class="flex flex-col items-start">
-      <div class="flex items-center gap-2">
-        <a [routerLink]="['/utente/', user().id]" class="text-base font-bold hover:underline">{{
-          user().firstName + ' ' + user().lastName
-        }}</a>
-        @if (user().isVerified) {
-          <app-verified-icon size="size-4" />
-        }
-      </div>
-      <p class="text-sm text-gray-500 dark:text-zinc-400">@{{ user().username }}</p>
+<img
+  [ngSrc]="user().avatar || '/assets/images/default-user.avif'"
+  [alt]="'Avatar di ' + user().firstName + ' ' + user().lastName"
+  class="rounded-full w-full h-full"
+  (error)="$any($event.target).src = '/assets/images/default-user.avif'"
+  width="36"
+  height="36"
+  priority
+/>
+<div class="flex items-center gap-2 col-span-1">
+  <div class="flex flex-col items-start">
+    <div class="flex items-center gap-2">
+      <a [routerLink]="['/utente/', user().id]" class="text-base font-bold hover:underline">{{
+        user().firstName + ' ' + user().lastName
+      }}</a>
+      @if (user().isVerified) {
+        <app-verified-icon size="size-4" />
+      }
     </div>
+    <p class="text-sm text-gray-500 dark:text-zinc-400">@{{ user().username }}</p>
   </div>
+</div>
 
-  <app-button (click)="onFollowClick()" [disabled]="buttonDisabled()" size="md">
-    @if (isFollowing()) {
-      <span>Attendi</span>
-      <div
-        class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
-      ></div>
-    } @else {
-      Segui
-    }
-  </app-button>
+<app-button (click)="onFollowClick()" [disabled]="buttonDisabled()" size="md">
+  @if (isFollowing()) {
+    <span aria-live="polite" aria-busy="true">Attendi</span>
+    <div
+      class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
+      aria-hidden="true"
+    ></div>
+  } @else {
+    Segui
+  }
+</app-button>
 
-  <p class="text-sm text-black/80 dark:text-white/80 col-span-full col-start-2 pt-4 text-start">
-    {{ user().bio }}
-  </p>
-  <span class="text-sm text-black/80 dark:text-white/80 col-span-1 col-start-2 pt-2 text-start"
-    >Follower: {{ user().followersCount }}</span
-  >
-</li>
+<p class="text-sm text-black/80 dark:text-white/80 col-span-full col-start-2 pt-4 text-start">
+  {{ user().bio }}
+</p>
+<span class="text-sm text-black/80 dark:text-white/80 col-span-1 col-start-2 pt-2 text-start"
+  >Follower: {{ user().followersCount }}</span
+>

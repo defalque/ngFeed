@@ -20,11 +20,15 @@ import { ToastService } from '@/core/services/toast.service';
 import { Button } from '@/shared/components/button/button';
 
 @Component({
-  selector: 'app-user-card',
+  selector: 'li[appUserCard]',
   imports: [RouterLink, VerifiedIcon, NgOptimizedImage, Button],
   templateUrl: './user-card.html',
   styleUrl: './user-card.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class:
+      'grid grid-cols-[2.8rem_1fr_auto] gap-x-2 px-2 md:px-4 py-4 border-b last:border-b-0 border-gray-200 dark:border-zinc-800/50 ',
+  },
 })
 export class UserCard {
   private router = inject(Router);

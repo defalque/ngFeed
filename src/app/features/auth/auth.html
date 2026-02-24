@@ -44,7 +44,7 @@
         type="button"
         aria-label="Nascondi password"
         (click)="togglePasswordVisibility()"
-        class="absolute right-2 top-1/2 translate-y-1/2 cursor-pointer"
+        class="absolute right-2 top-1/2 cursor-pointer hover:bg-gray-100/85 dark:hover:bg-zinc-800/80 rounded-full p-2"
       >
         <lucide-icon [img]="EyeOffIcon" size="16" aria-hidden="true"></lucide-icon>
       </button>
@@ -53,7 +53,7 @@
         type="button"
         aria-label="Mostra password"
         (click)="togglePasswordVisibility()"
-        class="absolute right-2 top-1/2 translate-y-1/2 cursor-pointer"
+        class="absolute right-2 top-1/2 cursor-pointer hover:bg-gray-100/85 dark:hover:bg-zinc-800/80 rounded-full p-2"
       >
         <lucide-icon [img]="EyeIcon" size="16" aria-hidden="true"></lucide-icon>
       </button>

@@ -149,14 +149,15 @@
     ) {
       <ul>
         @for (user of searchControl.value ? filteredUsers() : allUsers(); track user.id) {
-          <app-user-card
+          <li
+            appUserCard
             [user]="user"
             [currentUser]="currentUser()"
             [isAuthenticated]="isAuthenticated()"
             [followedIds]="followedIds()"
             [isFollowActionPending]="isFollowActionPending()"
             (followActionPendingChange)="onFollowActionPendingChange($event)"
-          />
+          ></li>
         }
       </ul>
     }
