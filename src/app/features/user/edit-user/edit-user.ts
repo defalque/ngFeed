@@ -26,6 +26,7 @@ import { FocusField } from '@/shared/directives/focus-field.directive';
 import { NgOptimizedImage } from '@angular/common';
 import { ToastService } from '@/core/services/toast.service';
 import { Button } from '@/shared/components/button/button';
+import { Loader } from '@/shared/components/loader/loader';
 
 function validUrl(control: AbstractControl) {
   if (!control.value) return null;
@@ -63,9 +64,14 @@ function equalValues(controlName1: string, controlName2: string) {
   };
 }
 
+function requiredRadioSelection(control: AbstractControl) {
+  const value = control.value;
+  return value === null || value === undefined ? { required: true } : null;
+}
+
 @Component({
   selector: 'app-edit-user',
-  imports: [ReactiveFormsModule, A11yModule, FocusField, NgOptimizedImage, Button],
+  imports: [ReactiveFormsModule, A11yModule, FocusField, NgOptimizedImage, Button, Loader],
   templateUrl: './edit-user.html',
   styleUrl: './edit-user.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -115,7 +121,9 @@ export class EditUser implements OnInit {
     location: new FormControl('', {
       validators: [Validators.minLength(2)],
     }),
-    isVerified: new FormControl(false),
+    isVerified: new FormControl<boolean | null>(false, {
+      validators: [requiredRadioSelection],
+    }),
   });
 
   ngOnInit(): void {
@@ -132,7 +140,7 @@ export class EditUser implements OnInit {
         bio: this.currentUser()?.bio,
         websiteUrl: this.currentUser()?.websiteUrl,
         location: this.currentUser()?.location,
-        isVerified: this.currentUser()?.isVerified,
+        isVerified: this.currentUser()?.isVerified ?? false,
       });
 
       this.initialFormValue = this.reactiveForm.getRawValue();
@@ -234,6 +242,13 @@ export class EditUser implements OnInit {
     );
   }
 
+  get isVerifiedIsInvalid() {
+    return (
+      this.reactiveForm.controls.isVerified.touched &&
+      this.reactiveForm.controls.isVerified.hasError('required')
+    );
+  }
+
   isEditing = signal(false);
 
   private readonly invalidFieldIds = [
@@ -244,10 +259,12 @@ export class EditUser implements OnInit {
     'bio',
     'website',
     'location',
+    'isVerified',
   ] as const;
 
   private focusFirstInvalidField(): void {
-    const { info, username, avatar, bio, websiteUrl, location } = this.reactiveForm.controls;
+    const { info, username, avatar, bio, websiteUrl, location, isVerified } =
+      this.reactiveForm.controls;
 
     const invalidById = (id: string) => {
       switch (id) {
@@ -264,6 +281,8 @@ export class EditUser implements OnInit {
           return websiteUrl.invalid;
         case 'location':
           return location.invalid;
+        case 'isVerified':
+          return isVerified.invalid;
         default:
           return false;
       }
@@ -271,7 +290,8 @@ export class EditUser implements OnInit {
 
     for (const id of this.invalidFieldIds) {
       if (invalidById(id)) {
-        document.getElementById(id)?.focus();
+        const focusTargetId = id === 'isVerified' ? 'v-true' : id;
+        document.getElementById(focusTargetId)?.focus();
         return;
       }
     }
@@ -288,13 +308,16 @@ export class EditUser implements OnInit {
           lastName: user?.lastName,
         },
         username: user?.username,
+        avatar: user?.avatar,
         bio: user?.bio,
         websiteUrl: user?.websiteUrl,
         location: user?.location,
-        isVerified: user?.isVerified,
+        isVerified: user?.isVerified ?? false,
       });
     } else {
-      this.reactiveForm.reset();
+      this.reactiveForm.reset({
+        isVerified: false,
+      });
     }
   }
 

@@ -105,10 +105,7 @@
         mode() === 'create' ? 'Pubblicazione in corso...' : 'Salvataggio in corso...'
       }}</span>
 
-      <div
-        class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
-        aria-hidden="true"
-      ></div>
+      <div appLoader [action]="'neutral'"></div>
     } @else {
       <span>{{ mode() === 'create' ? 'Pubblica post' : 'Salva modifiche' }}</span>
     }

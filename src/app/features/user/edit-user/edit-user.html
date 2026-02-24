@@ -220,7 +220,11 @@
     }
   </div>
 
-  <fieldset class="flex flex-col items-start gap-2">
+  <fieldset
+    class="flex flex-col items-start gap-2"
+    [attr.aria-invalid]="isVerifiedIsInvalid"
+    [attr.aria-describedby]="isVerifiedIsInvalid ? 'isVerified-error' : null"
+  >
     <legend>Vuoi apparire come verificato?</legend>
 
     <div class="flex items-center gap-4 mt-1">
@@ -249,6 +253,18 @@
         <span>No</span>
       </label>
     </div>
+    @if (isVerifiedIsInvalid) {
+      <p
+        id="isVerified-error"
+        role="alert"
+        aria-live="polite"
+        class="text-red-600 dark:text-red-500 bg-red-600/10 dark:bg-red-600/20 rounded-xl text-left px-3 py-1 w-full"
+        animate.enter="error-enter"
+        animate.leave="error-leave"
+      >
+        Seleziona una scelta
+      </p>
+    }
   </fieldset>
 
   @if (currentUser()) {
@@ -262,10 +278,7 @@
         @if (isEditing()) {
           <span aria-live="polite" aria-busy="true">Modifica in corso...</span>
 
-          <div
-            class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
-            aria-hidden="true"
-          ></div>
+          <div appLoader [action]="'neutral'"></div>
         } @else {
           <span>Aggiorna profilo</span>
         }
@@ -289,10 +302,7 @@
       @if (isEditing()) {
         <span aria-live="polite" aria-busy="true">Salvataggio in corso...</span>
 
-        <div
-          class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
-          aria-hidden="true"
-        ></div>
+        <div appLoader [action]="'neutral'"></div>
       } @else {
         <span>Salva informazioni</span>
       }

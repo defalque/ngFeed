@@ -155,9 +155,9 @@ export class User {
       });
   }
 
-  isCurrentUserPage() {
+  isCurrentUserPage = computed(() => {
     return this.id() === this.authenticatedUser()?.localId;
-  }
+  });
 
   isFollowing = signal(false);
   userIsFollowing = computed(() => {
@@ -167,7 +167,7 @@ export class User {
     if (this.isFollowing()) return;
 
     if (this.isAuthenticated()) {
-      if (!this.user()) {
+      if (!this.userService.loadedCurrentUser()) {
         this.openDialog('edit-user', null);
         return;
       }

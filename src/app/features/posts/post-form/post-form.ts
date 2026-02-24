@@ -18,7 +18,6 @@ import {
 import {
   EditedPost,
   NewPost,
-  // newPostFormSchema
 } from '@/core/types/post.model';
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -27,13 +26,11 @@ import { UserService } from '@/core/services/user.service';
 // import { AuthService } from '@/core/services/auth.service';
 import { ToastService } from '@/core/services/toast.service';
 import { Button } from '@/shared/components/button/button';
-//import z from 'zod';
-
-//type NewPostFormErrors = ReturnType<typeof z.treeifyError<typeof newPostFormSchema>>;
+import { Loader } from '@/shared/components/loader/loader';
 
 @Component({
   selector: 'app-post-form',
-  imports: [FocusField, FormsModule, ReactiveFormsModule, Button],
+  imports: [FocusField, FormsModule, ReactiveFormsModule, Button, Loader],
   templateUrl: './post-form.html',
   styleUrl: './post-form.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -131,12 +128,7 @@ export class PostForm {
     );
   }
 
-  // formErrors: NewPostFormErrors = { errors: [], properties: {} };
-
   onSubmit() {
-    // if (formData.form.invalid) return;
-    // this.formErrors = { errors: [], properties: {} };
-
     if (this.reactiveForm.invalid || this.isWorking() || this.isUnchanged()) return;
 
     if (this.mode() === 'create') {

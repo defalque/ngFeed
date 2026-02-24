@@ -8,10 +8,11 @@ import { Button } from '@/shared/components/button/button';
 import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 import { FocusField } from '@/shared/directives/focus-field.directive';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Loader } from '@/shared/components/loader/loader';
 
 @Component({
   selector: 'app-auth',
-  imports: [A11yModule, FormsModule, Button, LucideAngularModule, FocusField],
+  imports: [A11yModule, FormsModule, Button, LucideAngularModule, FocusField, Loader],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

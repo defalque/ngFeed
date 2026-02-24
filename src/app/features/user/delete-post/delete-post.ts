@@ -4,10 +4,11 @@ import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { ToastService } from '@/core/services/toast.service';
+import { Loader } from '@/shared/components/loader/loader';
 
 @Component({
   selector: 'app-delete-post',
-  imports: [],
+  imports: [Loader],
   templateUrl: './delete-post.html',
   styleUrl: './delete-post.css',
 })
