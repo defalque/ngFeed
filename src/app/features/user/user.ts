@@ -132,8 +132,13 @@ export class User {
         finalize(() => this.isFetching.set(false)),
       )
       .subscribe({
+        next: (user) => {
+          if (!user) {
+            this.router.navigateByUrl('/404', { skipLocationChange: true });
+          }
+        },
         error: (error: Error) => {
-          console.log(error);
+          this.router.navigateByUrl('/404', { skipLocationChange: true });
         },
       });
   }
