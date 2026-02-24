@@ -57,6 +57,9 @@ export class UserService {
         this.genericUser.set(user); // Set user or null (user not found)
       }),
       finalize(() => this.genericUserLoading.set(false)),
+      catchError((error) => {
+        return throwError(() => new Error('Errore durante il caricamento del profilo'));
+      }),
       delay(500), // delay artificiale per loading ui
     );
   }

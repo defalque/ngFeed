@@ -75,6 +75,7 @@ export class User {
   });
 
   isFetching = signal(false);
+  error = signal('');
 
   openDialog = this.modal.openDialog;
 
@@ -117,7 +118,12 @@ export class User {
         finalize(() => this.isFetching.set(false)),
       )
       .subscribe({
-        error: (error: Error) => {
+        error: (error: unknown) => {
+          if (error instanceof Error) {
+            this.error.set(error.message);
+          } else {
+            this.error.set('Errore sconosciuto');
+          }
           console.log(error);
         },
       });
@@ -138,7 +144,11 @@ export class User {
           }
         },
         error: (error: Error) => {
-          this.router.navigateByUrl('/404', { skipLocationChange: true });
+          if (error instanceof Error) {
+            this.error.set(error.message);
+          } else {
+            this.error.set('Errore sconosciuto');
+          }
         },
       });
   }

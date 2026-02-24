@@ -2,11 +2,15 @@
   @if (isFetching() && !error()) {
     <ul>
       @for (feed of [0, 1, 2, 3, 4]; track feed) {
-        <li userPostsSkeleton></li>
+        <li aria-live="polite" aria-busy="true" userPostsSkeleton></li>
       }
     </ul>
   } @else if (loadedUserPosts().length === 0 && userExists() && !error()) {
-    <div class="flex flex-col justify-cemter items-center mt-6">
+    <div
+      class="flex flex-col justify-cemter items-center mt-6"
+      animate.enter="empty-enter"
+      animate.leave="empty-leave"
+    >
       <svg
         viewBox="0 0 24 24"
         version="1.1"
@@ -39,7 +43,13 @@
     </div>
   } @else if (error() && userExists()) {
     <div class="flex flex-col items-center gap-2">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-18" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="size-18"
+        aria-hidden="true"
+      >
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
         <g id="SVGRepo_iconCarrier">
