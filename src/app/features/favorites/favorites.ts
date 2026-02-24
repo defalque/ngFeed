@@ -14,9 +14,11 @@ export class Favorites {
   private postService = inject(PostService);
 
   savedPostsIds = this.postService.loadedSavedPostsIds;
-  likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
+  likedPostsIds = this.postService.loadedLikedPostsIds;
+  readonly savedSet = computed(() => new Set(this.savedPostsIds()));
   readonly likedSet = computed(() => new Set(this.likedPostsIds()));
+
   posts = computed(() =>
-    this.postService.allLoadedPosts().filter((post) => this.savedPostsIds().includes(post.id)),
+    this.postService.allLoadedPosts().filter((post) => this.savedSet().has(post.id)),
   );
 }

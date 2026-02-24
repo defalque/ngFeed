@@ -2,6 +2,8 @@
   viewBox="0 0 24 24"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
+  [attr.aria-hidden]="black() ? 'true' : null"
+  [attr.aria-label]="black() ? null : 'Utente verificato'"
   [class]="
     size() +
     (black() ? ' text-black dark:text-white' : ' text-blue-500 dark:text-sky-500') +
