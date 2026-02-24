@@ -7,6 +7,7 @@ import { AuthService } from '@/core/services/auth.service';
   selector: 'app-for-you',
   imports: [BlogPost],
   templateUrl: './for-you.html',
+  styleUrl: './for-you.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForYou {
@@ -14,10 +15,12 @@ export class ForYou {
   private postService = inject(PostService);
 
   authenticatedUser = this.authService.authenticatedUser;
+
   savedPostsIds = this.postService.loadedSavedPostsIds;
-  likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
+  likedPostsIds = this.postService.loadedLikedPostsIds;
   readonly savedSet = computed(() => new Set(this.savedPostsIds()));
   readonly likedSet = computed(() => new Set(this.likedPostsIds()));
+
   posts = computed(() =>
     this.postService
       .allLoadedPosts()

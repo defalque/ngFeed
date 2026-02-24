@@ -2,8 +2,18 @@
   class="max-w-3xl mx-auto bg-white dark:bg-zinc-950 flex flex-col divide-y divide-gray-200 dark:divide-zinc-800/50 w-full px-0 md:px-2 pb-20 md:pb-4"
 >
   @if (!posts().length) {
-    <div class="flex flex-col justify-cemter items-center mt-12">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-20" aria-hidden="true">
+    <div
+      class="flex flex-col justify-center items-center my-20"
+      animate.enter="empty-enter"
+      animate.leave="empty-leave"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="size-20"
+        aria-hidden="true"
+      >
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
         <g id="SVGRepo_iconCarrier">

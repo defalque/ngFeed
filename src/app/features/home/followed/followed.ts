@@ -8,6 +8,7 @@ import { UserService } from '@/core/services/user.service';
   selector: 'app-followed',
   imports: [BlogPost],
   templateUrl: './followed.html',
+  styleUrl: './followed.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Followed {
@@ -16,13 +17,14 @@ export class Followed {
   private userService = inject(UserService);
 
   authenticatedUser = this.authService.authenticatedUser;
+
   savedPostsIds = this.postService.loadedSavedPostsIds;
-  likedPostsIds = computed(() => this.postService.loadedLikedPostsIds());
+  likedPostsIds = this.postService.loadedLikedPostsIds;
   readonly savedSet = computed(() => new Set(this.savedPostsIds()));
   readonly likedSet = computed(() => new Set(this.likedPostsIds()));
-  posts = computed(() =>
-    this.postService
-      .allLoadedPosts()
-      .filter((post) => this.userService.loadedFollowedIds().includes(post.userId)),
-  );
+
+  posts = computed(() => {
+    const followedSet = new Set(this.userService.loadedFollowedIds());
+    return this.postService.allLoadedPosts().filter((post) => followedSet.has(post.userId));
+  });
 }
