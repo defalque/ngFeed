@@ -49,7 +49,6 @@ export class AuthService {
           this.authenticatedUser.set(user);
           localStorage.setItem('userData', JSON.stringify(user));
           this.autoLogout(+resData.expiresIn * 1000);
-          console.log(user);
         }),
         catchError((error) => {
           if (!error.error || !error.error.error) {
@@ -82,7 +81,6 @@ export class AuthService {
           this.authenticatedUser.set(user);
           localStorage.setItem('userData', JSON.stringify(user));
           this.autoLogout(+resData.expiresIn * 1000);
-          console.log(user);
         }),
         catchError((error) => {
           if (!error.error || !error.error.error) {
@@ -116,7 +114,6 @@ export class AuthService {
   }
 
   autoLogout(expirationDuration: number) {
-    console.log(expirationDuration);
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, expirationDuration);

@@ -90,7 +90,6 @@ export class UserService {
   // fetcha info di utente autenticato
   fetchAuthUserInfo() {
     const authUser = this.authenticatedUser();
-    // console.log(authUser);
     const uid = authUser?.localId;
     const token = authUser?.idToken;
 
@@ -166,10 +165,8 @@ export class UserService {
       .pipe(
         delay(500),
         tap(() => {
-          console.log(this.currentUser());
           this.currentUser.update((oldUserData) => {
             if (!oldUserData) return null;
-            console.log(oldUserData);
 
             return {
               ...oldUserData, // Mantiene id, followersCount, followingCount, ecc.

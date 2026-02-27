@@ -86,8 +86,6 @@ export class User {
       const id = this.id();
       const authUser = this.authenticatedUser();
 
-      // console.log(id, authUser?.localId);
-
       if (!id) return;
 
       if (id === authUser?.localId) {
@@ -126,7 +124,6 @@ export class User {
           } else {
             this.error.set('Errore sconosciuto');
           }
-          console.log(error);
         },
       });
   }

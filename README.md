@@ -4,16 +4,18 @@ Applicazione moderna di feed social realizzata con Angular 21. ngFeed permette d
 
 ## Funzionalità
 
-| Funzionalità | Posizione | Descrizione |
-|--------------|-----------|-------------|
-| **Autenticazione** | `features/auth/` | Firebase Auth, login/registrazione, toggle visibilità password, auto-login da localStorage, gestione scadenza token |
-| **Post** | `features/posts/` | Creazione, modifica, eliminazione, like, salvataggio, commenti, vista post completo, menu opzioni |
-| **Profili utente** | `features/user/` | Visualizzazione profilo, modifica profilo, tab post/repost, segui/smetti di seguire, card utente |
-| **Feed home** | `features/home/` | Feed Per te (tutti i post), Feed Seguiti (lazy loaded), navigazione a tab |
-| **Ricerca** | `features/search/` | Ricerca utenti con input debounced, filtro verificati, ordinamento per più seguiti |
-| **Preferiti** | `features/favorites/` | Visualizzazione post salvati |
-| **Tema** | `core/services/theme.service.ts` | Modalità chiaro/scuro/sistema, persistenza in localStorage, script anti-flash in `index.html` |
-| **Modal e Toast** | `core/services/` | Modal centralizzato (crea/modifica/elimina/modifica-utente), notifiche toast |
+
+| Funzionalità       | Posizione                        | Descrizione                                                                                                         |
+| ------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **Autenticazione** | `features/auth/`                 | Firebase Auth, login/registrazione, toggle visibilità password, auto-login da localStorage, gestione scadenza token |
+| **Post**           | `features/posts/`                | Creazione, modifica, eliminazione, like, salvataggio, commenti, vista post completo, menu opzioni                   |
+| **Profili utente** | `features/user/`                 | Visualizzazione profilo, modifica profilo, tab post/repost, segui/smetti di seguire, card utente                    |
+| **Feed home**      | `features/home/`                 | Feed Per te (tutti i post), Feed Seguiti (lazy loaded), navigazione a tab                                           |
+| **Ricerca**        | `features/search/`               | Ricerca utenti con input debounced, filtro verificati, ordinamento per più seguiti                                  |
+| **Preferiti**      | `features/favorites/`            | Visualizzazione post salvati                                                                                        |
+| **Tema**           | `core/services/theme.service.ts` | Modalità chiaro/scuro/sistema, persistenza in localStorage, script anti-flash in `index.html`                       |
+| **Modal e Toast**  | `core/services/`                 | Modal centralizzato (crea/modifica/elimina/modifica-utente), notifiche toast                                        |
+
 
 ## Architettura e pattern
 
@@ -23,7 +25,7 @@ Applicazione moderna di feed social realizzata con Angular 21. ngFeed permette d
 - **Lazy loading** – Le route Search, Favorites, Followed, Auth, User, FullPost, NotFound sono caricate in modo lazy
 - **Dependency injection** – Funzione `inject()`, `providedIn: 'root'` per i servizi
 - **Cleanup** – `DestroyRef` con `takeUntilDestroyed()` per la pulizia delle sottoscrizioni
-- **Path alias** – `@/*` mappa a `src/app/*`
+- **Path alias** – `@/`* mappa a `src/app/*`
 - **Struttura cartelle** – `core/` (layout, services, types, pages), `features/`, `shared/`
 
 ## Accessibilità
@@ -33,15 +35,6 @@ Applicazione moderna di feed social realizzata con Angular 21. ngFeed permette d
 - **Navigazione da tastiera** – `tabindex` dinamico per dropdown e tab
 - **Regioni live** – I toast usano `aria-live="polite"`/`assertive`; gli errori dei form usano `role="alert"`
 - **Icone decorative** – `aria-hidden` sulle icon Lucide dove appropriato
-
-## SEO
-
-- **Meta tag** – Charset, viewport, description in `index.html`
-- **Title service** – Titoli dinamici in `full-post.ts` (titolo post) e `user.ts` (nome utente)
-- **Titoli route** – Configurati in `app.routes.ts` (Cerca, Preferiti, Auth, 404) e `home.routes.ts` (Per te, Seguiti)
-- **Preload** – `default-user.avif` e `preconnect` verso risorse esterne
-
-*Nota: SSR/SSG non è configurato; nessun sitemap, robots.txt, Open Graph o structured data.*
 
 ## Integrazione backend
 
@@ -55,19 +48,20 @@ Questo è un **progetto solo frontend** – nessun codice server-side. Tutti i d
 
 *I conteggi di like e follow non sono aggregati né persistiti lato server – richiederebbero Cloud Functions o logica server simile. L'app si concentra solo sulle funzionalità client-side.*
 
-*Nota: URL Firebase e API key sono configurati nei servizi. Valutare l'uso di variabili d'ambiente in produzione.*
+*Nota: URL Firebase e API key sono configurati nei servizi. Sarebbe da valutare l'uso di variabili d'ambiente in produzione.*
 
 ## Tech Stack
 
-| Categoria | Tecnologie |
-|-----------|------------|
-| **Framework** | Angular 21.1, TypeScript 5.9 |
-| **Styling** | Tailwind CSS 4, tailwind-merge, clsx, class-variance-authority |
-| **Stato e dati** | RxJS 7.8, Angular Signals |
-| **UI** | Angular CDK (a11y), Lucide Angular |
-| **Testing** | Vitest |
-| **Backend** | Firebase (Authentication, Realtime Database) |
-| **Deploy** | firebase-tools |
+
+| Categoria        | Tecnologie                                   |
+| ---------------- | -------------------------------------------- |
+| **Framework**    | Angular 21.1, TypeScript 5.9                 |
+| **Styling**      | Tailwind CSS                                 |
+| **Stato e dati** | RxJS 7.8, Angular Signals                    |
+| **UI e icone**   | Angular CDK (a11y), Lucide Angular           |
+| **Testing**      | Vitest                                       |
+| **Backend**      | Firebase (Authentication, Realtime Database) |
+
 
 ## Struttura del progetto
 
@@ -93,19 +87,23 @@ src/app/
 
 ## Routing
 
-```mermaid
-flowchart TB
-    root["/"] --> perte["/per-te (Per te)"]
-    root --> seguiti["/seguiti (Seguiti)"]
-    root --> cerca["/cerca (Cerca)"]
-    root --> preferiti["/preferiti (Preferiti)"]
-    root --> utente["/utente/:id (Profilo)"]
-    root --> auth["/auth (Login)"]
-    utente --> posts["/posts"]
-    utente --> repost["/repost"]
-    utente --> fullpost["/utente/:id/posts/:postId"]
-    root --> notfound["** (404)"]
-```
+Le route sono definite in `app.routes.ts` con lazy loading per Search, Favorites, User, FullPost, Followed e NotFound. Il layout principale (`Home`) ospita i tab Per te e Seguiti come route figlie.
+
+| Path | Componente | Lazy | Descrizione |
+|------|------------|------|-------------|
+| `/` | — | — | Redirect a `/per-te` |
+| `/per-te` | ForYou | No | Feed "Per te" (tutti i post) |
+| `/seguiti` | Followed | Sì | Feed "Seguiti" (post degli utenti seguiti) |
+| `/cerca` | Search | Sì | Ricerca utenti |
+| `/preferiti` | Favorites | Sì | Post salvati |
+| `/utente/:id` | User | Sì | Profilo utente (tab post/repost) |
+| `/utente/:id/posts` | UserPosts | No | Tab post del profilo |
+| `/utente/:id/repost` | UserPosts | No | Tab repost del profilo |
+| `/utente/:id/posts/:postId` | FullPost | Sì | Vista singolo post |
+| `/auth` | Auth | Sì | Login e registrazione |
+| `**` | NotFound | Sì | Pagina 404 |
+
+**Configurazione:** `provideRouter(routes, withComponentInputBinding())` in `app.config.ts` – i parametri di route sono esposti come input dei componenti.
 
 ## Sviluppo
 
@@ -148,3 +146,4 @@ I test unitari usano [Vitest](https://vitest.dev/). Esistono spec per: auth, but
 
 - [Panoramica Angular CLI](https://angular.dev/tools/cli)
 - [Documentazione Angular](https://angular.dev)
+

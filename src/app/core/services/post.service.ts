@@ -213,8 +213,6 @@ export class PostService {
         tap(() => {
           this.allPosts.update((posts) => posts.filter((p) => p.id !== postId));
           this.authUserPosts.update((posts) => posts.filter((p) => p.id !== postId));
-
-          console.log(`Post ${postId} eliminato con successo.`);
         }),
         catchError((error) => {
           console.error(error);

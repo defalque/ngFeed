@@ -131,7 +131,6 @@ export class App implements OnInit {
           savedPostsIds,
           likedPostsIds,
         }) => {
-          console.log(posts, userInfo, currentUserPosts, followedIds, savedPostsIds, likedPostsIds);
           if (authUser && !userInfo) {
             this.toastService.show(
               'Ti invitiamo a completare il tuo profilo per iniziare a utilizzare ngFeed al meglio',
