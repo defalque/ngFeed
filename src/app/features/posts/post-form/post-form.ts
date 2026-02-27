@@ -105,31 +105,78 @@ export class PostForm {
   }
 
   get titleIsInvalid() {
-    return (
-      this.reactiveForm.controls.title.touched &&
-      this.reactiveForm.controls.title.dirty &&
-      this.reactiveForm.controls.title.invalid
-    );
+    const ctrl = this.reactiveForm.controls.title;
+    return ctrl.touched && ctrl.invalid;
   }
 
   get descriptionIsInvalid() {
-    return (
-      this.reactiveForm.controls.description.touched &&
-      this.reactiveForm.controls.description.dirty &&
-      this.reactiveForm.controls.description.invalid
-    );
+    const ctrl = this.reactiveForm.controls.description;
+    return ctrl.touched && ctrl.invalid;
   }
 
   get contentIsInvalid() {
-    return (
-      this.reactiveForm.controls.content.touched &&
-      this.reactiveForm.controls.content.dirty &&
-      this.reactiveForm.controls.content.invalid
-    );
+    const ctrl = this.reactiveForm.controls.content;
+    return ctrl.touched && ctrl.invalid;
+  }
+
+  get titleError(): string | null {
+    const ctrl = this.reactiveForm.controls.title;
+    if (!ctrl.errors || !this.titleIsInvalid) return null;
+    if (ctrl.hasError('required')) return 'Il titolo è obbligatorio';
+    if (ctrl.hasError('minlength')) return 'Il titolo deve contenere almeno 2 caratteri';
+    return 'Titolo non valido';
+  }
+
+  get descriptionError(): string | null {
+    const ctrl = this.reactiveForm.controls.description;
+    if (!ctrl.errors || !this.descriptionIsInvalid) return null;
+    if (ctrl.hasError('required')) return 'La descrizione è obbligatoria';
+    if (ctrl.hasError('minlength')) return 'La descrizione deve contenere almeno 2 caratteri';
+    return 'Descrizione non valida';
+  }
+
+  get contentError(): string | null {
+    const ctrl = this.reactiveForm.controls.content;
+    if (!ctrl.errors || !this.contentIsInvalid) return null;
+    if (ctrl.hasError('required')) return 'Il contenuto è obbligatorio';
+    if (ctrl.hasError('minlength')) return 'Il contenuto deve contenere almeno 20 caratteri';
+    return 'Contenuto non valido';
+  }
+
+  private readonly invalidFieldIds = ['title', 'description', 'content'] as const;
+
+  private focusFirstInvalidField(): void {
+    const { title, description, content } = this.reactiveForm.controls;
+
+    const invalidById = (id: string) => {
+      switch (id) {
+        case 'title':
+          return title.invalid;
+        case 'description':
+          return description.invalid;
+        case 'content':
+          return content.invalid;
+        default:
+          return false;
+      }
+    };
+
+    for (const id of this.invalidFieldIds) {
+      if (invalidById(id)) {
+        document.getElementById(id)?.focus();
+        return;
+      }
+    }
   }
 
   onSubmit() {
-    if (this.reactiveForm.invalid || this.isWorking() || this.isUnchanged()) return;
+    if (this.isWorking() || this.isUnchanged()) return;
+
+    if (this.reactiveForm.invalid) {
+      this.reactiveForm.markAllAsTouched();
+      this.focusFirstInvalidField();
+      return;
+    }
 
     if (this.mode() === 'create') {
       const newPost = {

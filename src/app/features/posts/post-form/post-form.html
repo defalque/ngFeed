@@ -17,24 +17,23 @@
       type="text"
       id="title"
       name="title"
+      [attr.aria-invalid]="titleIsInvalid"
+      [attr.aria-describedby]="titleIsInvalid && titleError ? 'title-error' : null"
       class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
         titleIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
       }}"
       formControlName="title"
     />
-    <!--
-      [disabled]="isWorking()"
-      [ngModel]="post()!.title"
-      required
-      #title="ngModel"
-     -->
-    @if (titleIsInvalid) {
+    @if (titleIsInvalid && titleError) {
       <p
+        id="title-error"
+        role="alert"
+        aria-live="polite"
         class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
         animate.enter="error-enter"
         animate.leave="error-leave"
       >
-        Titolo non valido
+        {{ titleError }}
       </p>
     }
   </div>
@@ -45,18 +44,23 @@
       id="description"
       name="description"
       rows="2"
+      [attr.aria-invalid]="descriptionIsInvalid"
+      [attr.aria-describedby]="descriptionIsInvalid && descriptionError ? 'description-error' : null"
       class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
-        descriptionIsInvalid ? 'border-red-500 ' : 'border-gray-300/80 dark:border-zinc-600/50'
+        descriptionIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
       }}"
       formControlName="description"
     ></textarea>
-    @if (descriptionIsInvalid) {
+    @if (descriptionIsInvalid && descriptionError) {
       <p
+        id="description-error"
+        role="alert"
+        aria-live="polite"
         class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
         animate.enter="error-enter"
         animate.leave="error-leave"
       >
-        Descrizione non valida
+        {{ descriptionError }}
       </p>
     }
   </div>
@@ -66,18 +70,23 @@
     <textarea
       id="content"
       name="content"
+      [attr.aria-invalid]="contentIsInvalid"
+      [attr.aria-describedby]="contentIsInvalid && contentError ? 'content-error' : null"
       class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed h-58 sm:h-36 {{
-        contentIsInvalid ? 'border-red-500 ' : 'border-gray-300/80 dark:border-zinc-600/50'
+        contentIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
       }}"
       formControlName="content"
     ></textarea>
-    @if (contentIsInvalid) {
+    @if (contentIsInvalid && contentError) {
       <p
+        id="content-error"
+        role="alert"
+        aria-live="polite"
         class="text-red-600 dark:text-red-500 bg-red-500/10 dark:bg-red-500/10 rounded-xl text-left px-3 py-1 w-full"
         animate.enter="error-enter"
         animate.leave="error-leave"
       >
-        Deve contenere almeno 20 caratteri
+        {{ contentError }}
       </p>
     }
   </div>

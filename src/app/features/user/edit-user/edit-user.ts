@@ -101,7 +101,7 @@ export class EditUser implements OnInit {
         }),
       },
       {
-        validators: [equalValues('firstName', 'lastName')],
+        validators: [Validators.required, equalValues('firstName', 'lastName')],
       },
     ),
     username: new FormControl('', {
@@ -156,36 +156,27 @@ export class EditUser implements OnInit {
   }
 
   get infoAreInvalid() {
+    const info = this.reactiveForm.controls.info;
     return (
-      this.reactiveForm.controls.info.touched &&
-      this.reactiveForm.controls.info.dirty &&
-      this.reactiveForm.controls.info.invalid &&
-      this.reactiveForm.controls.info.errors?.['valuesAreEquals']
+      info.touched &&
+      info.invalid &&
+      !!info.errors?.['valuesAreEquals']
     );
   }
 
   get firstNameIsInvalid() {
-    return (
-      this.reactiveForm.controls.info.controls.firstName.touched &&
-      this.reactiveForm.controls.info.controls.firstName.dirty &&
-      this.reactiveForm.controls.info.controls.firstName.invalid
-    );
+    const ctrl = this.reactiveForm.controls.info.controls.firstName;
+    return ctrl.touched && ctrl.invalid;
   }
 
   get lastNameIsInvalid() {
-    return (
-      this.reactiveForm.controls.info.controls.lastName.touched &&
-      this.reactiveForm.controls.info.controls.lastName.dirty &&
-      this.reactiveForm.controls.info.controls.lastName.invalid
-    );
+    const ctrl = this.reactiveForm.controls.info.controls.lastName;
+    return ctrl.touched && ctrl.invalid;
   }
 
   get usernameIsInvalid() {
-    return (
-      this.reactiveForm.controls.username.touched &&
-      this.reactiveForm.controls.username.dirty &&
-      this.reactiveForm.controls.username.invalid
-    );
+    const ctrl = this.reactiveForm.controls.username;
+    return ctrl.touched && ctrl.invalid;
   }
 
   firstNameAriaDescribedBy(): string | null {
@@ -203,11 +194,8 @@ export class EditUser implements OnInit {
   }
 
   get avatarIsInvalid() {
-    return (
-      this.reactiveForm.controls.avatar.touched &&
-      this.reactiveForm.controls.avatar.dirty &&
-      this.reactiveForm.controls.avatar.invalid
-    );
+    const ctrl = this.reactiveForm.controls.avatar;
+    return ctrl.touched && ctrl.invalid;
   }
 
   get avatarUrl(): string {
@@ -219,27 +207,18 @@ export class EditUser implements OnInit {
   }
 
   get bioIsInvalid() {
-    return (
-      this.reactiveForm.controls.bio.touched &&
-      this.reactiveForm.controls.bio.dirty &&
-      this.reactiveForm.controls.bio.invalid
-    );
+    const ctrl = this.reactiveForm.controls.bio;
+    return ctrl.touched && ctrl.invalid;
   }
 
   get websiteUrlIsInvalid() {
-    return (
-      this.reactiveForm.controls.websiteUrl.touched &&
-      this.reactiveForm.controls.websiteUrl.dirty &&
-      this.reactiveForm.controls.websiteUrl.errors?.['invalidUrl']
-    );
+    const ctrl = this.reactiveForm.controls.websiteUrl;
+    return ctrl.touched && ctrl.invalid;
   }
 
   get locationIsInvalid() {
-    return (
-      this.reactiveForm.controls.location.touched &&
-      this.reactiveForm.controls.location.dirty &&
-      this.reactiveForm.controls.location.invalid
-    );
+    const ctrl = this.reactiveForm.controls.location;
+    return ctrl.touched && ctrl.invalid;
   }
 
   get isVerifiedIsInvalid() {
@@ -247,6 +226,61 @@ export class EditUser implements OnInit {
       this.reactiveForm.controls.isVerified.touched &&
       this.reactiveForm.controls.isVerified.hasError('required')
     );
+  }
+
+  get firstNameError(): string | null {
+    const ctrl = this.reactiveForm.controls.info.controls.firstName;
+    if (!ctrl.errors || !this.firstNameIsInvalid) return null;
+    if (ctrl.hasError('required')) return 'Il nome è obbligatorio';
+    if (ctrl.hasError('minlength')) return 'Il nome deve contenere almeno 2 caratteri';
+    return 'Nome non valido';
+  }
+
+  get lastNameError(): string | null {
+    const ctrl = this.reactiveForm.controls.info.controls.lastName;
+    if (!ctrl.errors || !this.lastNameIsInvalid) return null;
+    if (ctrl.hasError('required')) return 'Il cognome è obbligatorio';
+    if (ctrl.hasError('minlength')) return 'Il cognome deve contenere almeno 2 caratteri';
+    return 'Cognome non valido';
+  }
+
+  get usernameError(): string | null {
+    const ctrl = this.reactiveForm.controls.username;
+    if (!ctrl.errors || !this.usernameIsInvalid) return null;
+    if (ctrl.hasError('required')) return "L'username è obbligatorio";
+    if (ctrl.hasError('minlength')) return "L'username deve contenere almeno 2 caratteri";
+    if (ctrl.hasError('notUnique')) return "L'username è già in uso";
+    return 'Username non valido';
+  }
+
+  get avatarError(): string | null {
+    const ctrl = this.reactiveForm.controls.avatar;
+    if (!ctrl.errors || !this.avatarIsInvalid) return null;
+    if (ctrl.hasError('invalidUrl')) return 'Inserisci un URL valido';
+    if (ctrl.hasError('invalidProtocol')) return 'L\'URL deve usare HTTPS';
+    return 'URL avatar non valida';
+  }
+
+  get bioError(): string | null {
+    const ctrl = this.reactiveForm.controls.bio;
+    if (!ctrl.errors || !this.bioIsInvalid) return null;
+    if (ctrl.hasError('minlength')) return 'La bio deve contenere almeno 2 caratteri';
+    return 'Bio non valida';
+  }
+
+  get websiteUrlError(): string | null {
+    const ctrl = this.reactiveForm.controls.websiteUrl;
+    if (!ctrl.errors || !this.websiteUrlIsInvalid) return null;
+    if (ctrl.hasError('invalidUrl')) return 'Inserisci un URL valido';
+    if (ctrl.hasError('invalidProtocol')) return 'L\'URL deve usare HTTPS';
+    return 'URL non valida';
+  }
+
+  get locationError(): string | null {
+    const ctrl = this.reactiveForm.controls.location;
+    if (!ctrl.errors || !this.locationIsInvalid) return null;
+    if (ctrl.hasError('minlength')) return 'Il luogo deve contenere almeno 2 caratteri';
+    return 'Luogo non valido';
   }
 
   isEditing = signal(false);

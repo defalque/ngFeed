@@ -14,11 +14,11 @@
         [attr.aria-invalid]="firstNameIsInvalid || infoAreInvalid"
         [attr.aria-describedby]="firstNameAriaDescribedBy()"
         class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
-          firstNameIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+          (firstNameIsInvalid || infoAreInvalid) ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
         }}"
         formControlName="firstName"
       />
-      @if (firstNameIsInvalid) {
+      @if (firstNameIsInvalid && firstNameError) {
         <p
           id="firstName-error"
           role="alert"
@@ -27,7 +27,7 @@
           animate.enter="error-enter"
           animate.leave="error-leave"
         >
-          Nome non valido
+          {{ firstNameError }}
         </p>
       }
     </div>
@@ -40,11 +40,11 @@
         [attr.aria-invalid]="lastNameIsInvalid || infoAreInvalid"
         [attr.aria-describedby]="lastNameAriaDescribedBy()"
         class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
-          lastNameIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+          (lastNameIsInvalid || infoAreInvalid) ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
         }}"
         formControlName="lastName"
       />
-      @if (lastNameIsInvalid) {
+      @if (lastNameIsInvalid && lastNameError) {
         <p
           id="lastName-error"
           role="alert"
@@ -53,7 +53,7 @@
           animate.enter="error-enter"
           animate.leave="error-leave"
         >
-          Cognome non valido
+          {{ lastNameError }}
         </p>
       }
     </div>
@@ -84,7 +84,7 @@
       }}"
       formControlName="username"
     />
-    @if (usernameIsInvalid) {
+    @if (usernameIsInvalid && usernameError) {
       <p
         id="username-error"
         role="alert"
@@ -94,7 +94,7 @@
         animate.enter="error-enter"
         animate.leave="error-leave"
       >
-        Username non valido
+        {{ usernameError }}
       </p>
     }
   </div>
@@ -113,7 +113,7 @@
         }}"
         formControlName="avatar"
       />
-      @if (avatarIsInvalid) {
+      @if (avatarIsInvalid && avatarError) {
         <p
           id="avatar-error"
           role="alert"
@@ -122,7 +122,7 @@
           animate.enter="error-enter"
           animate.leave="error-leave"
         >
-          URL avatar non valida
+          {{ avatarError }}
         </p>
       }
     </div>
@@ -152,7 +152,7 @@
       }}"
       formControlName="bio"
     ></textarea>
-    @if (bioIsInvalid) {
+    @if (bioIsInvalid && bioError) {
       <p
         id="bio-error"
         role="alert"
@@ -161,7 +161,7 @@
         animate.enter="error-enter"
         animate.leave="error-leave"
       >
-        Bio non valida
+        {{ bioError }}
       </p>
     }
   </div>
@@ -179,7 +179,7 @@
       }}"
       formControlName="websiteUrl"
     />
-    @if (websiteUrlIsInvalid) {
+    @if (websiteUrlIsInvalid && websiteUrlError) {
       <p
         id="website-error"
         role="alert"
@@ -188,7 +188,7 @@
         animate.enter="error-enter"
         animate.leave="error-leave"
       >
-        URL non valida
+        {{ websiteUrlError }}
       </p>
     }
   </div>
@@ -206,7 +206,7 @@
       }}"
       formControlName="location"
     />
-    @if (locationIsInvalid) {
+    @if (locationIsInvalid && locationError) {
       <p
         id="location-error"
         role="alert"
@@ -215,7 +215,7 @@
         animate.enter="error-enter"
         animate.leave="error-leave"
       >
-        Luogo non valido
+        {{ locationError }}
       </p>
     }
   </div>
