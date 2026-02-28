@@ -17,6 +17,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Toast, ToastService, ToastType } from '@/core/services/toast.service';
 import { ToastItem } from '../toast-item/toast-item';
 import { LucideAngularModule, CircleCheck, X, Info, CircleAlert, CircleX } from 'lucide-angular';
@@ -32,6 +33,13 @@ export class ToastContainer implements AfterViewChecked {
   @ViewChildren('toastSlot') private toastSlots!: QueryList<ElementRef<HTMLElement>>;
 
   private toastService = inject(ToastService);
+
+  constructor() {
+    this.toastService.expireRequested$
+      .pipe(takeUntilDestroyed())
+      .subscribe((id) => this.onCloseRequest(id));
+  }
+
   /** Number of toast slots in the previous run; used to detect add/remove for FLIP. */
   private prevSlotCount = 0;
   /** Previous top position (getBoundingClientRect().top) per toast id for FLIP delta. */

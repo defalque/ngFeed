@@ -1,9 +1,8 @@
 # ngFeed
 
-Applicazione moderna di feed social realizzata con Angular 21. ngFeed permette di creare post, seguire altri utenti, cercare utenti, salvare preferiti e interagire con un feed personalizzato.
+Applicazione frontend moderna di feed social ispirata a Threads, realizzata con Angular 21. ngFeed permette di creare post, seguire altri utenti, cercare utenti, salvare preferiti e interagire con un feed personalizzato.
 
 ## Funzionalità
-
 
 | Funzionalità       | Posizione                        | Descrizione                                                                                                         |
 | ------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -16,7 +15,6 @@ Applicazione moderna di feed social realizzata con Angular 21. ngFeed permette d
 | **Tema**           | `core/services/theme.service.ts` | Modalità chiaro/scuro/sistema, persistenza in localStorage, script anti-flash in `index.html`                       |
 | **Modal e Toast**  | `core/services/`                 | Modal centralizzato (crea/modifica/elimina/modifica-utente), notifiche toast                                        |
 
-
 ## Architettura e pattern
 
 - **Componenti standalone** – Nessun NgModule; tutti i componenti usano `imports` e API standalone
@@ -25,7 +23,6 @@ Applicazione moderna di feed social realizzata con Angular 21. ngFeed permette d
 - **Lazy loading** – Le route Search, Favorites, Followed, Auth, User, FullPost, NotFound sono caricate in modo lazy
 - **Dependency injection** – Funzione `inject()`, `providedIn: 'root'` per i servizi
 - **Cleanup** – `DestroyRef` con `takeUntilDestroyed()` per la pulizia delle sottoscrizioni
-- **Path alias** – `@/`* mappa a `src/app/*`
 - **Struttura cartelle** – `core/` (layout, services, types, pages), `features/`, `shared/`
 
 ## Accessibilità
@@ -38,30 +35,27 @@ Applicazione moderna di feed social realizzata con Angular 21. ngFeed permette d
 
 ## Integrazione backend
 
-Questo è un **progetto solo frontend** – nessun codice server-side. Tutti i dati risiedono su Firebase.
+Questo è un **progetto orientato al frontend** – nessun codice server-side. Tutti i dati risiedono su Firebase.
 
 - **Firebase Authentication** – REST API Identity Toolkit (`signUp`, `signInWithPassword`)
-- **Firebase Realtime Database** – REST API per post, utenti, post salvati/mi piace, following. Le regole sono intenzionalmente permissive per lo sviluppo; restringerle in produzione.
+- **Firebase Realtime Database** – REST API per post, utenti, post salvati/mi piace, following. Le regole sono intenzionalmente permissive per lo sviluppo; da restringere in produzione.
 - **Flusso auth** – Token salvato in localStorage, passato come query param `?auth=${token}`, auto-login all'avvio, auto-logout alla scadenza
 - **Caricamento dati** – `forkJoin` in `app.ts` per il fetch parallelo iniziale di post, info utente e dati correlati
 - **Pattern RxJS** – `switchMap` (debounce), `catchError`, `tap`, `takeUntilDestroyed`, `finalize`
 
-*I conteggi di like e follow non sono aggregati né persistiti lato server – richiederebbero Cloud Functions o logica server simile. L'app si concentra solo sulle funzionalità client-side.*
+_I conteggi di like e follow non sono aggregati né persistiti lato server – richiederebbero Cloud Functions o logica server simile. L'app si concentra solo sulle funzionalità client-side._
 
-*Nota: URL Firebase e API key sono configurati nei servizi. Sarebbe da valutare l'uso di variabili d'ambiente in produzione.*
+_Nota: URL Firebase e API key sono configurati nei servizi. Sarebbe da valutare l'uso di variabili d'ambiente in produzione._
 
 ## Tech Stack
-
 
 | Categoria        | Tecnologie                                   |
 | ---------------- | -------------------------------------------- |
 | **Framework**    | Angular 21.1, TypeScript 5.9                 |
 | **Styling**      | Tailwind CSS                                 |
 | **Stato e dati** | RxJS 7.8, Angular Signals                    |
-| **UI e icone**   | Angular CDK (a11y), Lucide Angular           |
 | **Testing**      | Vitest                                       |
 | **Backend**      | Firebase (Authentication, Realtime Database) |
-
 
 ## Struttura del progetto
 
@@ -89,19 +83,19 @@ src/app/
 
 Le route sono definite in `app.routes.ts` con lazy loading per Search, Favorites, User, FullPost, Followed e NotFound. Il layout principale (`Home`) ospita i tab Per te e Seguiti come route figlie.
 
-| Path | Componente | Lazy | Descrizione |
-|------|------------|------|-------------|
-| `/` | — | — | Redirect a `/per-te` |
-| `/per-te` | ForYou | No | Feed "Per te" (tutti i post) |
-| `/seguiti` | Followed | Sì | Feed "Seguiti" (post degli utenti seguiti) |
-| `/cerca` | Search | Sì | Ricerca utenti |
-| `/preferiti` | Favorites | Sì | Post salvati |
-| `/utente/:id` | User | Sì | Profilo utente (tab post/repost) |
-| `/utente/:id/posts` | UserPosts | No | Tab post del profilo |
-| `/utente/:id/repost` | UserPosts | No | Tab repost del profilo |
-| `/utente/:id/posts/:postId` | FullPost | Sì | Vista singolo post |
-| `/auth` | Auth | Sì | Login e registrazione |
-| `**` | NotFound | Sì | Pagina 404 |
+| Path                        | Componente | Lazy | Descrizione                                |
+| --------------------------- | ---------- | ---- | ------------------------------------------ |
+| `/`                         | —          | —    | Redirect a `/per-te`                       |
+| `/per-te`                   | ForYou     | No   | Feed "Per te" (tutti i post)               |
+| `/seguiti`                  | Followed   | Sì   | Feed "Seguiti" (post degli utenti seguiti) |
+| `/cerca`                    | Search     | Sì   | Ricerca utenti                             |
+| `/preferiti`                | Favorites  | Sì   | Post salvati                               |
+| `/utente/:id`               | User       | Sì   | Profilo utente (tab post/repost)           |
+| `/utente/:id/posts`         | UserPosts  | No   | Tab post del profilo                       |
+| `/utente/:id/repost`        | UserPosts  | No   | Tab repost del profilo                     |
+| `/utente/:id/posts/:postId` | FullPost   | Sì   | Vista singolo post                         |
+| `/auth`                     | Auth       | Sì   | Login e registrazione                      |
+| `**`                        | NotFound   | Sì   | Pagina 404                                 |
 
 **Configurazione:** `provideRouter(routes, withComponentInputBinding())` in `app.config.ts` – i parametri di route sono esposti come input dei componenti.
 
@@ -146,4 +140,3 @@ I test unitari usano [Vitest](https://vitest.dev/). Esistono spec per: auth, but
 
 - [Panoramica Angular CLI](https://angular.dev/tools/cli)
 - [Documentazione Angular](https://angular.dev)
-
