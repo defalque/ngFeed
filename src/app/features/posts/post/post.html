@@ -36,7 +36,7 @@
     />
 
     <h2
-      class="text-base sm:text-lg font-semibold tracking-normal col-start-2 col-span-full mb-1 text-shadow-2xs shadow-zinc-800/5"
+      class="text-base sm:text-lg font-semibold tracking-normal col-start-2 col-span-full mb-1 text-left text-shadow-2xs shadow-zinc-800/5"
     >
       {{ post().title }}
     </h2>
@@ -60,7 +60,7 @@
   >
     <div class="flex justify-between items-start w-full gap-2">
       <h2
-        class="text-base sm:text-lg font-semibold tracking-normal text-shadow-2xs shadow-zinc-800/5"
+        class="text-base sm:text-lg font-semibold tracking-normal text-left text-shadow-2xs shadow-zinc-800/5"
       >
         {{ post().title }}
       </h2>
@@ -73,6 +73,7 @@
         (closeOptions)="setCurrentOptionsOpen(null)"
       />
     </div>
+
     @if (shouldShowReadMore(post().content)) {
       <p
         class="text-sm sm:text-base tracking-normal text-start text-black/80 dark:text-white/80 wrap-anywhere"

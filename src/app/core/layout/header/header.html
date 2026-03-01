@@ -1,8 +1,17 @@
 <header
   class="flex fixed top-0 left-0 h-16 z-100 items-center bg-white dark:bg-zinc-950 justify-between w-full md:hidden px-2"
 >
+  <div class="relative inline-block invisible pointer-events-none">
+    <div class="px-5 py-3 relative z-10 group">
+      <div
+        class="w-full h-full absolute px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none"
+      ></div>
+      <lucide-icon [img]="EqualIcon" size="24" aria-hidden></lucide-icon>
+    </div>
+  </div>
+
   <!-- Logo -->
-  <div class="grow text-center pl-10">
+  <div class="grow text-center">
     <h1 class="text-3xl font-bold tracking-normal">ngFeed</h1>
   </div>
 
