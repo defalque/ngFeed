@@ -1,10 +1,10 @@
 @if (type() === 'for-you') {
   <a
     [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
-    class="bg-white dark:bg-zinc-950 p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
+    class="bg-white dark:bg-zinc-950 px-0 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
   >
     <img
-      [ngSrc]="(post().userAvatar) | safeAvatarUrl"
+      [ngSrc]="post().userAvatar | safeAvatarUrl"
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
       class="rounded-full w-9 h-9 col-span-1"
       (error)="$any($event.target).src = '/assets/images/default-user.avif'"
@@ -114,10 +114,10 @@
 }
 @if (type() === 'full-post') {
   <div
-    class="bg-white dark:bg-zinc-950 p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible"
+    class="bg-white dark:bg-zinc-950 px-0 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible"
   >
     <img
-      [ngSrc]="(post().userAvatar) | safeAvatarUrl"
+      [ngSrc]="post().userAvatar | safeAvatarUrl"
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
       class="rounded-full w-9 h-9 col-span-1"
       width="36"
