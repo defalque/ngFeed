@@ -58,20 +58,22 @@ export class UserPosts {
   });
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const userId = params.get('id');
-      const currentUserId = this.userService.loadedCurrentUser()?.id;
+    this.route.paramMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        const userId = params.get('id');
+        const currentUserId = this.userService.loadedCurrentUser()?.id;
 
-      if (userId === currentUserId) {
-        // Solo se i post dell'utente autenticato non sono già caricati
-        if (!this.loadedCurrentUserPosts().length) {
-          this.fetchCurrentUserPosts();
+        if (userId === currentUserId) {
+          // Solo se i post dell'utente autenticato non sono già caricati
+          if (!this.loadedCurrentUserPosts().length) {
+            this.fetchCurrentUserPosts();
+          }
+        } else if (userId) {
+          // Se è un altro utente, fetch dei suoi post
+          this.fetchGenericUserPosts(userId);
         }
-      } else if (userId) {
-        // Se è un altro utente, fetch dei suoi post
-        this.fetchGenericUserPosts(userId);
-      }
-    });
+      });
   }
 
   private fetchCurrentUserPosts() {

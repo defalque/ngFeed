@@ -82,7 +82,9 @@ export class App implements OnInit {
     const mediaQuery = window.matchMedia('(max-width: 768px)');
     this.isMobile.set(mediaQuery.matches);
 
-    mediaQuery.addEventListener('change', (e) => this.isMobile.set(e.matches));
+    const mediaHandler = (e: MediaQueryListEvent) => this.isMobile.set(e.matches);
+    mediaQuery.addEventListener('change', mediaHandler);
+    this.destroyRef.onDestroy(() => mediaQuery.removeEventListener('change', mediaHandler));
 
     effect(() => {
       const authUser = this.authService.authenticatedUser();

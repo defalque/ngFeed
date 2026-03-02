@@ -3,6 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { catchError, tap, throwError } from 'rxjs';
 import { FirebaseUser } from '../types/user.model';
 import { Router } from '@angular/router';
+import { FIREBASE_CONFIG } from '../config/firebase.config';
 
 export type AuthResponseData = {
   idToken: string; // A Firebase Auth ID token for the authenticated user.
@@ -20,6 +21,7 @@ export type AuthResponseData = {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private firebaseConfig = inject(FIREBASE_CONFIG);
   private tokenExpirationTimer: any;
 
   authenticatedUser = signal<FirebaseUser | null>(null);
@@ -31,7 +33,7 @@ export class AuthService {
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB8lGu3BskDY-nFk9w2wtw4nFOAEk98yPY',
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.firebaseConfig.apiKey}`,
         {
           email,
           password,
@@ -63,7 +65,7 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB8lGu3BskDY-nFk9w2wtw4nFOAEk98yPY',
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.firebaseConfig.apiKey}`,
         {
           email,
           password,

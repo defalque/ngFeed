@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { catchError, delay, EMPTY, map, of, switchMap, tap, throwError } from 'rxjs';
 import { EditedPost, FirebasePost, NewPost, Post } from '@/core/types/post.model';
 import { AuthService } from './auth.service';
+import { FIREBASE_CONFIG } from '../config/firebase.config';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ import { AuthService } from './auth.service';
 export class PostService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
+  private firebaseConfig = inject(FIREBASE_CONFIG);
 
   authenticatedUser = this.authService.authenticatedUser;
 
@@ -50,8 +52,9 @@ export class PostService {
   //   return this.allPosts().filter((post) => post.userId === 'user_002');
   // });
 
-  private readonly postsUrl =
-    'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json';
+  private get postsUrl() {
+    return `${this.firebaseConfig.databaseURL}/posts.json`;
+  }
 
   // fetcha tutti i post di tutti gli utenti
   fetchAllPosts() {
@@ -81,7 +84,7 @@ export class PostService {
       .get<{
         [key: string]: Post;
       }>(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?orderBy="userId"&equalTo="${userId}"`,
+        `${this.firebaseConfig.databaseURL}/posts.json?orderBy="userId"&equalTo="${userId}"`,
       )
       .pipe(
         map((res) => {
@@ -118,7 +121,7 @@ export class PostService {
   fetchPost(postId: string, isAuthUser = false) {
     return this.http
       .get<Post>(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts/${postId}.json`,
+        `${this.firebaseConfig.databaseURL}/posts/${postId}.json`,
       )
       .pipe(
         map((res) => {
@@ -147,7 +150,7 @@ export class PostService {
 
     return this.http
       .post<{ name: string }>(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/posts.json?auth=${token}`,
+        `${this.firebaseConfig.databaseURL}/posts.json?auth=${token}`,
         { userId: uid }, // necessario per superare le rules
       )
       .pipe(
@@ -175,7 +178,7 @@ export class PostService {
           // multi-location update atomico
           return this.http
             .patch(
-              `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+              `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
               updates,
             )
             .pipe(map(() => newPost));
@@ -205,7 +208,7 @@ export class PostService {
 
     return this.http
       .patch(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
         updates,
       )
       .pipe(
@@ -236,7 +239,7 @@ export class PostService {
 
     return this.http
       .patch(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
         updates,
       )
       .pipe(
@@ -266,7 +269,7 @@ export class PostService {
 
     return this.http
       .patch(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
         updates,
       )
       .pipe(
@@ -312,7 +315,7 @@ export class PostService {
 
     return this.http
       .patch(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
         updates,
       )
       .pipe(
@@ -341,7 +344,7 @@ export class PostService {
     return this.http
       .get<
         string[]
-      >(`https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/user-saved-posts/${uid}.json`)
+      >(`${this.firebaseConfig.databaseURL}/user-saved-posts/${uid}.json`)
       .pipe(
         map((res) => {
           if (!res) return [];
@@ -364,7 +367,7 @@ export class PostService {
     return this.http
       .get<
         string[]
-      >(`https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/user-liked-posts/${uid}.json`)
+      >(`${this.firebaseConfig.databaseURL}/user-liked-posts/${uid}.json`)
       .pipe(
         map((res) => {
           if (!res) return [];

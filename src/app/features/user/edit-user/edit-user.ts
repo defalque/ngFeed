@@ -2,6 +2,7 @@ import { UserService } from '@/core/services/user.service';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   OnInit,
@@ -32,6 +33,7 @@ import {
   safeAvatarUrl,
   safeAvatarUrlValidator,
 } from '@/core/utils/safe-avatar-url';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 function validUrl(control: AbstractControl) {
   if (!control.value) return null;
@@ -87,6 +89,7 @@ export class EditUser implements OnInit {
   private userService = inject(UserService);
   private modalService = inject(ModalService);
   private toastService = inject(ToastService);
+  private destroyRef = inject(DestroyRef);
 
   submitBtn = viewChild<ElementRef<HTMLButtonElement>>('submitBtn');
 
@@ -162,11 +165,7 @@ export class EditUser implements OnInit {
 
   get infoAreInvalid() {
     const info = this.reactiveForm.controls.info;
-    return (
-      info.touched &&
-      info.invalid &&
-      !!info.errors?.['valuesAreEquals']
-    );
+    return info.touched && info.invalid && !!info.errors?.['valuesAreEquals'];
   }
 
   get firstNameIsInvalid() {
@@ -259,7 +258,8 @@ export class EditUser implements OnInit {
   get avatarError(): string | null {
     const ctrl = this.reactiveForm.controls.avatar;
     if (!ctrl.errors || !this.avatarIsInvalid) return null;
-    if (ctrl.hasError('unsafeAvatarUrl')) return 'URL non consentita. Usa solo HTTPS o un percorso che inizia con /';
+    if (ctrl.hasError('unsafeAvatarUrl'))
+      return 'URL non consentita. Usa solo HTTPS o un percorso che inizia con /';
     return 'URL avatar non valida';
   }
 
@@ -274,7 +274,7 @@ export class EditUser implements OnInit {
     const ctrl = this.reactiveForm.controls.websiteUrl;
     if (!ctrl.errors || !this.websiteUrlIsInvalid) return null;
     if (ctrl.hasError('invalidUrl')) return 'Inserisci un URL valido';
-    if (ctrl.hasError('invalidProtocol')) return 'L\'URL deve usare HTTPS';
+    if (ctrl.hasError('invalidProtocol')) return "L'URL deve usare HTTPS";
     return 'URL non valida';
   }
 
@@ -394,6 +394,7 @@ export class EditUser implements OnInit {
       this.userService
         .createAuthUserInfo(newUserData)
         .pipe(
+          takeUntilDestroyed(this.destroyRef),
           finalize(() => {
             this.isEditing.set(false);
             this.modalService.closeDialog();
@@ -415,6 +416,7 @@ export class EditUser implements OnInit {
       this.userService
         .updateAuthUserInfo(newUserData)
         .pipe(
+          takeUntilDestroyed(this.destroyRef),
           finalize(() => {
             this.isEditing.set(false);
             this.modalService.closeDialog();

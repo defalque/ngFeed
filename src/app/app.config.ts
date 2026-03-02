@@ -4,9 +4,11 @@ import { provideRouter, withComponentInputBinding, withRouterConfig } from '@ang
 import { routes } from './app.routes';
 
 import { provideHttpClient } from '@angular/common/http';
+import { FIREBASE_CONFIG, defaultFirebaseConfig } from './core/config/firebase.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    { provide: FIREBASE_CONFIG, useValue: defaultFirebaseConfig },
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
     provideRouter(

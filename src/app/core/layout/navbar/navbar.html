@@ -33,19 +33,13 @@
         </button>
       </li>
 
-      <li class="py-1 flex-1 md:flex-none">
-        <button
-          (click)="redirectTo('/preferiti')"
-          [class.active]="isActive('/preferiti')"
-          class="text-zinc-400/80 w-full rounded-xl md:px-5 md:py-3 py-3 cursor-pointer flex items-center justify-center focus transition-transform active:scale-[0.92] relative z-10 group"
-          aria-label="Apri crea nuovo post form"
-        >
-          <div
-            class="bg-gray-100/55 dark:bg-zinc-800/70 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
-          ></div>
-          <lucide-icon [img]="BookmarkIcon" size="28" aria-hidden></lucide-icon>
-        </button>
-      </li>
+      <li
+        appNavbarItem
+        link="/preferiti"
+        [isActive]="isActive('/preferiti')"
+        ariaLabel="Preferiti"
+        [icon]="BookmarkIcon"
+      ></li>
 
       <li class="py-1 flex-1 md:flex-none">
         <button

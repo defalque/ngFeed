@@ -4,6 +4,7 @@ import { catchError, delay, EMPTY, finalize, map, Observable, of, tap, throwErro
 import { EditedUser, User } from '../types/user.model';
 import { AuthService } from './auth.service';
 import { PostService } from './post.service';
+import { FIREBASE_CONFIG } from '../config/firebase.config';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ export class UserService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
   private postService = inject(PostService);
+  private firebaseConfig = inject(FIREBASE_CONFIG);
   authenticatedUser = this.authService.authenticatedUser;
 
   private allUsers = signal<User[]>([]);
@@ -38,15 +40,16 @@ export class UserService {
     this.followedIds.set(value);
   }
 
-  private readonly usersUrl =
-    'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users.json';
+  private get usersUrl() {
+    return `${this.firebaseConfig.databaseURL}/users.json`;
+  }
 
   // fetcha info di utente generico
   fetchUserInfo(uid: string) {
     this.genericUser.set(null); // Clear stale data before fetching
     this.genericUserLoading.set(true);
     return this.fetchUsers(
-      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/${uid}.json?`,
+      `${this.firebaseConfig.databaseURL}/users/${uid}.json?`,
     ).pipe(
       map((res) => {
         if (!res) return null;
@@ -78,7 +81,7 @@ export class UserService {
       .get<Record<
         string,
         true
-      > | null>(`https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/user-following/${uid}.json?auth=${token}`)
+      > | null>(`${this.firebaseConfig.databaseURL}/user-following/${uid}.json?auth=${token}`)
       .pipe(
         map((res) => Object.keys(res ?? {})),
         tap((followedIds) => {
@@ -96,7 +99,7 @@ export class UserService {
     if (!uid || !token) return of(null);
 
     return this.fetchUsers(
-      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/${uid}.json?auth=${token}`,
+      `${this.firebaseConfig.databaseURL}/users/${uid}.json?auth=${token}`,
     ).pipe(
       map((res) => {
         if (!res) return null;
@@ -120,7 +123,7 @@ export class UserService {
 
     return this.http
       .put(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users/${uid}.json?auth=${token}`,
+        `${this.firebaseConfig.databaseURL}/users/${uid}.json?auth=${token}`,
         { ...userInfo, followingCount: 0, followersCount: 0 },
       )
       .pipe(
@@ -159,7 +162,7 @@ export class UserService {
 
     return this.http
       .patch(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
         updates,
       )
       .pipe(
@@ -223,7 +226,7 @@ export class UserService {
   searchUser(term: string) {
     return this.http
       .get<Record<string, User>>(
-        'https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/users.json',
+        this.usersUrl,
         {
           params: {
             orderBy: '"username"',
@@ -262,7 +265,7 @@ export class UserService {
 
     return this.http
       .patch(
-        `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/.json?auth=${token}`,
+        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
         updates,
       )
       .pipe(
@@ -292,7 +295,7 @@ export class UserService {
 
   checkUniqueUsername(username: string) {
     return this.fetchUsers(
-      `https://ngfeed-fefed-default-rtdb.europe-west1.firebasedatabase.app/usernames/${username}.json`,
+      `${this.firebaseConfig.databaseURL}/usernames/${username}.json`,
     ).pipe(
       map((res) => {
         return res !== null;

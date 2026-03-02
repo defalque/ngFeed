@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
 import { Home } from './features/home/home';
 import { homeRoutes } from './features/home/home.routes';
 
@@ -18,6 +19,7 @@ export const routes: Routes = [
     path: 'preferiti',
     loadComponent: () => import('./features/favorites/favorites').then((mod) => mod.Favorites),
     title: 'ngFeed - Preferiti',
+    canActivate: [authGuard],
   },
   {
     path: 'utente/:id',
