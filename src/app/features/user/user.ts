@@ -28,6 +28,7 @@ import { AuthService } from '@/core/services/auth.service';
 import { ToastService } from '@/core/services/toast.service';
 import { Button } from '@/shared/components/button/button';
 import { EmptyWrapper } from '@/shared/components/empty-wrapper/empty-wrapper';
+import { DEFAULT_AVATAR_PATH, safeAvatarUrl } from '@/core/utils/safe-avatar-url';
 
 @Component({
   selector: 'app-user',
@@ -72,8 +73,8 @@ export class User {
 
   avatarError = signal(false);
   avatarSrc = computed(() => {
-    if (this.avatarError()) return '/assets/images/default-user.avif';
-    return this.user()?.avatar || '/assets/images/default-user.avif';
+    if (this.avatarError()) return DEFAULT_AVATAR_PATH;
+    return safeAvatarUrl(this.user()?.avatar);
   });
 
   isFetching = signal(false);

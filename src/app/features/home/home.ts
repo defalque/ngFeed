@@ -5,10 +5,11 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
 import { Button } from '@/shared/components/button/button';
+import { SafeAvatarUrlPipe } from '@/shared/pipes/safe-avatar-url.pipe';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgOptimizedImage, Button],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgOptimizedImage, Button, SafeAvatarUrlPipe],
   templateUrl: './home.html',
   styleUrl: './home.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

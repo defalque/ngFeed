@@ -18,10 +18,11 @@ import { finalize } from 'rxjs';
 import { NgOptimizedImage } from '@angular/common';
 import { ToastService } from '@/core/services/toast.service';
 import { Button } from '@/shared/components/button/button';
+import { SafeAvatarUrlPipe } from '@/shared/pipes/safe-avatar-url.pipe';
 
 @Component({
   selector: 'li[appUserCard]',
-  imports: [RouterLink, VerifiedIcon, NgOptimizedImage, Button],
+  imports: [RouterLink, VerifiedIcon, NgOptimizedImage, Button, SafeAvatarUrlPipe],
   templateUrl: './user-card.html',
   styleUrl: './user-card.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

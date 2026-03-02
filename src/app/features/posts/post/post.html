@@ -4,7 +4,7 @@
     class="bg-white dark:bg-zinc-950 p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
   >
     <img
-      [ngSrc]="post().userAvatar || '/assets/images/default-user.avif'"
+      [ngSrc]="(post().userAvatar) | safeAvatarUrl"
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
       class="rounded-full w-9 h-9 col-span-1"
       (error)="$any($event.target).src = '/assets/images/default-user.avif'"
@@ -117,9 +117,11 @@
     class="bg-white dark:bg-zinc-950 p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible"
   >
     <img
-      [src]="post().userAvatar || '/assets/images/default-user.avif'"
+      [ngSrc]="(post().userAvatar) | safeAvatarUrl"
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
       class="rounded-full w-9 h-9 col-span-1"
+      width="36"
+      height="36"
       priority
     />
 

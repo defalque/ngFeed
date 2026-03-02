@@ -5,10 +5,19 @@ import { PostActions } from '@/features/posts/post-actions/post-actions';
 import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { PostOptions } from '../post-options/post-options';
 import { NgOptimizedImage, SlicePipe } from '@angular/common';
+import { SafeAvatarUrlPipe } from '@/shared/pipes/safe-avatar-url.pipe';
 
 @Component({
   selector: 'app-post',
-  imports: [RouterLink, PostActions, PostOptions, VerifiedIcon, NgOptimizedImage, SlicePipe],
+  imports: [
+    RouterLink,
+    PostActions,
+    PostOptions,
+    VerifiedIcon,
+    NgOptimizedImage,
+    SlicePipe,
+    SafeAvatarUrlPipe,
+  ],
   templateUrl: './post.html',
   styleUrl: './post.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

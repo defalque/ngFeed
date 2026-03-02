@@ -1,5 +1,5 @@
 <img
-  [ngSrc]="user().avatar || '/assets/images/default-user.avif'"
+  [ngSrc]="user().avatar | safeAvatarUrl"
   [alt]="'Avatar di ' + user().firstName + ' ' + user().lastName"
   class="rounded-full w-full h-full"
   (error)="$any($event.target).src = '/assets/images/default-user.avif'"

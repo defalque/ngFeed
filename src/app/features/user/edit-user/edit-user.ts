@@ -27,6 +27,11 @@ import { NgOptimizedImage } from '@angular/common';
 import { ToastService } from '@/core/services/toast.service';
 import { Button } from '@/shared/components/button/button';
 import { Loader } from '@/shared/components/loader/loader';
+import {
+  DEFAULT_AVATAR_PATH,
+  safeAvatarUrl,
+  safeAvatarUrlValidator,
+} from '@/core/utils/safe-avatar-url';
 
 function validUrl(control: AbstractControl) {
   if (!control.value) return null;
@@ -110,7 +115,7 @@ export class EditUser implements OnInit {
       updateOn: 'blur',
     }),
     avatar: new FormControl('', {
-      validators: [validUrl],
+      validators: [safeAvatarUrlValidator()],
     }),
     bio: new FormControl('', {
       validators: [Validators.minLength(2)],
@@ -200,10 +205,8 @@ export class EditUser implements OnInit {
 
   get avatarUrl(): string {
     const value = this.reactiveForm.controls.avatar.value;
-    const defaultAvatar = '/assets/images/default-user.avif';
-
-    // Mostra l'avatar inserito solo se il campo è valido e non vuoto
-    return value && !this.avatarIsInvalid ? value : defaultAvatar;
+    // Mostra l'avatar inserito solo se il campo è valido e non vuoto; sempre sanitizzato
+    return value && !this.avatarIsInvalid ? safeAvatarUrl(value) : DEFAULT_AVATAR_PATH;
   }
 
   get bioIsInvalid() {
@@ -256,8 +259,7 @@ export class EditUser implements OnInit {
   get avatarError(): string | null {
     const ctrl = this.reactiveForm.controls.avatar;
     if (!ctrl.errors || !this.avatarIsInvalid) return null;
-    if (ctrl.hasError('invalidUrl')) return 'Inserisci un URL valido';
-    if (ctrl.hasError('invalidProtocol')) return 'L\'URL deve usare HTTPS';
+    if (ctrl.hasError('unsafeAvatarUrl')) return 'URL non consentita. Usa solo HTTPS o un percorso che inizia con /';
     return 'URL avatar non valida';
   }
 
@@ -373,11 +375,12 @@ export class EditUser implements OnInit {
       });
     }
 
+    const rawAvatar = this.reactiveForm.controls.avatar.value?.trim();
     const newUserData: EditedUser = {
       firstName: this.reactiveForm.controls.info.controls.firstName.value!,
       lastName: this.reactiveForm.controls.info.controls.lastName.value!,
       username: this.reactiveForm.controls.username.value!,
-      avatar: this.reactiveForm.controls.avatar.value!,
+      avatar: rawAvatar ? safeAvatarUrl(rawAvatar) : '',
       bio: this.reactiveForm.controls.bio.value!,
       websiteUrl: this.reactiveForm.controls.websiteUrl.value!,
       location: this.reactiveForm.controls.location.value!,

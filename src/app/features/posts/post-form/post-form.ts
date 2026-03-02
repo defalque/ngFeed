@@ -27,6 +27,7 @@ import { UserService } from '@/core/services/user.service';
 import { ToastService } from '@/core/services/toast.service';
 import { Button } from '@/shared/components/button/button';
 import { Loader } from '@/shared/components/loader/loader';
+import { safeAvatarUrl } from '@/core/utils/safe-avatar-url';
 
 @Component({
   selector: 'app-post-form',
@@ -199,7 +200,7 @@ export class PostForm {
         userFirstName: this.userService.loadedCurrentUser()!.firstName,
         userLastName: this.userService.loadedCurrentUser()!.lastName,
         userIsVerified: this.userService.loadedCurrentUser()!.isVerified,
-        userAvatar: this.userService.loadedCurrentUser()!.avatar,
+        userAvatar: safeAvatarUrl(this.userService.loadedCurrentUser()!.avatar),
       };
       this.reactiveForm.disable();
 
