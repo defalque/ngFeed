@@ -24,7 +24,9 @@
   <div
     class="max-w-3xl mx-auto bg-white dark:bg-zinc-950 flex flex-col divide-y divide-gray-200 w-full px-0 md:px-2 pt-4 overflow-hidden"
   >
-    <div class="flex items-center gap-3 border-b border-gray-300/50 dark:border-zinc-800/50 p-4">
+    <div
+      class="flex items-center gap-3 border-b border-gray-300/50 dark:border-zinc-800/50 px-1 py-4 sm:p-4"
+    >
       <div
         class="flex items-center gap-2 flex-1"
         role="button"
@@ -34,7 +36,7 @@
         (keydown.space)="openDialog('create', null)"
       >
         <img
-          [ngSrc]="(currentUser()?.avatar) | safeAvatarUrl"
+          [ngSrc]="currentUser()?.avatar | safeAvatarUrl"
           [alt]="'Avatar di ' + currentUser()?.firstName + ' ' + currentUser()?.lastName"
           width="36"
           height="36"
