@@ -70,6 +70,44 @@ body.modal-open {
   );
 }
 
+:root {
+  --autofill-bg: white;
+  --autofill-text: black;
+}
+
+html.dark {
+  --autofill-bg: #18181b;
+  --autofill-text: #f4f4f5;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input:autofill {
+  -webkit-box-shadow: inset 0 0 0 1000px var(--autofill-bg) !important;
+  box-shadow: inset 0 0 0 1000px var(--autofill-bg) !important;
+  -webkit-text-fill-color: var(--autofill-text) !important;
+  caret-color: var(--autofill-text) !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+html.dark input:-webkit-autofill,
+html.dark input:-webkit-autofill:hover,
+html.dark input:-webkit-autofill:focus,
+html.dark input:-webkit-autofill:active,
+html.dark input:autofill {
+  -webkit-box-shadow: inset 0 0 0 1000px #18181b !important;
+  box-shadow: inset 0 0 0 1000px #18181b !important;
+  -webkit-text-fill-color: #f4f4f5 !important;
+  caret-color: #f4f4f5 !important;
+}
+
+input:-webkit-autofill:not(:focus-visible),
+input:autofill:not(:focus-visible) {
+  outline: none !important;
+}
+
 @keyframes slideUp {
   to {
     transform: translateY(0);

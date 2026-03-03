@@ -33,10 +33,6 @@
       name="password"
       autocomplete="current-password"
       class="w-full rounded-xl p-2 border border-gray-300/80 focus dark:border-zinc-800/80 dark:bg-zinc-900 dark:text-zinc-100"
-      ngModel
-      required
-      minlength="6"
-      [disabled]="isLoading()"
     />
 
     @if (passwordVisible()) {

@@ -18,6 +18,7 @@ import { Error } from './core/pages/error/error';
 import { ToastContainer } from './shared/components/toast/toast-container/toast-container';
 import { ToastService } from './core/services/toast.service';
 import { ThemeService } from './core/services/theme.service';
+import { Loader } from './shared/components/loader/loader';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +35,7 @@ import { ThemeService } from './core/services/theme.service';
     Error,
     ToastContainer,
     RouterLink,
+    Loader,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
