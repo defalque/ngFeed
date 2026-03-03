@@ -39,8 +39,10 @@ export class Auth {
     this.error.set('');
     if (formData.invalid) return;
 
-    const email = formData.value.email.trim();
-    const password = formData.value.password.trim();
+    const email = (formData.value.email ?? '').trim();
+    const password = (formData.value.password ?? '').trim();
+
+    if (!email || !password) return;
 
     let authObs: Observable<AuthResponseData>;
 

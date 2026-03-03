@@ -35,7 +35,6 @@ import { Loader } from './shared/components/loader/loader';
     Error,
     ToastContainer,
     RouterLink,
-    Loader,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
