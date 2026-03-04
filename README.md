@@ -4,16 +4,17 @@ Applicazione frontend moderna di feed social ispirata a Threads, realizzata con 
 
 ## Funzionalità
 
-| Funzionalità       | Posizione                        | Descrizione                                                                                                         |
-| ------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| **Autenticazione** | `features/auth/`                 | Firebase Auth, login/registrazione, toggle visibilità password, auto-login da localStorage, gestione scadenza token |
-| **Post**           | `features/posts/`                | Creazione, modifica, eliminazione, like, salvataggio, commenti, vista post completo, menu opzioni                   |
-| **Profili utente** | `features/user/`                 | Visualizzazione profilo, modifica profilo, tab post/repost, segui/smetti di seguire, card utente                    |
-| **Feed home**      | `features/home/`                 | Feed Per te (tutti i post), Feed Seguiti (lazy loaded), navigazione a tab                                           |
-| **Ricerca**        | `features/search/`               | Ricerca utenti con input debounced, filtro verificati, ordinamento per più seguiti                                  |
-| **Preferiti**      | `features/favorites/`            | Visualizzazione post salvati                                                                                        |
-| **Tema**           | `core/services/theme.service.ts` | Modalità chiaro/scuro/sistema, persistenza in localStorage, script anti-flash in `index.html`                       |
-| **Modal e Toast**  | `core/services/`                 | Modal centralizzato (crea/modifica/elimina/modifica-utente), notifiche toast                                        |
+| Funzionalità       | Posizione                        | Descrizione                                                                                                           |
+| ------------------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **Autenticazione** | `features/auth/`                 | Firebase Auth, login/registrazione, toggle visibilità password, auto-login da localStorage, gestione scadenza token   |
+| **Post**           | `features/posts/`                | Creazione, modifica, eliminazione, like, salvataggio, commenti, vista post completo, menu opzioni                     |
+| **Profili utente** | `features/user/`                 | Visualizzazione profilo, modifica profilo, tab post/repost, segui/smetti di seguire, card utente                      |
+| **Feed home**      | `features/home/`                 | Feed Per te (tutti i post), Feed Seguiti (lazy loaded), navigazione a tab                                             |
+| **Ricerca**        | `features/search/`               | Ricerca utenti con input debounced, filtro verificati, ordinamento per più seguiti                                    |
+| **Preferiti**      | `features/favorites/`            | Visualizzazione post salvati                                                                                          |
+| **Tema**           | `core/services/theme.service.ts` | Modalità chiaro/scuro/sistema, persistenza in localStorage, script anti-flash in `index.html`                         |
+| **Modal e Toast**  | `core/services/`                 | Modal centralizzato (crea-post/modifica-post/elimina-post/modifica-utente), notifiche toast                           |
+| **Layout**         | `app.html`, `core/layout/`       | Header visibile solo su mobile; navbar sempre visibile; skip link "Vai al contenuto"; stati fetching/errore con retry |
 
 ## Architettura e pattern
 
@@ -23,7 +24,7 @@ Applicazione frontend moderna di feed social ispirata a Threads, realizzata con 
 - **Lazy loading** – Le route Search, Favorites, Followed, Auth, User, FullPost, NotFound sono caricate in modo lazy
 - **Dependency injection** – Funzione `inject()`, `providedIn: 'root'` per i servizi
 - **Cleanup** – `DestroyRef` con `takeUntilDestroyed()` per la pulizia delle sottoscrizioni
-- **Struttura cartelle** – `core/` (layout, services, types, pages), `features/`, `shared/`
+- **Struttura cartelle** – `core/` (config, guards, layout, services, types, utils, pages), `features/`, `shared/` (components, directives, pipes)
 
 ## Accessibilità
 
@@ -38,14 +39,15 @@ Applicazione frontend moderna di feed social ispirata a Threads, realizzata con 
 Questo è un **progetto orientato al frontend** – nessun codice server-side. Tutti i dati risiedono su Firebase.
 
 - **Firebase Authentication** – REST API Identity Toolkit (`signUp`, `signInWithPassword`)
-- **Firebase Realtime Database** – REST API per post, utenti, post salvati/mi piace, following. Le regole sono intenzionalmente permissive per lo sviluppo; da restringere in produzione.
-- **Flusso auth** – Token salvato in localStorage, passato come query param `?auth=${token}`, auto-login all'avvio, auto-logout alla scadenza
+- **Firebase Realtime Database** – REST API per post, utenti, post salvati/mi piace, following. Le regole sono intenzionalmente permissive per lo sviluppo; da restringere in produzione reale.
+- **Configurazione Firebase** – Config centralizzata in `core/config/firebase.config.ts` con `FIREBASE_CONFIG` (InjectionToken), fornita in `app.config.ts`
+- **Flusso auth** – Token Firebase salvato in localStorage; auto-login all'avvio e auto-logout alla scadenza. _Nota:_ localStorage è accessibile da JavaScript e quindi esposto a XSS; in produzione reale si può valutare l'uso di cookie HttpOnly con refresh token per mitigare il rischio.
 - **Caricamento dati** – `forkJoin` in `app.ts` per il fetch parallelo iniziale di post, info utente e dati correlati
 - **Pattern RxJS** – `switchMap` (debounce), `catchError`, `tap`, `takeUntilDestroyed`, `finalize`
 
 _I conteggi di like e follow non sono aggregati né persistiti lato server – richiederebbero Cloud Functions o logica server simile. L'app si concentra solo sulle funzionalità client-side._
 
-_Nota: URL Firebase e API key sono configurati nei servizi. Sarebbe da valutare l'uso di variabili d'ambiente in produzione._
+_Nota: URL Firebase e API key sono in `core/config/firebase.config.ts`. Sarebbe da valutare l'uso di variabili d'ambiente in produzione reale._
 
 ## Tech Stack
 
@@ -62,26 +64,30 @@ _Nota: URL Firebase e API key sono configurati nei servizi. Sarebbe da valutare 
 ```
 src/app/
 ├── core/                    # Logica core dell'applicazione
-│   ├── layout/              # Navbar, header
+│   ├── config/              # Configurazione (Firebase)
+│   ├── guards/              # Auth guard
+│   ├── layout/              # Header (mobile), navbar
 │   ├── pages/               # Pagine errore (not-found, error)
 │   ├── services/            # Auth, post, user, modal, toast, theme
-│   └── types/               # Modelli user e post
+│   ├── types/               # Modelli user e post
+│   └── utils/               # Utility (safe-avatar-url)
 ├── features/                # Moduli funzionali
 │   ├── auth/                # Autenticazione
-│   ├── favorites/          # Post salvati
-│   ├── home/                # Feed Per te e Seguiti
+│   ├── favorites/           # Post salvati
+│   ├── home/                # Feed Per te e Seguiti (wrapper con tab)
 │   ├── posts/               # CRUD post, visualizzazione, azioni
 │   ├── search/              # Ricerca utenti
 │   └── user/                # Profilo, modifica, follow
-├── shared/                  # Componenti e direttive riutilizzabili
+├── shared/                  # Componenti, direttive e pipe riutilizzabili
 │   ├── components/          # Button, modal, loader, toast, dropdown, skeletons, ecc.
-│   └── directives/          # click-outside, focus-field
+│   ├── directives/          # click-outside, focus-field
+│   └── pipes/               # safe-avatar-url
 └── app.ts                   # Componente root
 ```
 
 ## Routing
 
-Le route sono definite in `app.routes.ts` con lazy loading per Search, Favorites, User, FullPost, Followed e NotFound. Il layout principale (`Home`) ospita i tab Per te e Seguiti come route figlie.
+Le route sono definite in `app.routes.ts`. `Home` è il layout principale con route figlie (`home.routes.ts`): Per te e Seguiti. Lazy loading per Search, Favorites, User, FullPost, Followed e NotFound.
 
 | Path                        | Componente | Lazy | Descrizione                                |
 | --------------------------- | ---------- | ---- | ------------------------------------------ |
@@ -89,15 +95,15 @@ Le route sono definite in `app.routes.ts` con lazy loading per Search, Favorites
 | `/per-te`                   | ForYou     | No   | Feed "Per te" (tutti i post)               |
 | `/seguiti`                  | Followed   | Sì   | Feed "Seguiti" (post degli utenti seguiti) |
 | `/cerca`                    | Search     | Sì   | Ricerca utenti                             |
-| `/preferiti`                | Favorites  | Sì   | Post salvati                               |
-| `/utente/:id`               | User       | Sì   | Profilo utente (tab post/repost)           |
+| `/preferiti`                | Favorites  | Sì   | Post salvati (protetta da auth guard)      |
+| `/utente/:id`               | User       | Sì   | Profilo utente; redirect a `posts`         |
 | `/utente/:id/posts`         | UserPosts  | No   | Tab post del profilo                       |
 | `/utente/:id/repost`        | UserPosts  | No   | Tab repost del profilo                     |
 | `/utente/:id/posts/:postId` | FullPost   | Sì   | Vista singolo post                         |
 | `/auth`                     | Auth       | Sì   | Login e registrazione                      |
 | `**`                        | NotFound   | Sì   | Pagina 404                                 |
 
-**Configurazione:** `provideRouter(routes, withComponentInputBinding())` in `app.config.ts` – i parametri di route sono esposti come input dei componenti.
+**Configurazione:** `provideRouter(routes, withComponentInputBinding(), withRouterConfig({ paramsInheritanceStrategy: 'always' }))` in `app.config.ts` – i parametri di route sono esposti come input dei componenti e ereditati dalle route parent.
 
 ## Sviluppo
 
@@ -115,15 +121,29 @@ npm install
 ### Avvio server
 
 ```bash
-ng serve
+npx ng serve
+# oppure
+npm start
 ```
 
-Apri `http://localhost:4200/`. L'app si ricarica automaticamente alle modifiche.
+Apri `http://localhost:4200/`. L'app si ricarica automaticamente alle modifiche (hot reload).
+
+### Avvio senza hot reload
+
+Se desideri avviare il server **senza hot reload** (disabilitando HMR, hot module replacement) — ad esempio per debug, profiling o in ambienti dove il live reload causa problemi — puoi usare il flag `--no-hmr`:
+
+```bash
+npx ng serve --no-hmr
+```
+
+Questo avvia il server senza aggiornare automaticamente la pagina alle modifiche dei file sorgente.
 
 ### Build
 
 ```bash
-ng build
+npx ng build
+# oppure
+npm run build
 ```
 
 L'output è in `dist/`. Le build di produzione sono ottimizzate di default.
@@ -131,10 +151,12 @@ L'output è in `dist/`. Le build di produzione sono ottimizzate di default.
 ### Test
 
 ```bash
-ng test
+npx ng test --watch=false
+# oppure
+npm test
 ```
 
-I test unitari usano [Vitest](https://vitest.dev/). Esistono spec per: auth, button, loader, not-found, verified-icon, empty-wrapper, user, feed-skeleton.
+I test unitari usano [Vitest](https://vitest.dev/). Esistono spec per: auth, button, loader, not-found, verified-icon, empty-wrapper, user, feed-skeleton, post, theme.
 
 ## Risorse aggiuntive
 
