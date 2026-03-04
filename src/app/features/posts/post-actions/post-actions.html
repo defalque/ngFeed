@@ -1,12 +1,12 @@
 <button
   (click)="onLikePostClick($event)"
-  class="hover:bg-red-100/55 dark:hover:bg-red-500/20 rounded-full p-2 cursor-pointer flex items-center gap-1 focus active:scale-[0.92] transition-all duration-150 group"
+  class="hover:bg-red-100/55 dark:hover:bg-red-500/20 rounded-full p-2 cursor-pointer flex items-center gap-1 focus active:scale-[0.92] transition-transform duration-150 group"
   aria-label="Mi piace del post"
 >
   <lucide-icon
     [img]="HeartIcon"
     size="20"
-    class="group-hover:text-red-500! transition-all duration-150 {{
+    class="group-hover:text-red-500!  {{
       isLikedPost() ? 'text-red-500! fill-red-500!' : 'text-black! dark:text-white!'
     }}"
     aria-hidden
@@ -14,13 +14,13 @@
   <!-- <span class="text-sm text-black">{{ likesCount() }}</span> -->
 </button>
 <button
-  class="hover:bg-sky-100/55 dark:hover:bg-sky-500/10 transition-all duration-150 group rounded-full p-2 cursor-pointer flex items-center gap-1 focus group"
+  class="hover:bg-sky-100/55 dark:hover:bg-sky-500/10 transition-transform duration-150 group rounded-full p-2 cursor-pointer flex items-center gap-1 focus group"
   aria-label="Commenti del post"
 >
   <lucide-icon
     [img]="MessageCircleIcon"
     size="18"
-    class="group-hover:text-sky-500! text-black! dark:text-white! transition-all duration-150"
+    class="group-hover:text-sky-500! text-black! dark:text-white!"
     aria-hidden
   ></lucide-icon>
   <span class="text-sm text-black dark:text-white! group-hover:text-sky-500!">{{
@@ -28,13 +28,13 @@
   }}</span>
 </button>
 <button
-  class="hover:bg-green-100/55 dark:hover:bg-green-500/10 transition-all duration-150 group rounded-full p-2 cursor-pointer focus group"
+  class="hover:bg-green-100/55 dark:hover:bg-green-500/10 transition-transform duration-150 group rounded-full p-2 cursor-pointer focus group"
   aria-label="Reposta il post"
 >
   <lucide-icon
     [img]="RefreshCcw"
     size="18"
-    class="text-black! dark:text-white! group-hover:text-green-500! transition-all duration-150"
+    class="text-black! dark:text-white! group-hover:text-green-500!"
     aria-hidden
   ></lucide-icon>
 </button>

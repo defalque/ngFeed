@@ -18,9 +18,18 @@
     </div>
   } @else {
     <div [inert]="dialogState().active">
+      <a
+        href="#main-content"
+        (click)="skipToMain($event)"
+        class="fixed left-1/2 -translate-x-1/2 md:translate-x-0 top-2 md:top-4 md:left-2 z-10000 px-4 py-3 rounded-lg bg-black dark:bg-white text-white dark:text-black font-medium opacity-0 focus-visible:opacity-100 focus-visible:pointer-events-auto pointer-events-none select-none transition-opacity duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white"
+        >Vai al contenuto</a
+      >
+
       @defer (when isMobile()) {
         <app-header />
       }
+
+      <app-navbar />
 
       @defer (when !isAuthenticated()) {
         <a
@@ -31,9 +40,9 @@
         >
       }
 
-      <app-navbar />
-
       <main
+        id="main-content"
+        tabindex="-1"
         class="w-full flex flex-1 flex-col items-center pt-16 md:pt-0 pl-2 md:pl-30 pr-2 lg:pr-30"
       >
         <router-outlet />

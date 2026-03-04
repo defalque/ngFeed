@@ -154,6 +154,14 @@ export class App implements OnInit {
   /** Riprova il fetch dei dati iniziali (usato dalla pagina di errore) */
   retryInitialData = () => this.fetchInitialData();
 
+  /** Skip link: scrolla e mette focus sul main; il Tab successivo va al primo focusabile dentro */
+  skipToMain(event: Event) {
+    event.preventDefault();
+    const main = document.getElementById('main-content');
+    main?.scrollIntoView({ behavior: 'smooth' });
+    (main as HTMLElement)?.focus();
+  }
+
   readonly HomeIcon = HouseIcon;
   readonly SearchIcon = SearchIcon;
   readonly HeartIcon = HeartIcon;

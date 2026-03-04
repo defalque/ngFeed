@@ -22,7 +22,6 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { ModalService } from '@/core/services/modal.service';
 import { AuthService } from '@/core/services/auth.service';
 import { EditedUser } from '@/core/types/user.model';
-// import { Router } from '@angular/router';
 import { FocusField } from '@/shared/directives/focus-field.directive';
 import { NgOptimizedImage } from '@angular/common';
 import { ToastService } from '@/core/services/toast.service';
@@ -84,7 +83,6 @@ function requiredRadioSelection(control: AbstractControl) {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditUser implements OnInit {
-  // private router = inject(Router);
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
