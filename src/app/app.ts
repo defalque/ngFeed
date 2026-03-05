@@ -1,10 +1,10 @@
-import { Component, computed, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { LucideAngularModule, HouseIcon, UserIcon, SearchIcon, HeartIcon } from 'lucide-angular';
 import { Navbar } from './core/layout/navbar/navbar';
 import { Header } from './core/layout/header/header';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, finalize, forkJoin, of } from 'rxjs';
+import { catchError, finalize, forkJoin, of, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Modal } from './shared/components/modal/modal';
 import { ModalService } from './core/services/modal.service';
 import { DeletePost } from './features/user/delete-post/delete-post';
@@ -18,7 +18,7 @@ import { Error } from './core/pages/error/error';
 import { ToastContainer } from './shared/components/toast/toast-container/toast-container';
 import { ToastService } from './core/services/toast.service';
 import { ThemeService } from './core/services/theme.service';
-import { Loader } from './shared/components/loader/loader';
+import { Post } from './core/types/post.model';
 
 @Component({
   selector: 'app-root',
@@ -39,7 +39,7 @@ import { Loader } from './shared/components/loader/loader';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App implements OnInit {
+export class App {
   private authService = inject(AuthService);
   private postService = inject(PostService);
   private userService = inject(UserService);
@@ -54,8 +54,11 @@ export class App implements OnInit {
   toasts = computed(() => this.toastService.toasts());
 
   isFetching = signal(false);
-  /** Set when critical fetch fails; triggers error page display */
+  /** Impostato quando il fetch critico fallisce; mostra la pagina di errore */
   errorState = signal<boolean>(false);
+
+  /** L'emissione annulla qualsiasi fetch in corso (nuovo fetch o distruzione del componente) */
+  private fetchAbort$ = new Subject<void>();
 
   /** State del dialog della modale */
   dialogState = this.modalService.dialogState;
@@ -87,12 +90,19 @@ export class App implements OnInit {
     mediaQuery.addEventListener('change', mediaHandler);
     this.destroyRef.onDestroy(() => mediaQuery.removeEventListener('change', mediaHandler));
 
-    effect(() => {
-      const authUser = this.authService.authenticatedUser();
+    this.destroyRef.onDestroy(() => {
+      this.fetchAbort$.next();
+      this.fetchAbort$.complete();
+    });
 
+    // Eseguito prima dell'effect così il primo run vede lo stato auth corretto (nessun doppio fetch).
+    this.authService.autoLogin();
+
+    effect(() => {
       // I post iniziali devono essere sempre caricati, anche senza utente autenticato.
       this.fetchInitialData();
 
+      const authUser = this.authService.authenticatedUser();
       if (!authUser) {
         this.postService.setAuthUserPosts([]);
         this.postService.setUserPost(null);
@@ -101,39 +111,42 @@ export class App implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.authService.autoLogin();
-  }
-
   /** Metodo centralizzato per il fetch dei dati iniziali */
   fetchInitialData() {
+    this.fetchAbort$.next(); // Annulla qualsiasi fetch in corso prima di avviarne uno nuovo
+
     const authUser = this.authService.authenticatedUser();
     this.errorState.set(false);
     this.isFetching.set(true);
 
+    const authDependent$ = authUser
+      ? {
+          userInfo: this.userService.fetchAuthUserInfo().pipe(catchError(() => of(null))),
+          currentUserPosts: this.postService
+            .fetchPostsByUser(authUser.localId, true)
+            .pipe(catchError(() => of([]))),
+          followedIds: this.userService.fetchFollowedIds().pipe(catchError(() => of([]))),
+          savedPostsIds: this.postService.fetchSavedPostsIds().pipe(catchError(() => of([]))),
+          likedPostsIds: this.postService.fetchLikedPostsIds().pipe(catchError(() => of([]))),
+        }
+      : {
+          userInfo: of(null),
+          currentUserPosts: of([] as Post[]),
+          followedIds: of([] as string[]),
+          savedPostsIds: of([] as string[]),
+          likedPostsIds: of([] as string[]),
+        };
+
     forkJoin({
-      posts: this.postService.fetchAllPosts(), // No catchError: mostro l'errore nella pagina di errore
-      userInfo: this.userService.fetchAuthUserInfo().pipe(catchError(() => of(null))),
-      currentUserPosts: this.postService
-        .fetchPostsByUser(authUser?.localId || '', true)
-        .pipe(catchError(() => of([]))),
-      followedIds: this.userService.fetchFollowedIds().pipe(catchError(() => of([]))),
-      savedPostsIds: this.postService.fetchSavedPostsIds().pipe(catchError(() => of([]))),
-      likedPostsIds: this.postService.fetchLikedPostsIds().pipe(catchError(() => of([]))),
+      posts: this.postService.fetchAllPosts(),
+      ...authDependent$,
     })
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
+        takeUntil(this.fetchAbort$), // Ultimo: annulla l'intera chain quando fetchAbort$ emette
       )
       .subscribe({
-        next: ({
-          posts,
-          userInfo,
-          currentUserPosts,
-          followedIds,
-          savedPostsIds,
-          likedPostsIds,
-        }) => {
+        next: ({ userInfo }) => {
           if (authUser && !userInfo) {
             this.toastService.show(
               'Ti invitiamo a completare il tuo profilo per iniziare a utilizzare ngFeed al meglio',
@@ -141,7 +154,7 @@ export class App implements OnInit {
             );
           }
         },
-        error: (err) => {
+        error: () => {
           this.toastService.show(
             'Errore durante il caricamento dei dati. Riprova più tardi.',
             'error',

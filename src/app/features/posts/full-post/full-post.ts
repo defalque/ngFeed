@@ -129,8 +129,8 @@ export class FullPost implements OnInit {
     this.postService
       .fetchPost(this.postId(), true)
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: (post) => {
@@ -149,8 +149,8 @@ export class FullPost implements OnInit {
     this.postService
       .fetchPostsByUser(userId, false)
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: (posts) => {

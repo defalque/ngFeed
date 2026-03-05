@@ -41,12 +41,12 @@ export class DeletePost {
     this.postService
       .deletePost(this.modalService.dialogState().id!)
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.isDeleting.set(false);
           this.modalService.isBusy.set(false);
           this.modalService.closeDialog();
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         error: (err) => {

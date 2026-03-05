@@ -63,11 +63,11 @@ export class UserCard {
       this.userService
         .followAction(this.user().id, 'follow')
         .pipe(
-          takeUntilDestroyed(this.destroyRef),
           finalize(() => {
             this.isFollowing.set(false);
             this.followActionPendingChange.emit(false);
           }),
+          takeUntilDestroyed(this.destroyRef),
         )
         .subscribe({
           error: (error: Error) => {

@@ -392,12 +392,12 @@ export class EditUser implements OnInit {
       this.userService
         .createAuthUserInfo(newUserData)
         .pipe(
-          takeUntilDestroyed(this.destroyRef),
           finalize(() => {
             this.isEditing.set(false);
             this.modalService.closeDialog();
             this.reactiveForm.enable();
           }),
+          takeUntilDestroyed(this.destroyRef),
         )
         .subscribe({
           next: () => {
@@ -414,12 +414,12 @@ export class EditUser implements OnInit {
       this.userService
         .updateAuthUserInfo(newUserData)
         .pipe(
-          takeUntilDestroyed(this.destroyRef),
           finalize(() => {
             this.isEditing.set(false);
             this.modalService.closeDialog();
             this.reactiveForm.enable();
           }),
+          takeUntilDestroyed(this.destroyRef),
         )
         .subscribe({
           next: () => {

@@ -111,11 +111,11 @@ export class PostOptions {
         this.postService
           .savePostAction(this.id(), 'unsave')
           .pipe(
-            takeUntilDestroyed(this.destroyRef),
             finalize(() => {
               this.isSavingPost.set(false);
               this.toggleOptionsOpen();
             }),
+            takeUntilDestroyed(this.destroyRef),
           )
           .subscribe({
             next: () => {
@@ -131,11 +131,11 @@ export class PostOptions {
         this.postService
           .savePostAction(this.id(), 'save')
           .pipe(
-            takeUntilDestroyed(this.destroyRef),
             finalize(() => {
               this.isSavingPost.set(false);
               this.toggleOptionsOpen();
             }),
+            takeUntilDestroyed(this.destroyRef),
           )
           .subscribe({
             next: () => {

@@ -55,10 +55,10 @@ export class Auth {
 
     authObs
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.isLoading.set(false);
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: () => {

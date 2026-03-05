@@ -115,8 +115,8 @@ export class User {
     this.userService
       .fetchAuthUserInfo()
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         error: (error: unknown) => {
@@ -134,8 +134,8 @@ export class User {
     this.userService
       .fetchUserInfo(userId)
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: (user) => {
@@ -175,8 +175,8 @@ export class User {
         this.userService
           .followAction(this.id(), 'unfollow')
           .pipe(
-            takeUntilDestroyed(this.destroyRef),
             finalize(() => this.isFollowing.set(false)),
+            takeUntilDestroyed(this.destroyRef),
           )
           .subscribe({
             error: (error: Error) => {
@@ -188,8 +188,8 @@ export class User {
         this.userService
           .followAction(this.id(), 'follow')
           .pipe(
-            takeUntilDestroyed(this.destroyRef),
             finalize(() => this.isFollowing.set(false)),
+            takeUntilDestroyed(this.destroyRef),
           )
           .subscribe({
             error: (error: Error) => {

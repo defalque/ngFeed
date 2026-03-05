@@ -237,23 +237,23 @@ export class PostForm {
 
   private addPost(post: NewPost) {
     return this.postService.createPost(post).pipe(
-      takeUntilDestroyed(this.destroyRef),
       finalize(() => {
         this.isWorking.set(false);
         this.modalService.isBusy.set(false);
         this.modalService.closeDialog();
       }),
+      takeUntilDestroyed(this.destroyRef),
     );
   }
 
   private editPost(editedPost: EditedPost) {
     return this.postService.editPost(this.modalService.dialogState().id!, editedPost).pipe(
-      takeUntilDestroyed(this.destroyRef),
       finalize(() => {
         this.isWorking.set(false);
         this.modalService.isBusy.set(false);
         this.modalService.closeDialog();
       }),
+      takeUntilDestroyed(this.destroyRef),
     );
   }
 }

@@ -66,8 +66,8 @@ export class Search implements OnInit {
     this.userService
       .fetchAllUsers()
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         error: (error: Error) => {

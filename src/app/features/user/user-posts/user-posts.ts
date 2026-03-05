@@ -81,8 +81,8 @@ export class UserPosts {
     this.postService
       .fetchPostsByUser(this.authenticatedUser()!.localId, true)
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         error: (err: Error) => this.error.set(err.message),
@@ -94,8 +94,8 @@ export class UserPosts {
     this.postService
       .fetchPostsByUser(userId, false)
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isFetching.set(false)),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         error: (err: Error) => this.error.set(err.message),
