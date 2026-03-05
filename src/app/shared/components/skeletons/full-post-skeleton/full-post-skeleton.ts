@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './full-post-skeleton.css',
   host: {
     class:
-      'bg-white dark:bg-zinc-950 px-1 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible animate-pulse',
+      'bg-white dark:bg-zinc-950 px-1 py-3 sm:px-4 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible animate-pulse',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

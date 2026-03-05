@@ -1,7 +1,7 @@
 @if (type() === 'for-you') {
   <a
     [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
-    class="bg-white dark:bg-zinc-950 px-1 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
+    class="bg-white dark:bg-zinc-950 px-1 py-3 sm:px-4 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
   >
     <img
       [ngSrc]="post().userAvatar | safeAvatarUrl"
@@ -36,12 +36,12 @@
     />
 
     <h2
-      class="text-base sm:text-lg font-semibold tracking-normal col-start-2 col-span-full mb-1 text-left text-shadow-2xs shadow-zinc-800/5"
+      class="text-base sm:text-lg font-semibold tracking-normal col-start-2 col-span-full mb-1 text-left"
     >
       {{ post().title }}
     </h2>
     <p
-      class="text-[0.925rem] sm:text-base tracking-normal text-black/80 dark:text-white/80 col-start-2 col-span-full mb-2"
+      class="text-[0.925rem] sm:text-base tracking-normal font-medium text-black/80 dark:text-white/90 col-start-2 col-span-full mb-2"
     >
       {{ post().description }}
     </p>
@@ -56,12 +56,10 @@
 @if (type() === 'user-posts') {
   <a
     [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
-    class="flex flex-col gap-2 items-start px-2.5 sm:px-4 py-4 sm:py-6 w-full focus"
+    class="flex flex-col gap-2 items-start px-2.5 sm:px-4 py-3 sm:py-3 w-full focus"
   >
     <div class="flex justify-between items-start w-full gap-2">
-      <h2
-        class="text-base sm:text-lg font-semibold tracking-normal text-left text-shadow-2xs shadow-zinc-800/5"
-      >
+      <h2 class="text-base sm:text-lg font-semibold tracking-normal text-left">
         {{ post().title }}
       </h2>
       <app-post-options
@@ -76,7 +74,7 @@
 
     @if (shouldShowReadMore(post().content)) {
       <p
-        class="text-[0.925rem] sm:text-base tracking-normal text-start text-black/80 dark:text-white/80 wrap-anywhere"
+        class="text-[0.925rem] sm:text-base tracking-normal font-medium text-start text-black/80 dark:text-white/90 wrap-anywhere"
         [class.line-clamp-3]="!isExpanded()"
       >
         {{
@@ -85,20 +83,16 @@
       </p>
     } @else {
       <p
-        class="text-[0.925rem] sm:text-base tracking-normal text-start text-black/80 dark:text-white/80 wrap-anywhere"
+        class="text-[0.925rem] sm:text-base tracking-normal font-medium text-start text-black/80 dark:text-white/90 wrap-anywhere"
       >
         {{ post().content }}
       </p>
     }
-    <!-- <p
-      class="text-sm sm:text-base tracking-normal text-start br text-black/80 wrap-anywhere line-clamp-3"
-    >
-      {{ post().content }}
-    </p> -->
+
     @if (shouldShowReadMore(post().content)) {
       <button
         (click)="expandContent($event)"
-        class="text-[0.925rem] sm:text-base tracking-normal text-sky-500 wrap-anywhere cursor-pointer focus hover:underline"
+        class="text-[0.925rem] sm:text-base tracking-normal font-medium text-sky-500/90 wrap-anywhere cursor-pointer focus hover:underline"
       >
         {{ isExpanded() ? 'Leggi di meno' : 'Leggi di più' }}
       </button>
@@ -114,7 +108,7 @@
 }
 @if (type() === 'full-post') {
   <div
-    class="bg-white dark:bg-zinc-950 px-1 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible"
+    class="bg-white dark:bg-zinc-950 px-1 py-3 sm:px-4 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible"
   >
     <img
       [ngSrc]="post().userAvatar | safeAvatarUrl"
@@ -148,18 +142,18 @@
     />
 
     <h2
-      class="text-lg sm:text-xl text-left font-semibold tracking-normal col-start-2 col-span-full text-shadow-2xs shadow-zinc-800/5"
+      class="text-lg sm:text-xl text-left font-semibold tracking-normal col-start-2 col-span-full"
     >
       {{ post().title }}
     </h2>
     <h3
-      class="text-base sm:text-lg text-left font-semibold tracking-normal text-black/80 dark:text-white/80 col-start-2 col-span-full"
+      class="text-base sm:text-lg text-left font-semibold tracking-normal text-black/80 dark:text-white/90 col-start-2 col-span-full"
     >
       {{ post().description }}
     </h3>
 
     <p
-      class="text-[0.925rem] sm:text-base tracking-normal text-left text-black/80 dark:text-white/80 wrap-anywhere col-start-2 col-span-full"
+      class="text-[0.925rem] sm:text-base tracking-normal font-medium text-left text-black/80 dark:text-white/90 wrap-anywhere col-start-2 col-span-full"
       [class.line-clamp-3]="!isExpanded() && shouldShowReadMore(post().content)"
     >
       @if (shouldShowReadMore(post().content)) {
@@ -171,7 +165,7 @@
     @if (shouldShowReadMore(post().content)) {
       <button
         (click)="expandContent($event)"
-        class="text-[0.925rem] sm:text-base tracking-normal text-sky-500 font-normal cursor-pointer col-start-2 focus hover:underline self-start text-left w-fit"
+        class="text-[0.925rem] sm:text-base tracking-normal font-medium text-sky-500/90 cursor-pointer col-start-2 focus hover:underline self-start text-left w-fit"
       >
         {{ isExpanded() ? 'Leggi di meno' : 'Leggi di più' }}
       </button>

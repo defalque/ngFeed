@@ -98,7 +98,11 @@ export class FullPost implements OnInit {
     // Aggiorna il titolo della pagina dinamicamente
     effect(() => {
       const p = this.post();
-      this.titleService.setTitle(p ? p.title : 'Caricamento...');
+      const username = p?.userUsername;
+      const title = p?.title ?? '';
+      this.titleService.setTitle(
+        p ? (username ? `${username} – ${title}` : title) : 'Caricamento...',
+      );
     });
   }
 

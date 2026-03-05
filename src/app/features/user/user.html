@@ -66,15 +66,17 @@
                 {{ (user()?.firstName ?? '') + ' ' + (user()?.lastName ?? '') }}
               </p>
             </div>
-            <p class="text-gray-500 dark:text-zinc-400 mb-2">@{{ user()?.username }}</p>
+            <p class="text-gray-500 dark:text-zinc-400 mb-2 font-medium">@{{ user()?.username }}</p>
             @if (user()?.bio) {
-              <p class="text-gray-500 dark:text-zinc-400 text-left mb-4">{{ user()?.bio }}</p>
+              <p class="text-gray-500 dark:text-zinc-400 text-left mb-4 font-medium">
+                {{ user()?.bio }}
+              </p>
             }
             @if (user()?.websiteUrl; as websiteUrl) {
               <div class="flex items-center flex-wrap gap-4 gap-y-1">
                 <a
                   [href]="websiteUrl"
-                  class="text-gray-500 dark:text-zinc-400 hover:underline underline-offset-1"
+                  class="text-gray-500 dark:text-zinc-400 hover:underline underline-offset-1 font-medium"
                   target="_blank"
                   rel="noopener noreferrer"
                   >{{ websiteUrl.split('//')[1] || websiteUrl }}</a

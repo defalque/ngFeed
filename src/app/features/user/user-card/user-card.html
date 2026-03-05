@@ -17,7 +17,7 @@
         <app-verified-icon size="size-4" />
       }
     </div>
-    <p class="text-sm text-gray-500 dark:text-zinc-400">@{{ user().username }}</p>
+    <p class="text-sm font-medium text-gray-500 dark:text-zinc-400">@{{ user().username }}</p>
   </div>
 </div>
 
@@ -33,9 +33,12 @@
   }
 </app-button>
 
-<p class="text-sm text-black/80 dark:text-white/80 col-span-full col-start-2 pt-4 text-start">
+<p
+  class="text-sm font-medium text-black/80 dark:text-white/90 col-span-full col-start-2 pt-4 text-start"
+>
   {{ user().bio }}
 </p>
-<span class="text-sm text-black/80 dark:text-white/80 col-span-1 col-start-2 pt-2 text-start"
+<span
+  class="text-sm font-medium text-black/80 dark:text-white/90 col-span-1 col-start-2 pt-2 text-start"
   >Follower: {{ user().followersCount }}</span
 >
