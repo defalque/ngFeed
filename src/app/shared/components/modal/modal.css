@@ -1,0 +1,18 @@
+@media (prefers-reduced-motion: reduce) {
+  :host .fixed.inset-0 {
+    transition: none;
+  }
+
+  :host [role="dialog"],
+  :host [role="alertdialog"] {
+    transition: none;
+  }
+
+  :host button[aria-label="Chiudi modale"] {
+    transition: none;
+  }
+
+  :host button[aria-label="Chiudi modale"]:active {
+    transform: none;
+  }
+}

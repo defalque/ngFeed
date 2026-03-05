@@ -1,0 +1,5 @@
+@media (prefers-reduced-motion: reduce) {
+  :host > div {
+    transition: none;
+  }
+}
