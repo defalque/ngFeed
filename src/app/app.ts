@@ -99,10 +99,19 @@ export class App {
     this.authService.autoLogin();
 
     effect(() => {
-      // I post iniziali devono essere sempre caricati, anche senza utente autenticato.
-      this.fetchInitialData();
-
       const authUser = this.authService.authenticatedUser();
+
+      if (this.errorState()) {
+        // In errore: non fare auto-fetch, attendere che l'utente clicchi Riprova
+        if (!authUser) {
+          this.postService.setAuthUserPosts([]);
+          this.postService.setUserPost(null);
+          this.userService.setUser(null);
+        }
+        return;
+      }
+
+      this.fetchInitialData();
       if (!authUser) {
         this.postService.setAuthUserPosts([]);
         this.postService.setUserPost(null);
@@ -116,6 +125,9 @@ export class App {
     this.fetchAbort$.next(); // Annulla qualsiasi fetch in corso prima di avviarne uno nuovo
 
     const authUser = this.authService.authenticatedUser();
+    if (this.errorState()) {
+      this.toastService.dismissAll(); // Rimuove il toast di errore residuo prima del retry
+    }
     this.errorState.set(false);
     this.isFetching.set(true);
 
