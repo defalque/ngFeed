@@ -113,3 +113,10 @@ input:autofill:not(:focus-visible) {
     transform: translateY(0);
   }
 }
+
+/* nessuna animazione di fake hover quando l'utente ha richiesto ridotta animazione */
+@media (prefers-reduced-motion: reduce) {
+  .navlink-hover-bg {
+    transition: none;
+  }
+}

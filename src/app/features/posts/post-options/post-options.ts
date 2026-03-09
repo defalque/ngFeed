@@ -61,8 +61,9 @@ export class PostOptions {
     event.stopPropagation();
 
     const el = event.target as HTMLElement;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     el.scrollIntoView({
-      behavior: 'smooth',
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
       block: 'center',
     });
   }

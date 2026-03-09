@@ -45,11 +45,11 @@
         <button
           (click)="redirectTo('utente/' + authenticatedUser()?.localId)"
           [class.active]="isActive('/utente/' + authenticatedUser()?.localId + '/posts')"
-          class="text-zinc-400/80 w-full rounded-xl md:px-5 md:py-3 py-3 cursor-pointer flex items-center justify-center focus transition-transform active:scale-[0.92] relative z-10 group"
+          class="text-zinc-400/80 w-full rounded-xl md:px-5 md:py-3 py-3 cursor-pointer flex items-center justify-center focus transition-transform motion-reduce:transition-none active:scale-[0.92] relative z-10 group"
           aria-label="Apri profilo"
         >
           <div
-            class="bg-gray-100/55 dark:bg-zinc-800/70 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
+            class="navlink-hover-bg bg-gray-100/55 dark:bg-zinc-800/70 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform motion-reduce:transition-none"
           ></div>
           <lucide-icon [img]="UserIcon" size="28" aria-hidden></lucide-icon>
         </button>
@@ -67,13 +67,13 @@
     >
       <button
         #button
-        class="text-zinc-400/80 rounded-xl px-5 py-3 cursor-pointer focus transition-transform active:scale-[0.92] relative z-10 group"
+        class="text-zinc-400/80 rounded-xl px-5 py-3 cursor-pointer focus transition-transform motion-reduce:transition-none active:scale-[0.92] relative z-10 group"
         (click)="toggleOpen()"
         aria-label="Menu"
         [class.active]="isOpen()"
       >
         <div
-          class="bg-gray-100/55 dark:bg-zinc-800/70 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform"
+          class="navlink-hover-bg bg-gray-100/55 dark:bg-zinc-800/70 w-full h-full rounded-xl scale-[0.85] absolute md:px-4 md:py-2 px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform motion-reduce:transition-none"
         ></div>
         <lucide-icon [img]="EqualIcon" size="30" aria-hidden></lucide-icon>
       </button>
