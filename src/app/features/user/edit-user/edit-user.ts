@@ -283,6 +283,13 @@ export class EditUser implements OnInit {
     return 'Luogo non valido';
   }
 
+  generateRandomAvatar(): void {
+    const id = Math.floor(Math.random() * 100);
+    const url = `https://randomuser.me/api/portraits/men/${id}.jpg`;
+    this.reactiveForm.controls.avatar.setValue(url);
+    this.reactiveForm.controls.avatar.markAsDirty();
+  }
+
   isEditing = signal(false);
 
   private readonly invalidFieldIds = [

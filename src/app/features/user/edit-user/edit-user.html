@@ -14,7 +14,9 @@
         [attr.aria-invalid]="firstNameIsInvalid || infoAreInvalid"
         [attr.aria-describedby]="firstNameAriaDescribedBy()"
         class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
-          (firstNameIsInvalid || infoAreInvalid) ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+          firstNameIsInvalid || infoAreInvalid
+            ? 'border-red-500'
+            : 'border-gray-300/80 dark:border-zinc-600/50'
         }}"
         formControlName="firstName"
       />
@@ -40,7 +42,9 @@
         [attr.aria-invalid]="lastNameIsInvalid || infoAreInvalid"
         [attr.aria-describedby]="lastNameAriaDescribedBy()"
         class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
-          (lastNameIsInvalid || infoAreInvalid) ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+          lastNameIsInvalid || infoAreInvalid
+            ? 'border-red-500'
+            : 'border-gray-300/80 dark:border-zinc-600/50'
         }}"
         formControlName="lastName"
       />
@@ -102,17 +106,41 @@
   <div class="flex items-start gap-4 w-full">
     <div class="flex flex-col flex-1 items-start gap-2">
       <label for="avatar">Avatar</label>
-      <input
-        type="text"
-        id="avatar"
-        name="avatar"
-        [attr.aria-invalid]="avatarIsInvalid"
-        [attr.aria-describedby]="avatarIsInvalid ? 'avatar-error' : null"
-        class="w-full rounded-xl flex-1 p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
-          avatarIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
-        }}"
-        formControlName="avatar"
-      />
+      <div class="flex gap-2 w-full">
+        <input
+          type="text"
+          id="avatar"
+          name="avatar"
+          [attr.aria-invalid]="avatarIsInvalid"
+          [attr.aria-describedby]="avatarIsInvalid ? 'avatar-error' : null"
+          class="w-full rounded-xl flex-1 p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
+            avatarIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+          }}"
+          formControlName="avatar"
+        />
+        <button
+          type="button"
+          title="Genera avatar casuale"
+          (click)="generateRandomAvatar()"
+          [disabled]="reactiveForm.disabled"
+          class="shrink-0 size-10 flex items-center justify-center rounded-xl border border-gray-300/80 dark:border-zinc-600/50 hover:bg-gray-100 dark:hover:bg-zinc-700 transition-all motion-reduce:transition-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 active:scale-95"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"
+            />
+          </svg>
+        </button>
+      </div>
       @if (avatarIsInvalid && avatarError) {
         <p
           id="avatar-error"
