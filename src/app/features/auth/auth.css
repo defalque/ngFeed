@@ -1,27 +1,111 @@
+/* Fallback: no animation for older browsers */
+.error-enter,
+.error-leave {
+  transition: none;
+}
+
 .error-enter {
   opacity: 1;
   transform: translateY(0);
-  transition:
-    opacity 0.25s cubic-bezier(0.165, 0.84, 0.44, 1),
-    transform 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
-
-  @starting-style {
-    opacity: 0;
-    transform: translateY(10px);
-  }
 }
 
 .error-leave {
   opacity: 0;
   transform: translateY(10px);
-  transition:
-    opacity 0.15s cubic-bezier(0.23, 1, 0.32, 1),
-    transform 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@supports selector(:has(*)) {
+  .error-enter {
+    transition:
+      opacity 0.25s cubic-bezier(0.165, 0.84, 0.44, 1),
+      transform 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    @starting-style {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  .error-leave {
+    transition:
+      opacity 0.15s cubic-bezier(0.23, 1, 0.32, 1),
+      transform 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+}
+
+.icon-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  contain: layout;
+}
+
+/* Nessuna animazione quando gli hint appaiono (load o switch a login) */
+.icon-enter-instant {
+  opacity: 1;
+  filter: blur(0);
+}
+
+.icon-slot lucide-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fallback: no animation for older browsers */
+.icon-enter,
+.icon-leave {
+  transition: none;
+}
+
+.icon-enter {
+  opacity: 1;
+  transform: translate(0, 0) !important;
+  filter: blur(0);
+}
+
+.icon-leave {
+  opacity: 0;
+  transform: translate(0, 0) !important;
+  filter: blur(0);
+}
+
+@supports selector(:has(*)) {
+  .icon-enter {
+    transition:
+      opacity 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) 0.16s,
+      filter 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) 0.16s,
+      transform 0s;
+
+    @starting-style {
+      opacity: 0;
+      transform: translate(0, 0) !important;
+      filter: blur(2px);
+    }
+  }
+
+  .icon-leave {
+    filter: blur(2px);
+    transition:
+      opacity 0.15s cubic-bezier(0.23, 1, 0.32, 1),
+      filter 0.15s cubic-bezier(0.23, 1, 0.32, 1),
+      transform 0s;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .error-enter,
   .error-leave {
+    transition: none;
+  }
+
+  .icon-enter,
+  .icon-leave {
     transition: none;
   }
 }
