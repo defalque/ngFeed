@@ -95,11 +95,13 @@
   </div>
 
   <div class="flex flex-col pb-20 md:pb-4">
-    <p
-      class="text-sm text-gray-500/80 dark:text-zinc-400/80 px-2 md:px-4 pb-2 text-start font-semibold"
-    >
-      Account suggeriti da seguire
-    </p>
+    @if (!searchControl.value && !error() && !searchError()) {
+      <p
+        class="text-sm text-gray-500/80 dark:text-zinc-400/80 px-2 md:px-4 pb-2 text-start font-semibold"
+      >
+        Account suggeriti da seguire
+      </p>
+    }
 
     @if ((isFetching() || isSearching()) && !error() && !searchError()) {
       <ul>

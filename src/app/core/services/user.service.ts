@@ -48,9 +48,7 @@ export class UserService {
   fetchUserInfo(uid: string) {
     this.genericUser.set(null); // Clear stale data before fetching
     this.genericUserLoading.set(true);
-    return this.fetchUsers(
-      `${this.firebaseConfig.databaseURL}/users/${uid}.json?`,
-    ).pipe(
+    return this.fetchUsers(`${this.firebaseConfig.databaseURL}/users/${uid}.json?`).pipe(
       map((res) => {
         if (!res) return null;
 
@@ -122,10 +120,11 @@ export class UserService {
     if (!uid || !token) return of(null);
 
     return this.http
-      .put(
-        `${this.firebaseConfig.databaseURL}/users/${uid}.json?auth=${token}`,
-        { ...userInfo, followingCount: 0, followersCount: 0 },
-      )
+      .put(`${this.firebaseConfig.databaseURL}/users/${uid}.json?auth=${token}`, {
+        ...userInfo,
+        followingCount: 0,
+        followersCount: 0,
+      })
       .pipe(
         delay(500),
         tap(() => {
@@ -160,37 +159,32 @@ export class UserService {
       updates[`posts/${post.id}/userAvatar`] = newUserData.avatar;
     });
 
-    return this.http
-      .patch(
-        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
-        updates,
-      )
-      .pipe(
-        delay(500),
-        tap(() => {
-          this.currentUser.update((oldUserData) => {
-            if (!oldUserData) return null;
+    return this.http.patch(`${this.firebaseConfig.databaseURL}/.json?auth=${token}`, updates).pipe(
+      delay(500),
+      tap(() => {
+        this.currentUser.update((oldUserData) => {
+          if (!oldUserData) return null;
 
-            return {
-              ...oldUserData, // Mantiene id, followersCount, followingCount, ecc.
-              ...newUserData, // Sovrascrive firstName, lastName, username, bio, ecc.
-            };
-          });
-          this.postService.updateAuthUserPosts((posts) =>
-            posts.map((post) => ({
-              ...post,
-              userFirstName: newUserData.firstName,
-              userLastName: newUserData.lastName,
-              userUsername: newUserData.username,
-              userIsVerified: newUserData.isVerified,
-              userAvatar: newUserData.avatar,
-            })),
-          );
-        }),
-        catchError((error) => {
-          return throwError(() => new Error('Errore durante la modifica del profilo'));
-        }),
-      );
+          return {
+            ...oldUserData, // Mantiene id, followersCount, followingCount, ecc.
+            ...newUserData, // Sovrascrive firstName, lastName, username, bio, ecc.
+          };
+        });
+        this.postService.updateAuthUserPosts((posts) =>
+          posts.map((post) => ({
+            ...post,
+            userFirstName: newUserData.firstName,
+            userLastName: newUserData.lastName,
+            userUsername: newUserData.username,
+            userIsVerified: newUserData.isVerified,
+            userAvatar: newUserData.avatar,
+          })),
+        );
+      }),
+      catchError((error) => {
+        return throwError(() => new Error('Errore durante la modifica del profilo'));
+      }),
+    );
   }
 
   // fetcha info pubbliche di tutti gli utenti, utilizzato in /search
@@ -225,16 +219,13 @@ export class UserService {
 
   searchUser(term: string) {
     return this.http
-      .get<Record<string, User>>(
-        this.usersUrl,
-        {
-          params: {
-            orderBy: '"username"',
-            startAt: `"${term}"`,
-            endAt: `"${term}\uf8ff"`,
-          },
+      .get<Record<string, User>>(this.usersUrl, {
+        params: {
+          orderBy: '"username"',
+          startAt: `"${term}"`,
+          endAt: `"${term}\uf8ff"`,
         },
-      )
+      })
       .pipe(
         map((data) =>
           Object.entries(data ?? {}).map(([key, value]) => ({
@@ -263,40 +254,31 @@ export class UserService {
       updates[`user-followers/${otherUserId}/${uid}`] = null;
     }
 
-    return this.http
-      .patch(
-        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
-        updates,
-      )
-      .pipe(
-        delay(500),
-        tap(() => {
-          if (mode === 'follow') {
-            this.currentUser.update((user) => {
-              if (!user) return null;
-              return { ...user, followingCount: user.followingCount + 1 };
-            });
-            this.followedIds.update((followedIds) => [...followedIds, otherUserId]);
-          } else {
-            this.currentUser.update((user) => {
-              if (!user) return null;
-              return { ...user, followingCount: user.followingCount - 1 };
-            });
-            this.followedIds.update((followedIds) =>
-              followedIds.filter((id) => id !== otherUserId),
-            );
-          }
-        }),
-        catchError((error) => {
-          return throwError(() => new Error('Errore imprevisto. Riprova a breve.'));
-        }),
-      );
+    return this.http.patch(`${this.firebaseConfig.databaseURL}/.json?auth=${token}`, updates).pipe(
+      delay(500),
+      tap(() => {
+        if (mode === 'follow') {
+          this.currentUser.update((user) => {
+            if (!user) return null;
+            return { ...user, followingCount: user.followingCount + 1 };
+          });
+          this.followedIds.update((followedIds) => [...followedIds, otherUserId]);
+        } else {
+          this.currentUser.update((user) => {
+            if (!user) return null;
+            return { ...user, followingCount: user.followingCount - 1 };
+          });
+          this.followedIds.update((followedIds) => followedIds.filter((id) => id !== otherUserId));
+        }
+      }),
+      catchError((error) => {
+        return throwError(() => new Error('Errore imprevisto. Riprova a breve.'));
+      }),
+    );
   }
 
   checkUniqueUsername(username: string) {
-    return this.fetchUsers(
-      `${this.firebaseConfig.databaseURL}/usernames/${username}.json`,
-    ).pipe(
+    return this.fetchUsers(`${this.firebaseConfig.databaseURL}/usernames/${username}.json`).pipe(
       map((res) => {
         return res !== null;
       }),
