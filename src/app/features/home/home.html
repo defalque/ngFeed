@@ -3,25 +3,35 @@
   class="max-w-3xl mx-auto bg-white dark:bg-zinc-950 flex items-center justify-center gap-6 w-full pt-3 md:sticky md:top-0 md:z-10"
 >
   <a
+    id="tab-per-te"
     role="tab"
     routerLink="/per-te"
     routerLinkActive="active"
+    ariaCurrentWhenActive="page"
     class="text-xl font-bold py-2 px-4 tracking-normal text-gray-400/80 cursor-pointer focus"
     >Per te</a
   >
   @if (authUser() && currentUser()) {
     <a
+      id="tab-seguiti"
       role="tab"
       routerLink="/seguiti"
       routerLinkActive="active"
+      ariaCurrentWhenActive="page"
       class="text-xl font-bold text-zinc-400/80 py-2 px-4 tracking-normal cursor-pointer focus"
       >Seguiti</a
     >
   }
 </div>
 
-@if (authUser() && currentUser()) {
-  <div
+<div
+  role="tabpanel"
+  [attr.aria-labelledby]="activeTabId"
+  id="home-tabpanel"
+  class="contents"
+>
+  @if (authUser() && currentUser()) {
+    <div
     class="max-w-3xl mx-auto bg-white dark:bg-zinc-950 flex flex-col divide-y divide-gray-200 w-full px-0 md:px-2 pt-4 overflow-hidden"
   >
     <div
@@ -52,6 +62,7 @@
       <app-button type="button" size="lg" (click)="openDialog('create', null)">Pubblica</app-button>
     </div>
   </div>
-}
+  }
 
-<router-outlet />
+  <router-outlet />
+</div>

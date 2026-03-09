@@ -40,6 +40,7 @@
       <app-dropdown-menu [isOpen]="isOpen()" usedIn="header">
         <div class="flex items-center justify-center gap-1">
           <button
+            role="menuitem"
             class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus {{
               themeMode() === 'light' ? 'bg-gray-100 dark:bg-zinc-800' : ''
             }}"
@@ -50,6 +51,7 @@
             <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
           </button>
           <button
+            role="menuitem"
             class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus {{
               themeMode() === 'dark' ? 'bg-gray-100 dark:bg-zinc-800' : ''
             }}"
@@ -60,6 +62,7 @@
             <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
           </button>
           <button
+            role="menuitem"
             class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/75 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus {{
               themeMode() === 'system' ? 'bg-gray-100 dark:bg-zinc-800' : ''
             }}"
@@ -72,6 +75,7 @@
         </div>
 
         <button
+          role="menuitem"
           class="w-full text-left px-4 py-2 hover:bg-gray-100/75 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOpen() ? '0' : '-1'"
         >
@@ -80,6 +84,7 @@
 
         @if (currentUser()) {
           <button
+            role="menuitem"
             class="w-full text-left px-4 py-2 hover:bg-gray-100/75 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
             [attr.tabindex]="isOpen() ? '0' : '-1'"
           >
@@ -87,6 +92,7 @@
           </button>
 
           <button
+            role="menuitem"
             (click)="logUserOut($event)"
             class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/75 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
             [attr.tabindex]="isOpen() ? '0' : '-1'"

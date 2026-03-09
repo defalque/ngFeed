@@ -12,6 +12,7 @@
         type="text"
         id="search"
         name="search"
+        aria-label="Cerca utenti"
         [formControl]="searchControl"
         class="w-full rounded-3xl px-3 py-2.5 border border-gray-300/50 dark:border-zinc-600/50 pl-12 focus"
         placeholder="Cerca"
@@ -40,8 +41,9 @@
           </button>
 
           @defer (when isOpen()) {
-            <app-dropdown-menu [isOpen]="isOpen()" usedIn="header">
+            <app-dropdown-menu [isOpen]="isOpen()" usedIn="header" ariaLabel="Filtri di ricerca">
               <a
+                role="menuitem"
                 routerLink="./"
                 [queryParams]="{ verified: verified() === 'true' ? null : 'true' }"
                 queryParamsHandling="merge"
@@ -59,6 +61,7 @@
                 <app-verified-icon size="size-4.5" [black]="true" aria-hidden="true" />
               </a>
               <a
+                role="menuitem"
                 routerLink="./"
                 [queryParams]="{ orderBy: !orderBy() ? 'most-followed' : null }"
                 queryParamsHandling="merge"

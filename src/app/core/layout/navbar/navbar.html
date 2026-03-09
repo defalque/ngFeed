@@ -83,6 +83,7 @@
         <app-dropdown-menu [isOpen]="isOpen()" usedIn="navbar">
           <div class="flex items-center justify-center gap-1">
             <button
+              role="menuitem"
               class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus {{
                 themeMode() === 'light' ? 'bg-gray-100 dark:bg-zinc-800' : ''
               }}"
@@ -93,6 +94,7 @@
               <lucide-icon [img]="SunIcon" size="20" aria-hidden></lucide-icon>
             </button>
             <button
+              role="menuitem"
               class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus {{
                 themeMode() === 'dark' ? 'bg-gray-100 dark:bg-zinc-800' : ''
               }}"
@@ -103,6 +105,7 @@
               <lucide-icon [img]="MoonIcon" size="20" aria-hidden></lucide-icon>
             </button>
             <button
+              role="menuitem"
               class="w-full self-stretch px-4 py-2 flex items-center justify-center hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus {{
                 themeMode() === 'system' ? 'bg-gray-100 dark:bg-zinc-800' : ''
               }}"
@@ -115,6 +118,7 @@
           </div>
 
           <button
+            role="menuitem"
             class="w-full text-left px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
             [attr.tabindex]="isOpen() ? '0' : '-1'"
           >
@@ -122,6 +126,7 @@
           </button>
           @if (isAuthenticated()) {
             <button
+              role="menuitem"
               class="w-full text-left px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
               [attr.tabindex]="isOpen() ? '0' : '-1'"
             >
@@ -129,6 +134,7 @@
             </button>
 
             <a
+              role="menuitem"
               (click)="logUserOut($event)"
               class="text-red-500 w-full text-left px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
               [attr.tabindex]="isOpen() ? '0' : '-1'"

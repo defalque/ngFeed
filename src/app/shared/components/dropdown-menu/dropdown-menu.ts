@@ -11,6 +11,8 @@ export class DropdownMenu {
   isOpen = input.required<boolean>();
   usedIn = input.required<'navbar' | 'header' | 'post-options'>();
   isCurrentUserPost = input<boolean>(false);
+  /** Etichetta per screen reader (default basato su usedIn) */
+  ariaLabel = input<string | undefined>();
 
   isRendered = signal(false);
   isVisible = signal(false);
