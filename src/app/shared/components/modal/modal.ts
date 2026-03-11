@@ -49,6 +49,11 @@ export class Modal {
         this.isDragging.set(false);
         this.tracking = false;
         this.isVisible.set(false);
+        const el = this.swiperElement()?.nativeElement;
+        if (el) {
+          el.style.transform = '';
+          el.style.transition = '';
+        }
       }
     });
   }
@@ -64,24 +69,36 @@ export class Modal {
   }
 
   swiperElement = viewChild<ElementRef<HTMLDivElement>>('swiperElement');
+  /** Indica se l'utente ha superato la soglia e sta trascinando attivamente il modale */
   isDragging = signal(false);
+  /** Traccia se abbiamo registrato un pointer down e stiamo monitorando il movimento */
   private tracking = false;
+  /** Coordinata Y iniziale del touch/click per calcolare lo spostamento */
   private startY = 0;
+  /** ID del pointer attivo, usato per catturare gli eventi fino al rilascio */
   private pointerId = -1;
 
+  /** Pixel minimi di spostamento prima di attivare il trascinamento (evita tocchi accidentali) */
   private readonly dragStartThreshold = 10;
+  /** Spostamento minimo verso il basso per chiudere il modale al rilascio */
   private readonly swipeCloseThreshold = 150;
-  private readonly mobileQuery = window.matchMedia('(max-width: 640px)');
 
+  private readonly mobileQuery = window.matchMedia('(max-width: 640px)');
+  /** Lo swipe è abilitato solo su mobile e quando non è una semplice alert */
   readonly isMobileSheet = computed(() => this.mobileQuery.matches && !this.isAlert());
 
+  /** Alla pressione: memorizza la posizione iniziale e il pointer per il tracking */
   onPointerDown(event: PointerEvent) {
-    if (!this.isMobileSheet()) return;
+    if (!this.isMobileSheet() || this.isBusy()) return;
     this.tracking = true;
     this.startY = event.clientY;
     this.pointerId = event.pointerId;
   }
 
+  /**
+   * Durante il movimento: se lo spostamento supera la soglia, attiva il drag e
+   * aggiorna translateY per seguire il dito. Solo verso il basso (dy >= 0).
+   */
   onPointerMove(event: PointerEvent) {
     if (!this.tracking && !this.isDragging()) return;
 
@@ -102,6 +119,10 @@ export class Modal {
     el.style.transform = `translateY(${dy}px)`;
   }
 
+  /**
+   * Al rilascio: se lo spostamento supera la soglia, anima la chiusura e chiudi;
+   * altrimenti riporta il modale alla posizione iniziale con transizione fluida.
+   */
   onPointerUp() {
     this.tracking = false;
 
