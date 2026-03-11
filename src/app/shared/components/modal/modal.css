@@ -1,18 +1,24 @@
+@media (max-width: 640px) {
+  :host [role='dialog'] {
+    touch-action: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   :host .fixed.inset-0 {
     transition: none;
   }
 
-  :host [role="dialog"],
-  :host [role="alertdialog"] {
+  :host [role='dialog'],
+  :host [role='alertdialog'] {
     transition: none;
   }
 
-  :host button[aria-label="Chiudi modale"] {
+  :host button[aria-label='Chiudi modale'] {
     transition: none;
   }
 
-  :host button[aria-label="Chiudi modale"]:active {
+  :host button[aria-label='Chiudi modale']:active {
     transform: none;
   }
 }

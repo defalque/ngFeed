@@ -19,7 +19,7 @@
       appClickOutsideDropdown
       [clickOutsideEnabled]="isVisible()"
       (onClickOutside)="toggleFn.emit()"
-      class="sm:w-xl max-h-[90vh] flex flex-col rounded-t-2xl border-gray-400/70 dark:border-zinc-600/50 sm:border bg-white dark:bg-zinc-900 transition-transform ease-out origin-bottom sm:rounded-2xl sm:animate-none sm:duration-150"
+      class="sm:w-xl max-h-[90vh] flex flex-col rounded-t-2xl border-gray-400/70 dark:border-zinc-600/50 sm:border bg-white dark:bg-zinc-900 transition-transform ease-out origin-bottom sm:rounded-2xl sm:animate-none sm:duration-150 select-none"
       [class]="{
         'border-t': !isAlert(),
         border: isAlert(),
@@ -44,7 +44,19 @@
       [class.scale-85]="!isVisible() && isAlert()"
       [class.pointer-events-none]="!isVisible()"
       [inert]="!isVisible()"
+      #swiperElement
+      (pointerdown)="onPointerDown($event)"
+      (pointermove)="onPointerMove($event)"
+      (pointerup)="onPointerUp()"
+      (pointercancel)="onPointerUp()"
     >
+      @if (isMobileSheet() && !isAlert()) {
+        <div
+          class="rounded-full bg-gray-300 dark:bg-zinc-600 w-12 h-1.5 mx-auto mt-2 pointer-events-none md:hidden"
+          aria-hidden="true"
+        ></div>
+      }
+
       <div class="bg-white dark:bg-zinc-900 sticky top-0 p-4 rounded-t-2xl flex-none">
         <button
           aria-label="Chiudi modale"
