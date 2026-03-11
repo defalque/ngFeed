@@ -2,6 +2,10 @@
   :host [role='dialog'] {
     touch-action: none;
   }
+
+  :host [role='dialog'] .modal-content-scroll {
+    touch-action: pan-y;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

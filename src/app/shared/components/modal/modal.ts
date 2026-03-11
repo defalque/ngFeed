@@ -87,9 +87,10 @@ export class Modal {
   /** Lo swipe è abilitato solo su mobile e quando non è una semplice alert */
   readonly isMobileSheet = computed(() => this.mobileQuery.matches && !this.isAlert());
 
-  /** Alla pressione: memorizza la posizione iniziale e il pointer per il tracking */
+  /** Alla pressione: memorizza la posizione iniziale e il pointer per il tracking (solo header) */
   onPointerDown(event: PointerEvent) {
     if (!this.isMobileSheet() || this.isBusy()) return;
+
     this.tracking = true;
     this.startY = event.clientY;
     this.pointerId = event.pointerId;
