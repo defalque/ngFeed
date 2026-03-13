@@ -19,7 +19,7 @@
       appClickOutsideDropdown
       [clickOutsideEnabled]="isVisible()"
       (onClickOutside)="toggleFn.emit()"
-      class="sm:w-xl max-h-[90vh] flex flex-col rounded-t-2xl border-gray-400/70 dark:border-zinc-600/50 sm:border bg-white dark:bg-zinc-900 transition-transform ease-out origin-bottom sm:rounded-2xl sm:animate-none sm:duration-150 select-none"
+      class="sm:w-xl pointer-fine:max-h-[90vh] pointer-coarse:max-h-[80vh] md:pointer-fine:max-h-[90vh] md:pointer-coarse:max-h-[90vh] flex flex-col rounded-t-2xl border-gray-400/70 dark:border-zinc-600/50 sm:border bg-white dark:bg-zinc-900 transition-transform ease-out origin-bottom sm:rounded-2xl sm:animate-none sm:duration-150 select-none"
       [class]="{
         'border-t': !isAlert(),
         border: isAlert(),
