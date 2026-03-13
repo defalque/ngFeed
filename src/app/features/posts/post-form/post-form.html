@@ -45,7 +45,9 @@
       name="description"
       rows="2"
       [attr.aria-invalid]="descriptionIsInvalid"
-      [attr.aria-describedby]="descriptionIsInvalid && descriptionError ? 'description-error' : null"
+      [attr.aria-describedby]="
+        descriptionIsInvalid && descriptionError ? 'description-error' : null
+      "
       class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed {{
         descriptionIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
       }}"
@@ -70,9 +72,10 @@
     <textarea
       id="content"
       name="content"
+      rows="8"
       [attr.aria-invalid]="contentIsInvalid"
       [attr.aria-describedby]="contentIsInvalid && contentError ? 'content-error' : null"
-      class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed h-58 sm:h-36 {{
+      class="w-full rounded-xl p-2 focus-input border focus:outline-none disabled:cursor-not-allowed resize-y min-h-48 {{
         contentIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
       }}"
       formControlName="content"

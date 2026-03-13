@@ -2,6 +2,7 @@ import { ClickOutside } from '@/shared/directives/click-outside.directive';
 import {
   Component,
   computed,
+  DestroyRef,
   effect,
   ElementRef,
   inject,
@@ -22,6 +23,7 @@ import { ModalService } from '@/core/services/modal.service';
 })
 export class Modal {
   private modalService = inject(ModalService);
+  private destroyRef = inject(DestroyRef);
 
   title = input<string>('Modale');
   isAlert = input<boolean>(false);
@@ -34,6 +36,12 @@ export class Modal {
   isBusy = this.modalService.isBusy;
 
   constructor() {
+    const handler = () => this.isMobile.set(this.mobileQuery.matches);
+    this.mobileQuery.addEventListener('change', handler);
+    this.destroyRef.onDestroy(() =>
+      this.mobileQuery.removeEventListener('change', handler)
+    );
+
     effect(() => {
       const open = this.isOpen();
 
@@ -84,8 +92,10 @@ export class Modal {
   private readonly swipeCloseThreshold = 150;
 
   private readonly mobileQuery = window.matchMedia('(max-width: 640px)');
+  /** Reattivo al resize: la computed non si aggiornerebbe da sola perché matchMedia non è un signal */
+  private isMobile = signal(this.mobileQuery.matches);
   /** Lo swipe è abilitato solo su mobile e quando non è una semplice alert */
-  readonly isMobileSheet = computed(() => this.mobileQuery.matches && !this.isAlert());
+  readonly isMobileSheet = computed(() => this.isMobile() && !this.isAlert());
 
   /** Alla pressione: memorizza la posizione iniziale e il pointer per il tracking (solo header) */
   onPointerDown(event: PointerEvent) {
