@@ -106,7 +106,10 @@ export class App {
         if (!authUser) {
           this.postService.setAuthUserPosts([]);
           this.postService.setUserPost(null);
+          this.postService.setLikedPostsIds([]);
+          this.postService.setSavedPostsIds([]);
           this.userService.setUser(null);
+          this.userService.setFollowedIds([]);
         }
         return;
       }
@@ -115,7 +118,10 @@ export class App {
       if (!authUser) {
         this.postService.setAuthUserPosts([]);
         this.postService.setUserPost(null);
+        this.postService.setLikedPostsIds([]);
+        this.postService.setSavedPostsIds([]);
         this.userService.setUser(null);
+        this.userService.setFollowedIds([]);
       }
     });
   }
@@ -144,9 +150,9 @@ export class App {
       : {
           userInfo: of(null),
           currentUserPosts: of([] as Post[]),
-          followedIds: of([] as string[]),
-          savedPostsIds: of([] as string[]),
-          likedPostsIds: of([] as string[]),
+          followedIds: this.userService.fetchFollowedIds().pipe(catchError(() => of([]))),
+          savedPostsIds: this.postService.fetchSavedPostsIds().pipe(catchError(() => of([]))),
+          likedPostsIds: this.postService.fetchLikedPostsIds().pipe(catchError(() => of([]))),
         };
 
     forkJoin({

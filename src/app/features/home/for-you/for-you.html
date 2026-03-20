@@ -1,5 +1,5 @@
 <div
-  class="max-w-3xl mx-auto gap-1 bg-white dark:bg-zinc-950 flex flex-col divide-y divide-gray-200 dark:divide-zinc-800/50 w-full px-0 md:px-2 pb-20 md:pb-4"
+  class="max-w-3xl mx-auto gap-1 bg-white dark:bg-zinc-950 flex flex-col divide-y divide-gray-100 dark:divide-zinc-800/50 w-full px-0 md:px-2 pb-20 md:pb-4"
 >
   @if (posts().length === 0) {
     <div appEmptyWrapper layout="full-page">
@@ -30,7 +30,7 @@
       <p class="text-xl text-center font-semibold text-zinc-400">Nessun feed al momento</p>
     </div>
   } @else {
-    <ul class="divide-y divide-gray-200 dark:divide-zinc-800/50">
+    <ul class="divide-y divide-gray-100 dark:divide-zinc-800/50">
       @for (post of posts(); track post.id; let index = $index) {
         <li>
           <app-post
