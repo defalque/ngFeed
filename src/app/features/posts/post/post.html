@@ -53,7 +53,7 @@
       {{ post().title }}
     </h2>
     <p
-      class="text-[0.925rem] sm:text-base tracking-normal text-black/80 dark:text-white/90 col-start-2 col-span-full mb-2"
+      class="text-base tracking-normal text-black/80 dark:text-white/90 col-start-2 col-span-full mb-2"
     >
       {{ post().description }}
     </p>
@@ -87,7 +87,7 @@
 
     @if (shouldShowReadMore(post().content)) {
       <p
-        class="text-[0.925rem] sm:text-base tracking-normal text-start text-black/80 dark:text-white/90 wrap-anywhere"
+        class="text-base tracking-normal text-start text-black/80 dark:text-white/90 wrap-anywhere"
         [class.line-clamp-3]="!isExpanded()"
       >
         {{
@@ -96,7 +96,7 @@
       </p>
     } @else {
       <p
-        class="text-[0.925rem] sm:text-base tracking-normal text-start text-black/80 dark:text-white/90 wrap-anywhere"
+        class="text-base tracking-normal text-start text-black/80 dark:text-white/90 wrap-anywhere"
       >
         {{ post().content }}
       </p>
@@ -105,7 +105,7 @@
     @if (shouldShowReadMore(post().content)) {
       <button
         (click)="expandContent($event)"
-        class="text-[0.925rem] sm:text-base tracking-normal text-sky-500 wrap-anywhere cursor-pointer focus hover:underline"
+        class="text-base tracking-normal text-sky-500 wrap-anywhere cursor-pointer focus hover:underline"
       >
         {{ isExpanded() ? 'Leggi di meno' : 'Leggi di più' }}
       </button>
@@ -178,7 +178,7 @@
     </h3>
 
     <p
-      class="text-[0.925rem] sm:text-base tracking-normal text-left text-black/80 dark:text-white/90 wrap-anywhere col-start-2 col-span-full"
+      class="text-base tracking-normal text-left text-black/80 dark:text-white/90 wrap-anywhere col-start-2 col-span-full"
       [class.line-clamp-3]="!isExpanded() && shouldShowReadMore(post().content)"
     >
       @if (shouldShowReadMore(post().content)) {
@@ -190,7 +190,7 @@
     @if (shouldShowReadMore(post().content)) {
       <button
         (click)="expandContent($event)"
-        class="text-[0.925rem] sm:text-base tracking-normal text-sky-500 cursor-pointer col-start-2 focus hover:underline self-start text-left w-fit"
+        class="text-base tracking-normal text-sky-500 cursor-pointer col-start-2 focus hover:underline self-start text-left w-fit"
       >
         {{ isExpanded() ? 'Leggi di meno' : 'Leggi di più' }}
       </button>
