@@ -71,7 +71,9 @@ export class PostService {
             });
           }
         }
-        return posts;
+        return posts.sort(
+          (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+        );
       }),
       tap((posts) => this.allPosts.set(posts)),
       delay(500), // delay artificiale per mostrare loading ui;

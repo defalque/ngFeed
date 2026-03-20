@@ -186,6 +186,20 @@ describe('PostService', () => {
 
       expect(result).toEqual([]);
     });
+
+    it('sorts posts newest first', () => {
+      const older = createPost({ id: 'old', created_at: '2025-01-01T00:00:00Z' });
+      const newer = createPost({ id: 'new', created_at: '2025-06-01T00:00:00Z' });
+
+      let result: Post[] = [];
+      service.fetchAllPosts().subscribe((p) => (result = p));
+
+      httpMock.expectOne(`${TEST_DB_URL}/posts.json`).flush(createFirebaseResponse([older, newer]));
+      vi.advanceTimersByTime(500);
+
+      expect(result[0].id).toBe('new');
+      expect(result[1].id).toBe('old');
+    });
   });
 
   // ═══════════════════════════════════════════════════════════════
