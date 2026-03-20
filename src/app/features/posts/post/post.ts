@@ -6,6 +6,7 @@ import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { PostOptions } from '../post-options/post-options';
 import { NgOptimizedImage, SlicePipe } from '@angular/common';
 import { SafeAvatarUrlPipe } from '@/shared/pipes/safe-avatar-url.pipe';
+import { RelativePostTimePipe } from '@/shared/pipes/relative-post-time.pipe';
 
 @Component({
   selector: 'app-post',
@@ -17,6 +18,7 @@ import { SafeAvatarUrlPipe } from '@/shared/pipes/safe-avatar-url.pipe';
     NgOptimizedImage,
     SlicePipe,
     SafeAvatarUrlPipe,
+    RelativePostTimePipe,
   ],
   templateUrl: './post.html',
   styleUrl: './post.css',

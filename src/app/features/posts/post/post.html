@@ -13,7 +13,7 @@
       height="36"
     />
 
-    <div class="flex items-center gap-2 col-span-1">
+    <div class="flex items-center gap-x-1 col-span-1 flex-wrap min-w-0">
       <a
         [routerLink]="'/utente/' + post().userId"
         (click)="$event.stopPropagation()"
@@ -23,6 +23,15 @@
 
       @if (post().userIsVerified) {
         <app-verified-icon size="size-4" />
+      }
+
+      @if (post().created_at | relativePostTime; as postedAgo) {
+        <span class="text-black/50 dark:text-white/40 select-none" aria-hidden="true">·</span>
+        <time
+          [attr.datetime]="post().created_at"
+          class="text-sm text-black/60 dark:text-white/50 tabular-nums py-1"
+          >{{ postedAgo }}</time
+        >
       }
     </div>
 
@@ -62,6 +71,7 @@
       <h2 class="text-base sm:text-lg font-semibold tracking-normal text-left">
         {{ post().title }}
       </h2>
+
       <app-post-options
         [id]="post().id"
         [isCurrentUserPost]="currentUserPost()"
@@ -119,16 +129,27 @@
       priority
     />
 
-    <div class="flex items-center gap-2 col-span-1">
+    <div class="flex items-center gap-1 col-span-1 flex-wrap min-w-0">
       <a
         [routerLink]="'/utente/' + post().userId"
         (click)="$event.stopPropagation()"
-        class="text-base font-semibold hover:underline focus py-1"
+        class="text-base font-semibold hover:underline focus py-1 shrink-0"
         >{{ post().userUsername }}</a
       >
 
       @if (post().userIsVerified) {
         <app-verified-icon size="size-4" />
+      }
+
+      @if (post().created_at | relativePostTime; as postedAgo) {
+        <span class="text-black/40 dark:text-white/40 select-none shrink-0" aria-hidden="true"
+          >·</span
+        >
+        <time
+          [attr.datetime]="post().created_at"
+          class="text-sm font-normal text-black/50 dark:text-white/50 tabular-nums shrink-0"
+          >{{ postedAgo }}</time
+        >
       }
     </div>
 
