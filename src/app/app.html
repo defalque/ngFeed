@@ -61,7 +61,16 @@
             <app-post-form />
           }
           @case ('edit') {
-            <app-post-form />
+            @if (dialogState().id; as editPostId) {
+              <!--
+                Quando editPostId cambia (altro post da modificare, modale ancora aperta),
+                Angular distrugge e ricrea app-post-form così ngOnInit ripopola il form
+                invece di tenere i valori del post precedente.
+              -->
+              @for (trackId of [editPostId]; track trackId) {
+                <app-post-form />
+              }
+            }
           }
           @case ('edit-user') {
             <app-edit-user />

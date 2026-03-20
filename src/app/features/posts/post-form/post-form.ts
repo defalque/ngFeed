@@ -4,6 +4,7 @@ import {
   computed,
   DestroyRef,
   inject,
+  OnInit,
   signal,
 } from '@angular/core';
 import { FocusField } from '@/shared/directives/focus-field.directive';
@@ -15,10 +16,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  EditedPost,
-  NewPost,
-} from '@/core/types/post.model';
+import { EditedPost, NewPost } from '@/core/types/post.model';
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostService } from '@/core/services/post.service';
@@ -36,7 +34,7 @@ import { safeAvatarUrl } from '@/core/utils/safe-avatar-url';
   styleUrl: './post-form.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PostForm {
+export class PostForm implements OnInit {
   private modalService = inject(ModalService);
   private postService = inject(PostService);
   private userService = inject(UserService);
