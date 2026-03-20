@@ -13,7 +13,7 @@
       height="36"
     />
 
-    <div class="flex items-center gap-x-1 col-span-1 flex-wrap min-w-0">
+    <div class="flex items-center gap-x-1 col-span-1 flex-nowrap min-w-0 overflow-hidden">
       <a
         [routerLink]="'/utente/' + post().userId"
         (click)="$event.stopPropagation()"
@@ -26,10 +26,13 @@
       }
 
       @if (post().created_at | relativePostTime; as postedAgo) {
-        <span class="text-black/50 dark:text-white/40 select-none" aria-hidden="true">·</span>
+        <span class="text-black/50 dark:text-white/40 select-none shrink-0" aria-hidden="true"
+          >·</span
+        >
         <time
           [attr.datetime]="post().created_at"
-          class="text-sm text-black/60 dark:text-white/50 tabular-nums py-1"
+          [attr.title]="post().created_at"
+          class="text-base text-black/60 dark:text-white/50 tabular-nums py-1 min-w-0 truncate"
           >{{ postedAgo }}</time
         >
       }
@@ -129,11 +132,11 @@
       priority
     />
 
-    <div class="flex items-center gap-1 col-span-1 flex-wrap min-w-0">
+    <div class="flex items-center gap-1 col-span-1 flex-nowrap min-w-0 overflow-hidden">
       <a
         [routerLink]="'/utente/' + post().userId"
         (click)="$event.stopPropagation()"
-        class="text-base font-semibold hover:underline focus py-1 shrink-0"
+        class="text-base font-semibold hover:underline focus py-1 min-w-0 truncate"
         >{{ post().userUsername }}</a
       >
 
@@ -147,7 +150,8 @@
         >
         <time
           [attr.datetime]="post().created_at"
-          class="text-sm font-normal text-black/50 dark:text-white/50 tabular-nums shrink-0"
+          [attr.title]="post().created_at"
+          class="text-black/50 dark:text-white/50 tabular-nums min-w-0 truncate"
           >{{ postedAgo }}</time
         >
       }
