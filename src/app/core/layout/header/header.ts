@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { EqualIcon, LucideAngularModule, SunIcon, MoonIcon } from 'lucide-angular';
-import { ClickOutside } from '@/shared/directives/click-outside.directive';
+import { ClickOutsideDirective } from '@/shared/directives/click-outside.directive';
 import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
 import { AuthService } from '@/core/services/auth.service';
 import { ThemeMode, ThemeService } from '@/core/services/theme.service';
 
 @Component({
   selector: 'app-header',
-  imports: [LucideAngularModule, ClickOutside, DropdownMenu],
+  imports: [LucideAngularModule, ClickOutsideDirective, DropdownMenu],
   templateUrl: './header.html',
 })
 export class Header {

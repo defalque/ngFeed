@@ -1,6 +1,6 @@
 import { UserService } from '@/core/services/user.service';
 import { ModalService } from '@/core/services/modal.service';
-import { ClickOutside } from '@/shared/directives/click-outside.directive';
+import { ClickOutsideDirective } from '@/shared/directives/click-outside.directive';
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -21,7 +21,7 @@ import { ThemeMode, ThemeService } from '@/core/services/theme.service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [LucideAngularModule, ClickOutside, NavbarItem, DropdownMenu],
+  imports: [LucideAngularModule, ClickOutsideDirective, NavbarItem, DropdownMenu],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })

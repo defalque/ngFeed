@@ -1,4 +1,4 @@
-import { ClickOutside } from '@/shared/directives/click-outside.directive';
+import { ClickOutsideDirective } from '@/shared/directives/click-outside.directive';
 import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
 import { ModalService } from '@/core/services/modal.service';
 import {
@@ -29,7 +29,7 @@ import { ToastService } from '@/core/services/toast.service';
 
 @Component({
   selector: 'app-post-options',
-  imports: [ClickOutside, LucideAngularModule, DropdownMenu],
+  imports: [ClickOutsideDirective, LucideAngularModule, DropdownMenu],
   templateUrl: './post-options.html',
   styleUrl: './post-options.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

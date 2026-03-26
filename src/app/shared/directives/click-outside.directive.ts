@@ -2,9 +2,9 @@ import { Directive, DestroyRef, ElementRef, inject, input, output } from '@angul
 import { DOCUMENT } from '@angular/common';
 
 @Directive({
-  selector: '[appClickOutsideDropdown]',
+  selector: '[appClickOutside]',
 })
-export class ClickOutside {
+export class ClickOutsideDirective {
   private elementRef = inject(ElementRef);
   private document = inject(DOCUMENT);
   private destroyRef = inject(DestroyRef);

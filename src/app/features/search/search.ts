@@ -16,7 +16,7 @@ import { catchError, debounceTime, distinctUntilChanged, finalize, of, switchMap
 import { UserService } from '@/core/services/user.service';
 import { A11yModule } from '@angular/cdk/a11y';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ClickOutside } from '@/shared/directives/click-outside.directive';
+import { ClickOutsideDirective } from '@/shared/directives/click-outside.directive';
 import { DropdownMenu } from '@/shared/components/dropdown-menu/dropdown-menu';
 import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { UserCard } from '../user/user-card/user-card';
@@ -31,7 +31,7 @@ import { EmptyWrapper } from '@/shared/components/empty-wrapper/empty-wrapper';
     SearchUsersSkeleton,
     A11yModule,
     ReactiveFormsModule,
-    ClickOutside,
+    ClickOutsideDirective,
     DropdownMenu,
     VerifiedIcon,
     UserCard,

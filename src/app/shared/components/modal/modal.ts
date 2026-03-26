@@ -1,4 +1,4 @@
-import { ClickOutside } from '@/shared/directives/click-outside.directive';
+import { ClickOutsideDirective } from '@/shared/directives/click-outside.directive';
 import {
   Component,
   computed,
@@ -17,7 +17,7 @@ import { ModalService } from '@/core/services/modal.service';
 
 @Component({
   selector: 'app-modal',
-  imports: [ClickOutside, LucideAngularModule, A11yModule],
+  imports: [ClickOutsideDirective, LucideAngularModule, A11yModule],
   templateUrl: './modal.html',
   styleUrl: './modal.css',
 })
