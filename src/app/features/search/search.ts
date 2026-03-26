@@ -12,8 +12,10 @@ import { LucideAngularModule, SearchIcon, SlidersHorizontalIcon } from 'lucide-a
 import { RouterLink } from '@angular/router';
 import { SearchUsersSkeleton } from '@/shared/components/skeletons/search-users-skeleton/search-users-skeleton';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import type { Observable } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, finalize, of, switchMap, tap } from 'rxjs';
 import { UserService } from '@/core/services/user.service';
+import type { User } from '@/core/types/user.model';
 import { A11yModule } from '@angular/cdk/a11y';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ClickOutsideDirective } from '@/shared/directives/click-outside.directive';
@@ -85,41 +87,43 @@ export class Search implements OnInit {
     this.isOpen.set(!this.isOpen());
   }
 
-  // gestione search input
+  // gestione ricerca
   isSearching = signal(false);
-  searchError = signal('');
   isFollowActionPending = signal(false);
   onFollowActionPendingChange(isPending: boolean) {
     this.isFollowActionPending.set(isPending);
   }
   searchControl = new FormControl('', { nonNullable: true });
+
+  private fetchSearchResults(query: string): Observable<User[]> {
+    if (this.error()) {
+      return of([]);
+    }
+    this.isSearching.set(true);
+    return this.userService.searchUser(query).pipe(
+      finalize(() => this.isSearching.set(false)),
+      catchError((err) => {
+        this.error.set(err?.message ?? 'Ricerca non disponibile');
+        return of([]);
+      }),
+    );
+  }
+
   usersToSearch$ = this.searchControl.valueChanges.pipe(
-    tap((term) => this.isSearching.set(term.trim().length > 0)), // mostra subito loading quando l'input non e vuoto
-    debounceTime(300), // aspetta 300ms prima di fare la query
-    distinctUntilChanged(), // evita richieste duplicate
+    tap((term) => this.isSearching.set(term.trim().length > 0)),
+    debounceTime(300),
+    distinctUntilChanged(),
     switchMap((term) => {
-      const normalizedTerm = term.trim();
-      if (!normalizedTerm.length) {
+      const q = term.trim();
+      if (!q.length) {
         this.isSearching.set(false);
-        return of([]);
+        return of<User[]>([]);
       }
-
-      if (this.error()) {
-        return of([]);
-      }
-
-      // riafferma loading dopo eventuale cancellazione della richiesta precedente
-      this.isSearching.set(true);
-      return this.userService.searchUser(normalizedTerm).pipe(
-        finalize(() => this.isSearching.set(false)), // al termine della query, disattiva loading
-        catchError((err) => {
-          this.error.set(err?.message ?? 'Ricerca non disponibile');
-          return of([]);
-        }),
-      );
+      return this.fetchSearchResults(q);
     }),
   );
-  usersToSearch = toSignal(this.usersToSearch$, { initialValue: [] });
+  usersToSearch = toSignal(this.usersToSearch$, { initialValue: [] as User[] });
+
   filteredUsers = computed(() => {
     let result = this.usersToSearch();
 

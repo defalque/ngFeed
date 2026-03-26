@@ -160,7 +160,6 @@ export class UserService {
     });
 
     return this.http.patch(`${this.firebaseConfig.databaseURL}/.json?auth=${token}`, updates).pipe(
-      delay(500),
       tap(() => {
         this.currentUser.update((oldUserData) => {
           if (!oldUserData) return null;
@@ -184,6 +183,7 @@ export class UserService {
       catchError((error) => {
         return throwError(() => new Error('Errore durante la modifica del profilo'));
       }),
+      delay(500),
     );
   }
 
