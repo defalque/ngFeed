@@ -13,10 +13,8 @@
         name="firstName"
         [attr.aria-invalid]="firstNameIsInvalid || infoAreInvalid"
         [attr.aria-describedby]="firstNameAriaDescribedBy()"
-        class="shadow-md shadow-black/10 ring-1 ring-black/10 w-full rounded-xl p-2 focus-input _border focus:outline-none disabled:cursor-not-allowed {{
-          firstNameIsInvalid || infoAreInvalid
-            ? 'border-red-500'
-            : 'border-gray-300/80 dark:border-zinc-600/50'
+        class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input focus:outline-none disabled:cursor-not-allowed {{
+          firstNameIsInvalid || (infoAreInvalid && 'border-red-500')
         }}"
         formControlName="firstName"
       />
@@ -41,10 +39,8 @@
         name="lastName"
         [attr.aria-invalid]="lastNameIsInvalid || infoAreInvalid"
         [attr.aria-describedby]="lastNameAriaDescribedBy()"
-        class="shadow-md shadow-black/10 ring-1 ring-black/10 w-full rounded-xl p-2 focus-input _border focus:outline-none disabled:cursor-not-allowed {{
-          lastNameIsInvalid || infoAreInvalid
-            ? 'border-red-500'
-            : 'border-gray-300/80 dark:border-zinc-600/50'
+        class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input focus:outline-none disabled:cursor-not-allowed {{
+          lastNameIsInvalid || (infoAreInvalid && 'border-red-500')
         }}"
         formControlName="lastName"
       />
@@ -83,8 +79,8 @@
       name="username"
       [attr.aria-invalid]="usernameIsInvalid"
       [attr.aria-describedby]="usernameIsInvalid ? 'username-error' : null"
-      class="shadow-md shadow-black/10 ring-1 ring-black/10 w-full rounded-xl p-2 focus-input _border focus:outline-none disabled:cursor-not-allowed {{
-        usernameIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+      class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input focus:outline-none disabled:cursor-not-allowed {{
+        usernameIsInvalid && 'border-red-500'
       }}"
       formControlName="username"
     />
@@ -113,8 +109,8 @@
           name="avatar"
           [attr.aria-invalid]="avatarIsInvalid"
           [attr.aria-describedby]="avatarIsInvalid ? 'avatar-error' : null"
-          class="shadow-md shadow-black/10 ring-1 ring-black/10 w-full rounded-xl flex-1 p-2 focus-input _border focus:outline-none disabled:cursor-not-allowed {{
-            avatarIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+          class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl flex-1 p-2 focus-input focus:outline-none disabled:cursor-not-allowed {{
+            avatarIsInvalid && 'border-red-500'
           }}"
           formControlName="avatar"
         />
@@ -175,8 +171,8 @@
       rows="3"
       [attr.aria-invalid]="bioIsInvalid"
       [attr.aria-describedby]="bioIsInvalid ? 'bio-error' : null"
-      class="shadow-md shadow-black/10 ring-1 ring-black/10 w-full rounded-xl p-2 focus-input _border focus:outline-none disabled:cursor-not-allowed {{
-        bioIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+      class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input focus:outline-none disabled:cursor-not-allowed {{
+        bioIsInvalid && 'border-red-500'
       }}"
       formControlName="bio"
     ></textarea>
@@ -202,8 +198,8 @@
       name="website"
       [attr.aria-invalid]="websiteUrlIsInvalid"
       [attr.aria-describedby]="websiteUrlIsInvalid ? 'website-error' : null"
-      class="shadow-md shadow-black/10 ring-1 ring-black/10 w-full rounded-xl p-2 focus-input _border focus:outline-none disabled:cursor-not-allowed {{
-        websiteUrlIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+      class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input focus:outline-none disabled:cursor-not-allowed {{
+        websiteUrlIsInvalid && 'border-red-500'
       }}"
       formControlName="websiteUrl"
     />
@@ -229,8 +225,8 @@
       name="location"
       [attr.aria-invalid]="locationIsInvalid"
       [attr.aria-describedby]="locationIsInvalid ? 'location-error' : null"
-      class="shadow-md shadow-black/10 ring-1 ring-black/10 w-full rounded-xl p-2 focus-input _border focus:outline-none disabled:cursor-not-allowed {{
-        locationIsInvalid ? 'border-red-500' : 'border-gray-300/80 dark:border-zinc-600/50'
+      class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input focus:outline-none disabled:cursor-not-allowed {{
+        locationIsInvalid && 'border-red-500'
       }}"
       formControlName="location"
     />
