@@ -45,7 +45,7 @@
             [alt]="'Avatar di ' + currentUser()?.firstName + ' ' + currentUser()?.lastName"
             width="36"
             height="36"
-            class="size-9 rounded-full"
+            class="size-9 rounded-full select-none"
             priority
             (error)="$any($event.target).src = '/assets/images/default-user.avif'"
           />

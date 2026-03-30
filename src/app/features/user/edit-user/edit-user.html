@@ -154,7 +154,7 @@
       <img
         [ngSrc]="avatarUrl"
         alt="Avatar preview"
-        class="size-24 object-cover"
+        class="size-24 object-cover select-none"
         (error)="$any($event.target).src = '/assets/images/default-user.avif'"
         width="96"
         height="96"
