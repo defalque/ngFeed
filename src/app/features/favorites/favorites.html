@@ -26,7 +26,7 @@
 <div class="max-w-3xl flex flex-col gap-4 mx-auto w-full pb-30 md:pb-4 min-h-[calc(100vh-7rem)]">
   @if (posts().length === 0) {
     <div
-      class="rounded-b-3xl border-x-0 border-b-0 md:border-x md:border-b border-gray-300/70 dark:border-zinc-800/90 bg-white dark:bg-zinc-950 md:bg-gray-50/40 md:dark:bg-zinc-900/60"
+      class="rounded-b-3xl border-x-0 border-b-0 md:border-x md:border-b border-gray-300/70 dark:border-zinc-800/90 bg-white dark:bg-zinc-950 md:bg-gray-100/50 md:dark:bg-zinc-900/60"
     >
       <div appEmptyWrapper>
         <svg
@@ -61,7 +61,7 @@
     </div>
   } @else {
     <ul
-      class="py-1 divide-y divide-gray-300/70 dark:divide-zinc-800/90 rounded-b-3xl border-x-0 border-b-0 md:border-x md:border-b border-gray-300/70 dark:border-zinc-800/90 bg-white dark:bg-zinc-950 md:bg-gray-50/40 md:dark:bg-zinc-900/60"
+      class="py-1 divide-y divide-gray-300/70 dark:divide-zinc-800/90 rounded-b-3xl border-x-0 border-b-0 md:border-x md:border-b border-gray-300/70 dark:border-zinc-800/90 bg-white dark:bg-zinc-950 md:bg-gray-100/50 md:dark:bg-zinc-900/60"
     >
       @for (post of posts(); track post.id; let index = $index) {
         <li>

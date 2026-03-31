@@ -61,7 +61,7 @@
       "websiteUrl": "https://alexchen.com"
     },
     "user_006": {
-      "avatar": null,
+      "avatar": "/assets/images/avatar.png",
       "bio": "Software developer passionate about web technologies and open source.",
       "firstName": "Marco",
       "lastName": "De Falco",
@@ -197,7 +197,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_010": {
@@ -211,7 +211,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_011": {
@@ -225,7 +225,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_012": {
@@ -239,7 +239,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_013": {
@@ -253,7 +253,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_014": {
@@ -267,7 +267,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_015": {
@@ -281,7 +281,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_016": {
@@ -295,7 +295,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_017": {
@@ -309,7 +309,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_018": {
@@ -323,7 +323,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_019": {
@@ -337,7 +337,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_020": {
@@ -351,7 +351,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_021": {
@@ -365,7 +365,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     },
     "post_022": {
@@ -379,7 +379,7 @@
       "userUsername": "marcodefalco",
       "userFirstName": "Marco",
       "userLastName": "De Falco",
-      "userAvatar": null,
+      "userAvatar": "/assets/images/avatar.png",
       "userIsVerified": true
     }
   },
@@ -518,10 +518,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_010": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_010": {
         "created_at": "2026-01-03T20:00:00.000Z",
         "title": "TypeScript Advanced Patterns",
         "description": "Exploring advanced TypeScript features for better code quality.",
@@ -532,10 +532,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_011": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_011": {
         "created_at": "2026-01-03T21:00:00.000Z",
         "title": "Building PWAs with Angular",
         "description": "Transform your Angular app into a Progressive Web App.",
@@ -546,10 +546,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_012": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_012": {
         "created_at": "2026-01-03T22:00:00.000Z",
         "title": "RxJS Best Practices in 2026",
         "description": "Modern patterns for reactive programming with RxJS.",
@@ -560,10 +560,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_013": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_013": {
         "created_at": "2026-01-03T23:00:00.000Z",
         "title": "Angular Performance Optimization",
         "description": "Techniques to make your Angular apps lightning fast.",
@@ -574,10 +574,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_014": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_014": {
         "created_at": "2026-01-04T00:00:00.000Z",
         "title": "State Management with NgRx SignalStore",
         "description": "Modern state management using NgRx's signal-based store.",
@@ -588,10 +588,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_015": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_015": {
         "created_at": "2026-01-04T01:00:00.000Z",
         "title": "Testing Angular Components",
         "description": "A complete guide to unit and integration testing in Angular.",
@@ -602,10 +602,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_016": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_016": {
         "created_at": "2026-01-04T02:00:00.000Z",
         "title": "Standalone Components Deep Dive",
         "description": "Everything you need to know about Angular standalone components.",
@@ -616,10 +616,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_017": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_017": {
         "created_at": "2026-01-04T03:00:00.000Z",
         "title": "Angular SSR with Hydration",
         "description": "Server-side rendering made easy with Angular's hydration feature.",
@@ -630,10 +630,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_018": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_018": {
         "created_at": "2026-01-04T04:00:00.000Z",
         "title": "Modern CSS in Angular",
         "description": "Styling techniques for beautiful Angular applications.",
@@ -644,10 +644,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_019": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_019": {
         "created_at": "2026-01-04T05:00:00.000Z",
         "title": "Angular Dependency Injection Patterns",
         "description": "Advanced DI techniques for scalable applications.",
@@ -658,10 +658,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_020": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_020": {
         "created_at": "2026-01-04T06:00:00.000Z",
         "title": "Building Real-time Apps with WebSockets",
         "description": "Create live, interactive Angular applications.",
@@ -672,10 +672,10 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
-        "userIsVerified": true
-      },
-      "post_021": {
+"userAvatar": "/assets/images/avatar.png",
+      "userIsVerified": true
+    },
+    "post_021": {
         "created_at": "2026-01-04T07:00:00.000Z",
         "title": "Micro-frontends with Angular",
         "description": "Scaling frontend development with module federation.",
@@ -686,7 +686,7 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
+        "userAvatar": "/assets/images/avatar.png",
         "userIsVerified": true
       },
       "post_022": {
@@ -700,7 +700,7 @@
         "userUsername": "marcodefalco",
         "userFirstName": "Marco",
         "userLastName": "De Falco",
-        "userAvatar": null,
+        "userAvatar": "/assets/images/avatar.png",
         "userIsVerified": true
       }
     }

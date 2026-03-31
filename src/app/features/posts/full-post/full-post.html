@@ -24,13 +24,13 @@
 
 <div class="min-h-[calc(100svh-7rem)]">
   <div
-    class="rounded-b-3xl md:bg-gray-50/40 md:dark:bg-zinc-900/60 border-x-0 md:border-x border-gray-300/70 dark:border-zinc-800/90 max-w-3xl flex flex-col mx-auto text-center w-full _pt-2 divide-y divide-gray-100 dark:divide-zinc-800/50 pb-20 md:pb-0 mb-20 md:mb-4 overflow-hidden md:border-b"
+    class="rounded-b-3xl md:bg-gray-100/50 md:dark:bg-zinc-900/60 border-x-0 md:border-x border-gray-300/70 dark:border-zinc-800/90 max-w-3xl flex flex-col mx-auto text-center w-full _pt-2 divide-y divide-gray-100 dark:divide-zinc-800/50 pb-20 md:pb-0 mb-20 md:mb-4 overflow-hidden md:border-b"
   >
     @if (isFetching() && !error()) {
       <div aria-live="polite" aria-busy="true" fullPostSkeleton></div>
       @for (post of [0, 1, 2]; track post) {
         <div
-          class="bg-white dark:bg-zinc-950 md:bg-gray-50/40 md:dark:bg-zinc-900/60 px-0 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible"
+          class="bg-white dark:bg-zinc-950 md:bg-gray-100/50 md:dark:bg-zinc-900/60 px-0 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible"
         >
           <div class="w-9 h-9 bg-gray-200 dark:bg-zinc-800 rounded-full col-span-1"></div>
           <div class="flex items-center gap-2 col-span-1">
