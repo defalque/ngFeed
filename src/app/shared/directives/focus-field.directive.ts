@@ -32,7 +32,7 @@ const FOCUSABLE_FIELD_TAGS = new Set(['INPUT', 'TEXTAREA', 'BUTTON']);
 
 @Directive({
   selector: 'form[appFocusField]',
-  standalone: true,
+
   host: {
     '(focusin)': 'onFocusIn($event)',
   },

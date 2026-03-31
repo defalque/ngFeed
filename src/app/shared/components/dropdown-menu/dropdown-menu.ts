@@ -2,7 +2,7 @@ import { Component, effect, input, signal } from '@angular/core';
 
 @Component({
   selector: 'app-dropdown-menu',
-  standalone: true,
+
   imports: [],
   templateUrl: './dropdown-menu.html',
   styleUrl: './dropdown-menu.css',
