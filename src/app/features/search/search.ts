@@ -41,7 +41,7 @@ import { EmptyWrapper } from '@/shared/components/empty-wrapper/empty-wrapper';
   ],
   templateUrl: './search.html',
   styleUrl: './search.css',
-  host: { class: 'block w-full min-h-screen' },
+  host: { class: 'block w-full min-h-[calc(100svh-3.25rem)]' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Search implements OnInit {

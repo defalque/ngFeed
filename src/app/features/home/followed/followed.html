@@ -1,34 +1,38 @@
 <div
-  class="max-w-3xl mx-auto rounded-b-3xl bg-white dark:bg-zinc-950 md:bg-gray-50/40 md:dark:bg-zinc-900/60 flex flex-col _divide-y divide-gray-300/70 dark:divide-zinc-800/90 w-full pb-20 md:pb-0 mb-0 md:mb-4"
+  class="max-w-3xl mx-auto rounded-b-3xl flex flex-col _divide-y divide-gray-300/70 dark:divide-zinc-800/90 w-full pb-20 md:pb-0 mb-0 md:mb-4 min-h-[calc(100svh-13.05rem)]"
 >
   @if (!posts().length) {
-    <div appEmptyWrapper layout="full-page">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="size-20"
-        aria-hidden="true"
-      >
-        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-        <g id="SVGRepo_iconCarrier">
-          <path
-            d="M20 18L17 18M17 18L14 18M17 18V15M17 18V21M11 21H4C4 17.134 7.13401 14 11 14C11.695 14 12.3663 14.1013 13 14.2899M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"
-            stroke="#9f9fa9"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></path>
-        </g>
-      </svg>
-      <p class="text-xl text-center font-semibold text-zinc-400">
-        Comincia a seguire nuovi account
-      </p>
+    <div
+      class="rounded-b-3xl border-x-0 border-b-0 md:border-x md:border-b border-gray-300/70 dark:border-zinc-800/90 bg-white dark:bg-zinc-950 md:bg-gray-50/40 md:dark:bg-zinc-900/60"
+    >
+      <div appEmptyWrapper>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="size-20"
+          aria-hidden="true"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M20 18L17 18M17 18L14 18M17 18V15M17 18V21M11 21H4C4 17.134 7.13401 14 11 14C11.695 14 12.3663 14.1013 13 14.2899M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"
+              stroke="#9f9fa9"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </g>
+        </svg>
+        <p class="text-xl text-center font-semibold text-zinc-400">
+          Comincia a seguire nuovi account
+        </p>
+      </div>
     </div>
   } @else {
     <ul
-      class="divide-y divide-gray-300/70 dark:divide-zinc-800/90 _rounded-t-2xl rounded-b-3xl border-x-0 border-b-0 md:border-x md:border-b border-gray-300/70 dark:border-zinc-800/90"
+      class="divide-y bg-white dark:bg-zinc-950 md:bg-gray-50/40 md:dark:bg-zinc-900/60 divide-gray-300/70 dark:divide-zinc-800/90 _rounded-t-2xl rounded-b-3xl border-x-0 border-b-0 md:border-x md:border-b border-gray-300/70 dark:border-zinc-800/90"
       [class.rounded-t-2xl]="authenticatedUser() === null"
     >
       @for (post of posts(); track post.id; let index = $index) {
