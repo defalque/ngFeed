@@ -22,172 +22,174 @@
   </div>
 </div>
 
-<div
-  class="rounded-b-3xl md:bg-gray-50/40 md:dark:bg-zinc-900/60 border-x-0 md:border-x border-gray-300/70 dark:border-zinc-800/90 max-w-3xl flex flex-col mx-auto text-center w-full pt-2 divide-y divide-gray-100 dark:divide-zinc-800/50 pb-20 md:pb-0 mb-20 md:mb-4 overflow-hidden md:border-b"
->
-  @if (isFetching() && !error()) {
-    <div aria-live="polite" aria-busy="true" fullPostSkeleton></div>
-    @for (post of [0, 1, 2]; track post) {
-      <div
-        class="bg-white dark:bg-zinc-950 px-0 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible"
-      >
-        <div class="w-9 h-9 bg-gray-200 dark:bg-zinc-800 rounded-full col-span-1"></div>
-        <div class="flex items-center gap-2 col-span-1">
-          <span class="text-base font-semibold">marcodefalco</span>
-          <app-verified-icon size="size-4" />
-        </div>
-        <div class="relative inline-block col-span-1">
-          <button
-            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 text-zinc-400/80 dark:text-zinc-400/80 rounded-full p-2 cursor-pointer col-span-1 focus"
-            aria-label="Opzioni post"
-          >
-            <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
-          </button>
-        </div>
-
-        <p
-          class="text-base text-left tracking-normal text-black/80 dark:text-white/90 col-start-2 col-span-full"
+<div class="min-h-[calc(100svh-7rem)]">
+  <div
+    class="rounded-b-3xl md:bg-gray-50/40 md:dark:bg-zinc-900/60 border-x-0 md:border-x border-gray-300/70 dark:border-zinc-800/90 max-w-3xl flex flex-col mx-auto text-center w-full _pt-2 divide-y divide-gray-100 dark:divide-zinc-800/50 pb-20 md:pb-0 mb-20 md:mb-4 overflow-hidden md:border-b"
+  >
+    @if (isFetching() && !error()) {
+      <div aria-live="polite" aria-busy="true" fullPostSkeleton></div>
+      @for (post of [0, 1, 2]; track post) {
+        <div
+          class="bg-white dark:bg-zinc-950 md:bg-gray-50/40 md:dark:bg-zinc-900/60 px-0 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible"
         >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis doloremque illum
-          voluptates facilis aspernatur dolorum facere inventore aperiam blanditiis!
-        </p>
-        <div class="flex items-center gap-2 col-start-2 pt-2 col-span-1 -ml-2">
-          <button
-            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
-            aria-label="Mi piace del post"
+          <div class="w-9 h-9 bg-gray-200 dark:bg-zinc-800 rounded-full col-span-1"></div>
+          <div class="flex items-center gap-2 col-span-1">
+            <span class="text-base font-semibold">marcodefalco</span>
+            <app-verified-icon size="size-4" />
+          </div>
+          <div class="relative inline-block col-span-1">
+            <button
+              class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 text-zinc-400/80 dark:text-zinc-400/80 rounded-full p-2 cursor-pointer col-span-1 focus"
+              aria-label="Opzioni post"
+            >
+              <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
+            </button>
+          </div>
+
+          <p
+            class="text-base text-left tracking-normal text-black/80 dark:text-white/90 col-start-2 col-span-full"
           >
-            <lucide-icon
-              [img]="HeartIcon"
-              size="20"
-              class="text-black! dark:text-white!"
-              aria-hidden
-            ></lucide-icon>
-            <span class="text-sm text-black dark:text-white">10</span>
-          </button>
-          <button
-            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
-            aria-label="Commenti del post"
-          >
-            <lucide-icon
-              [img]="MessageCircleIcon"
-              size="18"
-              class="text-black! dark:text-white!"
-              aria-hidden
-            ></lucide-icon>
-            <span class="text-sm text-black dark:text-white">10</span>
-          </button>
-          <button
-            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer focus"
-            aria-label="Reposta il post"
-          >
-            <lucide-icon
-              [img]="RefreshCcw"
-              size="18"
-              class="text-black! dark:text-white!"
-              aria-hidden
-            ></lucide-icon>
-          </button>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis doloremque illum
+            voluptates facilis aspernatur dolorum facere inventore aperiam blanditiis!
+          </p>
+          <div class="flex items-center gap-2 col-start-2 pt-2 col-span-1 -ml-2">
+            <button
+              class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+              aria-label="Mi piace del post"
+            >
+              <lucide-icon
+                [img]="HeartIcon"
+                size="20"
+                class="text-black! dark:text-white!"
+                aria-hidden
+              ></lucide-icon>
+              <span class="text-sm text-black dark:text-white">10</span>
+            </button>
+            <button
+              class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+              aria-label="Commenti del post"
+            >
+              <lucide-icon
+                [img]="MessageCircleIcon"
+                size="18"
+                class="text-black! dark:text-white!"
+                aria-hidden
+              ></lucide-icon>
+              <span class="text-sm text-black dark:text-white">10</span>
+            </button>
+            <button
+              class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer focus"
+              aria-label="Reposta il post"
+            >
+              <lucide-icon
+                [img]="RefreshCcw"
+                size="18"
+                class="text-black! dark:text-white!"
+                aria-hidden
+              ></lucide-icon>
+            </button>
+          </div>
         </div>
+      }
+    } @else if (post() && !isFetching() && !error()) {
+      <app-post
+        [index]="0"
+        [isLikedPost]="likedSet().has(post()!.id)"
+        [post]="post()!"
+        [type]="'full-post'"
+        [currentUserPost]="isCurrentUserPost()"
+        [isSavedPost]="savedSet().has(post()!.id)"
+      />
+      @for (post of [0, 1, 2]; track post) {
+        <div class="px-0 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible">
+          <div class="w-9 h-9 bg-gray-200 dark:bg-zinc-800 rounded-full col-span-1"></div>
+          <div class="flex items-center gap-2 col-span-1">
+            <span class="text-base font-semibold">marcodefalco</span>
+            <app-verified-icon size="size-4" />
+          </div>
+          <div class="relative inline-block col-span-1">
+            <button
+              class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 text-zinc-400/80 dark:text-zinc-400/80 rounded-full p-2 cursor-pointer col-span-1 focus"
+              aria-label="Opzioni post"
+            >
+              <lucide-icon
+                [img]="EllipsisIcon"
+                size="18"
+                class="text-zinc-400/80! dark:text-zinc-400/80!"
+                aria-hidden
+              ></lucide-icon>
+            </button>
+          </div>
+
+          <p
+            class="text-base text-left tracking-normal text-black/80 dark:text-white/90 col-start-2 col-span-full"
+          >
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis doloremque illum
+            voluptates facilis aspernatur dolorum facere inventore aperiam blanditiis!
+          </p>
+          <div class="flex items-center gap-2 col-start-2 pt-2 col-span-1 -ml-2">
+            <button
+              class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+              aria-label="Mi piace del post"
+            >
+              <lucide-icon
+                [img]="HeartIcon"
+                size="20"
+                class="text-black! dark:text-white!"
+                aria-hidden
+              ></lucide-icon>
+            </button>
+            <button
+              class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
+              aria-label="Commenti del post"
+            >
+              <lucide-icon
+                [img]="MessageCircleIcon"
+                size="18"
+                class="text-black! dark:text-white!"
+                aria-hidden
+              ></lucide-icon>
+              <span class="text-sm text-black dark:text-white">10</span>
+            </button>
+            <button
+              class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer focus"
+              aria-label="Reposta il post"
+            >
+              <lucide-icon
+                [img]="RefreshCcw"
+                size="18"
+                class="text-black! dark:text-white!"
+                aria-hidden
+              ></lucide-icon>
+            </button>
+          </div>
+        </div>
+      }
+    } @else if (error()) {
+      <div class="flex flex-col items-center gap-2">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="size-18"
+          aria-hidden="true"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M9.5 8.5L14.5 13.5M14.5 8.5L9.5 13.5M21 20L17.6757 18.3378C17.4237 18.2118 17.2977 18.1488 17.1656 18.1044C17.0484 18.065 16.9277 18.0365 16.8052 18.0193C16.6672 18 16.5263 18 16.2446 18H6.2C5.07989 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V20Z"
+              stroke="#9f9fa9"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </g>
+        </svg>
+        <p aria-live="assertive" class="text-lg text-center font-medium text-zinc-400">
+          {{ error() }}. Riprova più tardi.
+        </p>
       </div>
     }
-  } @else if (post() && !isFetching() && !error()) {
-    <app-post
-      [index]="0"
-      [isLikedPost]="likedSet().has(post()!.id)"
-      [post]="post()!"
-      [type]="'full-post'"
-      [currentUserPost]="isCurrentUserPost()"
-      [isSavedPost]="savedSet().has(post()!.id)"
-    />
-    @for (post of [0, 1, 2]; track post) {
-      <div class="px-0 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible">
-        <div class="w-9 h-9 bg-gray-200 dark:bg-zinc-800 rounded-full col-span-1"></div>
-        <div class="flex items-center gap-2 col-span-1">
-          <span class="text-base font-semibold">marcodefalco</span>
-          <app-verified-icon size="size-4" />
-        </div>
-        <div class="relative inline-block col-span-1">
-          <button
-            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 text-zinc-400/80 dark:text-zinc-400/80 rounded-full p-2 cursor-pointer col-span-1 focus"
-            aria-label="Opzioni post"
-          >
-            <lucide-icon
-              [img]="EllipsisIcon"
-              size="18"
-              class="text-zinc-400/80! dark:text-zinc-400/80!"
-              aria-hidden
-            ></lucide-icon>
-          </button>
-        </div>
-
-        <p
-          class="text-base text-left tracking-normal text-black/80 dark:text-white/90 col-start-2 col-span-full"
-        >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis doloremque illum
-          voluptates facilis aspernatur dolorum facere inventore aperiam blanditiis!
-        </p>
-        <div class="flex items-center gap-2 col-start-2 pt-2 col-span-1 -ml-2">
-          <button
-            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
-            aria-label="Mi piace del post"
-          >
-            <lucide-icon
-              [img]="HeartIcon"
-              size="20"
-              class="text-black! dark:text-white!"
-              aria-hidden
-            ></lucide-icon>
-          </button>
-          <button
-            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer flex items-center gap-1 focus"
-            aria-label="Commenti del post"
-          >
-            <lucide-icon
-              [img]="MessageCircleIcon"
-              size="18"
-              class="text-black! dark:text-white!"
-              aria-hidden
-            ></lucide-icon>
-            <span class="text-sm text-black dark:text-white">10</span>
-          </button>
-          <button
-            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer focus"
-            aria-label="Reposta il post"
-          >
-            <lucide-icon
-              [img]="RefreshCcw"
-              size="18"
-              class="text-black! dark:text-white!"
-              aria-hidden
-            ></lucide-icon>
-          </button>
-        </div>
-      </div>
-    }
-  } @else if (error()) {
-    <div class="flex flex-col items-center gap-2">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="size-18"
-        aria-hidden="true"
-      >
-        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-        <g id="SVGRepo_iconCarrier">
-          <path
-            d="M9.5 8.5L14.5 13.5M14.5 8.5L9.5 13.5M21 20L17.6757 18.3378C17.4237 18.2118 17.2977 18.1488 17.1656 18.1044C17.0484 18.065 16.9277 18.0365 16.8052 18.0193C16.6672 18 16.5263 18 16.2446 18H6.2C5.07989 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V20Z"
-            stroke="#9f9fa9"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></path>
-        </g>
-      </svg>
-      <p aria-live="assertive" class="text-lg text-center font-medium text-zinc-400">
-        {{ error() }}. Riprova più tardi.
-      </p>
-    </div>
-  }
+  </div>
 </div>
