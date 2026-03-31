@@ -9,6 +9,7 @@ import { ThemeMode, ThemeService } from '@/core/services/theme.service';
   selector: 'app-header',
   imports: [LucideAngularModule, ClickOutsideDirective, DropdownMenu],
   templateUrl: './header.html',
+  styleUrl: './header.css',
 })
 export class Header {
   private authService = inject(AuthService);

@@ -33,7 +33,8 @@
             [disabled]="!searchControl.value"
             (click)="toggleOpen()"
             [aria-label]="isOpen() ? 'Chiudi filtri' : 'Apri filtri'"
-            class="hover:bg-gray-100/55 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer focus outline-none active:scale-[0.88] transition-transform duration-100 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:bg-white dark:disabled:hover:bg-zinc-950"
+            [class.active]="isOpen()"
+            class="hover:bg-gray-200/75 dark:hover:bg-zinc-800/50 rounded-full p-2 cursor-pointer focus outline-none active:scale-[0.88] transition-[transform,background-color] duration-100 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:bg-white dark:disabled:hover:bg-zinc-950"
           >
             <lucide-icon
               [img]="SlidersHorizontalIcon"

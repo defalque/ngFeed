@@ -1,1 +1,7 @@
+button.active {
+  background-color: rgb(229 231 235 / 0.75);
+}
 
+:host-context(.dark) button.active {
+  background-color: rgb(39 39 42 / 0.5);
+}
