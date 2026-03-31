@@ -1,9 +1,29 @@
-<div class="hidden md:block max-w-3xl mx-auto text-center w-full py-4">
-  <h1 class="text-xl font-bold tracking-normal">Post</h1>
+<div
+  class="hidden md:block max-w-3xl mx-auto text-center w-full py-4 bg-white dark:bg-zinc-950 md:sticky md:top-0 md:z-1000"
+>
+  <h1 class="text-xl font-semibold tracking-normal">Post</h1>
+</div>
+
+<div class="max-w-3xl mx-auto sticky top-15 z-900 hidden md:block">
+  <div class="absolute top-0 left-0 z-2 w-7 h-9 overflow-hidden">
+    <div
+      class="w-12 h-12 rounded-t-3xl border-t border-l border-gray-300/50 dark:border-zinc-800/90 shadow-[0_0_0_9999px_white] dark:shadow-[0_0_0_9999px_#09090b]"
+    ></div>
+  </div>
+
+  <div
+    class="absolute top-0 left-0 right-0 z-1 max-w-[93%] mx-auto h-2 bg-transparent border-t border-gray-300/50 dark:border-zinc-800/90 _rounded-t-3xl"
+  ></div>
+
+  <div class="absolute top-0 right-0 z-2 w-7 h-9 overflow-hidden">
+    <div
+      class="-ml-5 w-12 h-12 rounded-t-3xl border-t border-r border-gray-300/50 dark:border-zinc-800/90 shadow-[0_0_0_9999px_white] dark:shadow-[0_0_0_9999px_#09090b]"
+    ></div>
+  </div>
 </div>
 
 <div
-  class="max-w-3xl flex flex-col mx-auto text-center w-full py-4 divide-y divide-gray-100 dark:divide-zinc-800/50 pb-20 md:pb-4"
+  class="rounded-b-3xl md:bg-gray-50/40 md:dark:bg-zinc-900/60 border-x-0 md:border-x border-gray-300/70 dark:border-zinc-800/90 max-w-3xl flex flex-col mx-auto text-center w-full pt-2 divide-y divide-gray-100 dark:divide-zinc-800/50 pb-20 md:pb-0 mb-20 md:mb-4 overflow-hidden md:border-b"
 >
   @if (isFetching() && !error()) {
     <div aria-live="polite" aria-busy="true" fullPostSkeleton></div>
@@ -80,9 +100,7 @@
       [isSavedPost]="savedSet().has(post()!.id)"
     />
     @for (post of [0, 1, 2]; track post) {
-      <div
-        class="bg-white dark:bg-zinc-950 px-0 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible"
-      >
+      <div class="px-0 py-4 sm:p-4 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible">
         <div class="w-9 h-9 bg-gray-200 dark:bg-zinc-800 rounded-full col-span-1"></div>
         <div class="flex items-center gap-2 col-span-1">
           <span class="text-base font-semibold">marcodefalco</span>

@@ -1,152 +1,161 @@
-<div class="hidden md:block max-w-3xl mx-auto text-center w-full py-4">
-  <h1 class="text-xl font-bold tracking-normal">Profilo</h1>
+<div
+  class="hidden md:block max-w-3xl mx-auto text-center w-full py-4 md:sticky md:top-0 md:z-10 bg-white dark:bg-zinc-950"
+>
+  <h1 class="text-xl font-semibold tracking-normal">Profilo</h1>
 </div>
-<div class="max-w-3xl flex flex-col mx-auto text-center w-full py-4">
-  <div class="md:sticky top-0 bg-white dark:bg-zinc-950 z-50">
-    @if (isFetching()) {
-      <div aria-live="polite" aria-busy="true" userSkeleton></div>
-    } @else if (user() && !error()) {
-      <div class="flex items-start gap-4 px-2 py-4 sm:p-4">
-        <div class="flex flex-col items-center gap-2 flex-none">
-          <div class="relative rounded-full">
-            @if (user()?.isVerified) {
-              <div
-                class="shape-bg absolute top-0.5 right-1.5 w-6 h-6 bg-white dark:bg-zinc-950"
-              ></div>
-              <app-verified-icon size="size-4.5" mode="absolute" />
-            }
-            <img
-              [ngSrc]="avatarSrc()"
-              [alt]="'Avatar di ' + (user()?.firstName ?? '') + ' ' + (user()?.lastName ?? '')"
-              width="112"
-              height="112"
-              class="md:size-24 size-24 sm:size-28 bg-gray-200 dark:bg-zinc-800 rounded-full col-span-1 select-none"
-              (error)="onAvatarError()"
-              priority
-            />
-          </div>
-          <div class="flex items-center gap-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              x="0px"
-              y="0px"
-              width="100"
-              height="100"
-              viewBox="0 0 30 30"
-              class="size-8 md:size-6 fill-gray-400 hover:fill-black dark:fill-zinc-400 dark:hover:fill-white transition-colors duration-300 cursor-pointer"
-              aria-hidden="true"
-            >
-              <path
-                d="M15,3C8.373,3,3,8.373,3,15c0,5.623,3.872,10.328,9.092,11.63C12.036,26.468,12,26.28,12,26.047v-2.051 c-0.487,0-1.303,0-1.508,0c-0.821,0-1.551-0.353-1.905-1.009c-0.393-0.729-0.461-1.844-1.435-2.526 c-0.289-0.227-0.069-0.486,0.264-0.451c0.615,0.174,1.125,0.596,1.605,1.222c0.478,0.627,0.703,0.769,1.596,0.769 c0.433,0,1.081-0.025,1.691-0.121c0.328-0.833,0.895-1.6,1.588-1.962c-3.996-0.411-5.903-2.399-5.903-5.098 c0-1.162,0.495-2.286,1.336-3.233C9.053,10.647,8.706,8.73,9.435,8c1.798,0,2.885,1.166,3.146,1.481C13.477,9.174,14.461,9,15.495,9 c1.036,0,2.024,0.174,2.922,0.483C18.675,9.17,19.763,8,21.565,8c0.732,0.731,0.381,2.656,0.102,3.594 c0.836,0.945,1.328,2.066,1.328,3.226c0,2.697-1.904,4.684-5.894,5.097C18.199,20.49,19,22.1,19,23.313v2.734 c0,0.104-0.023,0.179-0.035,0.268C23.641,24.676,27,20.236,27,15C27,8.373,21.627,3,15,3z"
-              ></path>
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              x="0px"
-              y="0px"
-              width="100"
-              height="100"
-              viewBox="0 0 30 30"
-              class="size-8 md:size-6 fill-gray-400 hover:fill-black dark:fill-zinc-400 dark:hover:fill-white transition-colors duration-300 cursor-pointer"
-              aria-hidden="true"
-            >
-              <path
-                d="M 6 4 C 4.895 4 4 4.895 4 6 L 4 24 C 4 25.105 4.895 26 6 26 L 24 26 C 25.105 26 26 25.105 26 24 L 26 6 C 26 4.895 25.105 4 24 4 L 6 4 z M 8.6484375 9 L 13.259766 9 L 15.951172 12.847656 L 19.28125 9 L 20.732422 9 L 16.603516 13.78125 L 21.654297 21 L 17.042969 21 L 14.056641 16.730469 L 10.369141 21 L 8.8945312 21 L 13.400391 15.794922 L 8.6484375 9 z M 10.878906 10.183594 L 17.632812 19.810547 L 19.421875 19.810547 L 12.666016 10.183594 L 10.878906 10.183594 z"
-              ></path>
-            </svg>
-          </div>
-        </div>
 
-        <div
-          class="flex md:flex-row flex-col md:justify-between items-start md:items-center grow md:gap-4 gap-4"
-        >
-          <div class="flex flex-col items-start flex-1 text-sm sm:text-base">
-            <div class="flex items-center gap-2">
-              <p class="text-xl text-left sm:text-2xl font-bold tracking-normal">
-                {{ (user()?.firstName ?? '') + ' ' + (user()?.lastName ?? '') }}
-              </p>
+<div class="max-w-3xl flex flex-col mx-auto text-center w-full pt-4 pb-12">
+  <div class="md:sticky top-2 z-50 bg-white dark:bg-zinc-950">
+    <div
+      class="bg-white dark:bg-zinc-950 md:bg-gray-50/40 md:dark:bg-zinc-900/60 border-x-0 md:border-x border-y-0 md:border-y border-gray-300/70 dark:border-zinc-800/90 rounded-t-3xl pt-6"
+    >
+      @if (isFetching()) {
+        <div aria-live="polite" aria-busy="true" userSkeleton></div>
+      } @else if (user() && !error()) {
+        <div class="flex items-start gap-4 px-2 py-4 sm:p-4">
+          <div class="flex flex-col items-center gap-2 flex-none">
+            <div class="relative rounded-full">
+              @if (user()?.isVerified) {
+                <div
+                  class="shape-bg absolute top-0.5 right-1.5 w-6 h-6 bg-white dark:bg-zinc-950"
+                ></div>
+                <app-verified-icon size="size-4.5" mode="absolute" />
+              }
+              <img
+                [ngSrc]="avatarSrc()"
+                [alt]="'Avatar di ' + (user()?.firstName ?? '') + ' ' + (user()?.lastName ?? '')"
+                width="112"
+                height="112"
+                class="md:size-24 size-24 sm:size-28 bg-gray-200 dark:bg-zinc-800 rounded-full col-span-1 select-none"
+                (error)="onAvatarError()"
+                priority
+              />
             </div>
-            <p class="text-gray-500 dark:text-zinc-400 mb-2 font-medium">@{{ user()?.username }}</p>
-            @if (user()?.bio) {
-              <p class="text-pretty text-gray-500 dark:text-zinc-400 text-left mb-4 md:max-w-md">
-                {{ user()?.bio }}
-              </p>
-            }
-            @if (user()?.websiteUrl; as websiteUrl) {
-              <div class="flex items-center flex-wrap gap-4 gap-y-1">
-                <a
-                  [href]="websiteUrl"
-                  class="text-gray-500 dark:text-zinc-400 hover:underline italic"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >{{ websiteUrl.split('//')[1] || websiteUrl }}</a
-                >
-              </div>
-            }
+            <div class="flex items-center gap-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="100"
+                height="100"
+                viewBox="0 0 30 30"
+                class="size-8 md:size-6 fill-gray-400 hover:fill-black dark:fill-zinc-400 dark:hover:fill-white transition-colors duration-300 cursor-pointer"
+                aria-hidden="true"
+              >
+                <path
+                  d="M15,3C8.373,3,3,8.373,3,15c0,5.623,3.872,10.328,9.092,11.63C12.036,26.468,12,26.28,12,26.047v-2.051 c-0.487,0-1.303,0-1.508,0c-0.821,0-1.551-0.353-1.905-1.009c-0.393-0.729-0.461-1.844-1.435-2.526 c-0.289-0.227-0.069-0.486,0.264-0.451c0.615,0.174,1.125,0.596,1.605,1.222c0.478,0.627,0.703,0.769,1.596,0.769 c0.433,0,1.081-0.025,1.691-0.121c0.328-0.833,0.895-1.6,1.588-1.962c-3.996-0.411-5.903-2.399-5.903-5.098 c0-1.162,0.495-2.286,1.336-3.233C9.053,10.647,8.706,8.73,9.435,8c1.798,0,2.885,1.166,3.146,1.481C13.477,9.174,14.461,9,15.495,9 c1.036,0,2.024,0.174,2.922,0.483C18.675,9.17,19.763,8,21.565,8c0.732,0.731,0.381,2.656,0.102,3.594 c0.836,0.945,1.328,2.066,1.328,3.226c0,2.697-1.904,4.684-5.894,5.097C18.199,20.49,19,22.1,19,23.313v2.734 c0,0.104-0.023,0.179-0.035,0.268C23.641,24.676,27,20.236,27,15C27,8.373,21.627,3,15,3z"
+                ></path>
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="100"
+                height="100"
+                viewBox="0 0 30 30"
+                class="size-8 md:size-6 fill-gray-400 hover:fill-black dark:fill-zinc-400 dark:hover:fill-white transition-colors duration-300 cursor-pointer"
+                aria-hidden="true"
+              >
+                <path
+                  d="M 6 4 C 4.895 4 4 4.895 4 6 L 4 24 C 4 25.105 4.895 26 6 26 L 24 26 C 25.105 26 26 25.105 26 24 L 26 6 C 26 4.895 25.105 4 24 4 L 6 4 z M 8.6484375 9 L 13.259766 9 L 15.951172 12.847656 L 19.28125 9 L 20.732422 9 L 16.603516 13.78125 L 21.654297 21 L 17.042969 21 L 14.056641 16.730469 L 10.369141 21 L 8.8945312 21 L 13.400391 15.794922 L 8.6484375 9 z M 10.878906 10.183594 L 17.632812 19.810547 L 19.421875 19.810547 L 12.666016 10.183594 L 10.878906 10.183594 z"
+                ></path>
+              </svg>
+            </div>
           </div>
 
-          <div class="w-full md:w-auto md:max-w-fit md:self-start">
-            @if (isCurrentUserPage()) {
-              <app-button (click)="openDialog('edit-user', null)" twStyles="w-full">
-                Modifica profilo
-              </app-button>
-            } @else {
-              <app-button (click)="onFollowClick()" [disabled]="isFollowing()" twStyles="w-full">
-                @if (isFollowing()) {
-                  <span>Attendi</span>
+          <div
+            class="flex md:flex-row flex-col md:justify-between items-start md:items-center grow md:gap-4 gap-4"
+          >
+            <div class="flex flex-col items-start flex-1 text-sm sm:text-base">
+              <div class="flex items-center gap-2">
+                <p class="text-xl text-left sm:text-2xl font-bold tracking-normal">
+                  {{ (user()?.firstName ?? '') + ' ' + (user()?.lastName ?? '') }}
+                </p>
+              </div>
+              <p class="text-gray-500 dark:text-zinc-400 mb-2 font-medium">
+                @{{ user()?.username }}
+              </p>
+              @if (user()?.bio) {
+                <p class="text-pretty text-gray-500 dark:text-zinc-400 text-left mb-4 md:max-w-md">
+                  {{ user()?.bio }}
+                </p>
+              }
+              @if (user()?.websiteUrl; as websiteUrl) {
+                <div class="flex items-center flex-wrap gap-4 gap-y-1">
+                  <a
+                    [href]="websiteUrl"
+                    class="text-gray-500 dark:text-zinc-400 hover:underline italic"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >{{ websiteUrl.split('//')[1] || websiteUrl }}</a
+                  >
+                </div>
+              }
+            </div>
 
-                  <div
-                    class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
-                  ></div>
-                } @else {
-                  {{ userIsFollowing() ? 'Non seguire più' : 'Segui' }}
-                }
-              </app-button>
-            }
+            <div class="w-full md:w-auto md:max-w-fit md:self-start">
+              @if (isCurrentUserPage()) {
+                <app-button (click)="openDialog('edit-user', null)" twStyles="w-full">
+                  Modifica profilo
+                </app-button>
+              } @else {
+                <app-button (click)="onFollowClick()" [disabled]="isFollowing()" twStyles="w-full">
+                  @if (isFollowing()) {
+                    <span>Attendi</span>
+
+                    <div
+                      class="size-5 rounded-full border-[3px] border-black dark:border-white border-t-white dark:border-t-black border-r-white dark:border-r-black animate-spin [animation-duration:500ms]"
+                    ></div>
+                  } @else {
+                    {{ userIsFollowing() ? 'Non seguire più' : 'Segui' }}
+                  }
+                </app-button>
+              }
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="flex px-2 gap-6 sm:gap-16 py-4 justify-center">
-        <a
-          routerLink="posts"
-          routerLinkActive="active"
-          class="text-lg font-bold tracking-normal text-zinc-400/80 px-2 focus"
-          >{{ isCurrentUserPage() ? 'I tuoi post' : 'I post di ' + (user()?.firstName ?? '') }}</a
-        >
-        <a
-          routerLink="repost"
-          routerLinkActive="active"
-          class="text-lg font-bold tracking-normal text-zinc-400/80 px-2 focus"
-          >Repost</a
-        >
-      </div>
-    } @else if (error()) {
-      <div appEmptyWrapper layout="card">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          class="size-18"
-          aria-hidden="true"
-        >
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              d="M16.5 16L21.5 21M21.5 16L16.5 21M15.5 3.29076C16.9659 3.88415 18 5.32131 18 7C18 8.67869 16.9659 10.1159 15.5 10.7092M12 15H8C6.13623 15 5.20435 15 4.46927 15.3045C3.48915 15.7105 2.71046 16.4892 2.30448 17.4693C2 18.2044 2 19.1362 2 21M13.5 7C13.5 9.20914 11.7091 11 9.5 11C7.29086 11 5.5 9.20914 5.5 7C5.5 4.79086 7.29086 3 9.5 3C11.7091 3 13.5 4.79086 13.5 7Z"
-              stroke="#9f9fa9"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-          </g>
-        </svg>
-        <p aria-live="assertive" class="text-lg text-center font-medium text-zinc-400">
-          {{ error() }}. Riprova più tardi.
-        </p>
-      </div>
-    }
+        <div class="flex px-2 gap-6 sm:gap-16 py-4 justify-center">
+          <a
+            routerLink="posts"
+            routerLinkActive="active"
+            class="text-lg font-semibold tracking-normal text-zinc-400/80 px-2 focus"
+            >{{ isCurrentUserPage() ? 'I tuoi post' : 'I post di ' + (user()?.firstName ?? '') }}</a
+          >
+          <a
+            routerLink="repost"
+            routerLinkActive="active"
+            class="text-lg font-semibold tracking-normal text-zinc-400/80 px-2 focus"
+            >Repost</a
+          >
+        </div>
+      } @else if (error()) {
+        <div appEmptyWrapper layout="card">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-18"
+            aria-hidden="true"
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M16.5 16L21.5 21M21.5 16L16.5 21M15.5 3.29076C16.9659 3.88415 18 5.32131 18 7C18 8.67869 16.9659 10.1159 15.5 10.7092M12 15H8C6.13623 15 5.20435 15 4.46927 15.3045C3.48915 15.7105 2.71046 16.4892 2.30448 17.4693C2 18.2044 2 19.1362 2 21M13.5 7C13.5 9.20914 11.7091 11 9.5 11C7.29086 11 5.5 9.20914 5.5 7C5.5 4.79086 7.29086 3 9.5 3C11.7091 3 13.5 4.79086 13.5 7Z"
+                stroke="#9f9fa9"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </g>
+          </svg>
+          <p aria-live="assertive" class="text-lg text-center font-medium text-zinc-400">
+            {{ error() }}. Riprova più tardi.
+          </p>
+        </div>
+      }
+    </div>
   </div>
 
   <router-outlet />

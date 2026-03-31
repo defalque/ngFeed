@@ -1,7 +1,7 @@
 @if (type() === 'for-you') {
   <a
     [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
-    class="bg-white dark:bg-zinc-950 px-1 py-3 sm:px-4 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
+    class="px-1 py-3 sm:px-4 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
   >
     <img
       [ngSrc]="post().userAvatar | safeAvatarUrl"
@@ -121,7 +121,7 @@
 }
 @if (type() === 'full-post') {
   <div
-    class="bg-white dark:bg-zinc-950 px-1 py-3 sm:px-4 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible"
+    class="px-1 py-3 sm:px-4 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible"
   >
     <img
       [ngSrc]="post().userAvatar | safeAvatarUrl"

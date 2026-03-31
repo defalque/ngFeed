@@ -34,7 +34,7 @@
 
       @defer (when !isAuthenticated()) {
         <a
-          class="bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-md absolute top-4 right-4 font-medium cursor-pointer focus-button active:scale-[0.95] transition-all hover:bg-black/80 dark:hover:bg-white/80 z-1000 shadow-xs hidden lg:block"
+          class="bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-md fixed top-4 right-4 font-medium cursor-pointer focus-button active:scale-[0.95] transition-all hover:bg-black/80 dark:hover:bg-white/80 z-1000 shadow-xs hidden lg:block"
           routerLink="/auth"
           animate.enter="auth-btn-enter"
           >Accedi</a
@@ -44,7 +44,7 @@
       <main
         id="main-content"
         tabindex="-1"
-        class="w-full flex flex-1 flex-col items-center pt-16 md:pt-0 pl-2 md:pl-30 pr-2 lg:pr-30 focus:outline-none"
+        class="w-full flex flex-1 flex-col items-center pt-16 md:pt-0 pl-0 md:pl-30 pr-0 dm:p-l2 md:pr-2 lg:pr-30 focus:outline-none"
       >
         <router-outlet />
       </main>
@@ -87,17 +87,22 @@
       <app-toast-container />
     }
 
-    <!-- <footer class="w-full flex items-center justify-center p-4 max-w-3xl mx-auto mt-auto">
-    <p class="text-gray-500 text-sm">
-      © 2026 <strong class="text-black">ngFeed</strong> by
-      <a
-        href="https://marcodefalco.dev"
-        class="text-orange-500 hover:underline underline-offset-1 font-semibold"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Marco De Falco</a
-      >. Tutti i diritti riservati.
-    </p>
-  </footer> -->
+    <div class="pl-2 md:pl-30 pr-2 lg:pr-30 mt-auto">
+      <footer
+        class="w-full flex items-center justify-between py-4 max-w-3xl mx-auto _mt-auto text-gray-500 text-sm"
+      >
+        <p class="">©2026 <strong class="text-black dark:text-white">ngFeed</strong></p>
+        <p>
+          by
+          <a
+            href="https://marcodefalco.dev"
+            class="text-orange-500 hover:underline underline-offset-1 font-semibold"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Marco De Falco</a
+          >
+        </p>
+      </footer>
+    </div>
   }
 </div>

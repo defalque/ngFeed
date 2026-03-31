@@ -1,12 +1,30 @@
 <div
-  class="hidden md:block max-w-3xl mx-auto text-center w-full pt-3 md:sticky md:top-0 md:z-10 bg-white dark:bg-zinc-950"
+  class="hidden md:block max-w-3xl mx-auto text-center w-full py-4 md:sticky md:top-0 md:z-1000 bg-white dark:bg-zinc-950"
 >
-  <h1 class="text-xl font-bold tracking-normal py-2">Preferiti</h1>
+  <h1 class="text-xl font-semibold tracking-normal">Preferiti</h1>
 </div>
 <h1 class="sr-only md:hidden">Preferiti</h1>
 
+<div class="max-w-3xl mx-auto sticky top-15 z-900 hidden md:block">
+  <div class="absolute top-0 left-0 z-2 w-7 h-9 overflow-hidden">
+    <div
+      class="w-12 h-12 rounded-t-3xl border-t border-l border-gray-300/50 dark:border-zinc-800/90 shadow-[0_0_0_9999px_white] dark:shadow-[0_0_0_9999px_#09090b]"
+    ></div>
+  </div>
+
+  <div
+    class="absolute top-0 left-0 right-0 z-1 max-w-[93%] mx-auto h-2 bg-transparent border-t border-gray-300/50 dark:border-zinc-800/90 _rounded-t-3xl"
+  ></div>
+
+  <div class="absolute top-0 right-0 z-2 w-7 h-9 overflow-hidden">
+    <div
+      class="-ml-5 w-12 h-12 rounded-t-3xl border-t border-r border-gray-300/50 dark:border-zinc-800/90 shadow-[0_0_0_9999px_white] dark:shadow-[0_0_0_9999px_#09090b]"
+    ></div>
+  </div>
+</div>
+
 <div
-  class="max-w-3xl flex flex-col gap-4 mx-auto w-full pt-4 pb-30 md:pb-4 min-h-[calc(100vh-7rem)]"
+  class="max-w-3xl flex flex-col gap-4 mx-auto w-full _pt-4 pb-30 md:pb-4 min-h-[calc(100vh-7rem)]"
 >
   @if (posts().length === 0) {
     <div appEmptyWrapper layout="full-page">
@@ -40,7 +58,9 @@
       <p class="text-xl text-center font-semibold text-zinc-400">Non hai preferiti al momento</p>
     </div>
   } @else {
-    <ul class="py-1 divide-y divide-gray-100 dark:divide-zinc-800/50">
+    <ul
+      class="py-1 divide-y divide-gray-300/70 dark:divide-zinc-800/90 rounded-b-3xl border-x-0 border-b-0 md:border-x md:border-b border-gray-300/70 dark:border-zinc-800/90 bg-white dark:bg-zinc-950 md:bg-gray-50/40 md:dark:bg-zinc-900/60"
+    >
       @for (post of posts(); track post.id; let index = $index) {
         <li>
           <app-post
