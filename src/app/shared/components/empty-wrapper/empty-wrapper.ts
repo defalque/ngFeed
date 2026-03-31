@@ -6,13 +6,9 @@ import { Component, computed, input } from '@angular/core';
   templateUrl: './empty-wrapper.html',
   styleUrl: './empty-wrapper.css',
   host: {
-    class: 'flex flex-col justify-center items-center',
-    '[class.my-20]': 'layout() === "full-page"',
-    '[class.mt-12]': 'layout() === "card"',
+    class: 'flex flex-col justify-center items-center py-12',
     '[animate.enter]': '"empty-enter"',
     '[animate.leave]': '"empty-leave"',
   },
 })
-export class EmptyWrapper {
-  layout = input.required<'full-page' | 'card'>();
-}
+export class EmptyWrapper {}

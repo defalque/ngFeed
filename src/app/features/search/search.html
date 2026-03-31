@@ -123,7 +123,7 @@
   >
     @if (!searchControl.value && !error()) {
       <p
-        class="text-sm text-gray-500/80 dark:text-zinc-400/80 px-2 md:px-4 py-2 text-start font-semibold"
+        class="text-sm text-gray-500/80 dark:text-zinc-400/80 px-2 md:px-4 pt-4 pb-2 text-start font-semibold"
       >
         Account suggeriti da seguire
       </p>
@@ -138,7 +138,7 @@
     }
 
     @if (error()) {
-      <div appEmptyWrapper layout="card" class="mb-7">
+      <div appEmptyWrapper>
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -192,7 +192,7 @@
       searchControl.value &&
       filteredUsers().length === 0
     ) {
-      <div appEmptyWrapper layout="card" class="mb-7">
+      <div appEmptyWrapper layout="card" class="_mb-8">
         <svg
           fill="#9f9fa9"
           viewBox="0 0 32 32"
