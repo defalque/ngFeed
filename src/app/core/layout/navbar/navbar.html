@@ -45,7 +45,7 @@
         <button
           (click)="redirectTo('utente/' + authenticatedUser()?.localId)"
           [class.active]="isActive('/utente/' + authenticatedUser()?.localId + '/posts')"
-          class="text-zinc-400/80 w-full rounded-xl md:px-5 md:py-3 py-3 cursor-pointer flex items-center justify-center focus transition-transform motion-reduce:transition-none active:scale-[0.92] relative z-10 group"
+          class="nav-profile-btn text-zinc-400/80 w-full rounded-xl md:px-5 md:py-3 py-3 cursor-pointer flex items-center justify-center focus transition-transform motion-reduce:transition-none active:scale-[0.92] relative z-10 group"
           aria-label="Apri profilo"
         >
           <div

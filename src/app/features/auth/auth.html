@@ -1,12 +1,14 @@
-<div class="hidden md:block max-w-3xl mx-auto text-center w-full py-4">
-  <h1 class="text-xl font-bold tracking-normal">{{ isLoginMode() ? 'Accedi' : 'Registrati' }}</h1>
+<div class="hidden md:block max-w-2xl mx-auto text-center w-full py-4">
+  <h1 class="text-xl font-semibold tracking-normal">
+    {{ isLoginMode() ? 'Accedi' : 'Registrati' }}
+  </h1>
 </div>
 
 <!-- Template-driven form -->
 <form
   appFocusField
   #form="ngForm"
-  class="flex flex-col gap-4 pb-4 sm:pb-6 sm:px-6 px-4 overflow-y-auto max-w-3xl mx-auto my-40 min-h-[calc(100svh-27rem)]"
+  class="flex flex-col gap-4 pb-4 sm:pb-6 sm:px-6 px-4 overflow-y-auto max-w-2xl mx-auto my-40 min-h-[calc(100svh-27rem)]"
   (ngSubmit)="onSubmit(form)"
 >
   <div class="flex flex-col items-start gap-2">
@@ -54,7 +56,7 @@
       name="email"
       autocomplete="email"
       spellcheck="false"
-      class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input focus:outline-none disabled:cursor-not-allowed dark:bg-zinc-900 dark:text-zinc-100"
+      class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input disabled:cursor-not-allowed dark:bg-zinc-900 dark:text-zinc-100"
       ngModel
       required
       email
@@ -107,7 +109,7 @@
         id="password"
         name="password"
         autocomplete="current-password"
-        class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input focus:outline-none disabled:cursor-not-allowed dark:bg-zinc-900 dark:text-zinc-100"
+        class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input disabled:cursor-not-allowed dark:bg-zinc-900 dark:text-zinc-100"
         ngModel
         required
         [disabled]="isLoading()"

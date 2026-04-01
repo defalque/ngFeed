@@ -1,10 +1,19 @@
 <div
-  class="hidden md:block max-w-3xl mx-auto text-center w-full py-4 bg-white dark:bg-zinc-950 md:sticky md:top-0 md:z-1000"
+  class="relative hidden md:block max-w-2xl mx-auto text-center w-full py-4 bg-white dark:bg-zinc-950 md:sticky md:top-0 md:z-1000"
 >
+  <button
+    type="button"
+    class="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex size-6.5 shrink-0 items-center justify-center rounded-full border border-gray-200/90 bg-white/95 text-zinc-800 shadow-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-zinc-700/90 dark:bg-zinc-900/95 dark:text-zinc-100 dark:hover:bg-zinc-800 dark:focus-visible:ring-zinc-500 dark:focus-visible:ring-offset-zinc-950 cursor-pointer hover:scale-110 active:scale-95 transition-all duration-200 starting:opacity-0 starting:-translate-x-full ease-out"
+    (click)="goBack()"
+    aria-label="Torna indietro"
+  >
+    <lucide-icon [img]="ArrowLeftIcon" size="18" aria-hidden="true" />
+  </button>
+
   <h1 class="text-xl font-semibold tracking-normal">Post</h1>
 </div>
 
-<div class="max-w-3xl mx-auto sticky top-15 z-900 hidden md:block">
+<div class="max-w-2xl mx-auto sticky top-15 z-900 hidden md:block">
   <div class="absolute top-0 left-0 z-2 w-7 h-9 overflow-hidden">
     <div
       class="w-12 h-12 rounded-t-3xl border-t border-l border-gray-300/50 dark:border-zinc-800/90 shadow-[0_0_0_9999px_white] dark:shadow-[0_0_0_9999px_#09090b]"
@@ -24,7 +33,7 @@
 
 <div class="min-h-[calc(100svh-7rem)]">
   <div
-    class="rounded-b-3xl md:bg-gray-100/50 md:dark:bg-zinc-900/60 border-x-0 md:border-x border-gray-300/70 dark:border-zinc-800/90 max-w-3xl flex flex-col mx-auto text-center w-full _pt-2 divide-y divide-gray-100 dark:divide-zinc-800/50 pb-20 md:pb-0 mb-20 md:mb-4 overflow-hidden md:border-b"
+    class="rounded-b-3xl md:bg-gray-100/50 md:dark:bg-zinc-900/60 border-x-0 md:border-x border-gray-300/70 dark:border-zinc-800/90 max-w-2xl flex flex-col mx-auto text-center w-full _pt-2 divide-y divide-gray-100 dark:divide-zinc-800/50 pb-20 md:pb-0 mb-20 md:mb-4 overflow-hidden md:border-b"
   >
     @if (isFetching() && !error()) {
       <div aria-live="polite" aria-busy="true" fullPostSkeleton></div>

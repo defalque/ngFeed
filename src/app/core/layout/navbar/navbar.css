@@ -5,3 +5,12 @@ button.active {
 :host-context(.dark) button.active {
   background-color: rgb(39 39 42 / 0.7);
 }
+
+/* Profilo: stesso colore icona delle altre voci attive, senza pill di sfondo */
+button.nav-profile-btn.active {
+  background-color: transparent;
+}
+
+:host-context(.dark) button.nav-profile-btn.active {
+  background-color: transparent;
+}

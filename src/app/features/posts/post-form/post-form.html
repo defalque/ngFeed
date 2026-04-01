@@ -19,7 +19,7 @@
       name="title"
       [attr.aria-invalid]="titleIsInvalid"
       [attr.aria-describedby]="titleIsInvalid && titleError ? 'title-error' : null"
-      class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input  focus:outline-none disabled:cursor-not-allowed {{
+      class="shadow-md shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input disabled:cursor-not-allowed {{
         titleIsInvalid && 'border-red-500'
       }}"
       formControlName="title"
@@ -48,7 +48,7 @@
       [attr.aria-describedby]="
         descriptionIsInvalid && descriptionError ? 'description-error' : null
       "
-      class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input focus:outline-none disabled:cursor-not-allowed {{
+      class="shadow-md shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input disabled:cursor-not-allowed {{
         descriptionIsInvalid && 'border-red-500'
       }}"
       formControlName="description"
@@ -75,7 +75,7 @@
       rows="8"
       [attr.aria-invalid]="contentIsInvalid"
       [attr.aria-describedby]="contentIsInvalid && contentError ? 'content-error' : null"
-      class="shadow-md dark:shadow-lg shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input focus:outline-none disabled:cursor-not-allowed resize-y min-h-48 {{
+      class="shadow-md shadow-black/10 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/10 w-full rounded-xl p-2 focus-input disabled:cursor-not-allowed resize-y min-h-48 {{
         contentIsInvalid && 'border-red-500'
       }}"
       formControlName="content"

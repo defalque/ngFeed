@@ -1,14 +1,30 @@
 <header
-  class="flex fixed top-0 left-0 h-16 z-100 items-center bg-white dark:bg-zinc-950 justify-between w-full md:hidden px-2"
+  class="flex fixed top-0 left-0 h-16 z-2000 items-center bg-white dark:bg-zinc-950 justify-between w-full md:hidden px-2"
 >
-  <div class="relative inline-block invisible pointer-events-none">
-    <div class="px-5 py-3 relative z-10 group">
-      <div
-        class="w-full h-full absolute px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none"
-      ></div>
-      <lucide-icon [img]="EqualIcon" size="24" aria-hidden></lucide-icon>
+  @if (isFullPostPage()) {
+    <div class="relative inline-block">
+      <button
+        type="button"
+        class="text-zinc-400/80 rounded-xl active:scale-[0.92] transition-transform motion-reduce:transition-none px-5 py-3 cursor-pointer focus relative z-10 group starting:opacity-0 starting:-translate-x-full ease-out"
+        (click)="goBack()"
+        aria-label="Torna indietro"
+      >
+        <div
+          class="navlink-hover-bg bg-gray-100/55 dark:bg-zinc-800/70 w-full h-full rounded-xl scale-[0.85] absolute px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform motion-reduce:transition-none"
+        ></div>
+        <lucide-icon [img]="ArrowLeftIcon" size="24" aria-hidden="true" />
+      </button>
     </div>
-  </div>
+  } @else {
+    <div class="relative inline-block invisible pointer-events-none">
+      <div class="px-5 py-3 relative z-10 group">
+        <div
+          class="w-full h-full absolute px-6 py-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none"
+        ></div>
+        <lucide-icon [img]="EqualIcon" size="24" aria-hidden></lucide-icon>
+      </div>
+    </div>
+  }
 
   <!-- Logo -->
   <div class="grow text-center">

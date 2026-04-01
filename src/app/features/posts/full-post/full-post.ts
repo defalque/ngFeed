@@ -9,7 +9,9 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { Location } from '@angular/common';
 import {
+  ArrowLeftIcon,
   EllipsisIcon,
   HeartIcon,
   MessageCircleIcon,
@@ -42,6 +44,7 @@ export class FullPost implements OnInit {
   private userService = inject(UserService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
+  private location = inject(Location);
 
   id = input.required<string>();
   postId = input.required<string>();
@@ -177,4 +180,13 @@ export class FullPost implements OnInit {
   readonly MessageCircleIcon = MessageCircleIcon;
   readonly RefreshCcw = RefreshCcw;
   readonly EllipsisIcon = EllipsisIcon;
+  readonly ArrowLeftIcon = ArrowLeftIcon;
+
+  goBack(): void {
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      void this.router.navigateByUrl('/per-te');
+    }
+  }
 }
