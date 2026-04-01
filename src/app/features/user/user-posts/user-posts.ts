@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   DestroyRef,
+  effect,
   inject,
   input,
   signal,
@@ -10,7 +11,7 @@ import {
 import { UserPostsSkeleton } from '@/shared/components/skeletons/user-posts-skeleton/user-posts-skeleton';
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+/* import { ActivatedRoute } from '@angular/router'; */
 import { PostService } from '@/core/services/post.service';
 import { UserService } from '@/core/services/user.service';
 import { BlogPost } from '@/features/posts/post/post';
@@ -25,7 +26,7 @@ import { EmptyWrapper } from '@/shared/components/empty-wrapper/empty-wrapper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserPosts {
-  private route = inject(ActivatedRoute);
+  /* private route = inject(ActivatedRoute); */
   private postService = inject(PostService);
   private authService = inject(AuthService);
   private userService = inject(UserService);
@@ -57,23 +58,24 @@ export class UserPosts {
     return genericUser !== null && genericUser.id === this.id();
   });
 
-  ngOnInit(): void {
+  /* ngOnInit(): void {
     this.route.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {
-        const userId = params.get('id');
-        const currentUserId = this.userService.loadedCurrentUser()?.id;
+        const userId = params.get('id'); */
+  ngOnInit(): void {
+    const userId = this.id();
+    const currentUserId = this.userService.loadedCurrentUser()?.id;
 
-        if (userId === currentUserId) {
-          // Solo se i post dell'utente autenticato non sono già caricati
-          if (!this.loadedCurrentUserPosts().length) {
-            this.fetchCurrentUserPosts();
-          }
-        } else if (userId) {
-          // Se è un altro utente, fetch dei suoi post
-          this.fetchGenericUserPosts(userId);
-        }
-      });
+    if (userId === currentUserId) {
+      // Solo se i post dell'utente autenticato non sono già caricati
+      if (!this.loadedCurrentUserPosts().length) {
+        this.fetchCurrentUserPosts();
+      }
+    } else if (userId) {
+      // Se è un altro utente, fetch dei suoi post
+      this.fetchGenericUserPosts(userId);
+    }
   }
 
   private fetchCurrentUserPosts() {
