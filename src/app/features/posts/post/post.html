@@ -68,7 +68,7 @@
 @if (type() === 'user-posts') {
   <a
     [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
-    class="px-1 py-3 sm:px-5 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] focus"
+    class="px-1 py-3 sm:px-5 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-1 focus"
   >
     <img
       [ngSrc]="post().userAvatar | safeAvatarUrl"
@@ -80,7 +80,7 @@
       height="36"
     />
 
-    <h2 class="text-base font-semibold tracking-normal text-left col-start-2 self-center">
+    <h2 class="text-base/5 font-semibold tracking-normal text-left col-start-2 self-center">
       {{ post().title }}
     </h2>
 

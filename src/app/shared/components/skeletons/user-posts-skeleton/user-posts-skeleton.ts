@@ -6,7 +6,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './user-posts-skeleton.html',
   styleUrl: './user-posts-skeleton.css',
   host: {
-    class: 'px-1 py-3 sm:px-5 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] animate-pulse',
+    class:
+      'px-1 py-3 sm:px-5 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] animate-pulse gap-y-1',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
