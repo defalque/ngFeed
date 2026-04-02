@@ -95,7 +95,7 @@
               }
             </div>
 
-            <div class="w-full md:w-auto md:max-w-fit md:self-start">
+            <div class="w-full md:w-auto md:max-w-fit md:self-end">
               @if (isCurrentUserPage()) {
                 <app-button (click)="openDialog('edit-user', null)" twStyles="w-full">
                   Modifica profilo
@@ -121,13 +121,13 @@
           <a
             routerLink="posts"
             routerLinkActive="active"
-            class="text-lg font-semibold tracking-normal text-zinc-400/80 px-2 focus"
+            class="font-semibold tracking-normal text-zinc-400/80 px-2 focus"
             >{{ isCurrentUserPage() ? 'I tuoi post' : 'I post di ' + (user()?.firstName ?? '') }}</a
           >
           <a
             routerLink="repost"
             routerLinkActive="active"
-            class="text-lg font-semibold tracking-normal text-zinc-400/80 px-2 focus"
+            class="font-semibold tracking-normal text-zinc-400/80 px-2 focus"
             >Repost</a
           >
         </div>
