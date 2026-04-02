@@ -1,0 +1,5 @@
+.leave-animation {
+  opacity: 0;
+  transform: translateY(50%);
+  animation: transform 0.2s ease-out;
+}

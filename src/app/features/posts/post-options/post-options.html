@@ -12,7 +12,7 @@
     (click)="toggleOptionsOpen($event)"
   >
     <div
-      class="navlink-hover-bg bg-gray-200/75 dark:bg-zinc-800/70 w-full h-full rounded-full scale-[0.85] absolute p-2.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform motion-reduce:transition-none"
+      class="navlink-hover-bg bg-gray-200/40 dark:bg-zinc-800/70 w-full h-full rounded-full scale-[0.85] absolute p-2.5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none group-hover:scale-100 duration-150 opacity-0 group-hover:opacity-100 ease-out transition-transform motion-reduce:transition-none"
     ></div>
     <lucide-icon [img]="EllipsisIcon" size="18" aria-hidden></lucide-icon>
   </button>
@@ -27,7 +27,7 @@
         <button
           role="menuitem"
           (click)="onSavePostClick($event)"
-          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
+          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-200/40 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
           @if (isSavingPost()) {
@@ -49,7 +49,7 @@
 
         <button
           role="menuitem"
-          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
+          class="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-200/40 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
           <span>Non mi interessa</span>
@@ -62,7 +62,7 @@
         </button>
         <button
           role="menuitem"
-          class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100/55 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
+          class="text-red-500 w-full flex items-center justify-between px-4 py-2 hover:bg-gray-200/40 dark:hover:bg-zinc-800 rounded-md cursor-pointer focus"
           [attr.tabindex]="isOptionsOpen() ? '0' : '-1'"
         >
           <span>Segnala</span>

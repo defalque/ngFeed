@@ -56,6 +56,8 @@ export class FullPost implements OnInit {
   readonly savedSet = computed(() => new Set(this.savedPostsIds()));
   readonly likedSet = computed(() => new Set(this.likedPostsIds()));
 
+  currentUser = this.userService.loadedCurrentUser;
+
   // Segnale derivato per il post corrente
   post = computed(() => {
     const currentUserId = this.authService.authenticatedUser()?.localId;
@@ -187,6 +189,42 @@ export class FullPost implements OnInit {
       this.location.back();
     } else {
       void this.router.navigateByUrl('/per-te');
+    }
+  }
+
+  firstCommentLiked = signal(false);
+  secondCommentLiked = signal(false);
+  thirdCommentLiked = signal(false);
+
+  /** Solo sul post dell’utente: stato like per riga commento placeholder (indice 0–2). */
+  commentLikedAt(index: number): boolean {
+    switch (index) {
+      case 0:
+        return this.firstCommentLiked();
+      case 1:
+        return this.secondCommentLiked();
+      case 2:
+        return this.thirdCommentLiked();
+      default:
+        return false;
+    }
+  }
+
+  /** Aggiorna il segnale del commento solo al toggle del like, e solo se il post è dell’utente autenticato. */
+  toggleCommentLike(index: number): void {
+    if (!this.isCurrentUserPost()) return;
+    switch (index) {
+      case 0:
+        this.firstCommentLiked.update((v) => !v);
+        break;
+      case 1:
+        this.secondCommentLiked.update((v) => !v);
+        break;
+      case 2:
+        this.thirdCommentLiked.update((v) => !v);
+        break;
+      default:
+        break;
     }
   }
 }

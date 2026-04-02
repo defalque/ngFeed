@@ -1,7 +1,7 @@
 @if (type() === 'for-you') {
   <a
     [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
-    class="px-1 py-3 sm:px-4 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
+    class="px-1 py-3 sm:px-5 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
   >
     <img
       [ngSrc]="post().userAvatar | safeAvatarUrl"
@@ -17,7 +17,7 @@
       <a
         [routerLink]="'/utente/' + post().userId"
         (click)="$event.stopPropagation()"
-        class="text-base font-semibold hover:underline focus py-1"
+        class="text-base font-semibold hover:underline focus py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black dark:focus-visible:ring-zinc-100"
         >{{ post().userUsername }}</a
       >
 
@@ -68,7 +68,7 @@
 @if (type() === 'user-posts') {
   <a
     [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
-    class="flex flex-col gap-2 items-start px-2.5 sm:px-4 py-3 sm:py-3 w-full focus"
+    class="flex flex-col gap-2 items-start px-2.5 sm:px-5 py-3 sm:py-3 w-full focus"
   >
     <div class="flex justify-between items-start w-full gap-2">
       <h2 class="text-base sm:text-lg font-semibold tracking-normal text-left">
@@ -121,7 +121,7 @@
 }
 @if (type() === 'full-post') {
   <div
-    class="px-1 py-3 sm:px-4 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible"
+    class="px-1 py-3 sm:px-5 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] gap-y-2 overflow-visible"
   >
     <img
       [ngSrc]="post().userAvatar | safeAvatarUrl"
@@ -136,7 +136,7 @@
       <a
         [routerLink]="'/utente/' + post().userId"
         (click)="$event.stopPropagation()"
-        class="text-base font-semibold hover:underline focus py-1 min-w-0 truncate"
+        class="text-base font-semibold hover:underline focus py-1 min-w-0 truncate focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black dark:focus-visible:ring-zinc-100"
         >{{ post().userUsername }}</a
       >
 

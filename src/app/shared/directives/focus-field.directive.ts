@@ -28,7 +28,7 @@ import { Directive } from '@angular/core';
  * }
  */
 
-const FOCUSABLE_FIELD_TAGS = new Set(['INPUT', 'TEXTAREA', 'BUTTON']);
+const FOCUSABLE_FIELD_TAGS = new Set(['INPUT', 'TEXTAREA']);
 
 @Directive({
   selector: 'form[appFocusField]',

@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './feed-skeleton.css',
   host: {
     class:
-      'bg-white px-1 py-3 sm:px-4 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible animate-pulse',
+      'bg-white px-1 py-3 sm:px-5 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible animate-pulse',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
