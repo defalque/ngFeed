@@ -131,8 +131,8 @@
     }
 
     @if ((isFetching() || isSearching()) && !error()) {
-      <ul class="mask-b-from-0% mask-b-to-60%">
-        @for (item of [0, 1, 2, 3, 4, 5]; track item) {
+      <ul class="mask-b-from-30% mask-b-to-90%">
+        @for (item of [0, 1, 2, 3, 4]; track item) {
           <li aria-live="polite" aria-busy="true" searchUsersSkeleton></li>
         }
       </ul>
