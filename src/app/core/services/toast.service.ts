@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { Subject } from 'rxjs';
 
-const TOAST_EXPIRE_MS = 100000;
+const TOAST_EXPIRE_MS = 5000;
 
 export type ToastType = 'success' | 'error' | 'info' | 'warning' | 'neutral';
 
