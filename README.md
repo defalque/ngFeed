@@ -4,17 +4,17 @@ Applicazione frontend moderna di feed social ispirata a Threads, realizzata con 
 
 ## Funzionalità
 
-| Funzionalità       | Posizione                        | Descrizione                                                                                                           |
-| ------------------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| **Autenticazione** | `features/auth/`                 | Firebase Auth, login/registrazione, toggle visibilità password, auto-login da localStorage, gestione scadenza token   |
-| **Post**           | `features/posts/`                | Creazione, modifica, eliminazione, like, salvataggio, commenti, vista post completo, menu opzioni                     |
-| **Profili utente** | `features/user/`                 | Visualizzazione profilo, modifica profilo, tab post/repost, segui/smetti di seguire, card utente                      |
-| **Feed home**      | `features/home/`                 | Feed Per te (tutti i post), Feed Seguiti (lazy loaded), navigazione a tab                                             |
-| **Ricerca**        | `features/search/`               | Ricerca utenti con input debounced, filtro verificati, ordinamento per più seguiti                                    |
-| **Preferiti**      | `features/favorites/`            | Visualizzazione post salvati                                                                                          |
-| **Tema**           | `core/services/theme.service.ts` | Modalità chiaro/scuro/sistema, persistenza in localStorage, script anti-flash in `index.html`                         |
-| **Modal e Toast**  | `core/services/`                 | Modal centralizzato (crea-post/modifica-post/elimina-post/modifica-utente), notifiche toast                           |
-| **Layout**         | `app.html`, `core/layout/`       | Header visibile solo su mobile; navbar sempre visibile; skip link "Vai al contenuto"; stati fetching/errore con retry |
+| Funzionalità       | Posizione                        | Descrizione                                                                                                              |
+| ------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Autenticazione** | `features/auth/`                 | Login e Registrazione con Firebase Auth, auto-login da localStorage, gestione scadenza token, toggle visibilità password |
+| **Post**           | `features/posts/`                | Creazione, modifica, eliminazione, like, menu opzioni, vista post completo                                               |
+| **Profili utente** | `features/user/`                 | Visualizzazione profilo, modifica profilo, segui/smetti di seguire, card utente                                          |
+| **Feed home**      | `features/home/`                 | Feed Per te (tutti i post), Feed Seguiti (post di account seguiti), navigazione a tab                                    |
+| **Ricerca**        | `features/search/`               | Ricerca utenti con input debounced, filtro per verificati e ordinamento in base ai più seguiti                           |
+| **Preferiti**      | `features/favorites/`            | Visualizzazione post salvati                                                                                             |
+| **Tema**           | `core/services/theme.service.ts` | Modalità chiaro/scuro/sistema, persistenza in localStorage, script anti-flash in `index.html`                            |
+| **Modal e Toast**  | `core/services/`                 | Modal centralizzato (crea-post/modifica-post/elimina-post/modifica-utente), notifiche toast                              |
+| **Layout**         | `app.html`, `core/layout/`       | Header visibile solo su mobile; navbar sempre visibile; skip link "Vai al contenuto"; stati fetching/errore con retry    |
 
 ## Architettura e pattern
 
@@ -24,12 +24,12 @@ Applicazione frontend moderna di feed social ispirata a Threads, realizzata con 
 - **Lazy loading** – Le route Search, Favorites, Followed, Auth, User, FullPost, NotFound sono caricate in modo lazy
 - **Dependency injection** – Funzione `inject()`, `providedIn: 'root'` per i servizi
 - **Cleanup** – `DestroyRef` con `takeUntilDestroyed()` per la pulizia delle sottoscrizioni
-- **Struttura cartelle** – `core/` (config, guards, layout, services, types, utils, pages), `features/`, `shared/` (components, directives, pipes)
+- **Struttura cartelle** – `core/` (config, guards, layout, services, types, utils, pages), `features/` (auth, favorites, home, posts, search, user), `shared/` (components, directives, pipes)
 
 ## Accessibilità
 
 - **ARIA** – `aria-label`, `aria-live`, `aria-modal`, `aria-invalid`, `aria-describedby`, `role="dialog"`, `role="tablist"`, `role="alert"` su modal, toast, form e tab
-- **Gestione focus** – Angular CDK A11y (`cdkTrapFocus`, `cdkFocusInitial`), direttiva custom `focus-field`, `focusFirstInvalidField()` in edit-user
+- **Gestione focus** – Angular CDK A11y (`cdkTrapFocus`, `cdkFocusInitial`), direttiva custom `focus-field`, `focusFirstInvalidField()` in `edit-user.ts` e `post-form.ts`
 - **Navigazione da tastiera** – `tabindex` dinamico per dropdown e tab
 - **Regioni live** – I toast usano `aria-live="polite"`/`assertive`; gli errori dei form usano `role="alert"`
 - **Icone decorative** – `aria-hidden` sulle icon Lucide dove appropriato
@@ -70,7 +70,7 @@ src/app/
 │   ├── pages/               # Pagine errore (not-found, error)
 │   ├── services/            # Auth, post, user, modal, toast, theme
 │   ├── types/               # Modelli user e post
-│   └── utils/               # Utility (safe-avatar-url)
+│   └── utils/               # Utility (safe-avatar-url, relative-post-time)
 ├── features/                # Moduli funzionali
 │   ├── auth/                # Autenticazione
 │   ├── favorites/           # Post salvati
@@ -81,7 +81,7 @@ src/app/
 ├── shared/                  # Componenti, direttive e pipe riutilizzabili
 │   ├── components/          # Button, modal, loader, toast, dropdown, skeletons, ecc.
 │   ├── directives/          # click-outside, focus-field
-│   └── pipes/               # safe-avatar-url
+│   └── pipes/               # safe-avatar-url, relative-post-time
 └── app.ts                   # Componente root
 ```
 

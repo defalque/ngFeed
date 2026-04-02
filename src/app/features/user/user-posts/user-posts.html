@@ -2,7 +2,7 @@
   class="flex flex-col divide-y divide-gray-100 dark:divide-zinc-800/50 pb-30 md:pb-0 bg-white dark:bg-zinc-950 md:bg-gray-100/50 md:dark:bg-zinc-900/60 border-x-0 md:border-x border-b-0 md:border-b border-gray-300/70 dark:border-zinc-800/90 rounded-b-3xl"
 >
   @if (isFetching() && !error()) {
-    <ul>
+    <ul class="mask-b-from-0% mask-b-to-60%">
       @for (feed of [0, 1, 2, 3, 4]; track feed) {
         <li aria-live="polite" aria-busy="true" userPostsSkeleton></li>
       }
