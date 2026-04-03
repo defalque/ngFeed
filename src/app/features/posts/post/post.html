@@ -2,6 +2,7 @@
   <a
     [routerLink]="'/utente/' + post().userId + '/posts/' + post().id"
     class="px-1 py-3 sm:px-5 sm:py-3 w-full grid grid-cols-[2.8rem_1fr_auto] overflow-visible focus"
+    aria-label="Vai al post"
   >
     <img
       [ngSrc]="post().userAvatar | safeAvatarUrl"
@@ -16,6 +17,7 @@
     <div class="flex items-center gap-x-1 col-span-1 flex-nowrap min-w-0 overflow-hidden">
       <a
         [routerLink]="'/utente/' + post().userId"
+        aria-label="Vai al profilo di {{ post().userUsername }}"
         (click)="$event.stopPropagation()"
         class="text-base font-semibold hover:underline focus py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black dark:focus-visible:ring-zinc-600"
         >{{ post().userUsername }}</a
