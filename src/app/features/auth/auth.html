@@ -23,7 +23,9 @@
             type="button"
             aria-label="Copia email"
             (click)="copyEmail()"
-            class="relative inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded p-0.5 transition-transform hover:bg-gray-200/80 dark:hover:bg-zinc-700/80 active:scale-[0.95]"
+            class="relative inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded p-0.5 transition-transform active:scale-[0.95] {{
+              !emailCopied() && 'hover:bg-gray-200/80 dark:hover:bg-zinc-700/80'
+            }}"
           >
             <span class="icon-slot">
               @if (emailCopied()) {
@@ -76,7 +78,9 @@
             type="button"
             aria-label="Copia password"
             (click)="copyPassword()"
-            class="relative inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded p-0.5 transition-transform hover:bg-gray-200/80 dark:hover:bg-zinc-700/80 active:scale-[0.95]"
+            class="relative inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded p-0.5 transition-transform active:scale-[0.95] {{
+              !passwordCopied() && 'hover:bg-gray-200/80 dark:hover:bg-zinc-700/80'
+            }}"
           >
             <span class="icon-slot">
               @if (passwordCopied()) {
@@ -118,7 +122,7 @@
         <button
           type="button"
           aria-label="Nascondi password"
-          (click)="togglePasswordVisibility()"
+          (click)="this.passwordVisible.set(!this.passwordVisible())"
           class="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded-full p-2 hover:bg-gray-100/85 dark:hover:bg-zinc-800/80"
         >
           <lucide-icon [img]="EyeOffIcon" size="16" aria-hidden="true"></lucide-icon>
@@ -127,7 +131,7 @@
         <button
           type="button"
           aria-label="Mostra password"
-          (click)="togglePasswordVisibility()"
+          (click)="this.passwordVisible.set(!this.passwordVisible())"
           class="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded-full p-2 hover:bg-gray-100/85 dark:hover:bg-zinc-800/80"
         >
           <lucide-icon [img]="EyeIcon" size="16" aria-hidden="true"></lucide-icon>

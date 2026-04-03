@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthResponseData, AuthService } from '@/core/services/auth.service';
@@ -30,15 +23,12 @@ export class Auth {
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
 
-  isLoginMode = signal(true);
-
   isLoading = signal(false);
-
   error = signal('');
 
+  isLoginMode = signal(true);
   switchMode() {
     if (this.isLoading()) return;
-
     this.isLoginMode.update((prev) => !prev);
   }
 
@@ -79,9 +69,6 @@ export class Auth {
   }
 
   passwordVisible = signal(false);
-  togglePasswordVisibility() {
-    this.passwordVisible.set(!this.passwordVisible());
-  }
 
   readonly EyeIcon = Eye;
   readonly EyeOffIcon = EyeOff;
@@ -93,12 +80,6 @@ export class Auth {
 
   /** Salta enter animation quando gli hint appaiono (load o switch a login), anima solo sul toggle delle icone */
   skipEnterAnimation = signal(true);
-
-  constructor() {
-    effect(() => {
-      if (this.isLoginMode()) this.skipEnterAnimation.set(true);
-    });
-  }
 
   copyEmail() {
     this.skipEnterAnimation.set(false);
