@@ -11,44 +11,12 @@
   class="flex flex-col gap-4 pb-4 sm:pb-6 sm:px-6 px-4 overflow-y-auto max-w-2xl mx-auto my-40 min-h-[calc(100svh-27rem)]"
   (ngSubmit)="onSubmit(form)"
 >
-  <div class="flex flex-col items-start gap-2">
+  <div class="flex flex-col items-start gap-2 {{ !isLoginMode() && 'mt-2' }}">
     <div class="flex items-end gap-3">
       <label for="email">Email</label>
+
       @if (isLoginMode()) {
-        <span
-          class="inline-flex items-center gap-2 rounded bg-gray-100 dark:bg-zinc-800 p-1 text-sm"
-        >
-          <code class="text-gray-600 dark:text-zinc-400 pl-1">test@example.com</code>
-          <button
-            type="button"
-            aria-label="Copia email"
-            (click)="copyEmail()"
-            class="relative inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded p-0.5 transition-transform active:scale-[0.95] {{
-              !emailCopied() && 'hover:bg-gray-200/80 dark:hover:bg-zinc-700/80'
-            }}"
-          >
-            <span class="icon-slot">
-              @if (emailCopied()) {
-                <lucide-icon
-                  [img]="CheckIcon"
-                  size="16"
-                  class="text-green-600 dark:text-green-500"
-                  animate.enter="icon-enter"
-                  animate.leave="icon-leave"
-                  aria-hidden="true"
-                ></lucide-icon>
-              } @else {
-                <lucide-icon
-                  [img]="CopyIcon"
-                  size="16"
-                  [animate.enter]="skipEnterAnimation() ? 'icon-enter-instant' : 'icon-enter'"
-                  animate.leave="icon-leave"
-                  aria-hidden="true"
-                ></lucide-icon>
-              }
-            </span>
-          </button>
-        </span>
+        <app-hint fieldValue="test@example.com"></app-hint>
       }
     </div>
 
@@ -66,44 +34,12 @@
     />
   </div>
 
-  <div class="flex flex-col items-start gap-2 relative">
+  <div class="flex flex-col items-start gap-2 relative {{ !isLoginMode() && 'mt-2' }}">
     <div class="flex items-end gap-3">
       <label for="password">Password</label>
+
       @if (isLoginMode()) {
-        <span
-          class="inline-flex items-center gap-2 rounded bg-gray-100 dark:bg-zinc-800 p-1 text-sm"
-        >
-          <code class="text-gray-600 dark:text-zinc-400 pl-1">123456</code>
-          <button
-            type="button"
-            aria-label="Copia password"
-            (click)="copyPassword()"
-            class="relative inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded p-0.5 transition-transform active:scale-[0.95] {{
-              !passwordCopied() && 'hover:bg-gray-200/80 dark:hover:bg-zinc-700/80'
-            }}"
-          >
-            <span class="icon-slot">
-              @if (passwordCopied()) {
-                <lucide-icon
-                  [img]="CheckIcon"
-                  size="16"
-                  class="text-green-600 dark:text-green-500"
-                  animate.enter="icon-enter"
-                  animate.leave="icon-leave"
-                  aria-hidden="true"
-                ></lucide-icon>
-              } @else {
-                <lucide-icon
-                  [img]="CopyIcon"
-                  size="16"
-                  [animate.enter]="skipEnterAnimation() ? 'icon-enter-instant' : 'icon-enter'"
-                  animate.leave="icon-leave"
-                  aria-hidden="true"
-                ></lucide-icon>
-              }
-            </span>
-          </button>
-        </span>
+        <app-hint fieldValue="123456"></app-hint>
       }
     </div>
 
@@ -118,25 +54,19 @@
         required
         [disabled]="isLoading()"
       />
-      @if (passwordVisible()) {
-        <button
-          type="button"
-          aria-label="Nascondi password"
-          (click)="this.passwordVisible.set(!this.passwordVisible())"
-          class="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded-full p-2 hover:bg-gray-100/85 dark:hover:bg-zinc-800/80"
-        >
+
+      <button
+        type="button"
+        aria-label="{{ passwordVisible() ? 'Nascondi password' : 'Mostra password' }}"
+        (click)="this.passwordVisible.set(!this.passwordVisible())"
+        class="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded-full p-2 hover:bg-gray-100/85 dark:hover:bg-zinc-800/80"
+      >
+        @if (passwordVisible()) {
           <lucide-icon [img]="EyeOffIcon" size="16" aria-hidden="true"></lucide-icon>
-        </button>
-      } @else {
-        <button
-          type="button"
-          aria-label="Mostra password"
-          (click)="this.passwordVisible.set(!this.passwordVisible())"
-          class="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded-full p-2 hover:bg-gray-100/85 dark:hover:bg-zinc-800/80"
-        >
+        } @else {
           <lucide-icon [img]="EyeIcon" size="16" aria-hidden="true"></lucide-icon>
-        </button>
-      }
+        }
+      </button>
     </div>
   </div>
 

@@ -1,0 +1,32 @@
+<span class="inline-flex items-center gap-2 rounded bg-gray-100 dark:bg-zinc-800 p-1 text-sm">
+  <code class="text-gray-600 dark:text-zinc-400 pl-1">{{ fieldValue() }}</code>
+  <button
+    type="button"
+    aria-label="Copia {{ fieldValue() }}"
+    (click)="copyField()"
+    class="relative inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded p-0.5 transition-transform active:scale-[0.95] {{
+      !fieldCopied() && 'hover:bg-gray-200/80 dark:hover:bg-zinc-700/80'
+    }}"
+  >
+    <span class="icon-slot">
+      @if (fieldCopied()) {
+        <lucide-icon
+          [img]="CheckIcon"
+          size="16"
+          class="text-green-600 dark:text-green-500"
+          animate.enter="icon-enter"
+          animate.leave="icon-leave"
+          aria-hidden="true"
+        ></lucide-icon>
+      } @else {
+        <lucide-icon
+          [img]="CopyIcon"
+          size="16"
+          [animate.enter]="skipEnterAnimation() ? 'icon-enter-instant' : 'icon-enter'"
+          animate.leave="icon-leave"
+          aria-hidden="true"
+        ></lucide-icon>
+      }
+    </span>
+  </button>
+</span>

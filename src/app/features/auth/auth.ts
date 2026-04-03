@@ -9,10 +9,11 @@ import { Check, Copy, Eye, EyeOff, LucideAngularModule } from 'lucide-angular';
 import { FocusField } from '@/shared/directives/focus-field.directive';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Loader } from '@/shared/components/loader/loader';
+import { Hint } from './hint/hint';
 
 @Component({
   selector: 'app-auth',
-  imports: [A11yModule, FormsModule, Button, LucideAngularModule, FocusField, Loader],
+  imports: [A11yModule, FormsModule, Button, LucideAngularModule, FocusField, Loader, Hint],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -72,13 +73,12 @@ export class Auth {
 
   readonly EyeIcon = Eye;
   readonly EyeOffIcon = EyeOff;
-  readonly CopyIcon = Copy;
+  /* readonly CopyIcon = Copy;
   readonly CheckIcon = Check;
 
   emailCopied = signal(false);
   passwordCopied = signal(false);
 
-  /** Salta enter animation quando gli hint appaiono (load o switch a login), anima solo sul toggle delle icone */
   skipEnterAnimation = signal(true);
 
   copyEmail() {
@@ -95,5 +95,5 @@ export class Auth {
       this.passwordCopied.set(true);
       setTimeout(() => this.passwordCopied.set(false), 1500);
     });
-  }
+  } */
 }
