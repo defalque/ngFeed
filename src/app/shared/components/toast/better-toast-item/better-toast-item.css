@@ -1,0 +1,5 @@
+.leave {
+  opacity: 0;
+  transform: translateY(130%);
+  scale: 0.95;
+}

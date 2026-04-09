@@ -1,5 +1,4 @@
 import { Injectable, signal } from '@angular/core';
-import { Subject } from 'rxjs';
 
 const TOAST_EXPIRE_MS = 5000;
 
@@ -17,9 +16,6 @@ export interface Toast {
 export class ToastService {
   toasts = signal<Toast[]>([]);
 
-  /** Emitted when a toast's expire timer fires – container uses this to run exit animation. */
-  readonly expireRequested$ = new Subject<string>();
-
   /** Timer handles for cleanup when toast is dismissed before expire. */
   private expireTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
@@ -28,8 +24,7 @@ export class ToastService {
     this.toasts.set([...this.toasts(), { id, message, type }]);
 
     const timerId = setTimeout(() => {
-      this.expireTimers.delete(id);
-      this.expireRequested$.next(id);
+      this.dismiss(id);
     }, TOAST_EXPIRE_MS);
     this.expireTimers.set(id, timerId);
 

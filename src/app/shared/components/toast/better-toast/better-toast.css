@@ -14,17 +14,6 @@
   }
 }
 
-.toaster {
-  position: absolute;
-  right: 140px;
-  bottom: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-  width: 356px;
-  --gap: 16px;
-}
-
 .leave {
   opacity: 0;
   transform: translateY(130%);

@@ -1,5 +1,6 @@
-import { Component, computed, signal } from '@angular/core';
-import { LucideAngularModule, X } from 'lucide-angular';
+import { ToastService, ToastType } from '@/core/services/toast.service';
+import { Component, computed, inject } from '@angular/core';
+import { CircleCheck, Info, CircleAlert, CircleX, LucideAngularModule, X } from 'lucide-angular';
 
 @Component({
   selector: 'app-better-toast',
@@ -8,18 +9,32 @@ import { LucideAngularModule, X } from 'lucide-angular';
   styleUrl: './better-toast.css',
 })
 export class BetterToast {
-  readonly XIcon = X;
-  private nextId = 0;
-  private readonly toastIds = signal<number[]>([]);
+  private toastService = inject(ToastService);
 
-  readonly toastArray = computed(() => this.toastIds());
+  readonly toasts = computed(() => this.toastService.toasts());
 
-  addToast(): void {
-    const id = this.nextId++;
-    this.toastIds.update((ids) => [...ids, id]);
+  dismissToast(id: string) {
+    this.toastService.dismiss(id);
   }
 
-  dismissToast(id: number): void {
-    this.toastIds.update((ids) => ids.filter((i) => i !== id));
+  readonly CheckIcon = CircleCheck;
+  readonly XIcon = X;
+  readonly InfoIcon = Info;
+  readonly CircleAlertIcon = CircleAlert;
+  readonly CircleXIcon = CircleX;
+
+  getIcon(type: ToastType) {
+    switch (type) {
+      case 'success':
+        return this.CheckIcon;
+      case 'error':
+        return this.CircleXIcon;
+      case 'info':
+        return this.InfoIcon;
+      case 'warning':
+        return this.CircleAlertIcon;
+      case 'neutral':
+        return null;
+    }
   }
 }

@@ -41,7 +41,9 @@
         >
       }
 
-      <!-- <app-better-toast /> -->
+      @defer (when toasts().length > 0) {
+        <app-better-toast />
+      }
 
       <main
         id="main-content"
@@ -85,9 +87,9 @@
       </app-modal>
     }
 
-    @defer (when toasts().length > 0) {
+    <!-- @defer (when toasts().length > 0) {
       <app-toast-container />
-    }
+    } -->
 
     <div class="hidden md:block pl-2 md:pl-30 pr-2 lg:pr-30 mt-auto">
       <footer

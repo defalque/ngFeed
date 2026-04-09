@@ -15,11 +15,10 @@ import { AuthService } from './core/services/auth.service';
 import { PostService } from './core/services/post.service';
 import { NgOptimizedImage } from '@angular/common';
 import { Error } from './core/pages/error/error';
-import { ToastContainer } from './shared/components/toast/toast-container/toast-container';
 import { ToastService } from './core/services/toast.service';
 import { ThemeService } from './core/services/theme.service';
 import { Post } from './core/types/post.model';
-/* import { BetterToast } from './shared/components/toast/better-toast/better-toast'; */
+import { BetterToast } from './shared/components/toast/better-toast/better-toast';
 
 @Component({
   selector: 'app-root',
@@ -34,9 +33,8 @@ import { Post } from './core/types/post.model';
     EditUser,
     NgOptimizedImage,
     Error,
-    ToastContainer,
     RouterLink,
-    /* BetterToast, */
+    BetterToast,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

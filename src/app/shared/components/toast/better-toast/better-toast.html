@@ -1,27 +1,79 @@
-<div class="toaster">
-  @for (id of toastArray(); track id; let i = $index) {
-    <div
-      class="w-60 bg-zinc-900 text-zinc-100 border border-zinc-800 rounded-md p-3 absolute bottom-0 right-0 text-sm text-left toast"
-      [style.--index]="toastArray().length - i - 1"
+<ol
+  role="region"
+  aria-label="Notifiche"
+  class="fixed left-2 right-2 md:left-auto md:right-4 bottom-16 md:bottom-4 md:w-80 z-5000 flex flex-col gap-(--gap) toast motion-reduce:transition-none"
+  [style.--gap]="'calc(var(--spacing) * 4)'"
+>
+  @for (toast of toasts(); track toast.id) {
+    <li
+      class="w-full md:w-89 p-4 origin-bottom bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 border border-zinc-300/80 shadow-sm dark:border-zinc-800 rounded-md absolute bottom-0 right-0 text-sm text-left toast"
+      [style.--index]="toasts().length - $index - 1"
       animate.leave="leave"
     >
       <button
         type="button"
-        (click)="dismissToast(id)"
-        class="cursor-pointer absolute -top-2 -right-2 border border-zinc-800 bg-zinc-900 hover:bg-zinc-800 text-zinc-100 rounded-full text-xs size-5.5 flex items-center justify-center"
-        aria-label="Dismiss toast"
+        (click)="dismissToast(toast.id)"
+        class="cursor-pointer absolute -top-2 -right-2 border dark:border-zinc-800 border-zinc-300/80 dark:bg-zinc-900 bg-white text-zinc-100 rounded-full sm:size-5.5 size-6 flex items-center justify-center shadow-2xs focus-button [&_svg]:size-4! sm:[&_svg]:size-3.5!"
+        aria-label="Chiudi notifica"
       >
-        <lucide-icon [img]="XIcon" size="14" aria-hidden></lucide-icon>
+        <lucide-icon
+          [img]="XIcon"
+          size="14"
+          class="{{
+            toast.type === 'error'
+              ? 'text-red-700 dark:text-red-500'
+              : toast.type === 'success'
+                ? 'text-green-700 dark:text-green-400'
+                : toast.type === 'info'
+                  ? 'text-blue-700 dark:text-blue-400'
+                  : toast.type === 'warning'
+                    ? 'text-yellow-700 dark:text-yellow-400'
+                    : 'text-zinc-900 dark:text-white'
+          }}"
+          aria-hidden
+        ></lucide-icon>
       </button>
-      Toast numero {{ i + 1 }}
-    </div>
-  }
-</div>
 
-<button
-  type="button"
-  (click)="addToast()"
-  class="bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-md fixed bottom-4 right-4 font-medium cursor-pointer focus-button active:scale-[0.95] transition-all hover:bg-black/80 dark:hover:bg-white/80 z-1000 shadow-xs hidden lg:block"
->
-  Add toast
-</button>
+      <div class="flex gap-2 items-center md:items-start">
+        @if (getIcon(toast.type)) {
+          <span class="[&_svg]:size-6! sm:[&_svg]:size-5!">
+            <lucide-icon
+              [img]="getIcon(toast.type)!"
+              size="20"
+              class="{{
+                toast.type === 'success'
+                  ? 'fill-green-700 text-white dark:fill-green-400 dark:text-zinc-900'
+                  : toast.type === 'error'
+                    ? 'fill-red-700 text-white dark:fill-red-500 dark:text-zinc-900'
+                    : toast.type === 'info'
+                      ? 'fill-blue-700 text-white dark:fill-blue-400 dark:text-zinc-900'
+                      : toast.type === 'warning'
+                        ? 'fill-yellow-700 text-white dark:fill-yellow-500 dark:text-zinc-900'
+                        : 'text-black/50 dark:text-zinc-400'
+              }}"
+              aria-hidden
+            ></lucide-icon>
+          </span>
+        }
+
+        <p
+          role="status"
+          aria-live="polite"
+          class="text-base sm:text-sm {{
+            toast.type === 'error'
+              ? 'text-red-700 dark:text-red-500'
+              : toast.type === 'success'
+                ? 'text-green-700 dark:text-green-400'
+                : toast.type === 'info'
+                  ? 'text-blue-700 dark:text-blue-400'
+                  : toast.type === 'warning'
+                    ? 'text-yellow-700 dark:text-amber-400'
+                    : 'text-zinc-900 dark:text-white'
+          }}"
+        >
+          {{ toast.message }}
+        </p>
+      </div>
+    </li>
+  }
+</ol>

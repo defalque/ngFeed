@@ -35,9 +35,9 @@ export class ToastContainer implements AfterViewChecked {
   private toastService = inject(ToastService);
 
   constructor() {
-    this.toastService.expireRequested$
-      .pipe(takeUntilDestroyed())
-      .subscribe((id) => this.onCloseRequest(id));
+    // this.toastService.expireRequested$
+    //   .pipe(takeUntilDestroyed())
+    //   .subscribe((id) => this.onCloseRequest(id));
   }
 
   /** Number of toast slots in the previous run; used to detect add/remove for FLIP. */
