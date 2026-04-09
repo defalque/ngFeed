@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LucideAngularModule, LucideIconData } from 'lucide-angular';
-import { NgTemplateOutlet } from '../../../../../../node_modules/@angular/common/types/_common_module-chunk';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'li[appNavbarItem]',

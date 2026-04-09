@@ -4,8 +4,8 @@
     type="button"
     aria-label="Copia {{ fieldValue() }}"
     (click)="copyField()"
-    class="relative inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded p-0.5 transition-transform active:scale-[0.95] {{
-      !fieldCopied() && 'hover:bg-gray-200/80 dark:hover:bg-zinc-700/80'
+    class="relative inline-flex size-6 shrink-0 items-center justify-center rounded p-0.5 transition-transform active:scale-[0.95] motion-reduce:transition-none motion-reduce:active:scale-100 {{
+      !fieldCopied() && 'hover:bg-gray-200/80 dark:hover:bg-zinc-700/80 cursor-pointer'
     }}"
   >
     <span class="icon-slot">
@@ -22,7 +22,6 @@
         <lucide-icon
           [img]="CopyIcon"
           size="16"
-          [animate.enter]="skipEnterAnimation() ? 'icon-enter-instant' : 'icon-enter'"
           animate.leave="icon-leave"
           aria-hidden="true"
         ></lucide-icon>
