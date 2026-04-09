@@ -1,10 +1,11 @@
 import { Component, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LucideAngularModule, LucideIconData } from 'lucide-angular';
+import { NgTemplateOutlet } from '../../../../../../node_modules/@angular/common/types/_common_module-chunk';
 
 @Component({
   selector: 'li[appNavbarItem]',
-  imports: [RouterLink, LucideAngularModule, RouterLinkActive],
+  imports: [RouterLink, LucideAngularModule, RouterLinkActive, NgTemplateOutlet],
   templateUrl: './navbar-item.html',
   styleUrl: './navbar-item.css',
   host: {
@@ -13,7 +14,7 @@ import { LucideAngularModule, LucideIconData } from 'lucide-angular';
 })
 export class NavbarItem {
   link = input.required<string>();
-  isActive = input<boolean>();
+  isActive = input<boolean | undefined>(undefined);
   ariaLabel = input.required<string>();
   icon = input.required<LucideIconData>();
 }
