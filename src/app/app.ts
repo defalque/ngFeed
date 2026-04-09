@@ -19,6 +19,7 @@ import { ToastContainer } from './shared/components/toast/toast-container/toast-
 import { ToastService } from './core/services/toast.service';
 import { ThemeService } from './core/services/theme.service';
 import { Post } from './core/types/post.model';
+/* import { BetterToast } from './shared/components/toast/better-toast/better-toast'; */
 
 @Component({
   selector: 'app-root',
@@ -35,6 +36,7 @@ import { Post } from './core/types/post.model';
     Error,
     ToastContainer,
     RouterLink,
+    /* BetterToast, */
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

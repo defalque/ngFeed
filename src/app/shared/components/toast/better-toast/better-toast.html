@@ -1,0 +1,27 @@
+<div class="toaster">
+  @for (id of toastArray(); track id; let i = $index) {
+    <div
+      class="w-60 bg-zinc-900 text-zinc-100 border border-zinc-800 rounded-md p-3 absolute bottom-0 right-0 text-sm text-left toast"
+      [style.--index]="toastArray().length - i - 1"
+      animate.leave="leave"
+    >
+      <button
+        type="button"
+        (click)="dismissToast(id)"
+        class="cursor-pointer absolute -top-2 -right-2 border border-zinc-800 bg-zinc-900 hover:bg-zinc-800 text-zinc-100 rounded-full text-xs size-5.5 flex items-center justify-center"
+        aria-label="Dismiss toast"
+      >
+        <lucide-icon [img]="XIcon" size="14" aria-hidden></lucide-icon>
+      </button>
+      Toast numero {{ i + 1 }}
+    </div>
+  }
+</div>
+
+<button
+  type="button"
+  (click)="addToast()"
+  class="bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-md fixed bottom-4 right-4 font-medium cursor-pointer focus-button active:scale-[0.95] transition-all hover:bg-black/80 dark:hover:bg-white/80 z-1000 shadow-xs hidden lg:block"
+>
+  Add toast
+</button>
