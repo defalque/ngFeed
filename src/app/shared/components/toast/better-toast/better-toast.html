@@ -1,79 +1,20 @@
-<ol
-  role="region"
+<section
   aria-label="Notifiche"
-  class="fixed left-2 right-2 md:left-auto md:right-4 bottom-16 md:bottom-4 md:w-80 z-5000 flex flex-col gap-(--gap) toast motion-reduce:transition-none"
-  [style.--gap]="'calc(var(--spacing) * 4)'"
+  aria-live="polite"
+  aria-relevant="additions text"
+  aria-atomic="false"
 >
-  @for (toast of toasts(); track toast.id) {
-    <li
-      class="w-full md:w-89 p-4 origin-bottom bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 border border-zinc-300/80 shadow-sm dark:border-zinc-800 rounded-md absolute bottom-0 right-0 text-sm text-left toast"
-      [style.--index]="toasts().length - $index - 1"
-      animate.leave="leave"
-    >
-      <button
-        type="button"
-        (click)="dismissToast(toast.id)"
-        class="cursor-pointer absolute -top-2 -right-2 border dark:border-zinc-800 border-zinc-300/80 dark:bg-zinc-900 bg-white text-zinc-100 rounded-full sm:size-5.5 size-6 flex items-center justify-center shadow-2xs focus-button [&_svg]:size-4! sm:[&_svg]:size-3.5!"
-        aria-label="Chiudi notifica"
-      >
-        <lucide-icon
-          [img]="XIcon"
-          size="14"
-          class="{{
-            toast.type === 'error'
-              ? 'text-red-700 dark:text-red-500'
-              : toast.type === 'success'
-                ? 'text-green-700 dark:text-green-400'
-                : toast.type === 'info'
-                  ? 'text-blue-700 dark:text-blue-400'
-                  : toast.type === 'warning'
-                    ? 'text-yellow-700 dark:text-yellow-400'
-                    : 'text-zinc-900 dark:text-white'
-          }}"
-          aria-hidden
-        ></lucide-icon>
-      </button>
-
-      <div class="flex gap-2 items-center md:items-start">
-        @if (getIcon(toast.type)) {
-          <span class="[&_svg]:size-6! sm:[&_svg]:size-5!">
-            <lucide-icon
-              [img]="getIcon(toast.type)!"
-              size="20"
-              class="{{
-                toast.type === 'success'
-                  ? 'fill-green-700 text-white dark:fill-green-400 dark:text-zinc-900'
-                  : toast.type === 'error'
-                    ? 'fill-red-700 text-white dark:fill-red-500 dark:text-zinc-900'
-                    : toast.type === 'info'
-                      ? 'fill-blue-700 text-white dark:fill-blue-400 dark:text-zinc-900'
-                      : toast.type === 'warning'
-                        ? 'fill-yellow-700 text-white dark:fill-yellow-500 dark:text-zinc-900'
-                        : 'text-black/50 dark:text-zinc-400'
-              }}"
-              aria-hidden
-            ></lucide-icon>
-          </span>
-        }
-
-        <p
-          role="status"
-          aria-live="polite"
-          class="text-base sm:text-sm {{
-            toast.type === 'error'
-              ? 'text-red-700 dark:text-red-500'
-              : toast.type === 'success'
-                ? 'text-green-700 dark:text-green-400'
-                : toast.type === 'info'
-                  ? 'text-blue-700 dark:text-blue-400'
-                  : toast.type === 'warning'
-                    ? 'text-yellow-700 dark:text-amber-400'
-                    : 'text-zinc-900 dark:text-white'
-          }}"
-        >
-          {{ toast.message }}
-        </p>
-      </div>
-    </li>
-  }
-</ol>
+  <ol
+    class="fixed left-2 right-2 md:left-auto md:right-4 bottom-16 md:bottom-4 md:w-80 z-5000 flex flex-col gap-(--gap) motion-reduce:transition-none"
+    [style.--gap]="'calc(var(--spacing) * 4)'"
+    tabindex="-1"
+  >
+    @for (toast of toasts(); track toast.id) {
+      <app-better-toast-item
+        [toast]="toast"
+        [icon]="getIcon(toast.type)"
+        [index]="toasts().length - ($index + 1)"
+      ></app-better-toast-item>
+    }
+  </ol>
+</section>

@@ -1,39 +1,64 @@
-<li
-  class="w-full md:w-89 p-4 origin-bottom bg-zinc-900 text-zinc-100 border border-zinc-800 rounded-md absolute bottom-0 right-0 text-sm text-left toast"
-  [style.--index]="toasts().length - index() - 1"
-  animate.leave="leave"
+<button
+  type="button"
+  (click)="dismissToast(toast().id)"
+  class="cursor-pointer absolute top-0 right-0 rounded-full sm:size-5.5 size-6 flex items-center justify-center focus [&_svg]:size-4! sm:[&_svg]:size-3.5!"
+  aria-label="Chiudi notifica"
 >
-  <button
-    type="button"
-    (click)="dismissToast()"
-    class="cursor-pointer absolute -top-2 -right-2 border border-zinc-800 bg-zinc-900 hover:bg-zinc-800 text-zinc-100 rounded-full text-xs size-5.5 flex items-center justify-center"
-    aria-label="Chiudi notifica"
+  <lucide-icon
+    [img]="XIcon"
+    size="14"
+    class="{{
+      toast().type === 'error'
+        ? 'text-red-900 dark:text-red-200'
+        : toast().type === 'success'
+          ? 'text-green-700 dark:text-green-200'
+          : toast().type === 'info'
+            ? 'text-blue-900 dark:text-blue-200'
+            : toast().type === 'warning'
+              ? 'text-yellow-900 dark:text-yellow-200'
+              : 'text-zinc-900 dark:text-white'
+    }}"
+    aria-hidden
+  ></lucide-icon>
+</button>
+
+<div class="flex gap-2 items-start">
+  @if (icon()) {
+    <span class="[&_svg]:size-6! sm:[&_svg]:size-5!">
+      <lucide-icon
+        [img]="icon()!"
+        size="20"
+        class="{{
+          toast().type === 'success'
+            ? 'fill-green-700 text-white dark:fill-green-200 dark:text-zinc-900'
+            : toast().type === 'error'
+              ? 'fill-red-900 text-white dark:fill-red-200 dark:text-zinc-900'
+              : toast().type === 'info'
+                ? 'fill-blue-900 text-white dark:fill-blue-200 dark:text-zinc-900'
+                : toast().type === 'warning'
+                  ? 'fill-yellow-900 text-white dark:fill-yellow-200 dark:text-zinc-900'
+                  : 'text-black/50 dark:text-zinc-400'
+        }}"
+        aria-hidden
+      ></lucide-icon>
+    </span>
+  }
+
+  <p
+    role="status"
+    aria-live="polite"
+    class="text-base sm:text-sm font-medium dark:font-normal {{
+      toast().type === 'error'
+        ? 'text-red-900 dark:text-red-200'
+        : toast().type === 'success'
+          ? 'text-green-700 dark:text-green-200'
+          : toast().type === 'info'
+            ? 'text-blue-900 dark:text-blue-200'
+            : toast().type === 'warning'
+              ? 'text-yellow-900 dark:text-yellow-200'
+              : 'text-zinc-900 dark:text-white'
+    }}"
   >
-    <lucide-icon [img]="XIcon" size="14" aria-hidden></lucide-icon>
-  </button>
-
-  <div class="flex gap-2 items-center md:items-start">
-    @if (icon()) {
-      <span class="toast-icon [&_svg]:size-5!">
-        <lucide-icon
-          [img]="icon()!"
-          size="16"
-          class="{{
-            toast().type === 'success'
-              ? 'fill-green-700 text-green-100 dark:fill-green-900/20 dark:text-green-400'
-              : toast().type === 'error'
-                ? 'fill-red-600 text-red-100 dark:fill-red-900/20 dark:text-red-500'
-                : toast().type === 'info'
-                  ? 'fill-blue-600 text-blue-100 dark:fill-blue-900/20 dark:text-blue-400'
-                  : toast().type === 'warning'
-                    ? 'fill-yellow-800/80 text-yellow-100 dark:fill-yellow-900/20 dark:text-yellow-500'
-                    : 'text-black/50 dark:text-zinc-400'
-          }}"
-          aria-hidden
-        ></lucide-icon>
-      </span>
-    }
-
-    <p role="status" aria-live="polite">{{ toast().message }}</p>
-  </div>
-</li>
+    {{ toast().message }}
+  </p>
+</div>

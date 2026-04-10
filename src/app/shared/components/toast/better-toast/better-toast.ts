@@ -1,10 +1,11 @@
 import { ToastService, ToastType } from '@/core/services/toast.service';
 import { Component, computed, inject } from '@angular/core';
 import { CircleCheck, Info, CircleAlert, CircleX, LucideAngularModule, X } from 'lucide-angular';
+import { BetterToastItem } from '../better-toast-item/better-toast-item';
 
 @Component({
   selector: 'app-better-toast',
-  imports: [LucideAngularModule],
+  imports: [LucideAngularModule, BetterToastItem],
   templateUrl: './better-toast.html',
   styleUrl: './better-toast.css',
 })
