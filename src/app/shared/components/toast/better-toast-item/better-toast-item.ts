@@ -10,7 +10,8 @@ import { LucideAngularModule, LucideIconData, X } from 'lucide-angular';
   host: {
     role: 'listitem',
     tabindex: '0',
-    '[class]': 'hostClass()',
+    class:
+      'w-full md:w-89 p-4 origin-bottom bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 border border-zinc-300/80 dark:border-zinc-800 shadow-md dark:shadow-black rounded-md absolute bottom-0 right-0 text-sm text-left toast block',
     '[style.--index]': 'index()',
     '[animate.leave]': '"leave"',
     '(pointerdown)': 'onPointerDown($event)',
@@ -26,24 +27,6 @@ export class BetterToastItem {
   toast = input.required<Toast>();
   icon = input<LucideIconData | null>();
   index = input.required<number>();
-
-  readonly hostClass = computed(() => {
-    const base =
-      'w-full md:w-89 p-4 origin-bottom bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 border shadow-sm dark:shadow-black dark:border-zinc-800 rounded-md absolute bottom-0 right-0 text-sm text-left toast block';
-    const toastType: ToastType = this.toast().type;
-    switch (toastType) {
-      case 'success':
-        return `${base} border-green-500/30 `;
-      case 'error':
-        return `${base} border-red-500/30`;
-      case 'info':
-        return `${base} border-blue-500/30`;
-      case 'warning':
-        return `${base} border-yellow-500/30`;
-      case 'neutral':
-        return `${base} border-zinc-300/80 dark:border-zinc-800`;
-    }
-  });
 
   dismissToast(id: string): void {
     this.toastService.dismiss(id);

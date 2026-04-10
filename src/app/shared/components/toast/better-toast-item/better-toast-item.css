@@ -1,5 +1,6 @@
 :host {
   display: block;
+  touch-action: none;
   transform: translateY(calc(var(--index) * (100% + var(--gap)) * -1));
   opacity: 1;
   scale: 1;
