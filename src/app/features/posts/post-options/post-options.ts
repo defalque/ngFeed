@@ -140,11 +140,7 @@ export class PostOptions {
           )
           .subscribe({
             next: () => {
-              this.toastService.show(
-                /* 'Post aggiunto ai preferiti con successo. Per rimuoverlo, clicca di nuovo sul pulsante.', */
-                'Post aggiunto ai preferiti',
-                'success',
-              );
+              this.toastService.show('Post aggiunto ai preferiti', 'success');
             },
             error: (error: Error) => {
               this.toastService.show(error.message, 'error');

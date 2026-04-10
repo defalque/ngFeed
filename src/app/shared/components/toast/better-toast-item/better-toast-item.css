@@ -1,7 +1,14 @@
 :host {
-  display: block;
   touch-action: none;
-  transform: translateY(calc(var(--index) * (100% + var(--gap)) * -1));
+
+  /* transform: translateY(calc(var(--index) * (100% + var(--gap)) * -1)); */
+  /*
+   * Posizionamento verticale basato sull'altezza reale dei toast sottostanti.
+   * --offset è calcolato in JS come somma delle altezze + gap dei toast
+   * tra questo e il bordo dello schermo. La transition su transform
+   * anima lo spostamento quando un toast viene aggiunto o rimosso.
+   */
+  transform: translateY(calc(-1 * var(--offset, 0px)));
   opacity: 1;
   scale: 1;
   transition:
@@ -9,6 +16,7 @@
     transform 400ms ease,
     scale 400ms ease;
 
+  /* Animazione d'ingresso: il toast scivola dal basso e si ingrandisce */
   @starting-style {
     opacity: 0;
     transform: translateY(130%);
@@ -16,8 +24,52 @@
   }
 }
 
+/* Animazione d'uscita: il toast scivola verso il basso e si rimpicciolisce */
 :host(.leave) {
   opacity: 0;
   transform: translateY(130%);
   scale: 0.95;
 }
+
+/*
+ * ── Expand/Collapse (Sonner-style) ─────────────────────────────────
+ * Per abilitare il comportamento stacked → expanded on hover,
+ * aggiungere queste regole e modificare la base :host:
+ *
+ * 1. Aggiungere alla transition di :host: height 400ms ease
+ *    e aggiungere: z-index: var(--z-index, 0);
+ *
+ * 2. Stato expanded — altezza reale:
+ *    :host([data-expanded='true']) {
+ *      height: var(--initial-height, auto);
+ *    }
+ *
+ * 3. Gap bridge — pseudo-element invisibile che copre il gap tra toast
+ *    espansi, impedendo mouseleave sull'<ol> quando il mouse attraversa
+ *    lo spazio tra un toast e l'altro:
+ *    :host([data-expanded='true'])::after {
+ *      content: '';
+ *      position: absolute;
+ *      left: 0;
+ *      width: 100%;
+ *      height: calc(var(--gap, 16px) + 1px);
+ *      bottom: 100%;
+ *    }
+ *
+ * 4. Collapsed non-front — effetto stack (scale + shift + altezza forzata):
+ *    :host([data-expanded='false'][data-front='false']) {
+ *      transform: translateY(calc(-1 * var(--toasts-before) * var(--gap, 16px)));
+ *      scale: calc(1 - var(--toasts-before) * 0.05);
+ *      height: var(--front-toast-height, auto);
+ *      overflow: hidden;
+ *      pointer-events: none;
+ *    }
+ *
+ * 5. Nascondere il contenuto dei toast non-front collapsed:
+ *    :host([data-expanded='false'][data-front='false']) button,
+ *    :host([data-expanded='false'][data-front='false']) div {
+ *      opacity: 0;
+ *      transition: opacity 200ms ease;
+ *    }
+ * ────────────────────────────────────────────────────────────────────
+ */

@@ -1,20 +1,46 @@
-<section
-  aria-label="Notifiche"
-  aria-live="polite"
-  aria-relevant="additions text"
-  aria-atomic="false"
->
+<section aria-label="Notifiche" aria-live="polite" aria-atomic="false">
   <ol
-    class="fixed left-2 right-2 md:left-auto md:right-4 bottom-16 md:bottom-4 md:w-80 z-5000 flex flex-col gap-(--gap) motion-reduce:transition-none"
-    [style.--gap]="'calc(var(--spacing) * 4)'"
+    class="fixed left-2 right-2 sm:left-auto sm:right-4 bottom-16 md:bottom-4 w-auto sm:w-89 z-5000 flex flex-col motion-reduce:transition-none"
     tabindex="-1"
   >
     @for (toast of toasts(); track toast.id) {
       <app-better-toast-item
         [toast]="toast"
         [icon]="getIcon(toast.type)"
-        [index]="toasts().length - ($index + 1)"
+        [offset]="offsets()[toast.id]"
+        (heightChange)="onHeightChange(toast.id, $event)"
       ></app-better-toast-item>
     }
   </ol>
 </section>
+
+<!--
+  ── Expand/Collapse (Sonner-style) ─────────────────────────────────
+  Per abilitare il comportamento stacked → expanded on hover,
+  sostituire l'<ol> e il loop con:
+
+  <ol
+    class="fixed left-2 right-2 sm:left-auto sm:right-4 bottom-16 md:bottom-4 w-auto sm:w-89 z-5000 flex flex-col motion-reduce:transition-none"
+    tabindex="-1"
+    (mouseenter)="expanded.set(true)"
+    (mousemove)="expanded.set(true)"
+    (mouseleave)="onMouseLeave()"
+    (pointerdown)="interacting.set(true)"
+    (pointerup)="interacting.set(false)"
+  >
+    @for (toast of toasts(); track toast.id) {
+      <app-better-toast-item
+        [toast]="toast"
+        [icon]="getIcon(toast.type)"
+        [offset]="offsets()[toast.id]"
+        [expanded]="expanded()"
+        [index]="$index"
+        [totalToasts]="$count"
+        [frontToastHeight]="frontToastHeight()"
+        [gap]="GAP"
+        (heightChange)="onHeightChange(toast.id, $event)"
+      ></app-better-toast-item>
+    }
+  </ol>
+  ──────────────────────────────────────────────────────────────────
+-->

@@ -1,7 +1,9 @@
 <button
   type="button"
   (click)="dismissToast(toast().id)"
-  class="cursor-pointer absolute top-0 right-0 rounded-full sm:size-5.5 size-6 flex items-center justify-center focus [&_svg]:size-4! sm:[&_svg]:size-3.5!"
+  class="cursor-pointer absolute -top-2 -right-2 border dark:border-zinc-800 dark:bg-zinc-900 rounded-full sm:size-5.5 size-6 flex items-center justify-center focus [&_svg]:size-3.5! {{
+    toastTypeStyles()
+  }}"
   aria-label="Chiudi notifica"
 >
   <lucide-icon
@@ -9,13 +11,13 @@
     size="14"
     class="{{
       toast().type === 'error'
-        ? 'text-red-900 dark:text-red-200'
+        ? 'text-red-600 dark:text-red-200'
         : toast().type === 'success'
-          ? 'text-green-700 dark:text-green-200'
+          ? 'text-green-600 dark:text-green-200'
           : toast().type === 'info'
-            ? 'text-blue-900 dark:text-blue-200'
+            ? 'text-blue-600 dark:text-blue-200'
             : toast().type === 'warning'
-              ? 'text-yellow-900 dark:text-yellow-200'
+              ? 'text-yellow-600 dark:text-yellow-200'
               : 'text-zinc-900 dark:text-white'
     }}"
     aria-hidden
@@ -24,19 +26,19 @@
 
 <div class="flex gap-2 items-start">
   @if (icon()) {
-    <span class="[&_svg]:size-6! sm:[&_svg]:size-5!">
+    <span class="[&_svg]:size-5!">
       <lucide-icon
         [img]="icon()!"
         size="20"
         class="{{
           toast().type === 'success'
-            ? 'fill-green-700 text-white dark:fill-green-200 dark:text-zinc-900'
+            ? 'fill-green-600 text-white dark:fill-green-200 dark:text-zinc-900'
             : toast().type === 'error'
-              ? 'fill-red-900 text-white dark:fill-red-200 dark:text-zinc-900'
+              ? 'fill-red-600 text-white dark:fill-red-200 dark:text-zinc-900'
               : toast().type === 'info'
-                ? 'fill-blue-900 text-white dark:fill-blue-200 dark:text-zinc-900'
+                ? 'fill-blue-600 text-white dark:fill-blue-200 dark:text-zinc-900'
                 : toast().type === 'warning'
-                  ? 'fill-yellow-900 text-white dark:fill-yellow-200 dark:text-zinc-900'
+                  ? 'fill-yellow-600 text-white dark:fill-yellow-200 dark:text-zinc-900'
                   : 'text-black/50 dark:text-zinc-400'
         }}"
         aria-hidden
@@ -47,15 +49,15 @@
   <p
     role="status"
     aria-live="polite"
-    class="text-base sm:text-sm font-medium dark:font-normal {{
+    class="text-sm font-medium dark:font-normal {{
       toast().type === 'error'
-        ? 'text-red-900 dark:text-red-200'
+        ? 'text-red-600 dark:text-red-200'
         : toast().type === 'success'
-          ? 'text-green-700 dark:text-green-200'
+          ? 'text-green-600 dark:text-green-200'
           : toast().type === 'info'
-            ? 'text-blue-900 dark:text-blue-200'
+            ? 'text-blue-600 dark:text-blue-200'
             : toast().type === 'warning'
-              ? 'text-yellow-900 dark:text-yellow-200'
+              ? 'text-yellow-600 dark:text-yellow-200'
               : 'text-zinc-900 dark:text-white'
     }}"
   >

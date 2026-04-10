@@ -1,5 +1,14 @@
-import { Toast, ToastService, ToastType } from '@/core/services/toast.service';
-import { Component, computed, ElementRef, inject, input, signal } from '@angular/core';
+import { Toast, ToastService } from '@/core/services/toast.service';
+import {
+  Component,
+  ElementRef,
+  afterNextRender,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { LucideAngularModule, LucideIconData, X } from 'lucide-angular';
 
 @Component({
@@ -11,14 +20,45 @@ import { LucideAngularModule, LucideIconData, X } from 'lucide-angular';
     role: 'listitem',
     tabindex: '0',
     class:
-      'w-full md:w-89 p-4 origin-bottom bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 border border-zinc-300/80 dark:border-zinc-800 shadow-md dark:shadow-black rounded-md absolute bottom-0 right-0 text-sm text-left toast block',
-    '[style.--index]': 'index()',
+      'w-full sm:w-89 px-3 py-4 origin-bottom text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 border dark:border-zinc-800 shadow-md dark:shadow-black rounded-md absolute bottom-0 right-0 text-sm text-left toast block',
+    '[class]': 'toastTypeStyles()',
+    '[style.--offset]': 'offset() + "px"',
     '[animate.leave]': '"leave"',
     '(pointerdown)': 'onPointerDown($event)',
     '(pointermove)': 'onPointerMove($event)',
     '(pointerup)': 'onPointerUp()',
     '(pointercancel)': 'onPointerCancel()',
   },
+  /*
+   * ── Expand/Collapse (Sonner-style) ─────────────────────────────────
+   * Per abilitare lo stacking, aggiungere queste host bindings:
+   *
+   *   '[attr.data-expanded]': 'expanded()',
+   *   '[attr.data-front]': 'front()',
+   *   '[style.--z-index]': 'zIndex()',
+   *   '[style.--toasts-before]': 'toastsBefore()',
+   *   '[style.--front-toast-height]': 'frontToastHeight() + "px"',
+   *   '[style.--initial-height]': 'initialHeight() + "px"',
+   *   '[style.--gap]': 'gap() + "px"',
+   *
+   * E aggiungere questi input/computed/signal alla classe:
+   *
+   *   expanded = input.required<boolean>();
+   *   index = input.required<number>();
+   *   totalToasts = input.required<number>();
+   *   frontToastHeight = input.required<number>();
+   *   gap = input.required<number>();
+   *
+   *   front = computed(() => this.index() === this.totalToasts() - 1);
+   *   toastsBefore = computed(() => this.totalToasts() - 1 - this.index());
+   *   zIndex = computed(() => this.index());
+   *   initialHeight = signal(0);
+   *
+   * E nel constructor, aggiungere:
+   *   this.initialHeight.set(height);
+   * dopo la misurazione dell'altezza.
+   * ────────────────────────────────────────────────────────────────────
+   */
 })
 export class BetterToastItem {
   private toastService = inject(ToastService);
@@ -26,7 +66,39 @@ export class BetterToastItem {
 
   toast = input.required<Toast>();
   icon = input<LucideIconData | null>();
-  index = input.required<number>();
+
+  toastTypeStyles = computed(() => {
+    switch (this.toast().type) {
+      case 'success':
+        return 'border-green-400/40 bg-green-50';
+      case 'error':
+        return 'border-red-400/40 bg-red-50';
+      case 'info':
+        return 'border-blue-400/40 bg-blue-50';
+      case 'warning':
+        return 'border-yellow-400/40 bg-yellow-50';
+      case 'neutral':
+        return 'border-zinc-400/40 bg-zinc-50';
+    }
+  });
+
+  /** Offset verticale in px calcolato dal container in base alle altezze dei toast sottostanti */
+  offset = input.required<number>();
+  /** Emette l'altezza misurata dell'elemento dopo il primo render, così il container può calcolare gli offset */
+  heightChange = output<number>();
+
+  /**
+   * Dopo il primo render, misura l'altezza reale dell'elemento e la comunica
+   * al container tramite heightChange. Il container usa questo valore per
+   * calcolare l'offset (translateY) di ogni toast in base alle altezze
+   * dei toast sottostanti, evitando sovrapposizioni.
+   */
+  constructor() {
+    afterNextRender(() => {
+      const height = this.host.nativeElement.offsetHeight;
+      this.heightChange.emit(height);
+    });
+  }
 
   dismissToast(id: string): void {
     this.toastService.dismiss(id);
