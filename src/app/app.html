@@ -1,4 +1,11 @@
 <div class="h-screen">
+  <better-toaster
+    position="bottom-right"
+    [theme]="resolvedTheme()"
+    [richColors]="true"
+    [mobileOffset]="{ bottom: '64px' }"
+  />
+
   @if (errorState()) {
     @defer (when errorState()) {
       <app-error [onRetry]="retryInitialData" />
@@ -41,9 +48,9 @@
         >
       }
 
-      @defer (when toasts().length > 0) {
+      <!-- @defer (when toasts().length > 0) {
         <app-better-toast />
-      }
+      } -->
 
       <main
         id="main-content"

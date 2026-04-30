@@ -6,7 +6,7 @@ import { UserService } from '@/core/services/user.service';
 import { ModalService } from '@/core/services/modal.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { ToastService } from '@/core/services/toast.service';
+import { ToasterService } from 'better-toast';
 
 @Component({
   selector: 'app-post-actions',
@@ -24,7 +24,7 @@ export class PostActions {
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
-  private toastService = inject(ToastService);
+  private toaster = inject(ToasterService);
   private destroyRef = inject(DestroyRef);
 
   isAuthenticated = this.authService.isAuthenticated;
@@ -52,7 +52,7 @@ export class PostActions {
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe({
             error: (error: Error) => {
-              this.toastService.show(error.message, 'error');
+              this.toaster.error(error.message);
             },
           });
         return;
@@ -62,7 +62,7 @@ export class PostActions {
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe({
             error: (error: Error) => {
-              this.toastService.show(error.message, 'error');
+              this.toaster.error(error.message);
             },
           });
         return;

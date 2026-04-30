@@ -15,10 +15,9 @@ import { AuthService } from './core/services/auth.service';
 import { PostService } from './core/services/post.service';
 import { NgOptimizedImage } from '@angular/common';
 import { Error } from './core/pages/error/error';
-import { ToastService } from './core/services/toast.service';
 import { ThemeService } from './core/services/theme.service';
 import { Post } from './core/types/post.model';
-import { BetterToast } from './shared/components/toast/better-toast/better-toast';
+import { BetterToaster, ToasterService } from 'better-toast';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +33,7 @@ import { BetterToast } from './shared/components/toast/better-toast/better-toast
     NgOptimizedImage,
     Error,
     RouterLink,
-    BetterToast,
+    BetterToaster,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -44,14 +43,13 @@ export class App {
   private postService = inject(PostService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
-  private toastService = inject(ToastService);
+  private toaster = inject(ToasterService);
   private themeService = inject(ThemeService);
   private destroyRef = inject(DestroyRef);
 
   isAuthenticated = this.authService.isAuthenticated;
   currentUser = this.userService.loadedCurrentUser;
   resolvedTheme = this.themeService.resolvedTheme;
-  toasts = computed(() => this.toastService.toasts());
 
   isFetching = signal(false);
   /** Impostato quando il fetch critico fallisce; mostra la pagina di errore */
@@ -132,7 +130,7 @@ export class App {
 
     const authUser = this.authService.authenticatedUser();
     if (this.errorState()) {
-      this.toastService.dismissAll(); // Rimuove il toast di errore residuo prima del retry
+      this.toaster.clear(); // Rimuove il toast di errore residuo prima del retry
     }
     this.errorState.set(false);
     this.isFetching.set(true);
@@ -166,17 +164,18 @@ export class App {
       .subscribe({
         next: ({ userInfo }) => {
           if (authUser && !userInfo) {
-            this.toastService.show(
+            this.toaster.warning(
               'Ti invitiamo a completare il tuo profilo per iniziare a utilizzare ngFeed al meglio',
-              'warning',
+              {
+                durationMs: Infinity,
+              },
             );
           }
         },
         error: () => {
-          this.toastService.show(
-            'Errore durante il caricamento dei dati. Riprova più tardi.',
-            'error',
-          );
+          this.toaster.error('Errore durante il caricamento dei dati. Riprova più tardi.', {
+            durationMs: Infinity,
+          });
           this.errorState.set(true);
         },
       });

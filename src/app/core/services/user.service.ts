@@ -1,6 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, delay, EMPTY, finalize, map, Observable, of, tap, throwError } from 'rxjs';
+import {
+  catchError,
+  delay,
+  EMPTY,
+  finalize,
+  map,
+  Observable,
+  of,
+  tap,
+  throwError,
+} from 'rxjs';
 import { EditedUser, User } from '../types/user.model';
 import { AuthService } from './auth.service';
 import { PostService } from './post.service';
@@ -254,27 +264,31 @@ export class UserService {
       updates[`user-followers/${otherUserId}/${uid}`] = null;
     }
 
-    return this.http.patch(`${this.firebaseConfig.databaseURL}/.json?auth=${token}`, updates).pipe(
-      delay(500),
-      tap(() => {
-        if (mode === 'follow') {
-          this.currentUser.update((user) => {
-            if (!user) return null;
-            return { ...user, followingCount: user.followingCount + 1 };
-          });
-          this.followedIds.update((followedIds) => [...followedIds, otherUserId]);
-        } else {
-          this.currentUser.update((user) => {
-            if (!user) return null;
-            return { ...user, followingCount: user.followingCount - 1 };
-          });
-          this.followedIds.update((followedIds) => followedIds.filter((id) => id !== otherUserId));
-        }
-      }),
-      catchError((error) => {
-        return throwError(() => new Error('Errore imprevisto. Riprova a breve.'));
-      }),
-    );
+    return this.http
+      .patch(`${this.firebaseConfig.databaseURL}/.json?auth=${token}`, updates)
+      .pipe(
+        delay(500),
+        tap(() => {
+          if (mode === 'follow') {
+            this.currentUser.update((user) => {
+              if (!user) return null;
+              return { ...user, followingCount: user.followingCount + 1 };
+            });
+            this.followedIds.update((followedIds) => [...followedIds, otherUserId]);
+          } else {
+            this.currentUser.update((user) => {
+              if (!user) return null;
+              return { ...user, followingCount: user.followingCount - 1 };
+            });
+            this.followedIds.update((followedIds) =>
+              followedIds.filter((id) => id !== otherUserId),
+            );
+          }
+        }),
+        catchError(() =>
+          throwError(() => new Error('Errore imprevisto. Riprova a breve.')),
+        ),
+      );
   }
 
   checkUniqueUsername(username: string) {

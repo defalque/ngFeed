@@ -22,7 +22,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PostService } from '@/core/services/post.service';
 import { UserService } from '@/core/services/user.service';
 // import { AuthService } from '@/core/services/auth.service';
-import { ToastService } from '@/core/services/toast.service';
+import { ToasterService } from 'better-toast';
 import { Button } from '@/shared/components/button/button';
 import { Loader } from '@/shared/components/loader/loader';
 import { safeAvatarUrl } from '@/core/utils/safe-avatar-url';
@@ -38,7 +38,7 @@ export class PostForm implements OnInit {
   private modalService = inject(ModalService);
   private postService = inject(PostService);
   private userService = inject(UserService);
-  private toastService = inject(ToastService);
+  private toaster = inject(ToasterService);
   private destroyRef = inject(DestroyRef);
   // private authService = inject(AuthService);
 
@@ -207,10 +207,10 @@ export class PostForm implements OnInit {
       this.addPost(newPost).subscribe({
         next: () => {
           this.reactiveForm.reset();
-          this.toastService.show('Post creato con successo', 'success');
+          this.toaster.success('Post creato con successo');
         },
         error: (err) => {
-          this.toastService.show(err.message, 'error');
+          this.toaster.error(err.message);
         },
       });
     } else {
@@ -224,10 +224,10 @@ export class PostForm implements OnInit {
       this.editPost(editedPost).subscribe({
         next: () => {
           this.reactiveForm.reset();
-          this.toastService.show('Post modificato con successo', 'success');
+          this.toaster.success('Post modificato con successo');
         },
         error: (err) => {
-          this.toastService.show(err.message, 'error');
+          this.toaster.error(err.message);
         },
       });
     }

@@ -9,7 +9,7 @@
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
       class="rounded-full w-9 h-9 col-span-1 select-none"
       (error)="$any($event.target).src = '/assets/images/default-user.avif'"
-      [loading]="index() < 3 ? 'eager' : 'lazy'"
+      loading="lazy"
       width="36"
       height="36"
     />
@@ -77,7 +77,7 @@
       [alt]="'Avatar di ' + post().userFirstName + ' ' + post().userLastName"
       class="rounded-full w-9 h-9 col-span-1 select-none"
       (error)="$any($event.target).src = '/assets/images/default-user.avif'"
-      [loading]="index() < 3 ? 'eager' : 'lazy'"
+      loading="lazy"
       width="36"
       height="36"
     />

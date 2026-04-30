@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, delay, EMPTY, map, of, switchMap, tap, throwError } from 'rxjs';
+import { catchError, delay, EMPTY, map, of, switchMap, tap, throwError, timer } from 'rxjs';
 import { EditedPost, FirebasePost, NewPost, Post } from '@/core/types/post.model';
 import { AuthService } from './auth.service';
 import { FIREBASE_CONFIG } from '../config/firebase.config';
@@ -48,6 +48,9 @@ export class PostService {
     this.likedPostsIds.set(value);
   }
 
+  /** Set to `true` to skip the PATCH and fail after the usual delay (rollback test). */
+  private readonly simulateLikePostError = true;
+
   // followedPosts = computed(() => {
   //   return this.allPosts().filter((post) => post.userId === 'user_002');
   // });
@@ -85,9 +88,7 @@ export class PostService {
     return this.http
       .get<{
         [key: string]: Post;
-      }>(
-        `${this.firebaseConfig.databaseURL}/posts.json?orderBy="userId"&equalTo="${userId}"`,
-      )
+      }>(`${this.firebaseConfig.databaseURL}/posts.json?orderBy="userId"&equalTo="${userId}"`)
       .pipe(
         map((res) => {
           if (!res) return [];
@@ -121,26 +122,22 @@ export class PostService {
   }
 
   fetchPost(postId: string, isAuthUser = false) {
-    return this.http
-      .get<Post>(
-        `${this.firebaseConfig.databaseURL}/posts/${postId}.json`,
-      )
-      .pipe(
-        map((res) => {
-          if (!res) return null;
+    return this.http.get<Post>(`${this.firebaseConfig.databaseURL}/posts/${postId}.json`).pipe(
+      map((res) => {
+        if (!res) return null;
 
-          const post: Post = { ...res, id: postId };
-          return post;
-        }),
-        tap((post) => {
-          if (!post) return;
-          this.userPost.set(post);
-        }),
-        catchError((error) => {
-          return throwError(() => new Error('Errore durante il caricamento dei post'));
-        }),
-        delay(500), // delay artificiale per loading UI
-      );
+        const post: Post = { ...res, id: postId };
+        return post;
+      }),
+      tap((post) => {
+        if (!post) return;
+        this.userPost.set(post);
+      }),
+      catchError((error) => {
+        return throwError(() => new Error('Errore durante il caricamento dei post'));
+      }),
+      delay(500), // delay artificiale per loading UI
+    );
   }
 
   createPost(post: NewPost) {
@@ -179,10 +176,7 @@ export class PostService {
 
           // multi-location update atomico
           return this.http
-            .patch(
-              `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
-              updates,
-            )
+            .patch(`${this.firebaseConfig.databaseURL}/.json?auth=${token}`, updates)
             .pipe(map(() => newPost));
         }),
         delay(500),
@@ -208,22 +202,17 @@ export class PostService {
       [`user-posts/${userId}/${postId}`]: null,
     };
 
-    return this.http
-      .patch(
-        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
-        updates,
-      )
-      .pipe(
-        delay(500),
-        tap(() => {
-          this.allPosts.update((posts) => posts.filter((p) => p.id !== postId));
-          this.authUserPosts.update((posts) => posts.filter((p) => p.id !== postId));
-        }),
-        catchError((error) => {
-          console.error(error);
-          return throwError(() => new Error("Errore durante l'eliminazione del post"));
-        }),
-      );
+    return this.http.patch(`${this.firebaseConfig.databaseURL}/.json?auth=${token}`, updates).pipe(
+      delay(500),
+      tap(() => {
+        this.allPosts.update((posts) => posts.filter((p) => p.id !== postId));
+        this.authUserPosts.update((posts) => posts.filter((p) => p.id !== postId));
+      }),
+      catchError((error) => {
+        console.error(error);
+        return throwError(() => new Error("Errore durante l'eliminazione del post"));
+      }),
+    );
   }
 
   editPost(postId: string, editedPost: EditedPost) {
@@ -239,22 +228,17 @@ export class PostService {
       updates[`posts/${postId}/${key}`] = (editedPost as any)[key];
     });
 
-    return this.http
-      .patch(
-        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
-        updates,
-      )
-      .pipe(
-        delay(500), // delay artificiale per loading ui
-        tap(() => {
-          this.authUserPosts.update((oldPosts) => {
-            return oldPosts.map((post) => (post.id === postId ? { ...post, ...editedPost } : post));
-          });
-        }),
-        catchError((error) => {
-          return throwError(() => new Error('Errore durante la modifica del post'));
-        }),
-      );
+    return this.http.patch(`${this.firebaseConfig.databaseURL}/.json?auth=${token}`, updates).pipe(
+      delay(500), // delay artificiale per loading ui
+      tap(() => {
+        this.authUserPosts.update((oldPosts) => {
+          return oldPosts.map((post) => (post.id === postId ? { ...post, ...editedPost } : post));
+        });
+      }),
+      catchError((error) => {
+        return throwError(() => new Error('Errore durante la modifica del post'));
+      }),
+    );
   }
 
   savePostAction(postId: string, mode: 'save' | 'unsave') {
@@ -269,30 +253,27 @@ export class PostService {
       updates[`user-saved-posts/${uid}/${postId}`] = null;
     }
 
-    return this.http
-      .patch(
-        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
-        updates,
-      )
-      .pipe(
-        delay(500),
-        tap(() => {
-          if (mode === 'save') {
-            this.savedPostsIds.update((savedPostsIds) => [...savedPostsIds, postId]);
-          } else {
-            this.savedPostsIds.update((savedPostsIds) =>
-              savedPostsIds.filter((id) => id !== postId),
-            );
-          }
-        }),
-        catchError((error) => {
-          return throwError(() =>
-            mode === 'save'
-              ? new Error("Errore durante l'aggiunta del post ai preferiti")
-              : new Error('Errore durante la rimozione del post dai preferiti'),
-          );
-        }),
-      );
+    return this.http.patch(`${this.firebaseConfig.databaseURL}/.json?auth=${token}`, updates).pipe(
+      delay(500),
+      tap(() => {
+        // Defer so subscribers (e.g. firstValueFrom in PostOptions) resolve before the list
+        // mutates and destroys the host row (which would otherwise hang the promise / toast).
+        /* queueMicrotask(() => { */
+        if (mode === 'save') {
+          this.savedPostsIds.update((savedPostsIds) => [...savedPostsIds, postId]);
+        } else {
+          this.savedPostsIds.update((savedPostsIds) => savedPostsIds.filter((id) => id !== postId));
+        }
+        /* }); */
+      }),
+      catchError((error) => {
+        return throwError(() =>
+          mode === 'save'
+            ? new Error("Errore durante l'aggiunta del post ai preferiti")
+            : new Error('Errore durante la rimozione del post dai preferiti'),
+        );
+      }),
+    );
   }
 
   likePostAction(postId: string, mode: 'like' | 'unlike') {
@@ -315,22 +296,17 @@ export class PostService {
       updates[`user-liked-posts/${uid}/${postId}`] = null;
     }
 
-    return this.http
-      .patch(
-        `${this.firebaseConfig.databaseURL}/.json?auth=${token}`,
-        updates,
-      )
-      .pipe(
-        delay(500),
-        catchError((error) => {
-          if (mode === 'like') {
-            this.likedPostsIds.set(oldLikedPostsIds);
-          } else {
-            this.likedPostsIds.set(oldLikedPostsIds);
-          }
-          return throwError(() => new Error('Errore imprevisto. Riprova a breve.'));
-        }),
-      );
+    return this.http.patch(`${this.firebaseConfig.databaseURL}/.json?auth=${token}`, updates).pipe(
+      delay(500),
+      catchError((error) => {
+        if (mode === 'like') {
+          this.likedPostsIds.set(oldLikedPostsIds);
+        } else {
+          this.likedPostsIds.set(oldLikedPostsIds);
+        }
+        return throwError(() => new Error('Errore imprevisto. Riprova a breve.'));
+      }),
+    );
   }
 
   fetchSavedPostsIds() {
@@ -344,9 +320,7 @@ export class PostService {
     }
 
     return this.http
-      .get<
-        string[]
-      >(`${this.firebaseConfig.databaseURL}/user-saved-posts/${uid}.json`)
+      .get<string[]>(`${this.firebaseConfig.databaseURL}/user-saved-posts/${uid}.json`)
       .pipe(
         map((res) => {
           if (!res) return [];
@@ -367,9 +341,7 @@ export class PostService {
     }
 
     return this.http
-      .get<
-        string[]
-      >(`${this.firebaseConfig.databaseURL}/user-liked-posts/${uid}.json`)
+      .get<string[]>(`${this.firebaseConfig.databaseURL}/user-liked-posts/${uid}.json`)
       .pipe(
         map((res) => {
           if (!res) return [];

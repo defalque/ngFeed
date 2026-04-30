@@ -13,6 +13,7 @@ describe('Hint', () => {
     .compileComponents();
 
     fixture = TestBed.createComponent(Hint);
+    fixture.componentRef.setInput('fieldValue', 'test-value');
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

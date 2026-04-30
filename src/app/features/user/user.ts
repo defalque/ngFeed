@@ -25,7 +25,7 @@ import { ModalService } from '@/core/services/modal.service';
 import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { UserService } from '@/core/services/user.service';
 import { AuthService } from '@/core/services/auth.service';
-import { ToastService } from '@/core/services/toast.service';
+import { ToasterService } from 'better-toast';
 import { Button } from '@/shared/components/button/button';
 import { EmptyWrapper } from '@/shared/components/empty-wrapper/empty-wrapper';
 import { DEFAULT_AVATAR_PATH, safeAvatarUrl } from '@/core/utils/safe-avatar-url';
@@ -53,7 +53,7 @@ export class User {
   // private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private userService = inject(UserService);
-  private toastService = inject(ToastService);
+  private toaster = inject(ToasterService);
   private modal = inject(ModalService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
@@ -179,8 +179,10 @@ export class User {
             takeUntilDestroyed(this.destroyRef),
           )
           .subscribe({
-            error: (error: Error) => {
-              this.toastService.show(error.message, 'error');
+            error: (err: unknown) => {
+              const msg =
+                err instanceof Error ? err.message : 'Errore imprevisto. Riprova a breve.';
+              this.toaster.error(msg);
             },
           });
         return;
@@ -192,8 +194,10 @@ export class User {
             takeUntilDestroyed(this.destroyRef),
           )
           .subscribe({
-            error: (error: Error) => {
-              this.toastService.show(error.message, 'error');
+            error: (err: unknown) => {
+              const msg =
+                err instanceof Error ? err.message : 'Errore imprevisto. Riprova a breve.';
+              this.toaster.error(msg);
             },
           });
       }

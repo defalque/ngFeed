@@ -3,7 +3,7 @@ import { PostService } from '@/core/services/post.service';
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
-import { ToastService } from '@/core/services/toast.service';
+import { ToasterService } from 'better-toast';
 import { Loader } from '@/shared/components/loader/loader';
 
 @Component({
@@ -15,7 +15,7 @@ import { Loader } from '@/shared/components/loader/loader';
 export class DeletePost {
   private postService = inject(PostService);
   private modalService = inject(ModalService);
-  private toastService = inject(ToastService);
+  private toaster = inject(ToasterService);
   private destroyRef = inject(DestroyRef);
 
   closeModal = this.modalService.closeDialog;
@@ -50,10 +50,10 @@ export class DeletePost {
       )
       .subscribe({
         error: (err) => {
-          this.toastService.show("Errore durante l'eliminazione del post", 'error');
+          this.toaster.error("Errore durante l'eliminazione del post");
         },
         next: () => {
-          this.toastService.show('Post eliminato con successo', 'success');
+          this.toaster.success('Post eliminato con successo');
         },
       });
   }

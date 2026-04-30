@@ -16,9 +16,10 @@ import { VerifiedIcon } from '@/shared/components/verified-icon/verified-icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { NgOptimizedImage } from '@angular/common';
-import { ToastService } from '@/core/services/toast.service';
+/*   */
 import { Button } from '@/shared/components/button/button';
 import { SafeAvatarUrlPipe } from '@/shared/pipes/safe-avatar-url.pipe';
+import { ToasterService } from 'better-toast';
 
 @Component({
   selector: 'li[appUserCard]',
@@ -35,7 +36,7 @@ export class UserCard {
   private router = inject(Router);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
-  private toastService = inject(ToastService);
+  private toaster = inject(ToasterService);
   private destroyRef = inject(DestroyRef);
 
   openDialog = this.modalService.openDialog;
@@ -71,7 +72,7 @@ export class UserCard {
         )
         .subscribe({
           error: (error: Error) => {
-            this.toastService.show(error.message, 'error');
+            this.toaster.error(error.message);
           },
         });
 

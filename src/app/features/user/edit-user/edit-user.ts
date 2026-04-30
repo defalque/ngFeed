@@ -24,7 +24,7 @@ import { AuthService } from '@/core/services/auth.service';
 import { EditedUser } from '@/core/types/user.model';
 import { FocusField } from '@/shared/directives/focus-field.directive';
 import { NgOptimizedImage } from '@angular/common';
-import { ToastService } from '@/core/services/toast.service';
+import { ToasterService } from 'better-toast';
 import { Button } from '@/shared/components/button/button';
 import { Loader } from '@/shared/components/loader/loader';
 import {
@@ -86,7 +86,7 @@ export class EditUser implements OnInit {
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
-  private toastService = inject(ToastService);
+  private toaster = inject(ToasterService);
   private destroyRef = inject(DestroyRef);
 
   submitBtn = viewChild<ElementRef<HTMLButtonElement>>('submitBtn');
@@ -408,10 +408,10 @@ export class EditUser implements OnInit {
         )
         .subscribe({
           next: () => {
-            this.toastService.show('Profilo creato con successo', 'success');
+            this.toaster.success('Profilo creato con successo');
           },
           error: (err) => {
-            this.toastService.show(err.message, 'error');
+            this.toaster.error(err.message);
           },
         });
     } else {
@@ -430,10 +430,10 @@ export class EditUser implements OnInit {
         )
         .subscribe({
           next: () => {
-            this.toastService.show('Profilo modificato con successo', 'success');
+            this.toaster.success('Profilo modificato con successo');
           },
           error: (err) => {
-            this.toastService.show(err.message, 'error');
+            this.toaster.error(err.message);
           },
         });
     }

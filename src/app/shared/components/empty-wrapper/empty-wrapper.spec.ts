@@ -19,9 +19,13 @@ describe('EmptyWrapper', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have the correct layout class', () => {
-    fixture.componentRef.setInput('layout', 'full-page');
+  it('should apply host layout classes', () => {
     fixture.detectChanges();
-    expect(fixture.nativeElement.classList.contains('my-20')).toBe(true);
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.classList.contains('flex')).toBe(true);
+    expect(el.classList.contains('flex-col')).toBe(true);
+    expect(el.classList.contains('justify-center')).toBe(true);
+    expect(el.classList.contains('items-center')).toBe(true);
+    expect(el.classList.contains('py-12')).toBe(true);
   });
 });

@@ -21,11 +21,11 @@ import {
 } from 'lucide-angular';
 import { UserService } from '@/core/services/user.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
+import { finalize, firstValueFrom } from 'rxjs';
 import { AuthService } from '@/core/services/auth.service';
 import { Router } from '@angular/router';
 import { PostService } from '@/core/services/post.service';
-import { ToastService } from '@/core/services/toast.service';
+import { ToasterService } from 'better-toast';
 
 @Component({
   selector: 'app-post-options',
@@ -40,7 +40,7 @@ export class PostOptions {
   private userService = inject(UserService);
   private authService = inject(AuthService);
   private postService = inject(PostService);
-  private toastService = inject(ToastService);
+  private toaster = inject(ToasterService);
   private destroyRef = inject(DestroyRef);
 
   isAuthenticated = this.authService.isAuthenticated;
@@ -109,43 +109,49 @@ export class PostOptions {
       if (this.isSavedPost()) {
         this.isSavingPost.set(true);
 
-        this.postService
-          .savePostAction(this.id(), 'unsave')
-          .pipe(
-            finalize(() => {
-              this.isSavingPost.set(false);
-              this.toggleOptionsOpen();
-            }),
-            takeUntilDestroyed(this.destroyRef),
-          )
-          .subscribe({
-            next: () => {
-              this.toastService.show('Post rimosso dai preferiti', 'success');
-            },
-            error: (error: Error) => {
-              this.toastService.show(error.message, 'error');
-            },
-          });
+        this.toaster.promise(
+          firstValueFrom(
+            this.postService.savePostAction(this.id(), 'unsave').pipe(
+              takeUntilDestroyed(this.destroyRef),
+              finalize(() => {
+                this.isSavingPost.set(false);
+                this.toggleOptionsOpen();
+              }),
+            ),
+          ),
+          {
+            loading: 'Rimozione dai preferiti…',
+            success: 'Post rimosso dai preferiti',
+            error: (reason: unknown) =>
+              reason instanceof Error
+                ? reason.message
+                : 'Errore durante la rimozione del post dai preferiti',
+          },
+        );
         return;
       } else {
         this.isSavingPost.set(true);
-        this.postService
-          .savePostAction(this.id(), 'save')
-          .pipe(
-            finalize(() => {
-              this.isSavingPost.set(false);
-              this.toggleOptionsOpen();
-            }),
-            takeUntilDestroyed(this.destroyRef),
-          )
-          .subscribe({
-            next: () => {
-              this.toastService.show('Post aggiunto ai preferiti', 'success');
-            },
-            error: (error: Error) => {
-              this.toastService.show(error.message, 'error');
-            },
-          });
+
+        this.toaster.promise(
+          firstValueFrom(
+            this.postService.savePostAction(this.id(), 'save').pipe(
+              takeUntilDestroyed(this.destroyRef),
+              finalize(() => {
+                this.isSavingPost.set(false);
+                this.toggleOptionsOpen();
+              }),
+            ),
+          ),
+          {
+            loading: 'Salvataggio post…',
+            success: 'Post aggiunto ai preferiti',
+            error: (reason: unknown) =>
+              reason instanceof Error
+                ? reason.message
+                : "Errore durante l'aggiunta del post ai preferiti",
+          },
+        );
+
         return;
       }
     }

@@ -6,7 +6,6 @@ import { RouterTestingHarness } from '@angular/router/testing';
 import { User } from './user';
 import { AuthService } from '@/core/services/auth.service';
 import { UserService } from '@/core/services/user.service';
-import { ToastService } from '@/core/services/toast.service';
 import { ModalService } from '@/core/services/modal.service';
 import { signal } from '@angular/core';
 import { of } from 'rxjs';
@@ -60,7 +59,6 @@ describe('User', () => {
         provideRouter(userRouteConfig, withComponentInputBinding()),
         { provide: AuthService, useValue: mockAuthService },
         { provide: UserService, useValue: mockUserService },
-        { provide: ToastService, useValue: { show: () => {} } },
         { provide: ModalService, useValue: { openDialog: () => {} } },
       ],
       teardown: { destroyAfterEach: true },
